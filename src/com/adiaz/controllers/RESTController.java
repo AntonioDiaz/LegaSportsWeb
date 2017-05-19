@@ -1,7 +1,7 @@
 package com.adiaz.controllers;
 
 import java.util.List;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class RESTController {
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	
-	private static final Logger log = Logger.getLogger(RESTController.class.getName());
+	private static final Logger logger = Logger.getLogger(RESTController.class);
 		
 	@RequestMapping(value = "/sports/{id}", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SportVO> getSportsById(@PathVariable("id") long id) {
@@ -75,6 +75,7 @@ public class RESTController {
 	
 	@RequestMapping(value="/competitions", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CompetitionsVO> competitions() {
+		logger.debug("*competitions");
 		List<CompetitionsVO> competitions = competitionsManager.queryCompetitions(); 
 		for (CompetitionsVO competitionsVO : competitions) {
 			List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(competitionsVO.getId());			

@@ -33,12 +33,6 @@ public class MainController {
 	@Autowired
 	MatchesManager matchesManager;
 	
-	// private static final Logger log =
-	// Logger.getLogger(MainController.class.getName());
-
-	// private static final Logger log =
-	// Logger.getLogger(MainController.class.getName());
-
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(ModelMap modelMap) {
 		return "home";

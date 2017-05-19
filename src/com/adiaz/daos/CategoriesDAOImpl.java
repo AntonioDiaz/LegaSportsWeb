@@ -3,8 +3,6 @@ package com.adiaz.daos;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +13,7 @@ import com.googlecode.objectify.cmd.Query;
 @Repository
 public class CategoriesDAOImpl implements CategoriesDAO {
 
-	private static final Logger log = Logger.getLogger(CategoriesDAOImpl.class.getName());
+	//private static final Logger log = Logger.getLogger(CategoriesDAOImpl.class.getName());
 	
 	@Override
 	public void create(CategoriesVO item) throws Exception {
@@ -23,7 +21,7 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 			ofy().save().entity(item).now();
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.log(Level.SEVERE, "error on insert category");
+			//log.log(Level.SEVERE, "error on insert category");
 		}
 	}
 
