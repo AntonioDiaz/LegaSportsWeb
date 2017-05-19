@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.entities.ClassificationEntryVO;
@@ -15,22 +14,17 @@ import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.formularies.CompetitionsForm;
 import com.adiaz.formularies.LoadMatchesForm;
-import com.adiaz.services.CategoriesManager;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
 import com.adiaz.services.MatchesManager;
-import com.adiaz.services.SportsManager;
 import com.adiaz.utils.UtilsLegaSport;
 
 
 @Controller
 @RequestMapping ("/competitions")
-@SessionAttributes ({"sports", "categories"})
 public class CompetitionsController {
 
 	@Autowired CompetitionsManager competitionsManager;
-	@Autowired SportsManager sportsManager;
-	@Autowired CategoriesManager categoriesManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	
@@ -38,8 +32,6 @@ public class CompetitionsController {
 	public ModelAndView getCompetitions() {
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("competitions_list", competitionsManager.queryCompetitions());
-		modelAndView.addObject("sports", sportsManager.querySports());
-		modelAndView.addObject("categories", categoriesManager.queryCategories());		
 		return modelAndView;
 	}
 	

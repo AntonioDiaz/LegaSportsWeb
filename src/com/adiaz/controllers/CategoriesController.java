@@ -16,7 +16,6 @@ public class CategoriesController {
 	@RequestMapping("/list")
 	public ModelAndView getCategoriesList() {
 		ModelAndView modelAndView = new ModelAndView("categories_list");
-		modelAndView.addObject("categories_list", categoriesManager.queryCategories());
-		return modelAndView;		
+		return modelAndView;
 	}
 }

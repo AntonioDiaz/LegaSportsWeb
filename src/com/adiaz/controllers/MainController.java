@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.entities.CategoriesVO;
@@ -22,6 +23,7 @@ import com.adiaz.utils.UtilsLegaSport;
 import com.googlecode.objectify.Ref;
 
 @Controller
+@SessionAttributes ({"sports", "categories"})
 public class MainController {
 
 	@Autowired
@@ -33,9 +35,13 @@ public class MainController {
 	@Autowired
 	MatchesManager matchesManager;
 	
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(ModelMap modelMap) {
-		return "home";
+	public ModelAndView home(ModelMap modelMap) {
+		ModelAndView modelAndView = new ModelAndView("home");
+		modelAndView.addObject("sports", sportsManager.querySports());
+		modelAndView.addObject("categories", categoriesManager.queryCategories());
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/cleanDB", method = RequestMethod.GET)
