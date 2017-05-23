@@ -1,14 +1,13 @@
 <%@include file="taglibs.jsp"%>
 <script>
-		$(document).ready(function() {
-			$('#btnBack').on('click', function(event) {
-				event.preventDefault();
-				window.location.href = "/competitions/list";
-			});
-
+	$(document).ready(function() {
+		$('#btnBack').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/list";
 		});
-	</script>
-</head>
+
+	});
+</script>
 <form:form method="post" action="doAdd" commandName="my_form" cssClass="form-horizontal">
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Deporte:</label> 

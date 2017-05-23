@@ -1,4 +1,4 @@
-package com.adiaz.formularies;
+package com.adiaz.forms;
 
 public class LoadMatchesForm {
 

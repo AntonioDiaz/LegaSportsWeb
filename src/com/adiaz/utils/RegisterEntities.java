@@ -10,6 +10,7 @@ import com.adiaz.entities.ClassificationEntryVO;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.entities.SportVO;
+import com.adiaz.entities.UsersVO;
 import com.adiaz.services.CategoriesManager;
 import com.adiaz.services.CompetitionsManager;
 import com.adiaz.services.SportsManager;
@@ -30,6 +31,7 @@ public class RegisterEntities {
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
 		ObjectifyService.register(ClassificationEntryVO.class);
+		ObjectifyService.register(UsersVO.class);
 		/* Adding index: it is necesary to update each entity.*/
 		List<CompetitionsVO> queryCompetitions = competitionsManager.queryCompetitions();
 		for (CompetitionsVO competitionsVO : queryCompetitions) {

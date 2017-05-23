@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -118,4 +119,17 @@ public class UtilsLegaSport {
 		}
 		System.out.println(UtilsLegaSport.parseClassification(calendarTxt, 1L).size());
 	}
+	
+	
+	public static String sha256Encode(String text) throws Exception {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+		byte[] digest = md.digest();
+		StringBuffer hexString = new StringBuffer();
+		for (int i = 0; i < digest.length; i++) {
+			hexString.append(Integer.toString((digest[i] & 0xff) + 0x100, 16).substring(1));
+		}
+		return hexString.toString();
+	}
+
 }

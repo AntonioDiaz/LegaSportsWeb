@@ -91,9 +91,17 @@
 					{{row.categoryEntity.name}}
 				</td>
 				<td>
-					<button type="button" class="btn btn-primary" ng-click="viewCalendar(row.id)">Calendario</button>
-					<button type="button" class="btn btn-primary" ng-click="viewClassification(row.id)">Clasificación</button>
-					<button type="button" class="btn btn-warning" ng-click="removeCompetition(row.id)">Borrar</button>
+					<div class="row">
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-primary btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
+						</div>
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-primary btn-block" ng-click="viewClassification(row.id)">Clasificación</button>
+						</div>
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-warning btn-block" ng-click="removeCompetition(row.id)">Borrar</button>
+						</div>
+					</div>
 				</td>
 			</tr>
 		</tbody>

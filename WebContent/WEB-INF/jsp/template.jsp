@@ -16,7 +16,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">
@@ -32,8 +32,12 @@
 					<li><a href="/competitions/add">Nueva</a></li>
 				</ul>
 			</li>
-			<!-- <li><a href="/clubs/list">Clubes</a></li>
-			<li><a href="/teams/list">Equipos</a></li> -->
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuarios <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="/users/list">Lista usuarios</a></li>
+					<li><a href="/users/add">Nuevo usuario</a></li>
+				</ul>
+			</li>
 		</ul>
 	</div>
 </nav>

@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.adiaz.entities.ClassificationEntryVO;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
-import com.adiaz.formularies.CompetitionsForm;
-import com.adiaz.formularies.LoadMatchesForm;
+import com.adiaz.forms.CompetitionsForm;
+import com.adiaz.forms.LoadMatchesForm;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
 import com.adiaz.services.MatchesManager;
@@ -128,6 +128,4 @@ public class CompetitionsController {
 		}
 		return  "redirect:/competitions/viewCalendar?idCompetition=" + loadMatchesForm.getIdCompetition();
 	}
-	
-	
 }
