@@ -60,7 +60,7 @@
 		<button type="button" class="btn btn-default" ng-click="search()">Search</button>
 	</div>
 	<hr>	
-	<table st-table="rowCollection" class="table table-striped">
+	<table st-table="rowCollection" class="table table-hover">
 		<thead>
 			<tr>
 				<th>Competición</th>
