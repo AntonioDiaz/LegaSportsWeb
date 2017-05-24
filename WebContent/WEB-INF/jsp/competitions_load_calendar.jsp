@@ -7,6 +7,10 @@
 		});						
 	});	
 </script>
+<h2 style="color: #0061a8">
+	Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})
+</h2>
+<hr>
 <form:form method="post" action="doLoadCalendar" commandName="my_form" cssClass="form-horizontal">
 	<form:hidden path="idCompetition"/>
 	<div class="form-group">

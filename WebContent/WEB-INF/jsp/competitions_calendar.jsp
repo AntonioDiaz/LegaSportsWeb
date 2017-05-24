@@ -7,6 +7,10 @@
 		window.location.href = "/competitions/loadCalendar?idCompetition=" + idCompetition;
 	}		
 </script>
+<h2 style="color: #0061a8">
+	Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})
+</h2>
+<hr>
 <c:if test="${empty matches_list}">
 	<button type="button" class="btn btn-primary" id="fLoadCalendar" onclick="fLoadCalendar('${competition.id}')">cargar calendario</button>
 	<br>

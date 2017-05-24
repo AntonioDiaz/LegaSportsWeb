@@ -7,6 +7,10 @@
 		window.location.href = "/competitions/loadClassification?idCompetition=" + idCompetition;
 	}		
 </script>
+<h2 style="color: #0061a8">
+	Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})
+</h2>
+<hr>
 <c:if test="${empty classification_list}">
 	<button type="button" class="btn btn-primary" id="fLoadClassification" onclick="fLoadClassification('${competition.id}')">cargar clasificación</button>
 	<br>

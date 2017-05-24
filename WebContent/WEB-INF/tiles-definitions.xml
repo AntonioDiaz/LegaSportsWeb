@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
+	<definition name="homeTemplateNoTitle" template="/WEB-INF/jsp/template_notitle.jsp">
+		<put-attribute name="title" value="MuniSports 2017" />
+	</definition>
 	<definition name="homeTemplate" template="/WEB-INF/jsp/template.jsp">
 		<put-attribute name="title" value="MuniSports 2017" />
 	</definition>
@@ -24,20 +27,16 @@
 		<put-attribute name="page_title" value="Nueva competición" />
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_add.jsp" />
 	</definition>
-	<definition name="competitions_calendar" extends="homeTemplate">
-		<put-attribute name="page_title" expression=" Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})" />
+	<definition name="competitions_calendar" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_calendar.jsp" />
 	</definition>
-	<definition name="competitions_load_calendar" extends="homeTemplate">
-		<put-attribute name="page_title" expression=" Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})" />
+	<definition name="competitions_load_calendar" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_load_calendar.jsp" />
 	</definition>
-	<definition name="competitions_classification" extends="homeTemplate">
-		<put-attribute name="page_title" expression=" Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})" />
+	<definition name="competitions_classification" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_classification.jsp" />
 	</definition>
-	<definition name="competitions_load_classification" extends="homeTemplate">
-		<put-attribute name="page_title" expression=" Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})" />
+	<definition name="competitions_load_classification" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_load_classification.jsp" />
 	</definition>
 	
