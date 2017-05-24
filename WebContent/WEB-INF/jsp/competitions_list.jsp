@@ -81,13 +81,13 @@
 				</td>
 			</tr>
 			<tr ng-repeat="row in rowCollection">
-				<td>
+				<td style="vertical-align: middle;">
 					{{row.name}}
 				</td>
-				<td>
+				<td style="vertical-align: middle;">
 					{{row.sportEntity.name}}
 				</td>
-				<td>
+				<td style="vertical-align: middle;">
 					{{row.categoryEntity.name}}
 				</td>
 				<td>

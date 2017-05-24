@@ -26,8 +26,8 @@
 		</c:if>
 		<c:forEach var="user" items="${users}">
 			<tr>
-				<td>${user.username}</td>
-				<td>municipio</td>
+				<td style="vertical-align: middle;">${user.username}</td>
+				<td style="vertical-align: middle;">municipio</td>
 				<td>
 					<div class="row">
 						<div class="col-sm-6">
