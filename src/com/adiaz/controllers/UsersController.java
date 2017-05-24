@@ -41,6 +41,8 @@ public class UsersController {
 		if (!bindingResult.hasErrors()) {
 			try {
 				userVO.setPassword(UtilsLegaSport.sha256Encode(userVO.getPassword01()));
+				userVO.setEnabled(true);
+				userVO.setAccountNonExpired(true);
 				usersManager.addUser(userVO);
 			} catch (Exception e) {			
 				e.printStackTrace();
@@ -68,9 +70,12 @@ public class UsersController {
 			try {
 				if (userVO.isUpdatePassword()) {
 					userVO.setPassword(UtilsLegaSport.sha256Encode(userVO.getPassword01()));
+				} else {
+					UsersVO originalUser = usersManager.queryUserByName(userVO.getUsername());
+					userVO.setPassword(originalUser.getPassword());
 				}
 				usersManager.updateUser(userVO);
-			} catch (Exception e) {			
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			modelAndView.setViewName("redirect:/users/list");

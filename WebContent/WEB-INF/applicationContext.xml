@@ -14,6 +14,7 @@
 	<context:component-scan base-package="com.adiaz.controllers" />
 	<context:component-scan base-package="com.adiaz.daos" />
 	<context:component-scan base-package="com.adiaz.services" />
+	<context:component-scan base-package="com.adiaz.services.security" />
 	<context:component-scan base-package="com.adiaz.forms" />
 	
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">

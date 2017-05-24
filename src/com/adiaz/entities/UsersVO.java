@@ -1,11 +1,21 @@
 package com.adiaz.entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 
 @Entity
-public class UsersVO {
+public class UsersVO implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String username;
@@ -28,6 +38,26 @@ public class UsersVO {
 	private boolean bannedUser;
 
 	private boolean accountNonExpired;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
+		authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+		if (admin) {
+			authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}
+		return authorityList;
+	}	
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return !bannedUser;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return accountNonExpired;
+	}
 
 	public String getUsername() {
 		return username;

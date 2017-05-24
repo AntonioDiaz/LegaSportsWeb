@@ -2,7 +2,11 @@ package com.adiaz.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +47,42 @@ public class MainController {
 		modelAndView.addObject("categories", categoriesManager.queryCategories());
 		return modelAndView;
 	}
-
+	
+	@RequestMapping (value="/login", method=RequestMethod.GET)
+	public String goLogin(){
+		return "login";
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout() {
+		return "login"; 
+	}
+	
+	@RequestMapping (value="/loginfailed", method=RequestMethod.GET)
+	public String goLoginFailed(ModelMap modelMap, HttpServletRequest request){
+		Exception exception = (Exception) request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+		String error = "";
+		if (exception instanceof BadCredentialsException) {
+			error = "Usuario o contraseña incorrectos";
+//			Integer attemps = (Integer) request.getSession().getAttribute(Constants.ATRIBUTE_ATTEMPS);
+//			if (attemps!=null) {
+//				if (attemps==0) {
+//					error += "<br> El usuario ha quedado bloqueado";
+//				} else {
+//					error += " <br> El usuario se bloqueará en " + attemps + " intentos";
+//				}
+//			}
+		} else if (exception instanceof LockedException) {
+			error = "Usuario bloquedao";
+		} else {
+			error = "Usuario o contraseña incorrectos";
+		}
+		modelMap.addAttribute("error", error);
+		return "login";
+	}
+	
+	
+	
 	@RequestMapping(value = "/cleanDB", method = RequestMethod.GET)
 	public String cleanDB(ModelMap modelMap) {
 		String operationResult;

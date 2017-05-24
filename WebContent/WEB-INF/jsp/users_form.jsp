@@ -42,3 +42,21 @@
 		</div>
 		<div class="col-sm-9">&nbsp;</div>
 	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" >Cuenta no caducada</label>
+		<div class="col-sm-1">
+			<div style="width: 30px; margin: 0 auto;">
+				<form:checkbox path="accountNonExpired" class="xlarge form-control" style="height:30px; margin: 0px;" />
+			</div>
+		</div>
+		<div class="col-sm-9">&nbsp;</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" >Cuenta activa</label>
+		<div class="col-sm-1">
+			<div style="width: 30px; margin: 0 auto;">
+				<form:checkbox path="enabled" class="xlarge form-control" style="height:30px; margin: 0px;" />
+			</div>
+		</div>
+		<div class="col-sm-9">&nbsp;</div>
+	</div>	
