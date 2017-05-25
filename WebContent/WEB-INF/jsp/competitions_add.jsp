@@ -17,7 +17,7 @@
 				<form:options items="${sports}" itemLabel="name" itemValue="id" />
 			</form:select>
 		</div>
-		<div class="col-sm-4"><form:errors path="sportId" cssClass="text-danger" /></div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="sportId" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Categoria:</label> 
@@ -27,14 +27,14 @@
 			<form:options items="${categories}" itemLabel="name" itemValue="id" />
 		</form:select>
 		</div>
-		<div class="col-sm-4"><form:errors path="categoryID" cssClass="text-danger" /></div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="categoryId" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Nombre:</label> 
 		<div class="col-sm-6">
 			<form:input path="name" class="form-control" />
 		</div>
-		<div class="col-sm-4"><form:errors path="name" cssClass="text-danger" /></div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
 		<div class="col-sm-4">

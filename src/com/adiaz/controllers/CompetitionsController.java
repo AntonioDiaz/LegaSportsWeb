@@ -2,8 +2,10 @@ package com.adiaz.controllers;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,7 @@ import com.adiaz.entities.ClassificationEntryVO;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.forms.CompetitionsForm;
+import com.adiaz.forms.CompetitionsFormValidator;
 import com.adiaz.forms.LoadMatchesForm;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
@@ -23,10 +26,11 @@ import com.adiaz.utils.UtilsLegaSport;
 @Controller
 @RequestMapping ("/competitions")
 public class CompetitionsController {
-
+	private static final Logger logger = Logger.getLogger(CompetitionsController.class);
 	@Autowired CompetitionsManager competitionsManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
+	@Autowired CompetitionsFormValidator competitionsFormValidator;
 	
 	@RequestMapping ("/list")
 	public ModelAndView getCompetitions() {
@@ -43,13 +47,21 @@ public class CompetitionsController {
 	}
 	
 	@RequestMapping ("/doAdd")
-	public String doAddCompetition(@ModelAttribute("my_form") CompetitionsForm competitionsForm) {
-		try {
-			competitionsManager.add(competitionsForm.getName(), competitionsForm.getSportId(), competitionsForm.getCategoryId());
-		} catch (Exception e) {
-			e.printStackTrace();
+	public ModelAndView doAddCompetition(@ModelAttribute("my_form") CompetitionsForm competitionsForm, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		this.competitionsFormValidator.validate(competitionsForm, bindingResult);
+		if (bindingResult.hasErrors()) {
+			modelAndView.addObject("my_form", competitionsForm);
+			modelAndView.setViewName("competitions_add");
+		} else {
+			try {
+				competitionsManager.add(competitionsForm.getName(), competitionsForm.getSportId(), competitionsForm.getCategoryId());
+				modelAndView.setViewName("redirect:/competitions/list");
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 		}
-		return "redirect:/competitions/list";
+		return modelAndView;
 	}
 	
 	@RequestMapping("/doRemove")
