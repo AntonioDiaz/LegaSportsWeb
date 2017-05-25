@@ -33,9 +33,15 @@ public class CompetitionsController {
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
 	
 	@RequestMapping ("/list")
-	public ModelAndView getCompetitions() {
+	public ModelAndView getCompetitions(
+			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
+			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
+			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("competitions_list", competitionsManager.queryCompetitions());
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("add_done", addDone);		
 		return modelAndView;
 	}
 	
@@ -56,7 +62,7 @@ public class CompetitionsController {
 		} else {
 			try {
 				competitionsManager.add(competitionsForm.getName(), competitionsForm.getSportId(), competitionsForm.getCategoryId());
-				modelAndView.setViewName("redirect:/competitions/list");
+				modelAndView.setViewName("redirect:/competitions/list?add_done=true");
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
@@ -65,14 +71,14 @@ public class CompetitionsController {
 	}
 	
 	@RequestMapping("/doRemove")
-	public String doAddCompetition(@RequestParam(value = "idCompetition") Long idCompetition) {
+	public String doRemoveCompetition(@RequestParam(value = "idCompetition") Long idCompetition) {
 		CompetitionsVO competition = competitionsManager.queryCompetitionsById(idCompetition);
 		try {
 			competitionsManager.remove(competition);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/competitions/list";
+		return "redirect:/competitions/list?remove_done=true";
 	}
 	
 	@RequestMapping ("/viewCalendar")
@@ -139,5 +145,11 @@ public class CompetitionsController {
 			e.printStackTrace();
 		}
 		return  "redirect:/competitions/viewCalendar?idCompetition=" + loadMatchesForm.getIdCompetition();
+	}
+	
+	@RequestMapping("/viewPlaces")
+	public ModelAndView viewPlaces(@RequestParam Long idCompetition) {
+		ModelAndView modelAndView = new ModelAndView("competitions_places");
+		return modelAndView;
 	}
 }

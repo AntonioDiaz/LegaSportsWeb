@@ -54,6 +54,17 @@ public class RegisterEntities {
 			usersVO.setEnabled(true);
 			usersVO.setAccountNonExpired(true);
 			usersManager.addUser(usersVO);
+			
+			
+			usersManager.removeUser("user.lega");
+			usersVO = new UsersVO();
+			usersVO.setUsername("user.lega");
+			usersVO.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
+			usersVO.setAdmin(false);
+			usersVO.setBannedUser(false);
+			usersVO.setEnabled(true);
+			usersVO.setAccountNonExpired(true);
+			usersManager.addUser(usersVO);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

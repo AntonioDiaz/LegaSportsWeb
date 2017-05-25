@@ -1,7 +1,17 @@
 <%@include file="taglibs.jsp"%>
 
 <script>
-	$(document).ready(function() {});	
+	$(document).ready(function() {
+		<c:if test="${add_done==true}">
+			showDialogAlert("La competición ha sido creada.");
+		</c:if>
+		<c:if test="${remove_done==true}">
+			showDialogAlert("La competición ha sido eliminada.");
+		</c:if>
+		<c:if test="${update_done==true}">
+			showDialogAlert("La competición ha sido actualizada.");
+		</c:if>
+	});	
 
 	var app = angular.module('myApp', [ 'smart-table' ]);
 	app.controller('myCtrl', [ '$scope', '$http', '$window',
@@ -28,11 +38,17 @@
 				window.location.href = "/competitions/viewClassification?idCompetition=" + idCompetition;
 			}
 			
+			$scope.viewPlaces = function fViewPlaces(idCompetition) {
+				window.location.href = "/competitions/viewPlaces?idCompetition=" + idCompetition;
+			}
+			
 			$scope.removeCompetition = function fRemoveCompetition(idCompetition) {
-				var retVal = confirm("¿Se va a borrar la competición y todos sus partidos desea continuar?");
-				if (retVal) {
-					window.location.href = "/competitions/doRemove?idCompetition=" + idCompetition;
-				}
+				var bodyTxt = "¿Se va a borrar la competición y todos sus partidos desea continuar?";
+				showDialogConfirm(bodyTxt, 
+					function(){ 
+						window.location.href = "/competitions/doRemove?idCompetition=" + idCompetition; 
+					}
+				);
 			}
 		}
 	]);	
@@ -92,13 +108,16 @@
 				</td>
 				<td>
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<button type="button" class="btn btn-primary btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<button type="button" class="btn btn-primary btn-block" ng-click="viewClassification(row.id)">Clasificación</button>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
+							<button type="button" class="btn btn-primary btn-block" ng-click="viewPlaces(row.id)">Sedes</button>
+						</div>
+						<div class="col-sm-3">
 							<button type="button" class="btn btn-warning btn-block" ng-click="removeCompetition(row.id)">Borrar</button>
 						</div>
 					</div>

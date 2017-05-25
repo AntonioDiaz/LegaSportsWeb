@@ -5,10 +5,25 @@
 	}
 	
 	function fDelete(userName) {
-		if (confirm("Se va a borrar el usuario " + userName + ", ¿desea continuar?")) {
-			window.location.href = "/users/doDelete?userName=" + userName;
-		}
-	}	
+		var bodyTxt = "Se va a borrar el usuario " + userName + ", ¿desea continuar?";
+		showDialogConfirm(bodyTxt, 
+			function(){ 
+				window.location.href = "/users/doDelete?userName=" + userName; 
+			}
+		);
+	}
+	$(document).ready(function() { 
+		<c:if test="${remove_done==true}">
+			showDialogAlert("El usuario ha sido borrado.");
+		</c:if>
+		<c:if test="${update_done==true}">
+			showDialogAlert("El usuario ha sido actualizado.");
+		</c:if>
+		<c:if test="${add_done==true}">
+			showDialogAlert("Usuario creado.");
+		</c:if>
+		
+	});
 </script>
 <table class="table table-hover">
 	<thead>

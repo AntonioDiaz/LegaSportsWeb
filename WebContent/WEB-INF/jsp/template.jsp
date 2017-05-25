@@ -15,5 +15,6 @@
 			<tiles:insertAttribute name="body" />
 		</div>
 	</div>
+	<%@ include file="/WEB-INF/jsp/popup.jsp" %>
 </body>
 </html>

@@ -21,9 +21,15 @@ public class UsersController {
 	@Autowired UserFormValidator userFormValidator;
 
 	@RequestMapping("/list")
-	public ModelAndView usersList() {
+	public ModelAndView usersList(
+			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
+			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
+			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("users_list");
 		modelAndView.addObject("users", usersManager.queryAllUsers());
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("add_done", addDone);
 		return modelAndView;
 	}
 
@@ -47,7 +53,9 @@ public class UsersController {
 			} catch (Exception e) {			
 				e.printStackTrace();
 			}
-			modelAndView.setViewName("redirect:/users/list");
+			String viewName = "redirect:/users/list";
+			viewName += "?add_done=true";
+			modelAndView.setViewName(viewName);
 		} else {
 			modelAndView.addObject("my_form", userVO);
 			modelAndView.setViewName("users_add");
@@ -78,7 +86,9 @@ public class UsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			modelAndView.setViewName("redirect:/users/list");
+			String viewName = "redirect:/users/list";
+			viewName += "?update_done=true";
+			modelAndView.setViewName(viewName);
 		} else {
 			modelAndView.addObject("my_form", userVO);
 			modelAndView.setViewName("users_update");
@@ -88,12 +98,15 @@ public class UsersController {
 	
 	@RequestMapping("/doDelete")
 	public ModelAndView doDelete (@RequestParam String userName) {
+		ModelAndView modelAndView = new ModelAndView();
+		String viewName = "redirect:/users/list";
 		try {
 			usersManager.removeUser(userName);
+			viewName += "?remove_done=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ModelAndView modelAndView = new ModelAndView("redirect:/users/list");
+		modelAndView.setViewName(viewName);
 		return modelAndView;
 	}
 	
