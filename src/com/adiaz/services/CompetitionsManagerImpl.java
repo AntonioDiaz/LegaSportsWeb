@@ -75,4 +75,12 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	public List<CompetitionsVO> queryCompetitions(Long idSport, Long idCategory) {
 		return competitionsDAO.findCompetitions(idSport, idCategory);
 	}
+
+	@Override
+	public void removeAll() throws Exception {
+		List<CompetitionsVO> competitions = competitionsDAO.findCompetitions();
+		for (CompetitionsVO competition : competitions) {
+			competitionsDAO.remove(competition);
+		}
+	}
 }

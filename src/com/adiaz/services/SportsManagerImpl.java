@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.SportsDAO;
 import com.adiaz.entities.SportVO;
+import com.googlecode.objectify.Key;
 
 @Service ("sportsManager")
 public class SportsManagerImpl implements SportsManager {
@@ -25,8 +26,8 @@ public class SportsManagerImpl implements SportsManager {
 	}
 	
 	@Override
-	public void add(SportVO sportVO) throws Exception {
-		sportsDAO.create(sportVO);
+	public Key<SportVO> add(SportVO sportVO) throws Exception {
+		return sportsDAO.create(sportVO);
 	}
 
 	@Override
@@ -49,5 +50,13 @@ public class SportsManagerImpl implements SportsManager {
 			}
 		}
 		return sportVO;
+	}
+
+	@Override
+	public void removeAll() throws Exception {
+		List<SportVO> sports = sportsDAO.findAllSports();
+		for (SportVO sport : sports) {
+			sportsDAO.remove(sport);
+		}
 	}
 }

@@ -16,10 +16,16 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/sports/list">Deportes</a></li>
 				<li><a href="/categories/list">Categorias</a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Centros <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/center/list">Lista centros</a></li>
+						<li><a href="/center/add">Nuevo centro</a></li>
+					</ul>
+				</li>
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Competiciones <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="/competitions/list">Lista</a></li>
-						<li><a href="/competitions/add">Nueva</a></li>
+						<li><a href="/competitions/list">Lista de competiciones</a></li>
+						<li><a href="/competitions/add">Nueva competición</a></li>
 					</ul>
 				</li>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">

@@ -1,5 +1,6 @@
 package com.adiaz.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,7 +17,8 @@ import com.adiaz.utils.UtilsLegaSport;
 @Controller
 @RequestMapping ("/users")
 public class UsersController {
-
+	
+	private static final Logger logger = Logger.getLogger(UsersController.class); 
 	@Autowired UsersManager usersManager;
 	@Autowired UserFormValidator userFormValidator;
 
@@ -51,7 +53,7 @@ public class UsersController {
 				userVO.setAccountNonExpired(true);
 				usersManager.addUser(userVO);
 			} catch (Exception e) {			
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			}
 			String viewName = "redirect:/users/list";
 			viewName += "?add_done=true";

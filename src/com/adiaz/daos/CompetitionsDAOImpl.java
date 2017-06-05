@@ -16,8 +16,8 @@ import com.googlecode.objectify.cmd.Query;
 public class CompetitionsDAOImpl implements CompetitionsDAO {
 
 	@Override
-	public void create(CompetitionsVO item) throws Exception {
-		ofy().save().entities(item).now();
+	public Key<CompetitionsVO> create(CompetitionsVO item) throws Exception {
+		return ofy().save().entity(item).now();
 	}
 
 	@Override

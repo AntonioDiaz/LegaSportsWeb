@@ -10,7 +10,7 @@ public class ConstantsLegaSport {
 
 
 	public static String[] SPORTS_NAMES = new String[]{
-		"FUTBOL_11", "FUTBOL_7", "FUBTOL_SALA", "BALONCESTO", "BALONMANO", "VOLEIBOL", "UNIHOCKEY"
+		"FUTBOL_11", "FUTBOL_7", "FUTBOL_SALA", "BALONCESTO", "BALONMANO", "VOLEIBOL", "UNIHOCKEY"
 	};
 
 	

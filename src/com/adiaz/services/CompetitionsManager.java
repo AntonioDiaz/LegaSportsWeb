@@ -14,4 +14,5 @@ public interface CompetitionsManager {
 	public List<CompetitionsVO> queryCompetitions(Long idSport, Long idCategory);
 	public CompetitionsVO queryCompetitionsById(long id);
 	public List<CompetitionsVO> queryCompetitionsBySport(SportVO sportVO);
+	public void removeAll() throws Exception;
 }

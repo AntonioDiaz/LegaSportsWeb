@@ -18,6 +18,8 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/loginfailed" access="permitAll" />
+		<intercept-url pattern="/_ah/admin/*" access="permitAll"/>
+		<intercept-url pattern="/server/**" access="permitAll"/>
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<remember-me />
 		<form-login login-page="/login" default-target-url="/" 

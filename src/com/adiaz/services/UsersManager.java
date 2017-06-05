@@ -11,5 +11,6 @@ public interface UsersManager {
 	public void addUser(UsersVO usersVO) throws Exception;
 	public boolean removeUser(String userName) throws Exception;
 	public boolean updateUser(UsersVO userVO) throws Exception;
+	public void removeAll() throws Exception;
 	
 }

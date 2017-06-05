@@ -12,4 +12,5 @@ public interface CategoriesManager {
 	public List<CategoriesVO> queryCategories();
 	public CategoriesVO queryCategoriesById(long id);
 	public CategoriesVO queryCategoriesByName(String string);
+	public void removeAll() throws Exception;
 }

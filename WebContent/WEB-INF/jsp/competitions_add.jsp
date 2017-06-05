@@ -10,7 +10,7 @@
 </script>
 <form:form method="post" action="doAdd" commandName="my_form" cssClass="form-horizontal">
 	<div class="form-group">
-		<label class="control-label col-sm-2" >Deporte:</label> 
+		<label class="control-label col-sm-2" >Deporte</label> 
 		<div class="col-sm-6">
 			<form:select path="sportId" class="form-control">
 				<form:option value=""></form:option>
@@ -20,7 +20,7 @@
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="sportId" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-sm-2" >Categoria:</label> 
+		<label class="control-label col-sm-2" >Categoria</label> 
 		<div class="col-sm-6">
 		<form:select path="categoryId" class="form-control">
 			<form:option value=""></form:option>
@@ -30,7 +30,7 @@
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="categoryId" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-sm-2" >Nombre:</label> 
+		<label class="control-label col-sm-2" >Nombre</label> 
 		<div class="col-sm-6">
 			<form:input path="name" class="form-control" />
 		</div>
@@ -44,7 +44,7 @@
 			<button id="btnBack" type="button" class="btn btn-default btn-block" >cancelar</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="submit" class="btn btn-primary btn-block">crear</button>
+			<button type="submit" class="btn btn-default btn-block">crear</button>
 		</div>
 		<div class="col-sm-4">&nbsp;</div>
 	</div>

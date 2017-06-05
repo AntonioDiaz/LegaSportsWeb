@@ -50,6 +50,14 @@ public class CategoriesManagerImpl implements CategoriesManager {
 		}
 		return category;
 	}
+
+	@Override
+	public void removeAll() throws Exception {
+		List<CategoriesVO> categories = categoriesDAO.findAllCategories();
+		for (CategoriesVO category : categories) {
+			categoriesDAO.remove(category);
+		}		
+	}
 	
 	
 }

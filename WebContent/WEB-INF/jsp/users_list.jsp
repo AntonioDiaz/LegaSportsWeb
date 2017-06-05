@@ -22,7 +22,6 @@
 		<c:if test="${add_done==true}">
 			showDialogAlert("Usuario creado.");
 		</c:if>
-		
 	});
 </script>
 <table class="table table-hover">
@@ -46,10 +45,10 @@
 				<td>
 					<div class="row">
 						<div class="col-sm-6">
-							<button type="button" class="btn btn-primary btn-block" onclick="fUpdate('${user.username}')">Modificar</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${user.username}')">Modificar</button>
 						</div>
 						<div class="col-sm-6">
-							<button type="button" class="btn btn-warning btn-block" onclick="fDelete('${user.username}')">Eliminar</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${user.username}')">Eliminar</button>
 						</div>
 					</div>
 				</td>

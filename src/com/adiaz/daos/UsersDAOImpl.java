@@ -13,8 +13,8 @@ import com.googlecode.objectify.Key;
 public class UsersDAOImpl implements UsersDAO {
 
 	@Override
-	public void create(UsersVO item) throws Exception {
-		ofy().save().entities(item).now();
+	public Key<UsersVO> create(UsersVO item) throws Exception {
+		return ofy().save().entity(item).now();
 	}
 
 	@Override

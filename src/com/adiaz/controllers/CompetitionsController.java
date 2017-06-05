@@ -33,7 +33,7 @@ public class CompetitionsController {
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
 	
 	@RequestMapping ("/list")
-	public ModelAndView getCompetitions(
+	public ModelAndView listCompetitions(
 			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
 			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
 			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
@@ -145,11 +145,5 @@ public class CompetitionsController {
 			e.printStackTrace();
 		}
 		return  "redirect:/competitions/viewCalendar?idCompetition=" + loadMatchesForm.getIdCompetition();
-	}
-	
-	@RequestMapping("/viewPlaces")
-	public ModelAndView viewPlaces(@RequestParam Long idCompetition) {
-		ModelAndView modelAndView = new ModelAndView("competitions_places");
-		return modelAndView;
-	}
+	}	
 }

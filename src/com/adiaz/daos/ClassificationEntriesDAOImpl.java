@@ -16,8 +16,8 @@ import com.googlecode.objectify.cmd.Query;
 public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 
 	@Override
-	public void create(ClassificationEntryVO item) throws Exception {
-		ofy().save().entities(item).now();
+	public Key<ClassificationEntryVO> create(ClassificationEntryVO item) throws Exception {
+		return ofy().save().entity(item).now();
 	}
 
 	@Override

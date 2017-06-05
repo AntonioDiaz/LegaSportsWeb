@@ -44,4 +44,12 @@ public class UsersManagerImpl implements UsersManager {
 		return usersDAO.update(userVO);
 	}
 
+	@Override
+	public void removeAll() throws Exception {
+		List<UsersVO> users = usersDAO.findAllUsers();
+		for (UsersVO user : users) {
+			usersDAO.remove(user);
+		}		
+	}
+
 }

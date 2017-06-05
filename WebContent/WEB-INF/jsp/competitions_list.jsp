@@ -38,10 +38,6 @@
 				window.location.href = "/competitions/viewClassification?idCompetition=" + idCompetition;
 			}
 			
-			$scope.viewPlaces = function fViewPlaces(idCompetition) {
-				window.location.href = "/competitions/viewPlaces?idCompetition=" + idCompetition;
-			}
-			
 			$scope.removeCompetition = function fRemoveCompetition(idCompetition) {
 				var bodyTxt = "¿Se va a borrar la competición y todos sus partidos desea continuar?";
 				showDialogConfirm(bodyTxt, 
@@ -109,16 +105,13 @@
 				<td>
 					<div class="row">
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-primary btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
+							<button type="button" class="btn btn-default btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
 						</div>
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-primary btn-block" ng-click="viewClassification(row.id)">Clasificación</button>
+							<button type="button" class="btn btn-default btn-block" ng-click="viewClassification(row.id)">Clasificación</button>
 						</div>
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-primary btn-block" ng-click="viewPlaces(row.id)">Sedes</button>
-						</div>
-						<div class="col-sm-3">
-							<button type="button" class="btn btn-warning btn-block" ng-click="removeCompetition(row.id)">Borrar</button>
+							<button type="button" class="btn btn-default btn-block" ng-click="removeCompetition(row.id)">Borrar</button>
 						</div>
 					</div>
 				</td>

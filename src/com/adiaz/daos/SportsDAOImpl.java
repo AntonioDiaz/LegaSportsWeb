@@ -7,14 +7,15 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.SportVO;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 @Repository
 public class SportsDAOImpl implements SportsDAO {
 
 	@Override
-	public void create(SportVO sportsVO) throws Exception {
-		ofy().save().entity(sportsVO).now();
+	public Key<SportVO> create(SportVO sportsVO) throws Exception {
+		return ofy().save().entity(sportsVO).now();
 	}
 
 	@Override

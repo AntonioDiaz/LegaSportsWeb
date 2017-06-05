@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.CategoriesVO;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 
@@ -16,15 +17,10 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 	//private static final Logger log = Logger.getLogger(CategoriesDAOImpl.class.getName());
 	
 	@Override
-	public void create(CategoriesVO item) throws Exception {
-		try {
-			ofy().save().entity(item).now();
-		} catch (Exception e) {
-			e.printStackTrace();
-			//log.log(Level.SEVERE, "error on insert category");
-		}
+	public Key<CategoriesVO> create(CategoriesVO item) throws Exception {
+		return ofy().save().entity(item).now();
 	}
-
+	
 	@Override
 	public boolean update(CategoriesVO item) throws Exception {
 		boolean updateResult;
