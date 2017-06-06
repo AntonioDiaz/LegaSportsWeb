@@ -16,5 +16,6 @@ public interface SportCourtManager {
 	public SportCourt querySportCourt(Long idCourt);
 	public void removeAll() throws Exception;
 	public List<SportCourt> querySportCourts(Long idSportCenter);
+	public void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception;
 
 }

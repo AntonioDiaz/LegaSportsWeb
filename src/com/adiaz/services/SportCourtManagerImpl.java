@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.adiaz.daos.SportCourtDAO;
 import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.SportCourt;
-import com.adiaz.entities.SportVO;
 import com.adiaz.forms.SportsCourtForm;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -54,14 +53,7 @@ public class SportCourtManagerImpl implements SportCourtManager {
 
 	@Override
 	public Ref<SportCourt> addSportCourt(SportsCourtForm sportsCourtForm) throws Exception {
-		SportCourt sportCourt = new SportCourt();
-		sportCourt.setName(sportsCourtForm.getName());		
-		for (Long idSport : sportsCourtForm.getCourtsSports()) {
-			Key<SportVO> newSport = Key.create(SportVO.class, idSport);
-			sportCourt.getSports().add(Ref.create(newSport));
-		}		
-		Key<SportCenter> refCenter = Key.create(SportCenter.class, sportsCourtForm.getIdCenter());
-		sportCourt.setCenter(Ref.create(refCenter));
+		SportCourt sportCourt = sportsCourtForm.getCourt();
 		return Ref.create(sportCourtDAO.create(sportCourt));
 	}
 
@@ -70,5 +62,11 @@ public class SportCourtManagerImpl implements SportCourtManager {
 		Key<SportCenter> keyCenter = Key.create(SportCenter.class, idSportCenter);
 		Ref<SportCenter> refCenter = Ref.create(keyCenter);
 		return sportCourtDAO.findSportCourt(refCenter);
+	}
+
+	@Override
+	public void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception {
+		SportCourt sportCourt = sportsCourtForm.getCourt();
+		sportCourtDAO.update(sportCourt);
 	}
 }

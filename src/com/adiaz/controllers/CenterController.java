@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.entities.SportCenter;
+import com.adiaz.entities.SportCourt;
 import com.adiaz.forms.SportCenterFormValidator;
 import com.adiaz.forms.SportCourtFormValidator;
 import com.adiaz.forms.SportsCourtForm;
@@ -130,11 +131,11 @@ public class CenterController {
 	@RequestMapping("/addCourt")
 	public ModelAndView addCourt(@RequestParam Long idCenter) {
 		ModelAndView modelAndView = new ModelAndView("courts_add");
+		SportCenter sportCenter = sportsCenterManager.querySportCentersById(idCenter);
 		SportsCourtForm sportsCourtForm = new SportsCourtForm();
 		sportsCourtForm.setIdCenter(idCenter);
+		sportsCourtForm.setNameCenter(sportCenter.getName());
 		modelAndView.addObject("my_form", sportsCourtForm);
-		SportCenter sportCenter = sportsCenterManager.querySportCentersById(idCenter);
-		modelAndView.addObject("sportCenter", sportCenter);
 		return modelAndView;
 	}
 	
@@ -143,8 +144,6 @@ public class CenterController {
 		ModelAndView modelAndView = new ModelAndView();
 		sportCourtFormValidator.validate(sportsCourtForm, bindingResult);
 		if (bindingResult.hasErrors()) {
-			SportCenter sportCenter = sportsCenterManager.querySportCentersById(sportsCourtForm.getIdCenter());
-			modelAndView.addObject("sportCenter", sportCenter);
 			modelAndView.addObject("my_form", sportsCourtForm);
 			modelAndView.setViewName("courts_add");
 		} else {
@@ -173,6 +172,36 @@ public class CenterController {
 		viewName += "?remove_done=true";
 		viewName += "&idSportCenter=" + idCenter;
 		modelAndView.setViewName(viewName);
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updateCourt")
+	public ModelAndView updateCourt(@RequestParam Long idCourt) {
+		ModelAndView modelAndView = new ModelAndView("courts_update");
+		SportCourt court = sportCourtManager.querySportCourt(idCourt);
+		SportsCourtForm sportsCourtForm = new SportsCourtForm(court);
+		modelAndView.addObject("my_form", sportsCourtForm);
+		return modelAndView;
+	}
+	
+	@RequestMapping("/doUpdateCourt")
+	public ModelAndView doUpdateCourt(@ModelAttribute("my_form") SportsCourtForm sportsCourtForm, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		sportCourtFormValidator.validate(sportsCourtForm, bindingResult);
+		if (bindingResult.hasErrors()) {
+			modelAndView.addObject("my_form", sportsCourtForm);
+			modelAndView.setViewName("courts_update");
+		} else {
+			try {
+				sportCourtManager.updateSportCourt(sportsCourtForm);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
+			String viewName = "redirect:/center/listCourts";
+			viewName += "?update_done=true";
+			viewName += "&idSportCenter=" + sportsCourtForm.getIdCenter();
+			modelAndView.setViewName(viewName);
+		}
 		return modelAndView;
 	}
 }

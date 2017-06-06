@@ -75,4 +75,7 @@
 	<definition name="courts_add" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/courts_add.jsp" />
 	</definition>	
+	<definition name="courts_update" extends="homeTemplateNoTitle">
+		<put-attribute name="body" value="/WEB-INF/jsp/courts_update.jsp" />
+	</definition>	
 </tiles-definitions>
