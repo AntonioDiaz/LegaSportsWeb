@@ -48,21 +48,17 @@
 	<tbody>
 		<c:forEach items="${courts}" var="court" >
 			<tr>
-				<td style="vertical-align: middle;">${court.name}</td>
-				<td style="vertical-align: middle;">
+				<td class="col-md-4" style="vertical-align: middle;"><strong>${court.name}</strong></td>
+				<td class="col-md-4" style="vertical-align: middle;">
 					<c:forEach items="${court.sportsDeref}" var="sport">
 						${sport.name} &nbsp; &nbsp;
 					</c:forEach>
 				</td>
-				<td style="vertical-align: middle;">
-					<div class="row">
-						<div class="col-sm-6">
-							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${court.id}')">Modificar</button>
-						</div>
-						<div class="col-sm-6">
-							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${court.id}', '${sportCenter.id}')">Eliminar</button>
-						</div>
-					</div>
+				<td class="col-md-2" style="vertical-align: middle;">
+					<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${court.id}')">Modificar</button>
+				</td>
+				<td class="col-md-2" style="vertical-align: middle;">
+					<button type="button" class="btn btn-default btn-block" onclick="fDelete('${court.id}', '${sportCenter.id}')">Eliminar</button>
 					
 				</td>
 			</tr>
