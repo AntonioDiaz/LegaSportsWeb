@@ -53,4 +53,9 @@ public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 		}
 		return list;
 	}
+
+	@Override
+	public List<ClassificationEntryVO> findAll() {
+		return ofy().load().type(ClassificationEntryVO.class).list();
+	}
 }

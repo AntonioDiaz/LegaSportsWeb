@@ -104,6 +104,11 @@ public class UtilsLegaSport {
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
 		System.out.println("parse calendar....");
+		String calendarTxt = classificationStr();
+		System.out.println(UtilsLegaSport.parseClassification(calendarTxt, 1L).size());
+	}
+	
+	public static String classificationStr (){
 		String calendarTxt = "";
 		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
 		File file = new File(classLoader.getResource("static_classification.txt").getFile());
@@ -117,7 +122,7 @@ public class UtilsLegaSport {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(UtilsLegaSport.parseClassification(calendarTxt, 1L).size());
+		return calendarTxt;
 	}
 	
 	

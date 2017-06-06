@@ -40,4 +40,13 @@ public class ClassificationManagerImpl implements ClassificationManager {
 			this.add(classificationEntryVO);
 		}
 	}
+
+	@Override
+	public void removeAll() throws Exception {
+		List<ClassificationEntryVO> list = classificationEntriesDAO.findAll();
+		for (ClassificationEntryVO classificationEntryVO : list) {
+			classificationEntriesDAO.remove(classificationEntryVO);
+		}
+		
+	}
 }

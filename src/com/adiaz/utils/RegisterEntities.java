@@ -2,6 +2,7 @@ package com.adiaz.utils;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,7 +17,9 @@ import com.adiaz.entities.SportCourt;
 import com.adiaz.entities.SportVO;
 import com.adiaz.entities.UsersVO;
 import com.adiaz.services.CategoriesManager;
+import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
+import com.adiaz.services.MatchesManager;
 import com.adiaz.services.SportCenterManager;
 import com.adiaz.services.SportCourtManager;
 import com.adiaz.services.SportsManager;
@@ -35,7 +38,8 @@ public class RegisterEntities {
 	@Autowired UsersManager usersManager;
 	@Autowired SportCenterManager sportsCenterManager;
 	@Autowired SportCourtManager sportCourtManager;
-	
+	@Autowired MatchesManager matchesManager;
+	@Autowired ClassificationManager classificationManager;	
 	
 	public void init() throws Exception {
 		ObjectifyService.register(SportVO.class);
@@ -49,6 +53,8 @@ public class RegisterEntities {
 		/** clean DB. */
 		sportsManager.removeAll();
 		categoriesManager.removeAll();
+		matchesManager.removeAll();
+		classificationManager.removeAll();
 		competitionsManager.removeAll();
 		usersManager.removeAll();
 		sportCourtManager.removeAll();
@@ -77,6 +83,22 @@ public class RegisterEntities {
 		competition.setCategory(Ref.create(keyCategories));
 		competition.setSport(Ref.create(keySport));
 		competitionsManager.add(competition);
+		
+		List<MatchesVO> matchesList = UtilsLegaSport.parseCalendar(competition);
+		try {
+			matchesManager.add(matchesList);
+			logger.debug("matches inserted");
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		try {
+			String classificationStr = UtilsLegaSport.classificationStr();
+			List<ClassificationEntryVO> classificationList = UtilsLegaSport.parseClassification(classificationStr, competition.getId());
+			classificationManager.add(classificationList);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		/** load users */
 		UsersVO usersVO = new UsersVO();

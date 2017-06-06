@@ -46,4 +46,12 @@ public class MatchesManagerImpl implements MatchesManager {
 	public List<MatchesVO> queryMatches() {
 		return matchesDAO.queryAllMatches();
 	}
+
+	@Override
+	public void removeAll() throws Exception {
+		List<MatchesVO> queryAllMatches = matchesDAO.queryAllMatches();
+		for (MatchesVO matchesVO : queryAllMatches) {
+			matchesDAO.remove(matchesVO);
+		}		
+	}
 }
