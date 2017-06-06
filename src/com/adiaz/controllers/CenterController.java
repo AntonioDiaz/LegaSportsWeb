@@ -112,13 +112,15 @@ public class CenterController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/courtsList")
-	public ModelAndView courtsList(@RequestParam Long id,
+	@RequestMapping("/listCourts")
+	public ModelAndView listCourts(@RequestParam Long idSportCenter,
 			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
 			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
 			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("courts_list");
-		modelAndView.addObject("sportCenter", sportsCenterManager.querySportCentersById(id));
+		SportCenter sportCenter = sportsCenterManager.querySportCentersById(idSportCenter);
+		modelAndView.addObject("sportCenter", sportCenter);
+		modelAndView.addObject("courts", sportCourtManager.querySportCourts(idSportCenter));
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("add_done", addDone);		
@@ -147,15 +149,30 @@ public class CenterController {
 			modelAndView.setViewName("courts_add");
 		} else {
 			try {
-				sportsCenterManager.addCourtToCenter(sportsCourtForm);
+				sportCourtManager.addSportCourt(sportsCourtForm);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
-			String viewName = "redirect:/center/courtsList";
+			String viewName = "redirect:/center/listCourts";
 			viewName += "?add_done=true";
-			viewName += "&id=" + sportsCourtForm.getIdCenter();
+			viewName += "&idSportCenter=" + sportsCourtForm.getIdCenter();
 			modelAndView.setViewName(viewName);
 		}
+		return modelAndView;
+	}
+
+	@RequestMapping("/doDeleteCourt")
+	public ModelAndView doDeleteCourt(@RequestParam Long idCourt, @RequestParam Long idCenter) {
+		ModelAndView modelAndView = new ModelAndView();
+		try {
+			sportCourtManager.removeSportCourt(idCourt);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		String viewName = "redirect:/center/listCourts";
+		viewName += "?remove_done=true";
+		viewName += "&idSportCenter=" + idCenter;
+		modelAndView.setViewName(viewName);
 		return modelAndView;
 	}
 }

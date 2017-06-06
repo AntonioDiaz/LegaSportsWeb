@@ -3,7 +3,6 @@ package com.adiaz.services;
 import java.util.List;
 
 import com.adiaz.entities.SportCenter;
-import com.adiaz.forms.SportsCourtForm;
 
 public interface SportCenterManager {
 
@@ -14,7 +13,5 @@ public interface SportCenterManager {
 	public List<SportCenter> querySportCenters();
 	public SportCenter querySportCentersById(Long id);
 	public void removeAll() throws Exception;
-	public boolean addCourtToCenter(SportsCourtForm sportsCourtForm) throws Exception;
-	
-	
+	//public boolean addCourtToCenter(SportsCourtForm sportsCourtForm) throws Exception;	
 }

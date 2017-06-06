@@ -2,6 +2,8 @@ package com.adiaz.utils;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -109,11 +111,19 @@ public class RegisterEntities {
 		Key<SportCourt> courtKey = ofy().save().entity(court).now();
 		logger.debug("courtKey -->" + courtKey);
 
+
 		
-		sportsCenter.getCourts().add(Ref.create(courtKey));
-		Key<SportCenter> sportKey = ofy().save().entity(sportsCenter).now();
-		logger.debug("courtKey -->" + sportKey);
-		
+		List<SportCenter> list = ofy().load().type(SportCenter.class).list();
+		for (SportCenter sportCenter : list) {
+			logger.debug("Center: " + sportCenter.getName());
+			Key<SportCenter> keyCenter = Key.create(SportCenter.class, sportCenter.getId());
+			Ref<SportCenter> refCenter = Ref.create(keyCenter);
+			List<SportCourt> listCourts = ofy().load().type(SportCourt.class).filter("center", refCenter).list();
+			for (SportCourt sportCourt : listCourts) {
+				logger.debug("Court: " + sportCourt.getName());
+			}			
+		}
+
 		logger.debug("finished init...");
 		
 	}

@@ -2,7 +2,7 @@
 <script>
 	$(document).ready(function() {
 		$('#btnBack').on('click', function(event) {
-			window.location.href = "/center/list";
+			window.location.href = "/center/listCourts?idSportCenter="+ ${sportCenter.id};
 		});
 		
 		

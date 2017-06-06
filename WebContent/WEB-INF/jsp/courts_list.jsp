@@ -16,12 +16,27 @@
 		window.location.href = "/center/addCourt?idCenter=" + idCenter;
 	}
 	
+	function fUpdate(idCourt) {
+		window.location.href = "/center/updateCourt?idCourt=" + idCourt;
+	}
+	
+	function fDelete(idCourt, idCenter) {
+		var bodyTxt = "Se va a borrar la pista, ¿desea continuar?";
+		showDialogConfirm(bodyTxt, 
+			function(){ 
+				window.location.href = "/center/doDeleteCourt?idCourt=" + idCourt + "&idCenter=" + idCenter; 
+			}
+		);
+	}
+	
 </script>
 <h2 style="color: #0061a8">
 	${sportCenter.name} 
 </h2>
 <hr>
+<div align="right">
 <button type="button" class="btn btn-default" onclick="fAddCourt('${sportCenter.id}')" style="width: 200px;">&nbsp;Añadir pista&nbsp;</button>
+</div>
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -31,7 +46,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${sportCenter.courtsDeref}" var="court" >
+		<c:forEach items="${courts}" var="court" >
 			<tr>
 				<td style="vertical-align: middle;">${court.name}</td>
 				<td style="vertical-align: middle;">
@@ -42,10 +57,10 @@
 				<td style="vertical-align: middle;">
 					<div class="row">
 						<div class="col-sm-6">
-							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${center.id}')">Modificar</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${court.id}')">Modificar</button>
 						</div>
 						<div class="col-sm-6">
-							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${center.id}')">Eliminar</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${court.id}', '${sportCenter.id}')">Eliminar</button>
 						</div>
 					</div>
 					

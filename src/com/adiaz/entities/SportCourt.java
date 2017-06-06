@@ -7,8 +7,8 @@ import com.adiaz.utils.Deref;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
-import com.googlecode.objectify.annotation.Parent;
 
 
 @Entity
@@ -23,7 +23,7 @@ public class SportCourt {
 	private List<Ref<SportVO>> sports = new ArrayList<Ref<SportVO>>();
 
 	@Load
-	@Parent
+	@Index
 	private Ref<SportCenter> center; 
 	
 
