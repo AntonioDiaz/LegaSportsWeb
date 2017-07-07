@@ -15,3 +15,5 @@ input:-webkit-autofill:focus {
     vertical-align: middle;
     float: none;
 }
+
+.tdlink:hover {background: #555;}

@@ -40,26 +40,26 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
-			<th>Nombre Pista</th>
-			<th>Deportes</th>
-			<th>&nbsp;</th>
+			<th class="col-md-4">Nombre Pista</th>
+			<th class="col-md-4">Deportes</th>
+			<th class="col-md-2">&nbsp;</th>
+			<th class="col-md-2">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${courts}" var="court" >
 			<tr>
-				<td class="col-md-4" style="vertical-align: middle;"><strong>${court.name}</strong></td>
-				<td class="col-md-4" style="vertical-align: middle;">
+				<td style="vertical-align: middle;"><strong>${court.name}</strong></td>
+				<td style="vertical-align: middle;">
 					<c:forEach items="${court.sportsDeref}" var="sport">
 						${sport.name} &nbsp; &nbsp;
 					</c:forEach>
 				</td>
-				<td class="col-md-2" style="vertical-align: middle;">
+				<td style="vertical-align: middle;">
 					<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${court.id}')">Modificar</button>
 				</td>
-				<td class="col-md-2" style="vertical-align: middle;">
+				<td style="vertical-align: middle;">
 					<button type="button" class="btn btn-default btn-block" onclick="fDelete('${court.id}', '${sportCenter.id}')">Eliminar</button>
-					
 				</td>
 			</tr>
 		</c:forEach>

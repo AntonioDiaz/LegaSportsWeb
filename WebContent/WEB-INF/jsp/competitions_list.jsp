@@ -51,7 +51,7 @@
 </script>
 <form  ng-app="myApp" ng-init="searchDone=false" ng-submit="search()" ng-controller="myCtrl" class="form-inline" >
 	<div class="form-group" style="margin-right: 20px;">
-		<label>Deporte</label>
+		<label style="margin-right: 10px;">Deporte</label>
 		<select class="form-control" id="sport" ng-model="filterSport" >
 			<option value="">&nbsp;</option>
 			<c:forEach items="${sports}" var="sport">
@@ -60,7 +60,7 @@
 		</select>
 	</div>
 	<div class="form-group" style="margin-right: 20px;">
-		<label>Categoria</label>
+		<label style="margin-right: 10px;">Categoria</label>
 		<select class="form-control" id="category" ng-model="filterCategory" >
 			<option value="">&nbsp;</option>
 			<c:forEach items="${categories}" var="category">
@@ -69,16 +69,16 @@
 		</select>
 	</div>			
 	<div class="form-group">
-		<button type="button" class="btn btn-default" ng-click="search()">Search</button>
+		<button type="button" class="btn btn-default" ng-click="search()" style="width: 200px;">Search</button>
 	</div>
 	<hr>	
 	<table st-table="rowCollection" class="table table-hover">
 		<thead>
 			<tr>
-				<th>Competición</th>
-				<th>Deporte</th>
-				<th>Categoria</th>
-				<th>&nbsp;</th>
+				<th class="col-md-2">Competición</th>
+				<th class="col-md-2">Deporte</th>
+				<th class="col-md-2">Categoria</th>
+				<th class="col-md-6">&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -94,7 +94,7 @@
 			</tr>
 			<tr ng-repeat="row in rowCollection">
 				<td style="vertical-align: middle;">
-					{{row.name}}
+					<strong>{{row.name}}</strong>
 				</td>
 				<td style="vertical-align: middle;">
 					{{row.sportEntity.name}}
@@ -104,13 +104,13 @@
 				</td>
 				<td>
 					<div class="row">
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<button type="button" class="btn btn-default btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<button type="button" class="btn btn-default btn-block" ng-click="viewClassification(row.id)">Clasificación</button>
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<button type="button" class="btn btn-default btn-block" ng-click="removeCompetition(row.id)">Borrar</button>
 						</div>
 					</div>
