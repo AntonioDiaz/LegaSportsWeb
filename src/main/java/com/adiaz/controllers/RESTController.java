@@ -60,13 +60,6 @@ public class RESTController {
 		return response;
 	}
 	
-//	@RequestMapping(value = "/categories/{sport_id}", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-//	public List<CategoriesVO> getCategoriesBySportsId(@PathVariable("sport_id") Long sportId) {
-//		SportVO sportVO = sportsManager.querySportsById(sportId);
-//		List<CategoriesVO> categoriesBySportId = categoriesManager.queryCategoriesBySport(sportVO);
-//		return categoriesBySportId;
-//	}
-
 	@RequestMapping(value = "/categories", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CategoriesVO> getCategories() {	
 		List<CategoriesVO> queryCategories = categoriesManager.queryCategories();

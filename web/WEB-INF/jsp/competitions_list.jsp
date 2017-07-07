@@ -3,13 +3,13 @@
 <script>
 	$(document).ready(function() {
 		<c:if test="${add_done==true}">
-			showDialogAlert("La competici髇 ha sido creada.");
+			showDialogAlert("La competici贸n ha sido creada.");
 		</c:if>
 		<c:if test="${remove_done==true}">
-			showDialogAlert("La competici髇 ha sido eliminada.");
+			showDialogAlert("La competici贸n ha sido eliminada.");
 		</c:if>
 		<c:if test="${update_done==true}">
-			showDialogAlert("La competici髇 ha sido actualizada.");
+			showDialogAlert("La competici贸n ha sido actualizada.");
 		</c:if>
 	});	
 
@@ -39,7 +39,7 @@
 			}
 			
 			$scope.removeCompetition = function fRemoveCompetition(idCompetition) {
-				var bodyTxt = "縎e va a borrar la competici髇 y todos sus partidos desea continuar?";
+				var bodyTxt = "驴Se va a borrar la competici贸n y todos sus partidos desea continuar?";
 				showDialogConfirm(bodyTxt, 
 					function(){ 
 						window.location.href = "/competitions/doRemove?idCompetition=" + idCompetition; 
@@ -75,7 +75,7 @@
 	<table st-table="rowCollection" class="table table-hover">
 		<thead>
 			<tr>
-				<th class="col-md-2">Competici髇</th>
+				<th class="col-md-2">Competicion</th>
 				<th class="col-md-2">Deporte</th>
 				<th class="col-md-2">Categoria</th>
 				<th class="col-md-6">&nbsp;</th>
@@ -108,7 +108,7 @@
 							<button type="button" class="btn btn-default btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
 						</div>
 						<div class="col-sm-4">
-							<button type="button" class="btn btn-default btn-block" ng-click="viewClassification(row.id)">Clasificaci髇</button>
+							<button type="button" class="btn btn-default btn-block" ng-click="viewClassification(row.id)">Clasificaci贸n</button>
 						</div>
 						<div class="col-sm-4">
 							<button type="button" class="btn btn-default btn-block" ng-click="removeCompetition(row.id)">Borrar</button>

@@ -123,7 +123,7 @@ public class RegisterEntities {
 		
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");
-		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
+		sportsCenter.setAddress("Av. de Alemania, 2, 28916 LeganÃ©s, Madrid");
 		Key<SportCenter> centerKey = ofy().save().entity(sportsCenter).now();
 		
 		SportCourt court = new SportCourt();

@@ -1,6 +1,8 @@
 package com.adiaz.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +49,23 @@ public class MatchesManagerImpl implements MatchesManager {
 		return matchesDAO.queryAllMatches();
 	}
 
-	@Override
+    @Override
+    public Integer howManyWeek(List<MatchesVO> matchesList) {
+        Set<Integer> diferentsWeeks = new HashSet<Integer>();
+        for (MatchesVO matchesVO : matchesList) {
+            diferentsWeeks.add(matchesVO.getWeek());
+        }
+        return diferentsWeeks.size();
+    }
+
+    @Override
 	public void removeAll() throws Exception {
 		List<MatchesVO> queryAllMatches = matchesDAO.queryAllMatches();
 		for (MatchesVO matchesVO : queryAllMatches) {
 			matchesDAO.remove(matchesVO);
 		}		
 	}
+
+
+
 }

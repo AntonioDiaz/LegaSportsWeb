@@ -63,19 +63,11 @@ public class MainController {
 		Exception exception = (Exception) request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
-			error = "Usuario o contraseña incorrectos";
-//			Integer attemps = (Integer) request.getSession().getAttribute(Constants.ATRIBUTE_ATTEMPS);
-//			if (attemps!=null) {
-//				if (attemps==0) {
-//					error += "<br> El usuario ha quedado bloqueado";
-//				} else {
-//					error += " <br> El usuario se bloqueará en " + attemps + " intentos";
-//				}
-//			}
+			error = "Usuario o contraseÃ±a incorrectos";
 		} else if (exception instanceof LockedException) {
 			error = "Usuario bloquedao";
 		} else {
-			error = "Usuario o contraseña incorrectos";
+			error = "Usuario o contraseÃ±a incorrectos";
 		}
 		modelMap.addAttribute("error", error);
 		return "login";
@@ -181,46 +173,4 @@ public class MainController {
 		}
 		return modelAndView;
 	}
-	
-	// @Autowired
-	// ServletContext servletContext;
-
-	// @RequestMapping(value = "/loadCategoriesFromFiles", method =
-	// RequestMethod.GET)
-	// public String loadCategoriesFromFiles(ModelMap modelMap) {
-	// String operationResult = "";
-	// InputStream inputStream = null;
-	// try {
-	// inputStream =
-	// servletContext.getResourceAsStream("/WEB-INF/static_data/volleybol.txt");
-	// BufferedReader bufferedReader = new BufferedReader(new
-	// InputStreamReader(inputStream));
-	// SportVO sportVO = sportsManager.querySportsByName("Voleibol");
-	// String line;
-	// while ((line = bufferedReader.readLine()) != null) {
-	// CategoriesVO categoriesVO = new CategoriesVO();
-	// categoriesVO.setName(line);
-	// categoriesVO.setSport(sportVO);
-	// categoriesManager.add(categoriesVO);
-	// }
-	// operationResult = "load data from file finished.";
-	// } catch (IOException e) {
-	// operationResult = "reading error";
-	// e.printStackTrace();
-	// } catch (Exception e) {
-	// operationResult = "inserting error";
-	// e.printStackTrace();
-	// } finally {
-	// if (inputStream != null) {
-	// try {
-	// inputStream.close();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// modelMap.addAttribute("message", operationResult);
-	// return "hello";
-	// }
-
 }

@@ -13,5 +13,5 @@ public interface MatchesManager {
 	public List<MatchesVO> queryMatchesByCompetition(Long competitionId);
 	public void add(List<MatchesVO> matchesList) throws Exception;
 	public List<MatchesVO> queryMatches();
-	
+	public Integer howManyWeek(List<MatchesVO> matchesList);
 }
