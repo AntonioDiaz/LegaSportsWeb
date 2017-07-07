@@ -22,7 +22,7 @@
 							<label for="j_username">Usuario</label> <input type="text" class="form-control" name='j_username'>
 						</div>
 						<div class="form-group">
-							<label for="j_username">ContraseÃ±a</label> <input type="password" class="form-control" name='j_password'>
+							<label for="j_username">Contraseña</label> <input type="password" class="form-control" name='j_password'>
 						</div>
 						<!-- 
 						<div class="form-group">
