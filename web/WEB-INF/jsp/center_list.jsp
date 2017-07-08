@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="taglibs.jsp"%>
 <script>
 	
@@ -22,7 +23,7 @@
 	}
 	
 	function fDelete(centerId) {
-		var bodyTxt = "Se va a borrar el centro, ¿desea continuar?";
+		var bodyTxt = "Se va a borrar el centro, Â¿desea continuar?";
 		showDialogConfirm(bodyTxt, 
 			function(){ 
 				window.location.href = "/center/doDelete?id=" + centerId;
@@ -35,7 +36,7 @@
 	<thead>
 		<tr>
 			<th>Nombre centro</th>
-			<th>Dirección</th>
+			<th>DirecciÃ³n</th>
 			<th>&nbsp;</th>
 		</tr>
 	</thead>

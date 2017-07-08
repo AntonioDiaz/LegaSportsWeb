@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="taglibs.jsp"%>
 
 <script>
@@ -75,7 +76,7 @@
 	<table st-table="rowCollection" class="table table-hover">
 		<thead>
 			<tr>
-				<th class="col-md-2">Competicion</th>
+				<th class="col-md-2">Competición</th>
 				<th class="col-md-2">Deporte</th>
 				<th class="col-md-2">Categoria</th>
 				<th class="col-md-6">&nbsp;</th>
