@@ -17,3 +17,14 @@ input:-webkit-autofill:focus {
 }
 
 .tdlink:hover {background: #555;}
+
+
+.divlink {
+    text-align: center;
+    margin: 0px;
+}
+
+.divlink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -147,5 +147,5 @@ public class CompetitionsController {
 			e.printStackTrace();
 		}
 		return  "redirect:/competitions/viewCalendar?idCompetition=" + loadMatchesForm.getIdCompetition();
-	}	
+	}
 }

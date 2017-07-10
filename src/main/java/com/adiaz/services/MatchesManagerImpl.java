@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.adiaz.daos.CompetitionsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,12 @@ public class MatchesManagerImpl implements MatchesManager {
 		return matchesDAO.queryAllMatches();
 	}
 
-    @Override
+	@Override
+	public MatchesVO queryMatchesById(Long id) {
+		return matchesDAO.queryMatches(id);
+	}
+
+	@Override
     public Integer howManyWeek(List<MatchesVO> matchesList) {
         Set<Integer> diferentsWeeks = new HashSet<Integer>();
         for (MatchesVO matchesVO : matchesList) {

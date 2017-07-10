@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.adiaz.entities.CategoriesVO;
 import com.adiaz.entities.ClassificationEntryVO;
@@ -104,4 +100,32 @@ public class RESTController {
 		List<SportVO> sportsList = sportsManager.querySports(); 
 		return sportsList;
 	}
+
+    @RequestMapping (value = "/match/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MatchesVO> getMatch(@PathVariable("id") Long id) {
+        MatchesVO matchesVO = matchesManager.queryMatchesById(id);
+        if (matchesVO==null) {
+            return new ResponseEntity<MatchesVO>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<MatchesVO>(matchesVO, HttpStatus.OK);
+    }
+
+	// TODO: 10/07/2017 IMPORTAN protect this call in production environment. 
+	@RequestMapping (value = "/match/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<MatchesVO> updateMatchScore(@PathVariable("id") Long id, @RequestBody MatchesVO newMatchVO){
+        MatchesVO match = matchesManager.queryMatchesById(id);
+        if (match==null) {
+            return new ResponseEntity<MatchesVO>(HttpStatus.NOT_FOUND);
+        }
+        match.setScoreLocal(newMatchVO.getScoreLocal());
+        match.setScoreVisitor(newMatchVO.getScoreVisitor());
+        try {
+            boolean update = matchesManager.update(match);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<MatchesVO>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<MatchesVO>(match, HttpStatus.OK);
+	}
+
 }

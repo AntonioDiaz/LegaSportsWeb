@@ -59,4 +59,9 @@ public class MatchesDAOImpl implements MatchesDAO {
 		Query<MatchesVO> query = ofy().load().type(MatchesVO.class);
 		return query.list();
 	}
+
+	@Override
+	public MatchesVO queryMatches(Long id) {
+		return ofy().load().type(MatchesVO.class).id(id).now();
+	}
 }

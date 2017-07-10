@@ -10,4 +10,5 @@ public interface MatchesDAO extends GenericDAO<MatchesVO> {
 
 	public List<MatchesVO> queryAllMatches();
 
+    MatchesVO queryMatches(Long id);
 }
