@@ -20,10 +20,10 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <input class="form-control" id="scoreLocal" type="number">
+                            <input class="form-control" id="scoreLocal" type="number" min="0">
                         </div>
                         <div class="col-sm-6">
-                            <input class="form-control" id="scoreVisitor" type="number">
+                            <input class="form-control" id="scoreVisitor" type="number" min="0">
                         </div>
                     </div>
                 </div>
