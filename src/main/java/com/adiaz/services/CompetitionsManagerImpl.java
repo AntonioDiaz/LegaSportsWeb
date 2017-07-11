@@ -27,7 +27,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public boolean remove(CompetitionsVO competitionsVO) throws Exception {
-		List<MatchesVO> queryMatchesByCompetition = matchesDAO.queryMatchesByCompetition(competitionsVO.getId());
+		List<MatchesVO> queryMatchesByCompetition = matchesDAO.findByCompetition(competitionsVO.getId());
 		for (MatchesVO matchesVO : queryMatchesByCompetition) {
 			matchesDAO.remove(matchesVO);
 		}

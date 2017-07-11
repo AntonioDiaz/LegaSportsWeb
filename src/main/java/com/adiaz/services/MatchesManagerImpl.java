@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.adiaz.daos.CompetitionsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	@Override
 	public List<MatchesVO> queryMatchesByCompetition(Long competitionId) {
-		return matchesDAO.queryMatchesByCompetition(competitionId);
+		return matchesDAO.findByCompetition(competitionId);
 	}
 
 	@Override
@@ -47,12 +46,12 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	@Override
 	public List<MatchesVO> queryMatches() {
-		return matchesDAO.queryAllMatches();
+		return matchesDAO.findAll();
 	}
 
 	@Override
 	public MatchesVO queryMatchesById(Long id) {
-		return matchesDAO.queryMatches(id);
+		return matchesDAO.findById(id);
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class MatchesManagerImpl implements MatchesManager {
 
     @Override
 	public void removeAll() throws Exception {
-		List<MatchesVO> queryAllMatches = matchesDAO.queryAllMatches();
+		List<MatchesVO> queryAllMatches = matchesDAO.findAll();
 		for (MatchesVO matchesVO : queryAllMatches) {
 			matchesDAO.remove(matchesVO);
 		}		

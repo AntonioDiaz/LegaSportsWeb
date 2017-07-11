@@ -6,9 +6,9 @@ import com.adiaz.entities.MatchesVO;
 
 public interface MatchesDAO extends GenericDAO<MatchesVO> {	
 	
-	public List<MatchesVO> queryMatchesByCompetition(Long competitionId);
+	public List<MatchesVO> findByCompetition(Long competitionId);
 
-	public List<MatchesVO> queryAllMatches();
+	public List<MatchesVO> findAll();
 
-    MatchesVO queryMatches(Long id);
+    MatchesVO findById(Long id);
 }

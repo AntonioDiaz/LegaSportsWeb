@@ -44,7 +44,7 @@ public class MatchesDAOImpl implements MatchesDAO {
 	}
 
 	@Override
-	public List<MatchesVO> queryMatchesByCompetition(Long competitionId) {
+	public List<MatchesVO> findByCompetition(Long competitionId) {
 		List<MatchesVO> matches = null;
 		Query<MatchesVO> query = ofy().load().type(MatchesVO.class);
 		if (competitionId!=null) {
@@ -55,13 +55,13 @@ public class MatchesDAOImpl implements MatchesDAO {
 	}
 
 	@Override
-	public List<MatchesVO> queryAllMatches() {
+	public List<MatchesVO> findAll() {
 		Query<MatchesVO> query = ofy().load().type(MatchesVO.class);
 		return query.list();
 	}
 
 	@Override
-	public MatchesVO queryMatches(Long id) {
+	public MatchesVO findById(Long id) {
 		return ofy().load().type(MatchesVO.class).id(id).now();
 	}
 }
