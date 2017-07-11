@@ -18,19 +18,18 @@ import java.util.List;
  */
 @ContextConfiguration(locations = "classpath:applicationContext-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+public class CategoriesDAOImplTest {
 
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-public class CategoriesDAOTest {
+    @Autowired
+    private CategoriesDAO categoriesDAO;
 
     public static final String CATEGORY_CADETE = "Cadete";
     public static final String CATEGORY_JUVENIL = "Juvenil";
     public static final Integer CATEGORY_ORDER_2 = 2;
     private static final Integer CATEGORY_ORDER_3 = 3;
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-    @Autowired
-    private CategoriesDAO categoriesDAO;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -71,6 +70,7 @@ public class CategoriesDAOTest {
         categoriesVO.setName(CATEGORY_JUVENIL);
         categoriesVO.setOrder(CATEGORY_ORDER_3);
         categoriesDAO.update(categoriesVO);
+        categoriesVO = categoriesDAO.findCategoryById(categoriesVO.getId());
         Assert.assertEquals(CATEGORY_JUVENIL, categoriesVO.getName());
         Assert.assertEquals(CATEGORY_ORDER_3, categoriesVO.getOrder());
     }
