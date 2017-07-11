@@ -44,7 +44,7 @@ public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 	}
 
 	@Override
-	public List<ClassificationEntryVO> findClassification(Long idCompetition) {
+	public List<ClassificationEntryVO> findByCompetitionId(Long idCompetition) {
 		Query<ClassificationEntryVO> query = ofy().load().type(ClassificationEntryVO.class);
 		List<ClassificationEntryVO> list = null;
 		if (idCompetition!=null) {			
@@ -52,6 +52,11 @@ public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 			list  = query.filter("competitionRef", Ref.create(key)).order("position").list();
 		}
 		return list;
+	}
+
+	@Override
+	public ClassificationEntryVO findById(Long id) {
+		return ofy().load().type(ClassificationEntryVO.class).id(id).now();
 	}
 
 	@Override

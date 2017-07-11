@@ -71,7 +71,6 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	
 	@Override
 	public CompetitionsVO findCompetitionsById(Long id) {
-		CompetitionsVO competitionsVO = ofy().load().type(CompetitionsVO.class).id(id).now();
-		return competitionsVO;	
+		return ofy().load().type(CompetitionsVO.class).id(id).now();
 	}
 }

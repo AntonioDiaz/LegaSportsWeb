@@ -31,7 +31,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 
 	@Override
 	public List<ClassificationEntryVO> queryClassificationBySport(Long idCompetition) {		
-		return classificationEntriesDAO.findClassification(idCompetition);
+		return classificationEntriesDAO.findByCompetitionId(idCompetition);
 	}
 
 	@Override
