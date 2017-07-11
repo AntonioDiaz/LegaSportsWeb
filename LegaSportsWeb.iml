@@ -16,7 +16,11 @@
       <configuration />
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/applicationContext-test.xml</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
@@ -33,9 +37,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Google App Engine Standard Local Server" level="application_server_libraries" />
     <orderEntry type="library" scope="PROVIDED" name="javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.54" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.google.appengine:appengine-testing:1.9.51" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.appengine:appengine-api-stubs:1.9.54" level="project" />
     <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-labs:1.9.54" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-tools-sdk:1.9.54" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.appengine:appengine-testing:1.9.54" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.1.4.RELEASE" level="project" />
