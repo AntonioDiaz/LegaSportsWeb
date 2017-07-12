@@ -17,5 +17,23 @@
     <context:component-scan base-package="com.adiaz.services.security" />
     <context:component-scan base-package="com.adiaz.forms" />
 
+    <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <property name="order" value="1" />
+    </bean>
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-definitions.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="initDataBase" class="com.adiaz.utils.RegisterEntities" init-method="init"/>-->
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource"
+          p:basenames="WEB-INF/i18n/messages" p:fallbackToSystemLocale="false" />
+
     <mvc:annotation-driven></mvc:annotation-driven>
 </beans>

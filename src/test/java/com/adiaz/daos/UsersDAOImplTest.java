@@ -14,10 +14,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 /** Created by toni on 11/07/2017. */
-@ContextConfiguration(locations = "classpath:applicationContext-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:web/WEB-INF/applicationContext-testing.xml")
+@WebAppConfiguration("file:web")
 public class UsersDAOImplTest {
 
     private static final String USERNAME_PEPITO = "PEPITO";

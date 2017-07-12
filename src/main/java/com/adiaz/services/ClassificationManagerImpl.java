@@ -47,6 +47,5 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		for (ClassificationEntryVO classificationEntryVO : list) {
 			classificationEntriesDAO.remove(classificationEntryVO);
 		}
-		
 	}
 }

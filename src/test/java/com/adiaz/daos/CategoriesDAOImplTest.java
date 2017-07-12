@@ -10,13 +10,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyService;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
-/**
- * Created by toni on 10/07/2017.
- */
-@ContextConfiguration(locations = "classpath:applicationContext-test.xml")
+/** Created by toni on 10/07/2017. */
+
+@ContextConfiguration("file:web/WEB-INF/applicationContext-testing.xml")
+@WebAppConfiguration("file:web")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CategoriesDAOImplTest {
 
