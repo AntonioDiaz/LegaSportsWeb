@@ -2,6 +2,7 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.entities.Competition;
 import com.adiaz.entities.Sport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.MatchesDAO;
 import com.adiaz.entities.Category;
-import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -21,40 +21,41 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	@Autowired MatchesDAO matchesDAO;
 	
 	@Override
-	public void add(CompetitionsVO item) throws Exception {
+	public void add(Competition item) throws Exception {
 		competitionsDAO.create(item);
 	}
 
 	@Override
-	public boolean remove(CompetitionsVO competitionsVO) throws Exception {
-		List<MatchesVO> queryMatchesByCompetition = matchesDAO.findByCompetition(competitionsVO.getId());
+	public boolean remove(Competition competition) throws Exception {
+		List<MatchesVO> queryMatchesByCompetition = matchesDAO.findByCompetition(competition.getId());
 		for (MatchesVO matchesVO : queryMatchesByCompetition) {
 			matchesDAO.remove(matchesVO);
 		}
-		return competitionsDAO.remove(competitionsVO);		
+		return competitionsDAO.remove(competition);		
 	}
 	
 	@Override
-	public boolean update(CompetitionsVO item) throws Exception {
+	public boolean update(Competition item) throws Exception {
 		return competitionsDAO.update(item);
 	}
 	
 	@Override
-	public List<CompetitionsVO> queryCompetitions() {
+	public List<Competition> queryCompetitions() {
 		return competitionsDAO.findCompetitions();
 	}
 
 	@Override
-	public List<CompetitionsVO> queryCompetitionsBySport(Sport sport) {
+	public List<Competition> queryCompetitionsBySport(Sport sport) {
 		return competitionsDAO.findCompetitionsBySport(sport);
 	}
-	
-	public CompetitionsVO queryCompetitionsById(long id) {
-		CompetitionsVO competition = null; 
-		List<CompetitionsVO> competitions = competitionsDAO.findCompetitions();
-		for (CompetitionsVO competitionsVO : competitions) {
-			if (id==competitionsVO.getId()) {
-				competition = competitionsVO;
+
+	// TODO: 14/07/2017 remove this?? 
+	public Competition queryCompetitionsById(long id) {
+		Competition competition = null; 
+		List<Competition> competitions = competitionsDAO.findCompetitions();
+		for (Competition c : competitions) {
+			if (id==c.getId()) {
+				competition = c;
 			}
 		}
 		return competition;
@@ -62,24 +63,24 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public void add(String name, Long sportId, Long categoryId) throws Exception {
-		CompetitionsVO competitionsVO = new CompetitionsVO();
-		competitionsVO.setName(name);
+		Competition competition = new Competition();
+		competition.setName(name);
 		Key<Sport> keySport = Key.create(Sport.class, sportId);
-		competitionsVO.setSport(Ref.create(keySport));
+		competition.setSport(Ref.create(keySport));
 		Key<Category> keyCategory = Key.create(Category.class, categoryId);
-		competitionsVO.setCategory(Ref.create(keyCategory));
-		competitionsDAO.create(competitionsVO);
+		competition.setCategory(Ref.create(keyCategory));
+		competitionsDAO.create(competition);
 	}
 
 	@Override
-	public List<CompetitionsVO> queryCompetitions(Long idSport, Long idCategory) {
+	public List<Competition> queryCompetitions(Long idSport, Long idCategory) {
 		return competitionsDAO.findCompetitions(idSport, idCategory);
 	}
 
 	@Override
 	public void removeAll() throws Exception {
-		List<CompetitionsVO> competitions = competitionsDAO.findCompetitions();
-		for (CompetitionsVO competition : competitions) {
+		List<Competition> competitions = competitionsDAO.findCompetitions();
+		for (Competition competition : competitions) {
 			competitionsDAO.remove(competition);
 		}
 	}

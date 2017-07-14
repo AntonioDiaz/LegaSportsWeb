@@ -2,14 +2,14 @@ package com.adiaz.daos;
 
 import java.util.List;
 
-import com.adiaz.entities.CompetitionsVO;
+import com.adiaz.entities.Competition;
 import com.adiaz.entities.Sport;
 
-public interface CompetitionsDAO extends GenericDAO<CompetitionsVO> {
+public interface CompetitionsDAO extends GenericDAO<Competition> {
 
-	public List<CompetitionsVO> findCompetitions();
-	public List<CompetitionsVO> findCompetitionsBySport(Sport sport);
-	public List<CompetitionsVO> findCompetitions(Long sportId, Long categoryId);
-	public CompetitionsVO findCompetitionsById(Long idCompetition);
+	public List<Competition> findCompetitions();
+	public List<Competition> findCompetitionsBySport(Sport sport);
+	public List<Competition> findCompetitions(Long sportId, Long categoryId);
+	public Competition findCompetitionsById(Long idCompetition);
 	
 }

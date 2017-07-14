@@ -38,7 +38,7 @@ public class RegisterEntities {
 	public void init() throws Exception {
 		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
-		ObjectifyService.register(CompetitionsVO.class);
+		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(MatchesVO.class);
 		ObjectifyService.register(ClassificationEntry.class);
 		ObjectifyService.register(User.class);
@@ -72,7 +72,7 @@ public class RegisterEntities {
 			keyCategories = ofy().save().entity(category).now();
 		}
 		/** load competitions */
-		CompetitionsVO competition = new CompetitionsVO();
+		Competition competition = new Competition();
 		competition.setName("liga division honor");
 		competition.setCategory(Ref.create(keyCategories));
 		competition.setSport(Ref.create(keySport));

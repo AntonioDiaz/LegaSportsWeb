@@ -39,11 +39,11 @@ public class MatchesVO {
 	@Index
 	@Load
 	@JsonIgnore
-	private Ref<CompetitionsVO> competitionRef;
+	private Ref<Competition> competitionRef;
 	
 	@Ignore
 	@JsonIgnore
-	private CompetitionsVO competition;
+	private Competition competition;
 	
 	@OnLoad
 	public void getRefs() {
@@ -122,22 +122,22 @@ public class MatchesVO {
 	}
 
 
-	public Ref<CompetitionsVO> getCompetitionRef() {
+	public Ref<Competition> getCompetitionRef() {
 		return competitionRef;
 	}
 
 
-	public void setCompetitionRef(Ref<CompetitionsVO> competitionRef) {
+	public void setCompetitionRef(Ref<Competition> competitionRef) {
 		this.competitionRef = competitionRef;
 	}
 
 
-	public CompetitionsVO getCompetition() {
+	public Competition getCompetition() {
 		return competition;
 	}
 
 
-	public void setCompetition(CompetitionsVO competition) {
+	public void setCompetition(Competition competition) {
 		this.competition = competition;
 	}
 

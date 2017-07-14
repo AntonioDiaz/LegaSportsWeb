@@ -1,6 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.CompetitionsVO;
+import com.adiaz.entities.Competition;
 import com.adiaz.entities.MatchesVO;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -32,17 +32,17 @@ public class MatchesDAOImplTest {
     MatchesDAO matchesDAO;
     @Autowired
     CompetitionsDAO competitionsDAO;
-    private Ref<CompetitionsVO> competitionsVORef;
+    private Ref<Competition> competitionRef;
 
     @Before
     public void setUp() throws Exception {
         helper.setUp();
         ObjectifyService.register(MatchesVO.class);
-        ObjectifyService.register(CompetitionsVO.class);
-        CompetitionsVO competitionsVO = new CompetitionsVO();
-        competitionsVO.setName(COPA_PRIMAVERA);
-        Key<CompetitionsVO> key = competitionsDAO.create(competitionsVO);
-        competitionsVORef = Ref.create(key);
+        ObjectifyService.register(Competition.class);
+        Competition competition = new Competition();
+        competition.setName(COPA_PRIMAVERA);
+        Key<Competition> key = competitionsDAO.create(competition);
+        competitionRef = Ref.create(key);
     }
 
     @After
@@ -78,7 +78,7 @@ public class MatchesDAOImplTest {
     public void findByCompetition() throws Exception {
         createMatch();
         createMatch();
-        Assert.assertEquals(2, matchesDAO.findByCompetition(competitionsVORef.getKey().getId()).size());
+        Assert.assertEquals(2, matchesDAO.findByCompetition(competitionRef.getKey().getId()).size());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class MatchesDAOImplTest {
     private Key<MatchesVO> createMatch() throws Exception {
         MatchesVO match = new MatchesVO();
         match.setTeamLocal(ATLETICO_MADRID);
-        match.setCompetitionRef(competitionsVORef);
+        match.setCompetitionRef(competitionRef);
         return matchesDAO.create(match);
     }
 

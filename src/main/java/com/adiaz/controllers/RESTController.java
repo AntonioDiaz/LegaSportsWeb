@@ -61,23 +61,23 @@ public class RESTController {
 	}
 	
 	@RequestMapping(value="/competitions", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CompetitionsVO> competitions() {
+	public List<Competition> competitions() {
 		logger.debug("*competitions");
-		List<CompetitionsVO> competitions = competitionsManager.queryCompetitions(); 
-		for (CompetitionsVO competitionsVO : competitions) {
-			List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(competitionsVO.getId());			
-			competitionsVO.setMatches(matchesList);
-			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competitionsVO.getId());
-			competitionsVO.setClassification(classification);
+		List<Competition> competitions = competitionsManager.queryCompetitions();
+		for (Competition competition : competitions) {
+			List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(competition.getId());
+			competition.setMatches(matchesList);
+			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competition.getId());
+			competition.setClassification(classification);
 		}
 		return competitions;
 	}
 	
 	@RequestMapping(value="/search_competitions", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CompetitionsVO> searchCompetitions(
+	public List<Competition> searchCompetitions(
 			@RequestParam(value="idSport", required=false) Long idSport, 
 			@RequestParam(value="idCategory", required=false) Long idCategory) {
-		List<CompetitionsVO> competitions = competitionsManager.queryCompetitions(idSport, idCategory); 
+		List<Competition> competitions = competitionsManager.queryCompetitions(idSport, idCategory);
 		return competitions;
 	}	
 	

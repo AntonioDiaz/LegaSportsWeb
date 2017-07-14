@@ -4,9 +4,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.Competition;
 import org.springframework.stereotype.Repository;
 
-import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -48,7 +48,7 @@ public class MatchesDAOImpl implements MatchesDAO {
 		List<MatchesVO> matches = null;
 		Query<MatchesVO> query = ofy().load().type(MatchesVO.class);
 		if (competitionId!=null) {
-			Key<CompetitionsVO> key = Key.create(CompetitionsVO.class, competitionId);
+			Key<Competition> key = Key.create(Competition.class, competitionId);
 			matches = query.filter("competitionRef", Ref.create(key)).order("week").order("date").list();
 		}
 		return matches;

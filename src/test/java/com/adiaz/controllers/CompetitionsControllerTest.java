@@ -1,10 +1,8 @@
 package com.adiaz.controllers;
 
 import com.adiaz.daos.CompetitionsDAO;
-import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.services.CompetitionsManager;
+import com.adiaz.entities.Competition;
 import com.adiaz.services.CompetitionsManagerImpl;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,8 +53,8 @@ public class CompetitionsControllerTest {
     @Before
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        //when(this.competitionsDAO.findCompetitions()).thenReturn(new ArrayList<CompetitionsVO>());
-        when(this.competitionsManager.queryCompetitions()).thenReturn(new ArrayList<CompetitionsVO>());
+        //when(this.competitionsDAO.findCompetitions()).thenReturn(new ArrayList<Competition>());
+        when(this.competitionsManager.queryCompetitions()).thenReturn(new ArrayList<Competition>());
         System.out.println("Competitions: " + competitionsManager.queryCompetitions());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }

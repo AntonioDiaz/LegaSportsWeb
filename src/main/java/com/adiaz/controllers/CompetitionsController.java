@@ -2,6 +2,7 @@ package com.adiaz.controllers;
 
 import java.util.List;
 
+import com.adiaz.entities.Competition;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.forms.CompetitionsForm;
 import com.adiaz.forms.CompetitionsFormValidator;
@@ -72,7 +72,7 @@ public class CompetitionsController {
 	
 	@RequestMapping("/doRemove")
 	public String doRemoveCompetition(@RequestParam(value = "idCompetition") Long idCompetition) {
-		CompetitionsVO competition = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competition = competitionsManager.queryCompetitionsById(idCompetition);
 		try {
 			competitionsManager.remove(competition);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class CompetitionsController {
 	@RequestMapping ("/viewCalendar")
 	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
-		CompetitionsVO competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
 		List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
         Integer howManyWeek = matchesManager.howManyWeek(matchesList);
         modelAndView.addObject("competition", competitionsById);
@@ -96,7 +96,7 @@ public class CompetitionsController {
 	@RequestMapping ("/viewClassification")
 	public ModelAndView viewClassification(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
-		CompetitionsVO competition = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competition = competitionsManager.queryCompetitionsById(idCompetition);
 		List<ClassificationEntry> classificationList = classificationManager.queryClassificationBySport(idCompetition);
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("classification_list", classificationList);
@@ -106,7 +106,7 @@ public class CompetitionsController {
 	@RequestMapping ("/loadClassification")
 	public ModelAndView loadClassification (@RequestParam(value="idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_load_classification");
-		CompetitionsVO competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
 		modelAndView.addObject("competition", competitionsById);
 		LoadMatchesForm loadMatchesForm = new LoadMatchesForm();
 		loadMatchesForm.setIdCompetition(idCompetition);
@@ -129,7 +129,7 @@ public class CompetitionsController {
 	@RequestMapping ("/loadCalendar")
 	public ModelAndView loadCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_load_calendar");
-		CompetitionsVO competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
 		modelAndView.addObject("competition", competitionsById);
 		LoadMatchesForm loadMatchesForm = new LoadMatchesForm();
 		loadMatchesForm.setIdCompetition(idCompetition);
@@ -139,7 +139,7 @@ public class CompetitionsController {
 	
 	@RequestMapping ("/doLoadCalendar")
 	public String doLoadCalendar(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
-		CompetitionsVO competitionsById = competitionsManager.queryCompetitionsById(loadMatchesForm.getIdCompetition());
+		Competition competitionsById = competitionsManager.queryCompetitionsById(loadMatchesForm.getIdCompetition());
 		List<MatchesVO> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById);
 		try {
 			matchesManager.add(matchesList);

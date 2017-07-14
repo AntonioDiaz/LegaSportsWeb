@@ -4,10 +4,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.Competition;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.Category;
-import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.Sport;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
@@ -16,12 +16,12 @@ import com.googlecode.objectify.cmd.Query;
 public class CompetitionsDAOImpl implements CompetitionsDAO {
 
 	@Override
-	public Key<CompetitionsVO> create(CompetitionsVO item) throws Exception {
+	public Key<Competition> create(Competition item) throws Exception {
 		return ofy().save().entity(item).now();
 	}
 
 	@Override
-	public boolean update(CompetitionsVO competitionVO) throws Exception {
+	public boolean update(Competition competitionVO) throws Exception {
 		boolean updateResult = false;
 		if (competitionVO != null && competitionVO.getId() != null) {
 			updateResult = true;
@@ -31,22 +31,22 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 
 	@Override
-	public boolean remove(CompetitionsVO item) throws Exception {
+	public boolean remove(Competition item) throws Exception {
 		ofy().delete().entity(item).now();
 		return true;
 	}
 
 	@Override
-	public List<CompetitionsVO> findCompetitions() {
-		Query<CompetitionsVO> query = ofy().load().type(CompetitionsVO.class);
-		List<CompetitionsVO> list = query.list();
+	public List<Competition> findCompetitions() {
+		Query<Competition> query = ofy().load().type(Competition.class);
+		List<Competition> list = query.list();
 		return list;
 	}
 	
 	@Override
-	public List<CompetitionsVO> findCompetitionsBySport(Sport sport) {
-		Query<CompetitionsVO> query = ofy().load().type(CompetitionsVO.class);
-		List<CompetitionsVO> list = null;
+	public List<Competition> findCompetitionsBySport(Sport sport) {
+		Query<Competition> query = ofy().load().type(Competition.class);
+		List<Competition> list = null;
 		if (sport !=null) {
 			Key<Sport> key = Key.create(Sport.class, sport.getId());
 			query.ancestor(key);
@@ -56,8 +56,8 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 
 	@Override
-	public List<CompetitionsVO> findCompetitions(Long sportId, Long categoryId) {
-		Query<CompetitionsVO> query = ofy().load().type(CompetitionsVO.class);
+	public List<Competition> findCompetitions(Long sportId, Long categoryId) {
+		Query<Competition> query = ofy().load().type(Competition.class);
 		if (sportId!=null) {
 			Key<Sport> key = Key.create(Sport.class, sportId);
 			query = query.filter("sport", key);
@@ -70,7 +70,7 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 	
 	@Override
-	public CompetitionsVO findCompetitionsById(Long id) {
-		return ofy().load().type(CompetitionsVO.class).id(id).now();
+	public Competition findCompetitionsById(Long id) {
+		return ofy().load().type(Competition.class).id(id).now();
 	}
 }

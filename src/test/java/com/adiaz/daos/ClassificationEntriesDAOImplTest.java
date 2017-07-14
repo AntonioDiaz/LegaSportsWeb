@@ -1,7 +1,7 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.CompetitionsVO;
+import com.adiaz.entities.Competition;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -32,17 +32,17 @@ public class ClassificationEntriesDAOImplTest {
     ClassificationEntriesDAO classificationEntriesDAO;
     @Autowired
     CompetitionsDAO competitionsDAO;
-    private Ref<CompetitionsVO> competitionsVORef;
+    private Ref<Competition> competitionRef;
 
     @Before
     public void setUp() throws Exception {
         helper.setUp();
         ObjectifyService.register(ClassificationEntry.class);
-        ObjectifyService.register(CompetitionsVO.class);
-        CompetitionsVO competitionsVO = new CompetitionsVO();
-        competitionsVO.setName(COPA_DE_PRIMAVERA);
-        Key<CompetitionsVO> competitionsVOKey = competitionsDAO.create(competitionsVO);
-        competitionsVORef = Ref.create(competitionsVOKey);
+        ObjectifyService.register(Competition.class);
+        Competition competition = new Competition();
+        competition.setName(COPA_DE_PRIMAVERA);
+        Key<Competition> competitionKey = competitionsDAO.create(competition);
+        competitionRef = Ref.create(competitionKey);
     }
 
     @After
@@ -76,7 +76,7 @@ public class ClassificationEntriesDAOImplTest {
     @Test
     public void findClassificationByCompetition() throws Exception {
         createClassificationEntry();
-        Assert.assertEquals(1, classificationEntriesDAO.findByCompetitionId(competitionsVORef.getKey().getId()).size());
+        Assert.assertEquals(1, classificationEntriesDAO.findByCompetitionId(competitionRef.getKey().getId()).size());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class ClassificationEntriesDAOImplTest {
     private Key<ClassificationEntry> createClassificationEntry() throws Exception {
         ClassificationEntry c = new ClassificationEntry();
         c.setTeam(ATLETICO_MADRID);
-        c.setCompetitionRef(competitionsVORef);
+        c.setCompetitionRef(competitionRef);
         return classificationEntriesDAO.create(c);
     }
 

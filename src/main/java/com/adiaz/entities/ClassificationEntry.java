@@ -16,7 +16,7 @@ public class ClassificationEntry {
 	@Index
 	@Load
 	@JsonIgnore
-	private Ref<CompetitionsVO> competitionRef;
+	private Ref<Competition> competitionRef;
 
 	@Index
 	private Integer position;	
@@ -38,11 +38,11 @@ public class ClassificationEntry {
 		this.id = id;
 	}
 
-	public Ref<CompetitionsVO> getCompetitionRef() {
+	public Ref<Competition> getCompetitionRef() {
 		return competitionRef;
 	}
 
-	public void setCompetitionRef(Ref<CompetitionsVO> competition) {
+	public void setCompetitionRef(Ref<Competition> competition) {
 		this.competitionRef = competition;
 	}
 

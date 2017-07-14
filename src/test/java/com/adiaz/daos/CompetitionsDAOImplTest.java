@@ -1,7 +1,7 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.Category;
-import com.adiaz.entities.CompetitionsVO;
+import com.adiaz.entities.Competition;
 import com.adiaz.entities.Sport;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -42,7 +42,7 @@ public class CompetitionsDAOImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(CompetitionsVO.class);
+        ObjectifyService.register(Competition.class);
         ObjectifyService.register(Category.class);
         ObjectifyService.register(Sport.class);
         Category category = new Category();
@@ -66,15 +66,15 @@ public class CompetitionsDAOImplTest {
 
     @Test
     public void create() throws Exception {
-        Key<CompetitionsVO> key = createCompetition(COPA_PRIMAVERA);
-        CompetitionsVO competition = Ref.create(key).getValue();
+        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+        Competition competition = Ref.create(key).getValue();
         Assert.assertEquals(competition, competitionsDAO.findCompetitionsById(competition.getId()));
     }
 
     @Test
     public void updateName() throws Exception {
-        Key<CompetitionsVO> key = createCompetition(COPA_PRIMAVERA);
-        CompetitionsVO competition = Ref.create(key).getValue();
+        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+        Competition competition = Ref.create(key).getValue();
         competition.setName(COPA_LIGA);
         competitionsDAO.update(competition);
         competition = competitionsDAO.findCompetitionsById(competition.getId());
@@ -83,8 +83,8 @@ public class CompetitionsDAOImplTest {
 
     @Test
     public void updateSport() throws Exception {
-        Key<CompetitionsVO> key = createCompetition(COPA_PRIMAVERA);
-        CompetitionsVO competition = Ref.create(key).getValue();
+        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+        Competition competition = Ref.create(key).getValue();
         competition.setSport(refSportFutbol);
         competitionsDAO.update(competition);
         competition = competitionsDAO.findCompetitionsById(competition.getId());
@@ -95,8 +95,8 @@ public class CompetitionsDAOImplTest {
 
     @Test
     public void remove() throws Exception {
-        Key<CompetitionsVO> key = createCompetition(COPA_PRIMAVERA);
-        CompetitionsVO competition = Ref.create(key).getValue();
+        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+        Competition competition = Ref.create(key).getValue();
         competitionsDAO.remove(competition);
         Assert.assertEquals(0, competitionsDAO.findCompetitions().size());
     }
@@ -117,8 +117,8 @@ public class CompetitionsDAOImplTest {
 
     @Test
     public void findCompetitionsBySportAndCategory() throws Exception {
-        Key<CompetitionsVO> keyCompetition01 = createCompetition(COPA_PRIMAVERA);
-        Key<CompetitionsVO> keyCompetition02 = createCompetition(COPA_LIGA);
+        Key<Competition> keyCompetition01 = createCompetition(COPA_PRIMAVERA);
+        Key<Competition> keyCompetition02 = createCompetition(COPA_LIGA);
 
         long idCategory = refCategory.getKey().getId();
         long idSport = refSportBasket.getKey().getId();
@@ -127,13 +127,13 @@ public class CompetitionsDAOImplTest {
 
     @Test
     public void findCompetitionsById() throws Exception {
-        Key<CompetitionsVO> key = createCompetition(COPA_PRIMAVERA);
-        CompetitionsVO competition = Ref.create(key).getValue();
+        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+        Competition competition = Ref.create(key).getValue();
         Assert.assertEquals(competition, competitionsDAO.findCompetitionsById(key.getId()));
     }
 
-    private Key<CompetitionsVO> createCompetition(String competitionName) throws Exception {
-        CompetitionsVO competition = new CompetitionsVO();
+    private Key<Competition> createCompetition(String competitionName) throws Exception {
+        Competition competition = new Competition();
         competition.setName(competitionName);
         competition.setSport(refSportBasket);
         competition.setCategory(refCategory);

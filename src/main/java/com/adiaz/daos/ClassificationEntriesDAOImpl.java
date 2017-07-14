@@ -4,10 +4,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.Competition;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.CompetitionsVO;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.cmd.Query;
@@ -48,7 +48,7 @@ public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 		Query<ClassificationEntry> query = ofy().load().type(ClassificationEntry.class);
 		List<ClassificationEntry> list = null;
 		if (idCompetition!=null) {			
-			Key<CompetitionsVO> key = Key.create(CompetitionsVO.class, idCompetition);
+			Key<Competition> key = Key.create(Competition.class, idCompetition);
 			list  = query.filter("competitionRef", Ref.create(key)).order("position").list();
 		}
 		return list;

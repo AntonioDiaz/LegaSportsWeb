@@ -12,7 +12,7 @@ import com.googlecode.objectify.annotation.Load;
 import com.googlecode.objectify.annotation.OnLoad;
 
 @Entity
-public class CompetitionsVO {
+public class Competition {
 
 	@Id
 	private Long id;

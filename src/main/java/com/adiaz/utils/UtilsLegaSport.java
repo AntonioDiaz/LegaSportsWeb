@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.MatchesVO;
-import com.adiaz.entities.Sport;
+import com.adiaz.entities.*;
+import com.adiaz.entities.Competition;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
@@ -26,7 +23,7 @@ public class UtilsLegaSport {
 	
 	//private static final Logger log = Logger.getLogger(UtilsLegaSport.class.getName());
 
-	public static List<MatchesVO> parseCalendar(CompetitionsVO competition) {
+	public static List<MatchesVO> parseCalendar(Competition competition) {
 		String calendarTxt = "";
 		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
 		File file = new File(classLoader.getResource("static_calendar.txt").getFile());
@@ -43,7 +40,7 @@ public class UtilsLegaSport {
 		return parseCalendar (calendarTxt, competition);
 	}
 	
-	public static List<MatchesVO> parseCalendar(String matchesTxt, CompetitionsVO competition) {
+	public static List<MatchesVO> parseCalendar(String matchesTxt, Competition competition) {
 		List<MatchesVO> matchesList = new ArrayList<>();
 		String[] split = matchesTxt.split("\\r\\n");
 		int week = 0;
@@ -68,7 +65,7 @@ public class UtilsLegaSport {
 				} catch (ParseException e) {				
 					e.printStackTrace();
 				}
-				Key<CompetitionsVO> competitionKey = Key.create(CompetitionsVO.class, competition.getId());
+				Key<Competition> competitionKey = Key.create(Competition.class, competition.getId());
 				matchesVO.setCompetitionRef(Ref.create(competitionKey));
 				matchesList.add(matchesVO);
 			}				
@@ -91,7 +88,7 @@ public class UtilsLegaSport {
 			classificationEntry.setMatchesWon(Integer.valueOf(strings[3]));
 			classificationEntry.setMatchesDrawn(Integer.valueOf(strings[4]));
 			classificationEntry.setMatchesLost(Integer.valueOf(strings[5]));
-			Key<CompetitionsVO> competitionKey = Key.create(CompetitionsVO.class, competitionId);
+			Key<Competition> competitionKey = Key.create(Competition.class, competitionId);
 			classificationEntry.setCompetitionRef(Ref.create(competitionKey));
 			classificationList.add(classificationEntry);
 		}
@@ -101,7 +98,7 @@ public class UtilsLegaSport {
 	public static void main(String[] args) {
 		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
-		ObjectifyService.register(CompetitionsVO.class);
+		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(MatchesVO.class);
 		System.out.println("parse calendar....");
 		String calendarTxt = classificationStr();
