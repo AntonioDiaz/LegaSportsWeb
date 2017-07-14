@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.adiaz.entities.Category;
-import com.adiaz.entities.ClassificationEntryVO;
+import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.entities.Sport;
@@ -76,24 +76,24 @@ public class UtilsLegaSport {
 		return matchesList;
 	}
 	
-	public static List<ClassificationEntryVO> parseClassification(String classificationTxt, Long competitionId) {
-		List<ClassificationEntryVO> classificationList = new ArrayList<ClassificationEntryVO>();
+	public static List<ClassificationEntry> parseClassification(String classificationTxt, Long competitionId) {
+		List<ClassificationEntry> classificationList = new ArrayList<ClassificationEntry>();
 		String[] split = classificationTxt.split("\\r\\n");
 		for (int i = 0; i < split.length; i++) {
-			ClassificationEntryVO classificationEntryVO = new ClassificationEntryVO();
+			ClassificationEntry classificationEntry = new ClassificationEntry();
 			String[] strings = split[i].split("\\t");			
 			System.out.println(strings.length);
 			//1	AD CEPA SPORT	22	18	1	3	85	24	0	0	0	55	0
-			classificationEntryVO.setPosition(Integer.valueOf(strings[0]));
-			classificationEntryVO.setTeam(strings[1]);
-			classificationEntryVO.setPoints(Integer.valueOf(strings[11]));
-			classificationEntryVO.setMatchesPlayed(Integer.valueOf(strings[2]));
-			classificationEntryVO.setMatchesWon(Integer.valueOf(strings[3]));
-			classificationEntryVO.setMatchesDrawn(Integer.valueOf(strings[4]));
-			classificationEntryVO.setMatchesLost(Integer.valueOf(strings[5]));
+			classificationEntry.setPosition(Integer.valueOf(strings[0]));
+			classificationEntry.setTeam(strings[1]);
+			classificationEntry.setPoints(Integer.valueOf(strings[11]));
+			classificationEntry.setMatchesPlayed(Integer.valueOf(strings[2]));
+			classificationEntry.setMatchesWon(Integer.valueOf(strings[3]));
+			classificationEntry.setMatchesDrawn(Integer.valueOf(strings[4]));
+			classificationEntry.setMatchesLost(Integer.valueOf(strings[5]));
 			Key<CompetitionsVO> competitionKey = Key.create(CompetitionsVO.class, competitionId);
-			classificationEntryVO.setCompetitionRef(Ref.create(competitionKey));			
-			classificationList.add(classificationEntryVO);
+			classificationEntry.setCompetitionRef(Ref.create(competitionKey));
+			classificationList.add(classificationEntry);
 		}
 		return classificationList;
 	}

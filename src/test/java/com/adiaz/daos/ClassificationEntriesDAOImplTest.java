@@ -1,6 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.ClassificationEntryVO;
+import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.CompetitionsVO;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -37,7 +37,7 @@ public class ClassificationEntriesDAOImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(ClassificationEntryVO.class);
+        ObjectifyService.register(ClassificationEntry.class);
         ObjectifyService.register(CompetitionsVO.class);
         CompetitionsVO competitionsVO = new CompetitionsVO();
         competitionsVO.setName(COPA_DE_PRIMAVERA);
@@ -58,8 +58,8 @@ public class ClassificationEntriesDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        Key<ClassificationEntryVO> key = createClassificationEntry();
-        ClassificationEntryVO c = Ref.create(key).getValue();
+        Key<ClassificationEntry> key = createClassificationEntry();
+        ClassificationEntry c = Ref.create(key).getValue();
         c.setTeam(LEGANES);
         classificationEntriesDAO.update(c);
         Assert.assertEquals(LEGANES, classificationEntriesDAO.findById(key.getId()).getTeam());
@@ -67,8 +67,8 @@ public class ClassificationEntriesDAOImplTest {
 
     @Test
     public void remove() throws Exception {
-        Key<ClassificationEntryVO> key = createClassificationEntry();
-        ClassificationEntryVO c = Ref.create(key).getValue();
+        Key<ClassificationEntry> key = createClassificationEntry();
+        ClassificationEntry c = Ref.create(key).getValue();
         classificationEntriesDAO.remove(c);
         Assert.assertEquals(0, classificationEntriesDAO.findAll().size());
     }
@@ -86,8 +86,8 @@ public class ClassificationEntriesDAOImplTest {
         Assert.assertEquals(2, classificationEntriesDAO.findAll().size());
     }
 
-    private Key<ClassificationEntryVO> createClassificationEntry() throws Exception {
-        ClassificationEntryVO c = new ClassificationEntryVO();
+    private Key<ClassificationEntry> createClassificationEntry() throws Exception {
+        ClassificationEntry c = new ClassificationEntry();
         c.setTeam(ATLETICO_MADRID);
         c.setCompetitionRef(competitionsVORef);
         return classificationEntriesDAO.create(c);

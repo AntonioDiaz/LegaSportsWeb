@@ -8,7 +8,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
 @Entity
-public class ClassificationEntryVO {
+public class ClassificationEntry {
 
 	@Id
 	private Long id;

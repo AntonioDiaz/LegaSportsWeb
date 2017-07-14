@@ -42,7 +42,7 @@ public class CompetitionsVO {
 	private List<MatchesVO> matches;
 	
 	@Ignore
-	private List<ClassificationEntryVO> classification;
+	private List<ClassificationEntry> classification;
 	/* end: attributes not need to save. */
 	
 	@OnLoad
@@ -111,11 +111,11 @@ public class CompetitionsVO {
 		this.matches = matches;
 	}
 
-	public List<ClassificationEntryVO> getClassification() {
+	public List<ClassificationEntry> getClassification() {
 		return classification;
 	}
 
-	public void setClassification(List<ClassificationEntryVO> classification) {
+	public void setClassification(List<ClassificationEntry> classification) {
 		this.classification = classification;
 	}
 }

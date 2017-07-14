@@ -67,7 +67,7 @@ public class RESTController {
 		for (CompetitionsVO competitionsVO : competitions) {
 			List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(competitionsVO.getId());			
 			competitionsVO.setMatches(matchesList);
-			List<ClassificationEntryVO> classification = classificationManager.queryClassificationBySport(competitionsVO.getId());
+			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competitionsVO.getId());
 			competitionsVO.setClassification(classification);
 		}
 		return competitions;

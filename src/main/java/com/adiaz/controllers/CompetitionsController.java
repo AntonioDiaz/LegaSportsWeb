@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.adiaz.entities.ClassificationEntryVO;
+import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.forms.CompetitionsForm;
@@ -97,7 +97,7 @@ public class CompetitionsController {
 	public ModelAndView viewClassification(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
 		CompetitionsVO competition = competitionsManager.queryCompetitionsById(idCompetition);
-		List<ClassificationEntryVO> classificationList = classificationManager.queryClassificationBySport(idCompetition);
+		List<ClassificationEntry> classificationList = classificationManager.queryClassificationBySport(idCompetition);
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("classification_list", classificationList);
 		return modelAndView;
@@ -116,7 +116,7 @@ public class CompetitionsController {
 	
 	@RequestMapping ("/doLoadClassification")
 	public String doLoadClassification(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
-		List<ClassificationEntryVO> classificationList = 
+		List<ClassificationEntry> classificationList =
 				UtilsLegaSport.parseClassification(loadMatchesForm.getMatchesTxt(), loadMatchesForm.getIdCompetition());
 		try {
 			classificationManager.add(classificationList);

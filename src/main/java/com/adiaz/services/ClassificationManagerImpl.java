@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.ClassificationEntriesDAO;
-import com.adiaz.entities.ClassificationEntryVO;
+import com.adiaz.entities.ClassificationEntry;
 
 @Service ("classificationManager")
 public class ClassificationManagerImpl implements ClassificationManager {
@@ -14,38 +14,38 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	@Autowired ClassificationEntriesDAO classificationEntriesDAO;
 	
 	@Override
-	public void add(ClassificationEntryVO item) throws Exception {
+	public void add(ClassificationEntry item) throws Exception {
 		classificationEntriesDAO.create(item);
 
 	}
 
 	@Override
-	public boolean remove(ClassificationEntryVO item) throws Exception {		
+	public boolean remove(ClassificationEntry item) throws Exception {
 		return classificationEntriesDAO.remove(item);
 	}
 
 	@Override
-	public boolean update(ClassificationEntryVO item) throws Exception {
+	public boolean update(ClassificationEntry item) throws Exception {
 		return classificationEntriesDAO.update(item);
 	}
 
 	@Override
-	public List<ClassificationEntryVO> queryClassificationBySport(Long idCompetition) {		
+	public List<ClassificationEntry> queryClassificationBySport(Long idCompetition) {
 		return classificationEntriesDAO.findByCompetitionId(idCompetition);
 	}
 
 	@Override
-	public void add(List<ClassificationEntryVO> classificationList) throws Exception {
-		for (ClassificationEntryVO classificationEntryVO : classificationList) {
-			this.add(classificationEntryVO);
+	public void add(List<ClassificationEntry> classificationList) throws Exception {
+		for (ClassificationEntry classificationEntry : classificationList) {
+			this.add(classificationEntry);
 		}
 	}
 
 	@Override
 	public void removeAll() throws Exception {
-		List<ClassificationEntryVO> list = classificationEntriesDAO.findAll();
-		for (ClassificationEntryVO classificationEntryVO : list) {
-			classificationEntriesDAO.remove(classificationEntryVO);
+		List<ClassificationEntry> list = classificationEntriesDAO.findAll();
+		for (ClassificationEntry classificationEntry : list) {
+			classificationEntriesDAO.remove(classificationEntry);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package com.adiaz.services;
 
-import com.adiaz.entities.ClassificationEntryVO;
+import com.adiaz.entities.ClassificationEntry;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyService;
@@ -31,7 +31,7 @@ public class ClassificationManagerImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(ClassificationEntryVO.class);
+        ObjectifyService.register(ClassificationEntry.class);
 
     }
 
@@ -42,7 +42,7 @@ public class ClassificationManagerImplTest {
 
     @Test
     public void add() throws Exception {
-        ClassificationEntryVO c = new ClassificationEntryVO();
+        ClassificationEntry c = new ClassificationEntry();
         c.setTeam("team");
         classificationManager.add(c);
         assertEquals(1, 1);

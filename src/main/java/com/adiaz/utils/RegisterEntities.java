@@ -40,7 +40,7 @@ public class RegisterEntities {
 		ObjectifyService.register(Category.class);
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
-		ObjectifyService.register(ClassificationEntryVO.class);
+		ObjectifyService.register(ClassificationEntry.class);
 		ObjectifyService.register(User.class);
 		ObjectifyService.register(SportCenter.class);
 		ObjectifyService.register(SportCourt.class);
@@ -88,7 +88,7 @@ public class RegisterEntities {
 		
 		try {
 			String classificationStr = UtilsLegaSport.classificationStr();
-			List<ClassificationEntryVO> classificationList = UtilsLegaSport.parseClassification(classificationStr, competition.getId());
+			List<ClassificationEntry> classificationList = UtilsLegaSport.parseClassification(classificationStr, competition.getId());
 			classificationManager.add(classificationList);
 		} catch (IOException e) {
 			e.printStackTrace();
