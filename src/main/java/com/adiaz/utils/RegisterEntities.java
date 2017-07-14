@@ -36,7 +36,7 @@ public class RegisterEntities {
 	@Autowired ClassificationManager classificationManager;	
 	
 	public void init() throws Exception {
-		ObjectifyService.register(SportVO.class);
+		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
@@ -56,10 +56,10 @@ public class RegisterEntities {
 		logger.debug("DB clean");
 		
 		/** load sports */
-		 Key<SportVO> keySport = null;
+		 Key<Sport> keySport = null;
 		 Key<Category> keyCategories = null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
-			 keySport = ofy().save().entity(new SportVO(sportName)).now();
+			 keySport = ofy().save().entity(new Sport(sportName)).now();
 		}
 		
 		/** load categories */

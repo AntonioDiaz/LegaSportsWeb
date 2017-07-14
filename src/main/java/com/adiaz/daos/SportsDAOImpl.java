@@ -4,9 +4,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.Sport;
 import org.springframework.stereotype.Repository;
 
-import com.adiaz.entities.SportVO;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -14,19 +14,19 @@ import com.googlecode.objectify.cmd.Query;
 public class SportsDAOImpl implements SportsDAO {
 
 	@Override
-	public Key<SportVO> create(SportVO sportsVO) throws Exception {
+	public Key<Sport> create(Sport sportsVO) throws Exception {
 		return ofy().save().entity(sportsVO).now();
 	}
 
 	@Override
-	public boolean update(SportVO sportVO) throws Exception {
+	public boolean update(Sport sport) throws Exception {
 		boolean updateResult;
-		if (sportVO == null || sportVO.getId() == null) {
+		if (sport == null || sport.getId() == null) {
 			updateResult = false;
 		} else {
-			SportVO c = ofy().load().type(SportVO.class).id(sportVO.getId()).now();
+			Sport c = ofy().load().type(Sport.class).id(sport.getId()).now();
 			if (c != null) {
-				ofy().save().entity(sportVO).now();
+				ofy().save().entity(sport).now();
 				updateResult = true;
 			} else {
 				updateResult = false;
@@ -36,20 +36,20 @@ public class SportsDAOImpl implements SportsDAO {
 	}
 
 	@Override
-	public boolean remove(SportVO sportVO) throws Exception {
-		ofy().delete().entity(sportVO).now();
+	public boolean remove(Sport sport) throws Exception {
+		ofy().delete().entity(sport).now();
 		return true;
 	}
 
 	@Override
-	public List<SportVO> findAllSports() {
-		Query<SportVO> query = ofy().load().type(SportVO.class);
+	public List<Sport> findAllSports() {
+		Query<Sport> query = ofy().load().type(Sport.class);
 		return query.order("name").list();	
 	}
 	
 	@Override 
-	public SportVO findSportById(Long id) {
-		SportVO sportVO = ofy().load().type(SportVO.class).id(id).now();
-		return sportVO;
+	public Sport findSportById(Long id) {
+		Sport sport = ofy().load().type(Sport.class).id(id).now();
+		return sport;
 	}
 }

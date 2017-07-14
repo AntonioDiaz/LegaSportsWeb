@@ -2,11 +2,11 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.entities.Sport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.SportsDAO;
-import com.adiaz.entities.SportVO;
 import com.googlecode.objectify.Key;
 
 @Service ("sportsManager")
@@ -16,46 +16,46 @@ public class SportsManagerImpl implements SportsManager {
 	SportsDAO sportsDAO;
 	
 	@Override
-	public List<SportVO> querySports() {
+	public List<Sport> querySports() {
 		return sportsDAO.findAllSports();
 	}
 
 	@Override
-	public SportVO querySportsById(Long id) {
+	public Sport querySportsById(Long id) {
 		return sportsDAO.findSportById(id);
 	}
 	
 	@Override
-	public Key<SportVO> add(SportVO sportVO) throws Exception {
-		return sportsDAO.create(sportVO);
+	public Key<Sport> add(Sport sport) throws Exception {
+		return sportsDAO.create(sport);
 	}
 
 	@Override
-	public boolean remove(SportVO sportVO) throws Exception {
-		return sportsDAO.remove(sportVO);
+	public boolean remove(Sport sport) throws Exception {
+		return sportsDAO.remove(sport);
 	}
 
 	@Override
-	public boolean update(SportVO sportVO) throws Exception {
-		return sportsDAO.update(sportVO);
+	public boolean update(Sport sport) throws Exception {
+		return sportsDAO.update(sport);
 	}
 
 	@Override
-	public SportVO querySportsByName(String sportName) {
-		SportVO sportVO = null;
-		List<SportVO> allSports = sportsDAO.findAllSports();
-		for (SportVO sportTemp : allSports) {
+	public Sport querySportsByName(String sportName) {
+		Sport sport = null;
+		List<Sport> allSports = sportsDAO.findAllSports();
+		for (Sport sportTemp : allSports) {
 			if (sportName.equalsIgnoreCase(sportTemp.getName())) {
-				sportVO = sportTemp;
+				sport = sportTemp;
 			}
 		}
-		return sportVO;
+		return sport;
 	}
 
 	@Override
 	public void removeAll() throws Exception {
-		List<SportVO> sports = sportsDAO.findAllSports();
-		for (SportVO sport : sports) {
+		List<Sport> sports = sportsDAO.findAllSports();
+		for (Sport sport : sports) {
 			sportsDAO.remove(sport);
 		}
 	}

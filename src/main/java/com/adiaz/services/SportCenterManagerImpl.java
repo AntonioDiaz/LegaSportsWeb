@@ -57,7 +57,7 @@ public class SportCenterManagerImpl implements SportCenterManager {
 //		SportCourt sportCourt = new SportCourt();
 //		sportCourt.setName(sportsCourtForm.getName());		
 //		for (Long idSport : sportsCourtForm.getCourtsSports()) {
-//			Key<SportVO> newSport = Key.create(SportVO.class, idSport);
+//			Key<Sport> newSport = Key.create(Sport.class, idSport);
 //			sportCourt.getSports().add(Ref.create(newSport));
 //		}
 //		

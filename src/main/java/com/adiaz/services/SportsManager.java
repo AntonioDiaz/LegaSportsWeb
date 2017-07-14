@@ -2,15 +2,15 @@ package com.adiaz.services;
 
 import java.util.List;
 
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.googlecode.objectify.Key;
 
 public interface SportsManager {	
-	public List<SportVO> querySports();
-	public SportVO querySportsById(Long id);
-	public SportVO querySportsByName(String sportName);
-	public Key<SportVO> add(SportVO sportVO) throws Exception;	
-	public boolean remove(SportVO sportVO) throws Exception;	
-	public boolean update(SportVO sportVO) throws Exception;
+	public List<Sport> querySports();
+	public Sport querySportsById(Long id);
+	public Sport querySportsByName(String sportName);
+	public Key<Sport> add(Sport sport) throws Exception;
+	public boolean remove(Sport sport) throws Exception;
+	public boolean update(Sport sport) throws Exception;
 	public void removeAll() throws Exception;
 }

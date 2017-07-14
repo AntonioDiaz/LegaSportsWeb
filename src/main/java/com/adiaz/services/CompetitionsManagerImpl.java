@@ -2,6 +2,7 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.entities.Sport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,6 @@ import com.adiaz.daos.MatchesDAO;
 import com.adiaz.entities.Category;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
-import com.adiaz.entities.SportVO;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
@@ -45,8 +45,8 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	}
 
 	@Override
-	public List<CompetitionsVO> queryCompetitionsBySport(SportVO sportVO) {
-		return competitionsDAO.findCompetitionsBySport(sportVO);
+	public List<CompetitionsVO> queryCompetitionsBySport(Sport sport) {
+		return competitionsDAO.findCompetitionsBySport(sport);
 	}
 	
 	public CompetitionsVO queryCompetitionsById(long id) {
@@ -64,7 +64,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	public void add(String name, Long sportId, Long categoryId) throws Exception {
 		CompetitionsVO competitionsVO = new CompetitionsVO();
 		competitionsVO.setName(name);
-		Key<SportVO> keySport = Key.create(SportVO.class, sportId);
+		Key<Sport> keySport = Key.create(Sport.class, sportId);
 		competitionsVO.setSport(Ref.create(keySport));
 		Key<Category> keyCategory = Key.create(Category.class, categoryId);
 		competitionsVO.setCategory(Ref.create(keyCategory));

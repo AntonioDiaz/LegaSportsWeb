@@ -7,9 +7,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class SportVO implements Serializable {
+public class Sport implements Serializable {
 
-	//	private static final Logger log = Logger.getLogger(SportVO.class.getName());
+	//	private static final Logger log = Logger.getLogger(Sport.class.getName());
 	
 	private static final long serialVersionUID = 1L;
 
@@ -19,11 +19,11 @@ public class SportVO implements Serializable {
 	@Index
 	private String name;
 
-	public SportVO() {
+	public Sport() {
 		super();
 	}	
 	
-	public SportVO(String name) {
+	public Sport(String name) {
 		super();
 		this.name = name;
 	}

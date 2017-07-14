@@ -2,7 +2,7 @@ package com.adiaz.daos;
 
 import com.adiaz.entities.Category;
 import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -36,27 +36,27 @@ public class CompetitionsDAOImplTest {
     SportsDAO sportsDAO;
     
     private Ref<Category> refCategory;
-    private Ref<SportVO> refSportBasket;
-    private Ref<SportVO> refSportFutbol;
+    private Ref<Sport> refSportBasket;
+    private Ref<Sport> refSportFutbol;
 
     @Before
     public void setUp() throws Exception {
         helper.setUp();
         ObjectifyService.register(CompetitionsVO.class);
         ObjectifyService.register(Category.class);
-        ObjectifyService.register(SportVO.class);
+        ObjectifyService.register(Sport.class);
         Category category = new Category();
         category.setName("Cadete");
         Key<Category> categoryKey = categoriesDAO.create(category);
         refCategory = Ref.create(categoryKey);
-        SportVO sport = new SportVO();
+        Sport sport = new Sport();
         sport.setName("Basket");
-        Key<SportVO> sportVOKey = sportsDAO.create(sport);
-        refSportBasket = Ref.create(sportVOKey);
-        sport = new SportVO();
+        Key<Sport> sportKey = sportsDAO.create(sport);
+        refSportBasket = Ref.create(sportKey);
+        sport = new Sport();
         sport.setName("Futbol");
-        sportVOKey = sportsDAO.create(sport);
-        refSportFutbol = Ref.create(sportVOKey);
+        sportKey = sportsDAO.create(sport);
+        refSportFutbol = Ref.create(sportKey);
     }
 
     @After

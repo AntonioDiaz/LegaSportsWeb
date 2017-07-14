@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.Category;
 import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -44,11 +44,11 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 	
 	@Override
-	public List<CompetitionsVO> findCompetitionsBySport(SportVO sportVO) {
+	public List<CompetitionsVO> findCompetitionsBySport(Sport sport) {
 		Query<CompetitionsVO> query = ofy().load().type(CompetitionsVO.class);
 		List<CompetitionsVO> list = null;
-		if (sportVO!=null) {
-			Key<SportVO> key = Key.create(SportVO.class, sportVO.getId());
+		if (sport !=null) {
+			Key<Sport> key = Key.create(Sport.class, sport.getId());
 			query.ancestor(key);
 			list  = query.list();
 		}
@@ -59,7 +59,7 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	public List<CompetitionsVO> findCompetitions(Long sportId, Long categoryId) {
 		Query<CompetitionsVO> query = ofy().load().type(CompetitionsVO.class);
 		if (sportId!=null) {
-			Key<SportVO> key = Key.create(SportVO.class, sportId);
+			Key<Sport> key = Key.create(Sport.class, sportId);
 			query = query.filter("sport", key);
 		}
 		if (categoryId!=null) {

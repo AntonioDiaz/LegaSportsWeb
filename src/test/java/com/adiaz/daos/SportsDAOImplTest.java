@@ -1,6 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -33,7 +33,7 @@ public class SportsDAOImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(SportVO.class);
+        ObjectifyService.register(Sport.class);
     }
 
     @After
@@ -44,17 +44,17 @@ public class SportsDAOImplTest {
     @Test
     public void create() throws Exception {
         Assert.assertEquals(0, sportsDAO.findAllSports().size());
-        Key<SportVO> key = createSport();
+        Key<Sport> key = createSport();
         Assert.assertEquals(1, sportsDAO.findAllSports().size());
-        SportVO sport = sportsDAO.findSportById(key.getId());
+        Sport sport = sportsDAO.findSportById(key.getId());
         Assert.assertEquals(key.getId(), (long)sport.getId());
         Assert.assertEquals(SPORT_BALONCESTO, sport.getName());
     }
 
     @Test
     public void update() throws Exception {
-        Key<SportVO> key = createSport();
-        SportVO sport = sportsDAO.findSportById(key.getId());
+        Key<Sport> key = createSport();
+        Sport sport = sportsDAO.findSportById(key.getId());
         sport.setName(SPORT_FUTBOL);
         sportsDAO.update(sport);
         sport = sportsDAO.findSportById(key.getId());
@@ -63,8 +63,8 @@ public class SportsDAOImplTest {
 
     @Test
     public void remove() throws Exception {
-        Key<SportVO> key = createSport();
-        SportVO sport = sportsDAO.findSportById(key.getId());
+        Key<Sport> key = createSport();
+        Sport sport = sportsDAO.findSportById(key.getId());
         sportsDAO.remove(sport);
         sport = sportsDAO.findSportById(key.getId());
         Assert.assertTrue(sport==null);
@@ -79,12 +79,12 @@ public class SportsDAOImplTest {
 
     @Test
     public void findSportById() throws Exception {
-        Key<SportVO> key = createSport();
+        Key<Sport> key = createSport();
         Assert.assertEquals(key.getId(), (long)sportsDAO.findSportById(key.getId()).getId());
     }
 
-    private Key<SportVO> createSport() throws Exception {
-        SportVO sport = new SportVO();
+    private Key<Sport> createSport() throws Exception {
+        Sport sport = new Sport();
         sport.setName(SPORT_BALONCESTO);
         return sportsDAO.create(sport);
     }

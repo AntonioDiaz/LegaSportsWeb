@@ -16,7 +16,7 @@ import com.adiaz.entities.Category;
 import com.adiaz.entities.ClassificationEntryVO;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
@@ -99,7 +99,7 @@ public class UtilsLegaSport {
 	}
 	
 	public static void main(String[] args) {
-		ObjectifyService.register(SportVO.class);
+		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);

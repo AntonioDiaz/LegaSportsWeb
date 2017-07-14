@@ -1,8 +1,8 @@
 package com.adiaz.forms;
 
+import com.adiaz.entities.Sport;
 import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.SportCourt;
-import com.adiaz.entities.SportVO;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
@@ -65,7 +65,7 @@ public class SportsCourtForm {
 		sportCourt.setId(this.getIdCourt());
 		sportCourt.setName(this.getName());	
 		for (Long idSport : this.getCourtsSports()) {
-			Key<SportVO> newSport = Key.create(SportVO.class, idSport);
+			Key<Sport> newSport = Key.create(Sport.class, idSport);
 			sportCourt.getSports().add(Ref.create(newSport));
 		}		
 		Key<SportCenter> refCenter = Key.create(SportCenter.class, this.getIdCenter());

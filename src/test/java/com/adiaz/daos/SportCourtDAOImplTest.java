@@ -2,7 +2,7 @@ package com.adiaz.daos;
 
 import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.SportCourt;
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -47,8 +47,8 @@ public class SportCourtDAOImplTest {
 
     private Ref<SportCenter> centerRefLaCantera;
     private Ref<SportCenter> centerRefPabellonEuropa;
-    private Ref<SportVO> sportVORefFutbol;
-    private Ref<SportVO> sportVORefBasket;
+    private Ref<Sport> sportRefFutbol;
+    private Ref<Sport> sportRefBasket;
 
 
 
@@ -57,7 +57,7 @@ public class SportCourtDAOImplTest {
         helper.setUp();
         ObjectifyService.register(SportCourt.class);
         ObjectifyService.register(SportCenter.class);
-        ObjectifyService.register(SportVO.class);
+        ObjectifyService.register(Sport.class);
         /* create center 01*/
         SportCenter sportCenter = new SportCenter();
         sportCenter.setName(LA_CANTERA);
@@ -69,15 +69,15 @@ public class SportCourtDAOImplTest {
         sportCenterKey = sportCenterDAO.create(sportCenter);
         centerRefPabellonEuropa = Ref.create(sportCenterKey);
         /* create sport: basket */
-        SportVO sportVO = new SportVO();
-        sportVO.setName(BASKET);
-        Key<SportVO> sportVOKey = sportsDAO.create(sportVO);
-        sportVORefBasket = Ref.create(sportVOKey);
+        Sport sport = new Sport();
+        sport.setName(BASKET);
+        Key<Sport> sportKey = sportsDAO.create(sport);
+        sportRefBasket = Ref.create(sportKey);
         /* create sport: futbol */
-        sportVO = new SportVO();
-        sportVO.setName(FUTBOL);
-        sportVOKey = sportsDAO.create(sportVO);
-        sportVORefFutbol = Ref.create(sportVOKey);
+        sport = new Sport();
+        sport.setName(FUTBOL);
+        sportKey = sportsDAO.create(sport);
+        sportRefFutbol = Ref.create(sportKey);
     }
 
     @After
@@ -169,10 +169,10 @@ public class SportCourtDAOImplTest {
         SportCourt sportCourt = new SportCourt();
         sportCourt.setName(SPORTCOURT_NAME_1);
         sportCourt.setCenter(centerRefLaCantera);
-        List<Ref<SportVO>> list = new ArrayList<>();
-        list.add(sportVORefFutbol);
-        sportCourt.getSports().add(sportVORefBasket);
-        sportCourt.getSports().add(sportVORefFutbol);
+        List<Ref<Sport>> list = new ArrayList<>();
+        list.add(sportRefFutbol);
+        sportCourt.getSports().add(sportRefBasket);
+        sportCourt.getSports().add(sportRefFutbol);
         return sportCourtDAO.create(sportCourt);
     }
 
@@ -181,10 +181,10 @@ public class SportCourtDAOImplTest {
         SportCourt sportCourt = new SportCourt();
         sportCourt.setName(SPORTCOURT_NAME_1);
         sportCourt.setCenter(centerRefLaCantera);
-        List<Ref<SportVO>> list = new ArrayList<>();
-        list.add(sportVORefFutbol);
-        sportCourt.getSports().add(sportVORefBasket);
-        sportCourt.getSports().add(sportVORefFutbol);
+        List<Ref<Sport>> list = new ArrayList<>();
+        list.add(sportRefFutbol);
+        sportCourt.getSports().add(sportRefBasket);
+        sportCourt.getSports().add(sportRefFutbol);
         return sportCourtDAO.createReturnRef(sportCourt);
     }
 }

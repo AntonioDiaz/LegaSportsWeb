@@ -3,7 +3,7 @@ package com.adiaz.services;
 import java.util.List;
 
 import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 
 public interface CompetitionsManager {
 	public void add(CompetitionsVO item) throws Exception;
@@ -13,6 +13,6 @@ public interface CompetitionsManager {
 	public List<CompetitionsVO> queryCompetitions();
 	public List<CompetitionsVO> queryCompetitions(Long idSport, Long idCategory);
 	public CompetitionsVO queryCompetitionsById(long id);
-	public List<CompetitionsVO> queryCompetitionsBySport(SportVO sportVO);
+	public List<CompetitionsVO> queryCompetitionsBySport(Sport sport);
 	public void removeAll() throws Exception;
 }

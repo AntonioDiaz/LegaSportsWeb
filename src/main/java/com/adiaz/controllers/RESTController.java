@@ -1,6 +1,8 @@
 package com.adiaz.controllers;
 
 import java.util.List;
+
+import com.adiaz.entities.*;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.ClassificationEntryVO;
-import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.MatchesVO;
-import com.adiaz.entities.SportVO;
+import com.adiaz.entities.Sport;
 import com.adiaz.services.CategoriesManager;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
@@ -33,25 +31,25 @@ public class RESTController {
 	private static final Logger logger = Logger.getLogger(RESTController.class);
 		
 	@RequestMapping(value = "/sports/{id}", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SportVO> getSportsById(@PathVariable("id") long id) {
-		ResponseEntity<SportVO> response;
-		SportVO sport = sportsManager.querySportsById(id);
+	public ResponseEntity<Sport> getSportsById(@PathVariable("id") long id) {
+		ResponseEntity<Sport> response;
+		Sport sport = sportsManager.querySportsById(id);
 		if (sport==null) {
-			response = new ResponseEntity<SportVO>(HttpStatus.NOT_FOUND);
+			response = new ResponseEntity<Sport>(HttpStatus.NOT_FOUND);
 		} else {
-			response = new ResponseEntity<SportVO>(sport, HttpStatus.OK);
+			response = new ResponseEntity<Sport>(sport, HttpStatus.OK);
 		}
 		return response;
 	}
 	
 	@RequestMapping(value = "/sports_name/{name}", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SportVO> getSportsById(@PathVariable("name") String name) {
-		ResponseEntity<SportVO> response;
-		SportVO sport = sportsManager.querySportsByName(name);
+	public ResponseEntity<Sport> getSportsById(@PathVariable("name") String name) {
+		ResponseEntity<Sport> response;
+		Sport sport = sportsManager.querySportsByName(name);
 		if (sport==null) {
-			response = new ResponseEntity<SportVO>(HttpStatus.NOT_FOUND);
+			response = new ResponseEntity<Sport>(HttpStatus.NOT_FOUND);
 		} else {
-			response = new ResponseEntity<SportVO>(sport, HttpStatus.OK);
+			response = new ResponseEntity<Sport>(sport, HttpStatus.OK);
 		}
 		return response;
 	}
@@ -96,8 +94,8 @@ public class RESTController {
 	}
 	
 	@RequestMapping(value="/sports",  method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<SportVO> listSports() {
-		List<SportVO> sportsList = sportsManager.querySports(); 
+	public List<Sport> listSports() {
+		List<Sport> sportsList = sportsManager.querySports();
 		return sportsList;
 	}
 

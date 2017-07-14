@@ -20,14 +20,14 @@ public class SportCourt {
 	private String name;
 	
 	@Load
-	private List<Ref<SportVO>> sports = new ArrayList<Ref<SportVO>>();
+	private List<Ref<Sport>> sports = new ArrayList<Ref<Sport>>();
 
 	@Load
 	@Index
 	private Ref<SportCenter> center; 
 	
 
-	public List<SportVO> getSportsDeref() { 
+	public List<Sport> getSportsDeref() {
 		return Deref.deref(sports); 
 	}
 	
@@ -41,12 +41,12 @@ public class SportCourt {
 	}
 
 
-	public List<Ref<SportVO>> getSports() {
+	public List<Ref<Sport>> getSports() {
 		return sports;
 	}
 
 
-	public void setSports(List<Ref<SportVO>> sports) {
+	public void setSports(List<Ref<Sport>> sports) {
 		this.sports = sports;
 	}
 
