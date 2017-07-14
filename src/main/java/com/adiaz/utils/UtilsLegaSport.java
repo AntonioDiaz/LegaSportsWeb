@@ -23,7 +23,7 @@ public class UtilsLegaSport {
 	
 	//private static final Logger log = Logger.getLogger(UtilsLegaSport.class.getName());
 
-	public static List<MatchesVO> parseCalendar(Competition competition) {
+	public static List<Match> parseCalendar(Competition competition) {
 		String calendarTxt = "";
 		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
 		File file = new File(classLoader.getResource("static_calendar.txt").getFile());
@@ -40,8 +40,8 @@ public class UtilsLegaSport {
 		return parseCalendar (calendarTxt, competition);
 	}
 	
-	public static List<MatchesVO> parseCalendar(String matchesTxt, Competition competition) {
-		List<MatchesVO> matchesList = new ArrayList<>();
+	public static List<Match> parseCalendar(String matchesTxt, Competition competition) {
+		List<Match> matchesList = new ArrayList<>();
 		String[] split = matchesTxt.split("\\r\\n");
 		int week = 0;
 		for (int i = 0; i < split.length; i++) {
@@ -50,24 +50,24 @@ public class UtilsLegaSport {
 				week++;
 			} else {
 				String[] strings = line.split("\\t");
-				MatchesVO matchesVO = new MatchesVO();
-				matchesVO.setWeek(week);
-				matchesVO.setTeamLocal(strings[2]);
-				matchesVO.setTeamVisitor(strings[3]);
+				Match match = new Match();
+				match.setWeek(week);
+				match.setTeamLocal(strings[2]);
+				match.setTeamVisitor(strings[3]);
 				if (strings.length>=5) {
-					matchesVO.setPlace(strings[4]);
+					match.setPlace(strings[4]);
 				}
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 				Date myDate;
 				try {
 					myDate = dateFormat.parse(strings[0] + " " + strings[1]);
-					matchesVO.setDate(myDate);
+					match.setDate(myDate);
 				} catch (ParseException e) {				
 					e.printStackTrace();
 				}
 				Key<Competition> competitionKey = Key.create(Competition.class, competition.getId());
-				matchesVO.setCompetitionRef(Ref.create(competitionKey));
-				matchesList.add(matchesVO);
+				match.setCompetitionRef(Ref.create(competitionKey));
+				matchesList.add(match);
 			}				
 		}
 		return matchesList;
@@ -99,7 +99,7 @@ public class UtilsLegaSport {
 		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
 		ObjectifyService.register(Competition.class);
-		ObjectifyService.register(MatchesVO.class);
+		ObjectifyService.register(Match.class);
 		System.out.println("parse calendar....");
 		String calendarTxt = classificationStr();
 		System.out.println(UtilsLegaSport.parseClassification(calendarTxt, 1L).size());

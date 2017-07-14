@@ -65,7 +65,7 @@ public class RESTController {
 		logger.debug("*competitions");
 		List<Competition> competitions = competitionsManager.queryCompetitions();
 		for (Competition competition : competitions) {
-			List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(competition.getId());
+			List<Match> matchesList = matchesManager.queryMatchesByCompetition(competition.getId());
 			competition.setMatches(matchesList);
 			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competition.getId());
 			competition.setClassification(classification);
@@ -82,14 +82,14 @@ public class RESTController {
 	}	
 	
 	@RequestMapping(value="/matches", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<MatchesVO> getMatches() {
-		List<MatchesVO> matches = matchesManager.queryMatches();
+	public List<Match> getMatches() {
+		List<Match> matches = matchesManager.queryMatches();
 		return matches;
 	}	
 	
 	@RequestMapping(value="/matches/{competition_id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<MatchesVO> getMatches(@PathVariable("competition_id") Long competitionId) {
-		List<MatchesVO> matches = matchesManager.queryMatchesByCompetition(competitionId);		
+	public List<Match> getMatches(@PathVariable("competition_id") Long competitionId) {
+		List<Match> matches = matchesManager.queryMatchesByCompetition(competitionId);
 		return matches;
 	}
 	
@@ -100,20 +100,20 @@ public class RESTController {
 	}
 
     @RequestMapping (value = "/match/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MatchesVO> getMatch(@PathVariable("id") Long id) {
-        MatchesVO matchesVO = matchesManager.queryMatchesById(id);
-        if (matchesVO==null) {
-            return new ResponseEntity<MatchesVO>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Match> getMatch(@PathVariable("id") Long id) {
+        Match match = matchesManager.queryMatchesById(id);
+        if (match ==null) {
+            return new ResponseEntity<Match>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<MatchesVO>(matchesVO, HttpStatus.OK);
+        return new ResponseEntity<Match>(match, HttpStatus.OK);
     }
 
 	// TODO: 10/07/2017 IMPORTAN protect this call in production environment. 
 	@RequestMapping (value = "/match/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<MatchesVO> updateMatchScore(@PathVariable("id") Long id, @RequestBody MatchesVO newMatchVO){
-        MatchesVO match = matchesManager.queryMatchesById(id);
+	public ResponseEntity<Match> updateMatchScore(@PathVariable("id") Long id, @RequestBody Match newMatchVO){
+        Match match = matchesManager.queryMatchesById(id);
         if (match==null) {
-            return new ResponseEntity<MatchesVO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Match>(HttpStatus.NOT_FOUND);
         }
         match.setScoreLocal(newMatchVO.getScoreLocal());
         match.setScoreVisitor(newMatchVO.getScoreVisitor());
@@ -121,9 +121,9 @@ public class RESTController {
             boolean update = matchesManager.update(match);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<MatchesVO>(HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<Match>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<MatchesVO>(match, HttpStatus.OK);
+        return new ResponseEntity<Match>(match, HttpStatus.OK);
 	}
 
 }

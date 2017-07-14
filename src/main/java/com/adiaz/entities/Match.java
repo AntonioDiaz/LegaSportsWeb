@@ -13,7 +13,7 @@ import com.googlecode.objectify.annotation.OnLoad;
 
 
 @Entity
-public class MatchesVO {
+public class Match {
 
 	@Id
 	private Long id;

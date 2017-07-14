@@ -39,7 +39,7 @@ public class RegisterEntities {
 		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
 		ObjectifyService.register(Competition.class);
-		ObjectifyService.register(MatchesVO.class);
+		ObjectifyService.register(Match.class);
 		ObjectifyService.register(ClassificationEntry.class);
 		ObjectifyService.register(User.class);
 		ObjectifyService.register(SportCenter.class);
@@ -78,7 +78,7 @@ public class RegisterEntities {
 		competition.setSport(Ref.create(keySport));
 		competitionsManager.add(competition);
 		
-		List<MatchesVO> matchesList = UtilsLegaSport.parseCalendar(competition);
+		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition);
 		try {
 			matchesManager.add(matchesList);
 			logger.debug("matches inserted");

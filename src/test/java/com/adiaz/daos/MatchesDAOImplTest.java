@@ -1,7 +1,7 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.Competition;
-import com.adiaz.entities.MatchesVO;
+import com.adiaz.entities.Match;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -37,7 +37,7 @@ public class MatchesDAOImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(MatchesVO.class);
+        ObjectifyService.register(Match.class);
         ObjectifyService.register(Competition.class);
         Competition competition = new Competition();
         competition.setName(COPA_PRIMAVERA);
@@ -58,8 +58,8 @@ public class MatchesDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        Key<MatchesVO> key = createMatch();
-        MatchesVO match = Ref.create(key).getValue();
+        Key<Match> key = createMatch();
+        Match match = Ref.create(key).getValue();
         match.setTeamLocal(LEGANES);
         matchesDAO.update(match);
         Assert.assertEquals(LEGANES, matchesDAO.findById(match.getId()).getTeamLocal());
@@ -68,8 +68,8 @@ public class MatchesDAOImplTest {
 
     @Test
     public void remove() throws Exception {
-        Key<MatchesVO> key = createMatch();
-        MatchesVO match = Ref.create(key).getValue();
+        Key<Match> key = createMatch();
+        Match match = Ref.create(key).getValue();
         matchesDAO.remove(match);
         Assert.assertEquals(0, matchesDAO.findAll().size());
     }
@@ -90,13 +90,13 @@ public class MatchesDAOImplTest {
 
     @Test
     public void findById() throws Exception {
-        Key<MatchesVO> key = createMatch();
-        MatchesVO match = Ref.create(key).getValue();
+        Key<Match> key = createMatch();
+        Match match = Ref.create(key).getValue();
         Assert.assertEquals(match.getId(), matchesDAO.findById(match.getId()).getId());
     }
 
-    private Key<MatchesVO> createMatch() throws Exception {
-        MatchesVO match = new MatchesVO();
+    private Key<Match> createMatch() throws Exception {
+        Match match = new Match();
         match.setTeamLocal(ATLETICO_MADRID);
         match.setCompetitionRef(competitionRef);
         return matchesDAO.create(match);

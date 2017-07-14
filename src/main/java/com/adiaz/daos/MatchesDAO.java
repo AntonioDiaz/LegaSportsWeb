@@ -2,13 +2,13 @@ package com.adiaz.daos;
 
 import java.util.List;
 
-import com.adiaz.entities.MatchesVO;
+import com.adiaz.entities.Match;
 
-public interface MatchesDAO extends GenericDAO<MatchesVO> {	
+public interface MatchesDAO extends GenericDAO<Match> {
 	
-	public List<MatchesVO> findByCompetition(Long competitionId);
+	public List<Match> findByCompetition(Long competitionId);
 
-	public List<MatchesVO> findAll();
+	public List<Match> findAll();
 
-    MatchesVO findById(Long id);
+    Match findById(Long id);
 }

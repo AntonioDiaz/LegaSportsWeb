@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.MatchesDAO;
-import com.adiaz.entities.MatchesVO;
+import com.adiaz.entities.Match;
 
 
 @Service ("matchesManager")
@@ -18,56 +18,56 @@ public class MatchesManagerImpl implements MatchesManager {
 	MatchesDAO matchesDAO;
 	
 	@Override
-	public void add(MatchesVO item) throws Exception {
+	public void add(Match item) throws Exception {
 		matchesDAO.create(item);
 	}
 
 	@Override
-	public boolean remove(MatchesVO item) throws Exception {
+	public boolean remove(Match item) throws Exception {
 		return matchesDAO.remove(item);
 	}
 
 	@Override
-	public boolean update(MatchesVO item) throws Exception {
+	public boolean update(Match item) throws Exception {
 		return matchesDAO.update(item);
 	}
 
 	@Override
-	public List<MatchesVO> queryMatchesByCompetition(Long competitionId) {
+	public List<Match> queryMatchesByCompetition(Long competitionId) {
 		return matchesDAO.findByCompetition(competitionId);
 	}
 
 	@Override
-	public void add(List<MatchesVO> matchesList) throws Exception {
-		for (MatchesVO matchesVO : matchesList) {
-			this.add(matchesVO);
+	public void add(List<Match> matchesList) throws Exception {
+		for (Match match : matchesList) {
+			this.add(match);
 		}
 	}
 
 	@Override
-	public List<MatchesVO> queryMatches() {
+	public List<Match> queryMatches() {
 		return matchesDAO.findAll();
 	}
 
 	@Override
-	public MatchesVO queryMatchesById(Long id) {
+	public Match queryMatchesById(Long id) {
 		return matchesDAO.findById(id);
 	}
 
 	@Override
-    public Integer howManyWeek(List<MatchesVO> matchesList) {
+    public Integer howManyWeek(List<Match> matchesList) {
         Set<Integer> diferentsWeeks = new HashSet<Integer>();
-        for (MatchesVO matchesVO : matchesList) {
-            diferentsWeeks.add(matchesVO.getWeek());
+        for (Match match : matchesList) {
+            diferentsWeeks.add(match.getWeek());
         }
         return diferentsWeeks.size();
     }
 
     @Override
 	public void removeAll() throws Exception {
-		List<MatchesVO> queryAllMatches = matchesDAO.findAll();
-		for (MatchesVO matchesVO : queryAllMatches) {
-			matchesDAO.remove(matchesVO);
+		List<Match> queryAllMatches = matchesDAO.findAll();
+		for (Match match : queryAllMatches) {
+			matchesDAO.remove(match);
 		}		
 	}
 

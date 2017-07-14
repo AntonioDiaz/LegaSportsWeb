@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.MatchesVO;
+import com.adiaz.entities.Match;
 import com.adiaz.forms.CompetitionsForm;
 import com.adiaz.forms.CompetitionsFormValidator;
 import com.adiaz.forms.LoadMatchesForm;
@@ -85,7 +85,7 @@ public class CompetitionsController {
 	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
 		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
-		List<MatchesVO> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
+		List<Match> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
         Integer howManyWeek = matchesManager.howManyWeek(matchesList);
         modelAndView.addObject("competition", competitionsById);
 		modelAndView.addObject("matches_list", matchesList);
@@ -140,7 +140,7 @@ public class CompetitionsController {
 	@RequestMapping ("/doLoadCalendar")
 	public String doLoadCalendar(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
 		Competition competitionsById = competitionsManager.queryCompetitionsById(loadMatchesForm.getIdCompetition());
-		List<MatchesVO> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById);
+		List<Match> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById);
 		try {
 			matchesManager.add(matchesList);
 		} catch (Exception e) {

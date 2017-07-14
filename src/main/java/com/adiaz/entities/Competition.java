@@ -39,7 +39,7 @@ public class Competition {
 	private Category categoryEntity;
 	
 	@Ignore
-	private List<MatchesVO> matches;
+	private List<Match> matches;
 	
 	@Ignore
 	private List<ClassificationEntry> classification;
@@ -103,11 +103,11 @@ public class Competition {
 		this.categoryEntity = categoryEntity;
 	}
 
-	public List<MatchesVO> getMatches() {
+	public List<Match> getMatches() {
 		return matches;
 	}
 
-	public void setMatches(List<MatchesVO> matches) {
+	public void setMatches(List<Match> matches) {
 		this.matches = matches;
 	}
 

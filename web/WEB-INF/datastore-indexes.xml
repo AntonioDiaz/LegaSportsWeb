@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="true">
-    <datastore-index kind="MatchesVO" ancestor="false" source="manual">
+    <datastore-index kind="Match" ancestor="false" source="manual">
         <property name="competitionRef" direction="asc"/>
         <property name="week" direction="asc"/>
         <property name="date" direction="asc"/>

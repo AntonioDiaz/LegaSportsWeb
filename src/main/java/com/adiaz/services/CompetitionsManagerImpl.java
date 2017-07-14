@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.MatchesDAO;
 import com.adiaz.entities.Category;
-import com.adiaz.entities.MatchesVO;
+import com.adiaz.entities.Match;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
@@ -27,9 +27,9 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public boolean remove(Competition competition) throws Exception {
-		List<MatchesVO> queryMatchesByCompetition = matchesDAO.findByCompetition(competition.getId());
-		for (MatchesVO matchesVO : queryMatchesByCompetition) {
-			matchesDAO.remove(matchesVO);
+		List<Match> queryMatchesByCompetition = matchesDAO.findByCompetition(competition.getId());
+		for (Match match : queryMatchesByCompetition) {
+			matchesDAO.remove(match);
 		}
 		return competitionsDAO.remove(competition);		
 	}
