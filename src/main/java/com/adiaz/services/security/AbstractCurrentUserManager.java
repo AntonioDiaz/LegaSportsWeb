@@ -1,13 +1,12 @@
 package com.adiaz.services.security;
 
+import com.adiaz.entities.User;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.adiaz.entities.UsersVO;
 
 public abstract class AbstractCurrentUserManager implements CurrentUserManager {	
 	@Override
-	public UsersVO getEnabledUser() {
-		UsersVO principal = (UsersVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public User getEnabledUser() {
+		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return principal;
 	}
 }

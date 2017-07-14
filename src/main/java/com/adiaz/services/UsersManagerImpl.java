@@ -2,11 +2,11 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.UsersDAO;
-import com.adiaz.entities.UsersVO;
 
 @Service ("usersManager")
 public class UsersManagerImpl implements UsersManager {
@@ -15,39 +15,39 @@ public class UsersManagerImpl implements UsersManager {
 	UsersDAO usersDAO;
 	
 	@Override
-	public List<UsersVO> queryAllUsers() {		
+	public List<User> queryAllUsers() {
 		return usersDAO.findAllUsers();
 	}
 
 	@Override
-	public UsersVO queryUserByName(String userName) {
+	public User queryUserByName(String userName) {
 		return usersDAO.findUser(userName);
 	}
 
 	@Override
-	public void addUser(UsersVO usersVO) throws Exception {
-		usersDAO.create(usersVO);
+	public void addUser(User user) throws Exception {
+		usersDAO.create(user);
 	}
 
 	@Override
 	public boolean removeUser(String userName) throws Exception {
 		boolean userDeleted = false;
-		UsersVO usersVO = usersDAO.findUser(userName);		
-		if (usersVO!=null) {
-			userDeleted = usersDAO.remove(usersVO);
+		User user = usersDAO.findUser(userName);
+		if (user !=null) {
+			userDeleted = usersDAO.remove(user);
 		}
 		return userDeleted;
 	}
 
 	@Override
-	public boolean updateUser(UsersVO userVO) throws Exception{		
-		return usersDAO.update(userVO);
+	public boolean updateUser(User user) throws Exception{
+		return usersDAO.update(user);
 	}
 
 	@Override
 	public void removeAll() throws Exception {
-		List<UsersVO> users = usersDAO.findAllUsers();
-		for (UsersVO user : users) {
+		List<User> users = usersDAO.findAllUsers();
+		for (User user : users) {
 			usersDAO.remove(user);
 		}		
 	}

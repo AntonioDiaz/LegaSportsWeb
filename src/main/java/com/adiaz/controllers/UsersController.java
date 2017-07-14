@@ -1,5 +1,6 @@
 package com.adiaz.controllers;
 
+import com.adiaz.entities.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.adiaz.entities.UsersVO;
 import com.adiaz.forms.UserFormValidator;
 import com.adiaz.services.UsersManager;
 import com.adiaz.utils.UtilsLegaSport;
@@ -38,28 +38,28 @@ public class UsersController {
 	@RequestMapping("/add")
 	public ModelAndView addUser() {
 		ModelAndView modelAndView = new ModelAndView("users_add");
-		modelAndView.addObject("my_form", new UsersVO());
+		modelAndView.addObject("my_form", new User());
 		return modelAndView;
 	}
 	
 	@RequestMapping("/doAdd")
-	public ModelAndView doAddUser(@ModelAttribute("my_form") UsersVO userVO, BindingResult bindingResult) {
+	public ModelAndView doAddUser(@ModelAttribute("my_form") User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
-		userFormValidator.validate(userVO, bindingResult);
+		userFormValidator.validate(user, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			try {
-				userVO.setPassword(UtilsLegaSport.sha256Encode(userVO.getPassword01()));
-				userVO.setEnabled(true);
-				userVO.setAccountNonExpired(true);
-				usersManager.addUser(userVO);
-			} catch (Exception e) {			
+				user.setPassword(UtilsLegaSport.sha256Encode(user.getPassword01()));
+				user.setEnabled(true);
+				user.setAccountNonExpired(true);
+				usersManager.addUser(user);
+			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
 			String viewName = "redirect:/users/list";
 			viewName += "?add_done=true";
 			modelAndView.setViewName(viewName);
 		} else {
-			modelAndView.addObject("my_form", userVO);
+			modelAndView.addObject("my_form", user);
 			modelAndView.setViewName("users_add");
 		}		
 		return modelAndView;
@@ -73,18 +73,18 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/doUpdate")
-	public ModelAndView doUpdateUser(@ModelAttribute("my_form") UsersVO userVO, BindingResult bindingResult) {
+	public ModelAndView doUpdateUser(@ModelAttribute("my_form") User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
-		userFormValidator.validate(userVO, bindingResult);
+		userFormValidator.validate(user, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			try {
-				if (userVO.isUpdatePassword()) {
-					userVO.setPassword(UtilsLegaSport.sha256Encode(userVO.getPassword01()));
+				if (user.isUpdatePassword()) {
+					user.setPassword(UtilsLegaSport.sha256Encode(user.getPassword01()));
 				} else {
-					UsersVO originalUser = usersManager.queryUserByName(userVO.getUsername());
-					userVO.setPassword(originalUser.getPassword());
+					User originalUser = usersManager.queryUserByName(user.getUsername());
+					user.setPassword(originalUser.getPassword());
 				}
-				usersManager.updateUser(userVO);
+				usersManager.updateUser(user);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -92,7 +92,7 @@ public class UsersController {
 			viewName += "?update_done=true";
 			modelAndView.setViewName(viewName);
 		} else {
-			modelAndView.addObject("my_form", userVO);
+			modelAndView.addObject("my_form", user);
 			modelAndView.setViewName("users_update");
 		}		
 		return modelAndView;

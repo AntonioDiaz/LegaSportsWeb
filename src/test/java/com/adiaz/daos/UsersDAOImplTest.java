@@ -1,6 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.UsersVO;
+import com.adiaz.entities.User;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -35,7 +35,7 @@ public class UsersDAOImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(UsersVO.class);
+        ObjectifyService.register(User.class);
     }
 
     @After
@@ -48,7 +48,7 @@ public class UsersDAOImplTest {
         Assert.assertEquals(0, usersDAO.findAllUsers().size());
         createUserCallPepito();
         Assert.assertEquals(1, usersDAO.findAllUsers().size());
-        UsersVO user = usersDAO.findUser(USERNAME_PEPITO);
+        User user = usersDAO.findUser(USERNAME_PEPITO);
         Assert.assertEquals(USERNAME_PEPITO, user.getUsername());
     }
 
@@ -62,8 +62,8 @@ public class UsersDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        Key<UsersVO> key = createUserCallPepito();
-        UsersVO user = Ref.create(key).getValue();
+        Key<User> key = createUserCallPepito();
+        User user = Ref.create(key).getValue();
         Assert.assertEquals(PASSWORD, user.getPassword01());
         user.setPassword01(PASSWORD_UPDATED);
         usersDAO.update(user);
@@ -74,8 +74,8 @@ public class UsersDAOImplTest {
     @Test
     public void updateTryUsername() throws Exception {
         /* create user: with the id USERNAME_PEPITO */
-        Key<UsersVO> key = createUserCallPepito();
-        UsersVO user = Ref.create(key).getValue();
+        Key<User> key = createUserCallPepito();
+        User user = Ref.create(key).getValue();
         Assert.assertEquals(1, usersDAO.findAllUsers().size());
         user.setUsername(USERNAME_MARGARITO);
         usersDAO.update(user);
@@ -86,8 +86,8 @@ public class UsersDAOImplTest {
 
     @Test
     public void remove() throws Exception {
-        Key<UsersVO> key = createUserCallPepito();
-        UsersVO user = Ref.create(key).getValue();
+        Key<User> key = createUserCallPepito();
+        User user = Ref.create(key).getValue();
         Assert.assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
         usersDAO.remove(user);
         Assert.assertEquals(null, usersDAO.findUser(USERNAME_PEPITO));
@@ -102,20 +102,20 @@ public class UsersDAOImplTest {
 
     @Test
     public void findUser() throws Exception {
-        Key<UsersVO> key = createUserCallPepito();
-        UsersVO user = Ref.create(key).getValue();
+        Key<User> key = createUserCallPepito();
+        User user = Ref.create(key).getValue();
         Assert.assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
     }
 
-    private Key<UsersVO> createUserCallPepito() throws Exception {
-        UsersVO user = new UsersVO();
+    private Key<User> createUserCallPepito() throws Exception {
+        User user = new User();
         user.setUsername(USERNAME_PEPITO);
         user.setPassword01(PASSWORD);
         return usersDAO.create(user);
     }
 
-    private Key<UsersVO> createUserCallMargarito() throws Exception {
-        UsersVO user = new UsersVO();
+    private Key<User> createUserCallMargarito() throws Exception {
+        User user = new User();
         user.setUsername(USERNAME_MARGARITO);
         user.setPassword01(PASSWORD);
         return usersDAO.create(user);

@@ -3,12 +3,12 @@ package com.adiaz.forms;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.adiaz.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.adiaz.entities.UsersVO;
 import com.adiaz.utils.ConstantsLegaSport;
 
 @Component
@@ -16,12 +16,12 @@ public class UserFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return UsersVO.class.isAssignableFrom(clazz);
+		return User.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		UsersVO user = (UsersVO)target;
+		User user = (User)target;
 		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "field_required");
 		if (StringUtils.isEmpty(user.getUsername())) {
 			errors.rejectValue("username", "field_required");

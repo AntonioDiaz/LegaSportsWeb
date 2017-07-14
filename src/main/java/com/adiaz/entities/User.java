@@ -13,7 +13,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 
 @Entity
-public class UsersVO implements UserDetails {
+public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 

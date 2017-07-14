@@ -5,17 +5,11 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.io.IOException;
 import java.util.List;
 
+import com.adiaz.entities.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.adiaz.entities.CategoriesVO;
-import com.adiaz.entities.ClassificationEntryVO;
-import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.MatchesVO;
-import com.adiaz.entities.SportCenter;
-import com.adiaz.entities.SportCourt;
-import com.adiaz.entities.SportVO;
-import com.adiaz.entities.UsersVO;
+import com.adiaz.entities.User;
 import com.adiaz.services.CategoriesManager;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
@@ -47,7 +41,7 @@ public class RegisterEntities {
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
 		ObjectifyService.register(ClassificationEntryVO.class);
-		ObjectifyService.register(UsersVO.class);
+		ObjectifyService.register(User.class);
 		ObjectifyService.register(SportCenter.class);
 		ObjectifyService.register(SportCourt.class);
 		/** clean DB. */
@@ -101,25 +95,25 @@ public class RegisterEntities {
 		}
 		
 		/** load users */
-		UsersVO usersVO = new UsersVO();
-		usersVO.setUsername("antonio.diaz");
-		usersVO.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
-		usersVO.setAdmin(true);
-		usersVO.setBannedUser(false);
-		usersVO.setEnabled(true);
-		usersVO.setAccountNonExpired(true);
-		usersManager.addUser(usersVO);
+		User user = new User();
+		user.setUsername("antonio.diaz");
+		user.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
+		user.setAdmin(true);
+		user.setBannedUser(false);
+		user.setEnabled(true);
+		user.setAccountNonExpired(true);
+		usersManager.addUser(user);
 		
 		
 		usersManager.removeUser("user.lega");
-		usersVO = new UsersVO();
-		usersVO.setUsername("user.lega");
-		usersVO.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
-		usersVO.setAdmin(false);
-		usersVO.setBannedUser(false);
-		usersVO.setEnabled(true);
-		usersVO.setAccountNonExpired(true);
-		usersManager.addUser(usersVO);
+		user = new User();
+		user.setUsername("user.lega");
+		user.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
+		user.setAdmin(false);
+		user.setBannedUser(false);
+		user.setEnabled(true);
+		user.setAccountNonExpired(true);
+		usersManager.addUser(user);
 		
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");

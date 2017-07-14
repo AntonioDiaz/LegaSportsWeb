@@ -4,26 +4,26 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.User;
 import org.springframework.stereotype.Repository;
 
-import com.adiaz.entities.UsersVO;
 import com.googlecode.objectify.Key;
 
 @Repository
 public class UsersDAOImpl implements UsersDAO {
 
 	@Override
-	public Key<UsersVO> create(UsersVO item) throws Exception {
+	public Key<User> create(User item) throws Exception {
 		return ofy().save().entity(item).now();
 	}
 
 	@Override
-	public boolean update(UsersVO usersVO) throws Exception {
+	public boolean update(User user) throws Exception {
 		boolean updateResult = false;
-		if (usersVO != null && usersVO.getUsername() != null) {
-			UsersVO c = ofy().load().type(UsersVO.class).id(usersVO.getUsername()).now();
+		if (user != null && user.getUsername() != null) {
+			User c = ofy().load().type(User.class).id(user.getUsername()).now();
 			if (c != null) {
-				ofy().save().entity(usersVO).now();
+				ofy().save().entity(user).now();
 				updateResult = true;
 			} 
 		}
@@ -31,19 +31,19 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public boolean remove(UsersVO item) throws Exception {
+	public boolean remove(User item) throws Exception {
 		ofy().delete().entity(item).now();
 		return true;
 	}
 
 	@Override
-	public List<UsersVO> findAllUsers() {
-		return ofy().load().type(UsersVO.class).list();
+	public List<User> findAllUsers() {
+		return ofy().load().type(User.class).list();
 	}
 
 	@Override
-	public UsersVO findUser(String userName) {
-		Key<UsersVO> key = Key.create(UsersVO.class, userName);
+	public User findUser(String userName) {
+		Key<User> key = Key.create(User.class, userName);
 		return ofy().load().key(key).now();
 	}
 

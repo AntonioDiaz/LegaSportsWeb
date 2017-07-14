@@ -5,7 +5,7 @@
 	}
 	
 	function fDelete(userName) {
-		var bodyTxt = "Se va a borrar el usuario " + userName + ", ¿desea continuar?";
+		var bodyTxt = "Se va a borrar el usuario " + userName + ", Â¿desea continuar?";
 		showDialogConfirm(bodyTxt, 
 			function(){ 
 				window.location.href = "/users/doDelete?userName=" + userName; 

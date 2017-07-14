@@ -1,5 +1,6 @@
 package com.adiaz.services.security;
 
+import com.adiaz.entities.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.adiaz.entities.UsersVO;
 import com.adiaz.services.UsersManager;
 
 @Service ("customUserDetailsService")
@@ -21,9 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.debug("username: " + username);
-		UsersVO user = usersManager.queryUserByName(username); 
+		User user = usersManager.queryUserByName(username);
 //		/** should find user by "username". */ 
-//		UsersVO user = new UsersVO();
+//		User user = new User();
 //		user.setUsername("adiaz");
 //		user.setEnabled(true);
 //		user.setBannedUser(false);

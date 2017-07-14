@@ -2,11 +2,11 @@ package com.adiaz.daos;
 
 import java.util.List;
 
-import com.adiaz.entities.UsersVO;
+import com.adiaz.entities.User;
 
-public interface UsersDAO extends GenericDAO<UsersVO> {
+public interface UsersDAO extends GenericDAO<User> {
 	
-	public List<UsersVO> findAllUsers();
-	public UsersVO findUser(String userName);
+	public List<User> findAllUsers();
+	public User findUser(String userName);
 
 }

@@ -6,12 +6,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.adiaz.entities.User;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import com.adiaz.entities.UsersVO;
 
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -22,7 +21,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 				HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
 			throws IOException, ServletException {
 		logger.debug("onAuthenticationSuccess");
-		UsersVO user = (UsersVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		logger.debug("user name -->" + user.getUsername());
 		logger.debug("user authorities -->" + user.getAuthorities());
 		httpServletResponse.sendRedirect("/");
