@@ -44,11 +44,11 @@ public class CompetitionsControllerTest {
 
 
 
-/*    @Mock
+    @Mock
     private CompetitionsDAO competitionsDAO;
 
     @InjectMocks
-    private CompetitionsManagerImpl competitionsManager;*/
+    private CompetitionsManagerImpl competitionsManager;    
 
     private MockMvc mockMvc;
 
