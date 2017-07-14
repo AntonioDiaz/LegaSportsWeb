@@ -1,6 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.CategoriesVO;
+import com.adiaz.entities.Category;
 import com.googlecode.objectify.Key;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
@@ -35,30 +35,30 @@ public class CategoriesDAOImplTest {
     @org.junit.Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(CategoriesVO.class);
+        ObjectifyService.register(Category.class);
     }
 
     public void teadDown() throws Exception {
         helper.tearDown();
     }
 
-    private Key<CategoriesVO> createCategory() throws Exception {
-        CategoriesVO category = new CategoriesVO();
+    private Key<Category> createCategory() throws Exception {
+        Category category = new Category();
         category.setName(CATEGORY_CADETE);
         category.setOrder(CATEGORY_ORDER_2);
-        Key<CategoriesVO> categoriesVOKey = categoriesDAO.create(category);
-        return categoriesVOKey;
+        Key<Category> categoryKey = categoriesDAO.create(category);
+        return categoryKey;
     }
 
     @org.junit.Test
     public void create() throws Exception {
         Assert.assertEquals(0, categoriesDAO.findAllCategories().size());
         createCategory();
-        List<CategoriesVO> categories = categoriesDAO.findAllCategories();
+        List<Category> categories = categoriesDAO.findAllCategories();
         Assert.assertEquals(1, categories.size());
-        CategoriesVO categoriesVO = categories.get(0);
-        Assert.assertEquals(CATEGORY_CADETE, categoriesVO.getName());
-        Assert.assertEquals(CATEGORY_ORDER_2, categoriesVO.getOrder());
+        Category category = categories.get(0);
+        Assert.assertEquals(CATEGORY_CADETE, category.getName());
+        Assert.assertEquals(CATEGORY_ORDER_2, category.getOrder());
     }
 
 
@@ -66,14 +66,14 @@ public class CategoriesDAOImplTest {
     @org.junit.Test
     public void update() throws Exception {
         createCategory();
-        List<CategoriesVO> categories = categoriesDAO.findAllCategories();
-        CategoriesVO categoriesVO = categories.get(0);
-        categoriesVO.setName(CATEGORY_JUVENIL);
-        categoriesVO.setOrder(CATEGORY_ORDER_3);
-        categoriesDAO.update(categoriesVO);
-        categoriesVO = categoriesDAO.findCategoryById(categoriesVO.getId());
-        Assert.assertEquals(CATEGORY_JUVENIL, categoriesVO.getName());
-        Assert.assertEquals(CATEGORY_ORDER_3, categoriesVO.getOrder());
+        List<Category> categories = categoriesDAO.findAllCategories();
+        Category category = categories.get(0);
+        category.setName(CATEGORY_JUVENIL);
+        category.setOrder(CATEGORY_ORDER_3);
+        categoriesDAO.update(category);
+        category = categoriesDAO.findCategoryById(category.getId());
+        Assert.assertEquals(CATEGORY_JUVENIL, category.getName());
+        Assert.assertEquals(CATEGORY_ORDER_3, category.getOrder());
     }
 
 
@@ -95,11 +95,11 @@ public class CategoriesDAOImplTest {
 
     @org.junit.Test
     public void findCategoryById() throws Exception {
-        Key<CategoriesVO> key = createCategory();
-        CategoriesVO categoriesVO = categoriesDAO.findCategoryById(key.getId());
-        Assert.assertEquals(key.getId(), (long)categoriesVO.getId());
-        Assert.assertEquals(CATEGORY_CADETE, categoriesVO.getName());
-        Assert.assertEquals(CATEGORY_ORDER_2, categoriesVO.getOrder());
+        Key<Category> key = createCategory();
+        Category category = categoriesDAO.findCategoryById(key.getId());
+        Assert.assertEquals(key.getId(), (long) category.getId());
+        Assert.assertEquals(CATEGORY_CADETE, category.getName());
+        Assert.assertEquals(CATEGORY_ORDER_2, category.getOrder());
     }
 
 }

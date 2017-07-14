@@ -37,7 +37,7 @@ public class RegisterEntities {
 	
 	public void init() throws Exception {
 		ObjectifyService.register(SportVO.class);
-		ObjectifyService.register(CategoriesVO.class);
+		ObjectifyService.register(Category.class);
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
 		ObjectifyService.register(ClassificationEntryVO.class);
@@ -57,7 +57,7 @@ public class RegisterEntities {
 		
 		/** load sports */
 		 Key<SportVO> keySport = null;
-		 Key<CategoriesVO> keyCategories = null;
+		 Key<Category> keyCategories = null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
 			 keySport = ofy().save().entity(new SportVO(sportName)).now();
 		}
@@ -66,10 +66,10 @@ public class RegisterEntities {
 		String[] categoriesNames = ConstantsLegaSport.CATEGORIES_NAMES;
 		int order = 0;
 		for (String name : categoriesNames) {
-			CategoriesVO categoriesVO = new CategoriesVO();
-			categoriesVO.setName(name);
-			categoriesVO.setOrder(order++);
-			keyCategories = ofy().save().entity(categoriesVO).now();
+			Category category = new Category();
+			category.setName(name);
+			category.setOrder(order++);
+			keyCategories = ofy().save().entity(category).now();
 		}
 		/** load competitions */
 		CompetitionsVO competition = new CompetitionsVO();

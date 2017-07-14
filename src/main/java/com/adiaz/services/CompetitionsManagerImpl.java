@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.MatchesDAO;
-import com.adiaz.entities.CategoriesVO;
+import com.adiaz.entities.Category;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
 import com.adiaz.entities.SportVO;
@@ -66,7 +66,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 		competitionsVO.setName(name);
 		Key<SportVO> keySport = Key.create(SportVO.class, sportId);
 		competitionsVO.setSport(Ref.create(keySport));
-		Key<CategoriesVO> keyCategory = Key.create(CategoriesVO.class, categoryId);
+		Key<Category> keyCategory = Key.create(Category.class, categoryId);
 		competitionsVO.setCategory(Ref.create(keyCategory));
 		competitionsDAO.create(competitionsVO);
 	}

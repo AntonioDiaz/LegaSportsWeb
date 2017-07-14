@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.adiaz.entities.CategoriesVO;
+import com.adiaz.entities.Category;
 import com.adiaz.entities.ClassificationEntryVO;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
@@ -57,8 +57,8 @@ public class RESTController {
 	}
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CategoriesVO> getCategories() {	
-		List<CategoriesVO> queryCategories = categoriesManager.queryCategories();
+	public List<Category> getCategories() {
+		List<Category> queryCategories = categoriesManager.queryCategories();
 		return queryCategories;
 	}
 	

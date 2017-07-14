@@ -28,7 +28,7 @@ public class CompetitionsVO {
 	@Load
 	@JsonIgnore
 	@Index
-	private Ref<CategoriesVO> category;
+	private Ref<Category> category;
 	
 	
 	/* start: attributes not need to save. */
@@ -36,7 +36,7 @@ public class CompetitionsVO {
 	private SportVO sportEntity;
 	
 	@Ignore
-	private CategoriesVO categoryEntity;
+	private Category categoryEntity;
 	
 	@Ignore
 	private List<MatchesVO> matches;
@@ -79,11 +79,11 @@ public class CompetitionsVO {
 		this.sport = sport;
 	}
 
-	public Ref<CategoriesVO> getCategory() {
+	public Ref<Category> getCategory() {
 		return category;
 	}
 
-	public void setCategory(Ref<CategoriesVO> category) {
+	public void setCategory(Ref<Category> category) {
 		this.category = category;
 	}
 
@@ -95,11 +95,11 @@ public class CompetitionsVO {
 		this.sportEntity = sportEntity;
 	}
 
-	public CategoriesVO getCategoryEntity() {
+	public Category getCategoryEntity() {
 		return categoryEntity;
 	}
 
-	public void setCategoryEntity(CategoriesVO categoryEntity) {
+	public void setCategoryEntity(Category categoryEntity) {
 		this.categoryEntity = categoryEntity;
 	}
 

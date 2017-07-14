@@ -7,9 +7,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class CategoriesVO implements Serializable {
-
-	//private static final Logger log = Logger.getLogger(CategoriesVO.class.getName());
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

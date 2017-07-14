@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.adiaz.entities.CategoriesVO;
+import com.adiaz.entities.Category;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -17,17 +17,17 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 	//private static final Logger log = Logger.getLogger(CategoriesDAOImpl.class.getName());
 	
 	@Override
-	public Key<CategoriesVO> create(CategoriesVO item) throws Exception {
+	public Key<Category> create(Category item) throws Exception {
 		return ofy().save().entity(item).now();
 	}
 	
 	@Override
-	public boolean update(CategoriesVO item) throws Exception {
+	public boolean update(Category item) throws Exception {
 		boolean updateResult;
 		if (item == null || item.getId() == null) {
 			updateResult = false;
 		} else {
-			CategoriesVO c = ofy().load().type(CategoriesVO.class).id(item.getId()).now();
+			Category c = ofy().load().type(Category.class).id(item.getId()).now();
 			if (c != null) {
 				c.setName(item.getName()); 
 				ofy().save().entity(c).now();
@@ -40,19 +40,19 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 	}
 
 	@Override
-	public boolean remove(CategoriesVO item) throws Exception {
+	public boolean remove(Category item) throws Exception {
 		ofy().delete().entity(item).now();
 		return true;
 	}
 
 	@Override
-	public List<CategoriesVO> findAllCategories() {
-		Query<CategoriesVO> query = ofy().load().type(CategoriesVO.class);
+	public List<Category> findAllCategories() {
+		Query<Category> query = ofy().load().type(Category.class);
 		return query.order("order").list();	
 	}
 	
 	@Override
-	public CategoriesVO findCategoryById(Long id) {
-		return ofy().load().type(CategoriesVO.class).id(id).now();		
+	public Category findCategoryById(Long id) {
+		return ofy().load().type(Category.class).id(id).now();
 	}
 }

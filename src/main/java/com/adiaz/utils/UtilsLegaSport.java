@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.adiaz.entities.CategoriesVO;
+import com.adiaz.entities.Category;
 import com.adiaz.entities.ClassificationEntryVO;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.MatchesVO;
@@ -100,7 +100,7 @@ public class UtilsLegaSport {
 	
 	public static void main(String[] args) {
 		ObjectifyService.register(SportVO.class);
-		ObjectifyService.register(CategoriesVO.class);
+		ObjectifyService.register(Category.class);
 		ObjectifyService.register(CompetitionsVO.class);
 		ObjectifyService.register(MatchesVO.class);
 		System.out.println("parse calendar....");

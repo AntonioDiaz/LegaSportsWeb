@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.adiaz.entities.CategoriesVO;
+import com.adiaz.entities.Category;
 import com.adiaz.entities.CompetitionsVO;
 import com.adiaz.entities.SportVO;
 import com.googlecode.objectify.Key;
@@ -63,7 +63,7 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 			query = query.filter("sport", key);
 		}
 		if (categoryId!=null) {
-			Key<CategoriesVO> key = Key.create(CategoriesVO.class, categoryId);
+			Key<Category> key = Key.create(Category.class, categoryId);
 			query = query.filter("category", key);
 		}
 		return query.list();

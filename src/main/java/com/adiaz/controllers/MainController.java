@@ -1,7 +1,5 @@
 package com.adiaz.controllers;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.adiaz.entities.CategoriesVO;
-import com.adiaz.entities.CompetitionsVO;
-import com.adiaz.entities.MatchesVO;
-import com.adiaz.entities.SportVO;
 import com.adiaz.services.CategoriesManager;
-import com.adiaz.services.CompetitionsManager;
-import com.adiaz.services.MatchesManager;
 import com.adiaz.services.SportsManager;
-import com.adiaz.utils.ConstantsLegaSport;
-import com.adiaz.utils.UtilsLegaSport;
-import com.googlecode.objectify.Ref;
 
 @Controller
 @SessionAttributes ({"sports", "categories"})
