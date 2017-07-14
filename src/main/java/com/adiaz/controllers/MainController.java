@@ -34,10 +34,12 @@ public class MainController {
 	SportsManager sportsManager;
 	@Autowired
 	CategoriesManager categoriesManager;
-	@Autowired
+    /*
+    @Autowired
 	CompetitionsManager competitionsManager;
 	@Autowired
 	MatchesManager matchesManager;
+	*/
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -71,106 +73,5 @@ public class MainController {
 		}
 		modelMap.addAttribute("error", error);
 		return "login";
-	}
-	
-	
-	
-	@RequestMapping(value = "/cleanDB", method = RequestMethod.GET)
-	public String cleanDB(ModelMap modelMap) {
-		String operationResult;
-		try {
-			for (MatchesVO matchesVO: matchesManager.queryMatches()) {
-				matchesManager.remove(matchesVO);
-			}
-			for (SportVO sportVO : sportsManager.querySports()) {
-				sportsManager.remove(sportVO);
-			}
-			for (CategoriesVO categoriesVO : categoriesManager.queryCategories()) {
-				categoriesManager.remove(categoriesVO);
-			}
-			for (CompetitionsVO competitionsVO : competitionsManager.queryCompetitions()) {
-				competitionsManager.remove(competitionsVO);
-			}			
-			operationResult = "clean done :)";
-		} catch (Exception e) {
-			e.printStackTrace();
-			operationResult = e.getMessage();
-		}
-		modelMap.addAttribute("message", operationResult);
-		return "home";
-	}
-
-	@RequestMapping(value = "/loadSports", method = RequestMethod.GET)
-	public String loadSports(ModelMap modelMap) {
-		String operationResult;
-		try {
-			for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
-				sportsManager.add(new SportVO(sportName));
-			}
-			operationResult = "Insercion de sports ok";
-		} catch (Exception e) {
-			e.printStackTrace();
-			operationResult = e.getMessage();
-		}
-		modelMap.addAttribute("message", operationResult);
-		return "home";
-	}
-
-	@RequestMapping(value = "/loadCategories", method = RequestMethod.GET)
-	public String loadCategories(ModelMap modelMap) {
-		String operationResult;
-		try {
-			String[] categoriesNames = ConstantsLegaSport.CATEGORIES_NAMES;
-			int order = 0;
-			for (String name : categoriesNames) {
-				CategoriesVO categoriesVO = new CategoriesVO();
-				categoriesVO.setName(name);
-				categoriesVO.setOrder(order++);
-				categoriesManager.add(categoriesVO);
-			}
-			operationResult = "Inserto las categorias";
-		} catch (Exception e) {
-			e.printStackTrace();
-			operationResult = e.getMessage();
-		}
-		modelMap.addAttribute("message", operationResult);
-		return "home";
-	}
-
-	@RequestMapping(value = "/loadCompetitions", method = RequestMethod.GET)
-	public String loadCompetitions(ModelMap modelMap) {
-		String operationResult = "loadCompetitions done";
-		modelMap.addAttribute("message", operationResult);
-		SportVO sportVO = sportsManager.querySportsByName("Voleibol");
-		CategoriesVO category = categoriesManager.queryCategoriesByName("Alevin");
-		CompetitionsVO competition = new CompetitionsVO();
-		try {
-			competition.setName("liga division honor");
-			competition.setCategory(Ref.create(category));
-			competition.setSport(Ref.create(sportVO));
-			competitionsManager.add(competition);
-			operationResult = "competition insert done.";
-		} catch (Exception e) {
-			operationResult = "inserting error.";
-			e.printStackTrace();
-		}
-		return "home";
-	}
-
-	@RequestMapping(value = "/loadMatches", method = RequestMethod.GET)
-	public ModelAndView loadMatches(ModelMap modelMap) {
-		ModelAndView modelAndView = new ModelAndView("home");
-		List<CompetitionsVO> queryCompetitions = competitionsManager.queryCompetitions();
-		if (queryCompetitions.size()>0) {
-			List<MatchesVO> matchesList = UtilsLegaSport.parseCalendar(queryCompetitions.get(0));
-			try {
-				matchesManager.add(matchesList);
-				modelAndView.addObject("message", "matches inserted.");
-			} catch (Exception e) {
-				modelAndView.addObject("message", "error on insert matches.");
-				e.printStackTrace();
-			}
-		}
-		return modelAndView;
 	}
 }

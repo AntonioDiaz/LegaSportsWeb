@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.ServletContext;
+import static org.junit.Assert.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,15 +40,12 @@ public class CategoriesControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
-    @Autowired
-    CategoriesManager categoriesManager;
-
     @Test
     public void givenWac_whenServletContext_thenItProvidesCategoriesController() {
         ServletContext servletContext = wac.getServletContext();
-        Assert.assertNotNull(servletContext);
-        Assert.assertTrue(servletContext instanceof MockServletContext);
-        Assert.assertNotNull(wac.getBean("categoriesController"));
+        assertNotNull(servletContext);
+        assertTrue(servletContext instanceof MockServletContext);
+        assertNotNull(wac.getBean("categoriesController"));
     }
 
     @Test

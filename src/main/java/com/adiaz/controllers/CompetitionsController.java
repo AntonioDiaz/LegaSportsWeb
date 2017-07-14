@@ -41,7 +41,7 @@ public class CompetitionsController {
 		modelAndView.addObject("competitions_list", competitionsManager.queryCompetitions());
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
-		modelAndView.addObject("add_done", addDone);		
+		modelAndView.addObject("add_done", addDone);
 		return modelAndView;
 	}
 	
