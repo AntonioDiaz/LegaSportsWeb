@@ -86,8 +86,8 @@ public class CompetitionsController {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
 		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
 		List<Match> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
-        Integer howManyWeek = matchesManager.howManyWeek(matchesList);
-        modelAndView.addObject("competition", competitionsById);
+		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
+		modelAndView.addObject("competition", competitionsById);
 		modelAndView.addObject("matches_list", matchesList);
 		modelAndView.addObject("weeks_count", howManyWeek);
 		return modelAndView;

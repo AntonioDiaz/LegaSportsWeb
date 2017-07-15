@@ -22,7 +22,6 @@ public class UserFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User)target;
-		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "field_required");
 		if (StringUtils.isEmpty(user.getUsername())) {
 			errors.rejectValue("username", "field_required");
 		} else {

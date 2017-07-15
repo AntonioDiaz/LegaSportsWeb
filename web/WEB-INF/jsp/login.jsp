@@ -1,9 +1,18 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<%@ include file="/WEB-INF/jsp/include.jsp"%>
 	<title><tiles:insertAttribute name="title" ignore="true" defaultValue="title" /></title>
+	<script>
+		$(document).ready(function(){
+			$('input[name=j_username]').val('antonio.diaz');
+			$('input[name=j_password]').val('admin');
+		});
+
+
+	</script>
 </head>
 <body>
 <body>
@@ -22,7 +31,7 @@
 							<label for="j_username">Usuario</label> <input type="text" class="form-control" name='j_username'>
 						</div>
 						<div class="form-group">
-							<label for="j_username">Contraseña</label> <input type="password" class="form-control" name='j_password'>
+							<label for="j_password">ContraseÃ±a</label> <input type="password" class="form-control" name='j_password'>
 						</div>
 						<!-- 
 						<div class="form-group">

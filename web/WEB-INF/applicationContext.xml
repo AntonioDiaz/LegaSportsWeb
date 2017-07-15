@@ -33,7 +33,7 @@
 	<bean id="initDataBase" class="com.adiaz.utils.RegisterEntities" init-method="init"/>
 	
 	<bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource" 
-		p:basenames="WEB-INF/i18n/messages" p:fallbackToSystemLocale="false" />
+		p:basenames="WEB-INF/i18n/messages" p:fallbackToSystemLocale="false" p:defaultEncoding="UTF-8" />
 	
 	<mvc:annotation-driven></mvc:annotation-driven> 
 </beans>

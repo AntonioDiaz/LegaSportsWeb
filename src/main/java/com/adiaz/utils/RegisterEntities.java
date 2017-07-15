@@ -6,18 +6,12 @@ import java.io.IOException;
 import java.util.List;
 
 import com.adiaz.entities.*;
+import com.adiaz.forms.TownForm;
+import com.adiaz.services.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.adiaz.entities.User;
-import com.adiaz.services.CategoriesManager;
-import com.adiaz.services.ClassificationManager;
-import com.adiaz.services.CompetitionsManager;
-import com.adiaz.services.MatchesManager;
-import com.adiaz.services.SportCenterManager;
-import com.adiaz.services.SportCourtManager;
-import com.adiaz.services.SportsManager;
-import com.adiaz.services.UsersManager;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
@@ -33,7 +27,8 @@ public class RegisterEntities {
 	@Autowired SportCenterManager sportsCenterManager;
 	@Autowired SportCourtManager sportCourtManager;
 	@Autowired MatchesManager matchesManager;
-	@Autowired ClassificationManager classificationManager;	
+	@Autowired ClassificationManager classificationManager;
+	@Autowired TownManager townManager;
 	
 	public void init() throws Exception {
 		ObjectifyService.register(Sport.class);
@@ -44,7 +39,10 @@ public class RegisterEntities {
 		ObjectifyService.register(User.class);
 		ObjectifyService.register(SportCenter.class);
 		ObjectifyService.register(SportCourt.class);
+		ObjectifyService.register(Town.class);
+
 		/** clean DB. */
+		logger.debug("DB clean");
 		sportsManager.removeAll();
 		categoriesManager.removeAll();
 		matchesManager.removeAll();
@@ -53,8 +51,8 @@ public class RegisterEntities {
 		usersManager.removeAll();
 		sportCourtManager.removeAll();
 		sportsCenterManager.removeAll();
-		logger.debug("DB clean");
-		
+		townManager.removeAll();
+
 		/** load sports */
 		 Key<Sport> keySport = null;
 		 Key<Category> keyCategories = null;
@@ -81,7 +79,6 @@ public class RegisterEntities {
 		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition);
 		try {
 			matchesManager.add(matchesList);
-			logger.debug("matches inserted");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -124,23 +121,20 @@ public class RegisterEntities {
 		court.setName("Pista central");
 		court.setCenter(Ref.create(centerKey));
 		court.getSports().add(Ref.create(keySport));
-		Key<SportCourt> courtKey = ofy().save().entity(court).now();
-		logger.debug("courtKey -->" + courtKey);
+		ofy().save().entity(court).now();
 
-
-		
 		List<SportCenter> list = ofy().load().type(SportCenter.class).list();
 		for (SportCenter sportCenter : list) {
-			logger.debug("Center: " + sportCenter.getName());
 			Key<SportCenter> keyCenter = Key.create(SportCenter.class, sportCenter.getId());
 			Ref<SportCenter> refCenter = Ref.create(keyCenter);
-			List<SportCourt> listCourts = ofy().load().type(SportCourt.class).filter("center", refCenter).list();
-			for (SportCourt sportCourt : listCourts) {
-				logger.debug("Court: " + sportCourt.getName());
-			}			
+			ofy().load().type(SportCourt.class).filter("center", refCenter).list();
 		}
 
+		TownForm townForm = new TownForm();
+		townForm.setName("Leganés");
+		townForm.setActive(true);
+		townManager.add(townForm);
+
 		logger.debug("finished init...");
-		
 	}
 }

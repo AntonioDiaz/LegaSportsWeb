@@ -77,5 +77,21 @@
 	</definition>	
 	<definition name="courts_update" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/courts_update.jsp" />
-	</definition>	
+	</definition>
+	<definition name="towns_list" extends="homeTemplate">
+		<put-attribute name="page_title" value="Lista de municipios" />
+		<put-attribute name="body" value="/WEB-INF/jsp/towns_list.jsp" />
+	</definition>
+	<definition name="towns_add" extends="homeTemplate">
+		<put-attribute name="page_title" value="Añadir municipio" />
+		<put-attribute name="body" value="/WEB-INF/jsp/towns_add.jsp" />
+	</definition>
+	<definition name="towns_update" extends="homeTemplate">
+		<put-attribute name="page_title" value="Modificar municipio" />
+		<put-attribute name="body" value="/WEB-INF/jsp/towns_update.jsp" />
+	</definition>
+	<definition name="towns_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Ver detalles municipio" />
+		<put-attribute name="body" value="/WEB-INF/jsp/towns_view.jsp" />
+	</definition>
 </tiles-definitions>

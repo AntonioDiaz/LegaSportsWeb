@@ -11,12 +11,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.adiaz.entities.*;
 import com.adiaz.entities.Competition;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.Errors;
 
 public class UtilsLegaSport {
 
@@ -78,8 +82,7 @@ public class UtilsLegaSport {
 		String[] split = classificationTxt.split("\\r\\n");
 		for (int i = 0; i < split.length; i++) {
 			ClassificationEntry classificationEntry = new ClassificationEntry();
-			String[] strings = split[i].split("\\t");			
-			System.out.println(strings.length);
+			String[] strings = split[i].split("\\t");
 			//1	AD CEPA SPORT	22	18	1	3	85	24	0	0	0	55	0
 			classificationEntry.setPosition(Integer.valueOf(strings[0]));
 			classificationEntry.setTeam(strings[1]);
@@ -134,4 +137,25 @@ public class UtilsLegaSport {
 		return hexString.toString();
 	}
 
+	/**
+	 * Validate the format of a field and if is null.
+	 *
+	 * @param errors
+	 * @param fieldToCheckValue
+	 * @param fieldToCheckName
+	 * @param keyErrorMsg
+	 * @param patternToCheck
+	 */
+	public static void validateNotEmptyAndFormat(
+			Errors errors, String fieldToCheckValue, String fieldToCheckName, String keyErrorMsg, String patternToCheck) {
+		if (StringUtils.isEmpty(fieldToCheckValue)) {
+			errors.rejectValue(fieldToCheckName, "field_required");
+		} else {
+			Pattern pattern = Pattern.compile(patternToCheck);
+			Matcher matcher = pattern.matcher(fieldToCheckValue);
+			if (!matcher.matches()){
+				errors.rejectValue(fieldToCheckName, keyErrorMsg);
+			}
+		}
+	}
 }

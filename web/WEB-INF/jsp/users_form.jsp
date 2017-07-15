@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Nombre de usuario</label> 
 		<div class="col-sm-6">
@@ -6,7 +7,7 @@
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="username" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-sm-2" >Contraseña</label>
+		<label class="control-label col-sm-2" >ContraseÃ±a</label>
 		<div class="col-sm-1">
 			<div style="width: 30px; margin: 0 auto;">
 				<form:checkbox id="updatePassword" path="updatePassword" class="xlarge form-control" style="height:30px; margin: 0px;" />

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <nav class="navbar navbar-default" style="margin-bottom: 10px; margin-top: 10px;">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -15,7 +16,7 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="/sports/list">Deportes</a></li>
-				<li><a href="/categories/list">Categorias</a></li>
+				<li><a href="/categories/list">Categorías</a></li>
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Centros <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/center/list">Lista centros</a></li>
@@ -25,7 +26,7 @@
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Competiciones <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/competitions/list">Lista de competiciones</a></li>
-						<li><a href="/competitions/add">Nueva competici�n</a></li>
+						<li><a href="/competitions/add">Nueva competición</a></li>
 					</ul>
 				</li>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -33,6 +34,12 @@
 						<ul class="dropdown-menu">
 							<li><a href="/users/list">Lista usuarios</a></li>
 							<li><a href="/users/add">Nuevo usuario</a></li>
+						</ul>
+					</li>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Municipios <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/towns/list">Lista municipios</a></li>
+							<li><a href="/towns/add">Nuevo municipio</a></li>
 						</ul>
 					</li>
 				</sec:authorize>
