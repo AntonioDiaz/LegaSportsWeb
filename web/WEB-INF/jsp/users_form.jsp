@@ -60,4 +60,14 @@
 			</div>
 		</div>
 		<div class="col-sm-9">&nbsp;</div>
-	</div>	
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" >Municipio del usuario</label>
+		<div class="col-sm-6">
+			<form:select path="town.id" class="form-control">
+				<form:option value=""></form:option>
+				<form:options items="${townsList}" itemLabel="name" itemValue="id" />
+			</form:select>
+		</div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="town" cssClass="text-danger" /></label>
+	</div>

@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
-
 @Entity
 public class User implements UserDetails {
-
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String username;
@@ -38,6 +35,19 @@ public class User implements UserDetails {
 	private boolean bannedUser;
 
 	private boolean accountNonExpired;
+
+	@Load
+	private Ref<Town> townRef;
+
+	@Ignore
+	private Town town;
+
+	@OnLoad
+	public void getRefs(){
+		if (townRef!=null && townRef.isLoaded()) {
+			town = townRef.get();
+		}
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -129,5 +139,21 @@ public class User implements UserDetails {
 
 	public void setUpdatePassword(boolean updatePassword) {
 		this.updatePassword = updatePassword;
+	}
+
+	public Ref<Town> getTownRef() {
+		return townRef;
+	}
+
+	public void setTownRef(Ref<Town> townRef) {
+		this.townRef = townRef;
+	}
+
+	public Town getTown() {
+		return town;
+	}
+
+	public void setTown(Town town) {
+		this.town = town;
 	}
 }

@@ -90,28 +90,30 @@ public class RegisterEntities {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
+		TownForm townForm = new TownForm();
+		townForm.setName("Leganés");
+		townForm.setActive(true);
+		Long townId = townManager.add(townForm);
+
+		townForm = new TownForm();
+		townForm.setName("Fuenlabrada");
+		townForm.setActive(true);
+		townManager.add(townForm);
+
 		/** load users */
-		User user = new User();
-		user.setUsername("antonio.diaz");
-		user.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
-		user.setAdmin(true);
-		user.setBannedUser(false);
-		user.setEnabled(true);
-		user.setAccountNonExpired(true);
-		usersManager.addUser(user);
-		
-		
-		usersManager.removeUser("user.lega");
-		user = new User();
-		user.setUsername("user.lega");
-		user.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
-		user.setAdmin(false);
-		user.setBannedUser(false);
-		user.setEnabled(true);
-		user.setAccountNonExpired(true);
-		usersManager.addUser(user);
-		
+		String name = "antonio.diaz";
+		String password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
+		usersManager.addUser(initUser(name, password, true), townId);
+
+		name = "user.lega";
+		password ="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
+		usersManager.addUser(initUser(name, password, false), townId);
+
+
+
+
+
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");
 		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
@@ -130,11 +132,19 @@ public class RegisterEntities {
 			ofy().load().type(SportCourt.class).filter("center", refCenter).list();
 		}
 
-		TownForm townForm = new TownForm();
-		townForm.setName("Leganés");
-		townForm.setActive(true);
-		townManager.add(townForm);
+
 
 		logger.debug("finished init...");
+	}
+
+	private User initUser(String name, String password, boolean isAdmin) {
+		User user = new User();
+		user.setUsername(name);
+		user.setPassword(password);
+		user.setAdmin(isAdmin);
+		user.setBannedUser(false);
+		user.setEnabled(true);
+		user.setAccountNonExpired(true);
+		return user;
 	}
 }

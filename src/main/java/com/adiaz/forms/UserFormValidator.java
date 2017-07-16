@@ -7,6 +7,7 @@ import com.adiaz.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.adiaz.utils.ConstantsLegaSport;
@@ -22,6 +23,9 @@ public class UserFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User)target;
+		if (user.getTown()==null || user.getTown().getId()==null) {
+			errors.rejectValue("town", "field_required");
+		}
 		if (StringUtils.isEmpty(user.getUsername())) {
 			errors.rejectValue("username", "field_required");
 		} else {

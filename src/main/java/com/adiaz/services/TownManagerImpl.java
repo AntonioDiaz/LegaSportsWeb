@@ -18,9 +18,9 @@ public class TownManagerImpl implements TownManager {
 	TownDAO townDAO;
 
 	@Override
-	public void add(TownForm townForm) throws Exception {
+	public Long add(TownForm townForm) throws Exception {
 		Town town = generateTownEntityFromForm(townForm);
-		townDAO.create(town);
+		return townDAO.create(town).getId();
 	}
 
 	@Override

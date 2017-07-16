@@ -30,6 +30,11 @@ public class UsersManagerImpl implements UsersManager {
 	}
 
 	@Override
+	public void addUser(User user, Long townId) throws Exception {
+		usersDAO.create(user, townId);
+	}
+
+	@Override
 	public boolean removeUser(String userName) throws Exception {
 		boolean userDeleted = false;
 		User user = usersDAO.findUser(userName);
@@ -49,7 +54,7 @@ public class UsersManagerImpl implements UsersManager {
 		List<User> users = usersDAO.findAllUsers();
 		for (User user : users) {
 			usersDAO.remove(user);
-		}		
+		}
 	}
 
 }

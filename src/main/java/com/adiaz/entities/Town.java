@@ -4,11 +4,13 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+import java.io.Serializable;
+
 /**
  * Created by toni on 14/07/2017.
  */
 @Entity
-public class Town {
+public class Town implements Serializable {
 
 	@Id
 	private Long id;

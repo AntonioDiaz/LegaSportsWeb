@@ -4,7 +4,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.Town;
 import com.adiaz.entities.User;
+import com.googlecode.objectify.Ref;
 import org.springframework.stereotype.Repository;
 
 import com.googlecode.objectify.Key;
@@ -47,4 +49,11 @@ public class UsersDAOImpl implements UsersDAO {
 		return ofy().load().key(key).now();
 	}
 
+	@Override
+	public Key<User> create(User user, Long townId) throws Exception {
+		Key<Town> townKey = Key.create(Town.class, townId);
+		Ref<Town> townRef = Ref.create(townKey);
+		user.setTownRef(townRef);
+		return this.create(user);
+	}
 }

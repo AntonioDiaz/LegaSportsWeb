@@ -41,7 +41,7 @@
 		<c:forEach var="user" items="${users}">
 			<tr>
 				<td style="vertical-align: middle;">${user.username}</td>
-				<td style="vertical-align: middle;">municipio</td>
+				<td style="vertical-align: middle;">${user.town.name}</td>
 				<td>
 					<div class="row">
 						<div class="col-sm-6">

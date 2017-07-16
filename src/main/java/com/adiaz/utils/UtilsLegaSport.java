@@ -66,7 +66,7 @@ public class UtilsLegaSport {
 				try {
 					myDate = dateFormat.parse(strings[0] + " " + strings[1]);
 					match.setDate(myDate);
-				} catch (ParseException e) {				
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				Key<Competition> competitionKey = Key.create(Competition.class, competition.getId());

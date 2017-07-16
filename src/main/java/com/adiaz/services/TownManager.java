@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface TownManager {
 
-	public void add(TownForm townForm) throws Exception;
+	public Long add(TownForm townForm) throws Exception;
 	public boolean remove(Long id) throws Exception;
 	public boolean update(Long id, TownForm townForm) throws Exception;
 	public List<Town> queryAll();
