@@ -22,8 +22,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			throws IOException, ServletException {
 		logger.debug("onAuthenticationSuccess");
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		logger.debug("user name -->" + user.getUsername());
-		logger.debug("user authorities -->" + user.getAuthorities());
 		httpServletResponse.sendRedirect("/");
 	}
 }

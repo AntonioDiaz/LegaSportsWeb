@@ -48,7 +48,14 @@
 				<li>
 					<a href="<c:url value="j_spring_security_logout" />">
 						<b>
-						<c:out value="${pageContext['request'].userPrincipal.name }"></c:out>&nbsp;
+						<sec:authentication property="principal" var="userSession"></sec:authentication>
+							<c:out value="${userSession.username}"></c:out>&nbsp;
+							<c:if test="${!userSession.admin}">
+								(<c:out value="${userSession.town.name}"></c:out>)&nbsp;
+							</c:if>
+							<c:if test="${userSession.admin}">
+								(admin)&nbsp;
+							</c:if>
 						<span class="glyphicon glyphicon-log-in"></span>
 						</b>
 					</a>

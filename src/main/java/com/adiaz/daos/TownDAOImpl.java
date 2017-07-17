@@ -39,7 +39,7 @@ public class TownDAOImpl implements TownDAO {
 
 	@Override
 	public List<Town> findAll() {
-		return ofy().load().type(Town.class).list();
+		return ofy().load().type(Town.class).order("name").list();
 	}
 
 	@Override

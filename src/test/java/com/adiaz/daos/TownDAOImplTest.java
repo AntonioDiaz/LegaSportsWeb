@@ -48,7 +48,7 @@ public class TownDAOImplTest {
 
 	@Test
 	public void create() throws Exception {
-		Key<Town> key = createTown();
+		Key<Town> key = createTown(LEGANES);
 		Town town = townDAO.findById(key.getId());
 		Assert.assertEquals(key.getId(), (long) town.getId());
 		Assert.assertTrue(town.isActive());
@@ -56,7 +56,7 @@ public class TownDAOImplTest {
 
 	@Test
 	public void update_townName() throws Exception {
-		Key<Town> key = createTown();
+		Key<Town> key = createTown(LEGANES);
 		Town town = Ref.create(key).getValue();
 		town.setName(FUENLABRADA);
 		townDAO.update(town);
@@ -64,7 +64,7 @@ public class TownDAOImplTest {
 	}
 	@Test
 	public void update_deactivate() throws Exception {
-		Key<Town> key = createTown();
+		Key<Town> key = createTown(LEGANES);
 		Town town = Ref.create(key).getValue();
 		Assert.assertTrue(townDAO.findById(town.getId()).isActive());
 		town.setActive(false);
@@ -74,7 +74,7 @@ public class TownDAOImplTest {
 
 	@Test
 	public void remove() throws Exception {
-		Key<Town> key = createTown();
+		Key<Town> key = createTown(LEGANES);
 		Town town = new Town();
 		town.setId(key.getId());
 		townDAO.remove(town);
@@ -84,14 +84,23 @@ public class TownDAOImplTest {
 	@Test
 	public void findAll() throws Exception {
 		Assert.assertEquals(0, townDAO.findAll().size());
-		createTown();
-		createTown();
+		createTown(LEGANES);
+		createTown(LEGANES);
 		Assert.assertEquals(2, townDAO.findAll().size());
 	}
 
 	@Test
+	public void findAll_AlphabeticalOrder() throws Exception {
+		createTown(LEGANES);
+		createTown(FUENLABRADA);
+		Assert.assertEquals(FUENLABRADA, townDAO.findAll().get(0).getName());
+		Assert.assertEquals(LEGANES, townDAO.findAll().get(1).getName());
+	}
+
+
+	@Test
 	public void findById_existing() throws Exception {
-		Key<Town> key = createTown();
+		Key<Town> key = createTown(LEGANES);
 		Assert.assertEquals(key.getId(), (long)townDAO.findById(key.getId()).getId());
 	}
 
@@ -100,9 +109,9 @@ public class TownDAOImplTest {
 		Assert.assertEquals(null, townDAO.findById(221l));
 	}
 
-	private Key<Town> createTown() throws Exception {
+	private Key<Town> createTown(String name) throws Exception {
 		Town town = new Town();
-		town.setName(LEGANES);
+		town.setName(name);
 		town.setActive(true);
 		return townDAO.create(town);
 	}

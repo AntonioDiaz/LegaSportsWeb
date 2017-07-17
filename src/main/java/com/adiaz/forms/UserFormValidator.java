@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.adiaz.entities.User;
+import com.adiaz.utils.UtilsLegaSport;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -23,18 +24,11 @@ public class UserFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User)target;
-		if (user.getTown()==null || user.getTown().getId()==null) {
+		if (!user.isAdmin() && (user.getTown()==null || user.getTown().getId()==null)) {
 			errors.rejectValue("town", "field_required");
 		}
-		if (StringUtils.isEmpty(user.getUsername())) {
-			errors.rejectValue("username", "field_required");
-		} else {
-			Pattern pattern = Pattern.compile(ConstantsLegaSport.USERNAME_PATTERN);
-			Matcher matcher = pattern.matcher(user.getUsername());
-			if (!matcher.matches()){
-				errors.rejectValue("username", "username_format_error");
-			}
-		}
+		UtilsLegaSport.validateNotEmptyAndFormat(
+				errors, user.getUsername(), "username", "username_format_error", ConstantsLegaSport.USERNAME_PATTERN);
 		if (StringUtils.compare(user.getPassword01(), user.getPassword02())!=0) {
 			errors.rejectValue("password", "password_distinct");
 		}

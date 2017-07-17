@@ -1,4 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+	<script>
+		$(document).ready(function() {
+			$('input[name=admin]').change(function () {
+				$('#town\\.id').attr('disabled', this.checked);
+				if (this.checked){
+					$('#town\\.id').val('');
+				}
+			});
+			$('input[name=admin]').change();
+		});
+
+
+	</script>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Nombre de usuario</label> 
 		<div class="col-sm-6">
