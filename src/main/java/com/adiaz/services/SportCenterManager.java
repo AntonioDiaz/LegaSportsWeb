@@ -10,6 +10,7 @@ public interface SportCenterManager {
 	public boolean updateSportCenter(SportCenterForm sportCenterForm) throws Exception;
 	public boolean removeSportCenter(Long id) throws Exception;
 	public List<SportCenter> querySportCenters();
+	public List<SportCenter> querySportCenters(Long idTown);
 	public SportCenterForm querySportCentersById(Long id);
 	public void removeAll() throws Exception;
 }

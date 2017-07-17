@@ -34,6 +34,12 @@ public class SportCenterManagerImpl implements SportCenterManager {
 	}
 
 	@Override
+	public List<SportCenter> querySportCenters(Long idTown) {
+		return sportsCenterDAO.findSportsCenterByTown(idTown);
+	}
+
+
+	@Override
 	public void removeAll() throws Exception {
 		List<SportCenter> centers = sportsCenterDAO.findAllSportsCenters();
 		for (SportCenter center : centers) {

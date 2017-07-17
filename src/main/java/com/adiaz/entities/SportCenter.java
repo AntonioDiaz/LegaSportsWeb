@@ -15,6 +15,7 @@ public class SportCenter {
 	private String address;
 
 	@Load
+	@Index
 	private Ref<Town> townRef;
 
 	@Ignore

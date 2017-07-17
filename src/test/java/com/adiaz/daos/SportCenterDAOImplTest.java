@@ -18,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.List;
+
 
 /**
  * Created by toni on 11/07/2017.
@@ -115,7 +117,16 @@ public class SportCenterDAOImplTest {
 		Assert.assertEquals(key.getId(), (long) sportCenter.getId());
 	}
 
-	private Key<SportCenter> createSportCenter() throws Exception {
+	@Test
+	public void findSportsCenterByTown() throws Exception {
+		createSportCenter();
+		createSportCenter();
+		List<SportCenter> centers = sportCenterDAO.findSportsCenterByTown(townRef.get().getId());
+		System.out.println(townRef.get().getId());
+		Assert.assertEquals(2, centers.size());
+	}
+
+		private Key<SportCenter> createSportCenter() throws Exception {
 		SportCenter sportCenter = new SportCenter();
 		sportCenter.setName(SPORTCENTER_NAME_1);
 		sportCenter.setAddress(SPORTCENTER_ADDRESS_1);

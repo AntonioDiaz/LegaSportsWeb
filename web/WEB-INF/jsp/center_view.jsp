@@ -8,7 +8,6 @@
 		$('#name').prop('readonly', true);
 		$('#address').prop('readonly', true);
 		$('#idTown').prop('disabled', true);
-
 	});
 
 </script>
