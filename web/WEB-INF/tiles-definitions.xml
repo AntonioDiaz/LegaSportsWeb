@@ -57,6 +57,10 @@
 		<put-attribute name="page_title" value="Actualizar usuario" />
 		<put-attribute name="body" value="/WEB-INF/jsp/users_update.jsp" />
 	</definition>
+	<definition name="users_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Información del usuario" />
+		<put-attribute name="body" value="/WEB-INF/jsp/users_view.jsp" />
+	</definition>
 	<definition name="center_list" extends="homeTemplate">
 		<put-attribute name="page_title" value="Centros deportivos" />
 		<put-attribute name="body" value="/WEB-INF/jsp/center_list.jsp" />

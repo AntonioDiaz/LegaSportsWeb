@@ -2,6 +2,7 @@ package com.adiaz.controllers;
 
 import com.adiaz.entities.Town;
 import com.adiaz.entities.User;
+import com.adiaz.forms.TownForm;
 import com.adiaz.services.TownManager;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -130,4 +131,13 @@ public class UsersController {
 	public List<Town> addTownsToSession(){
 		return townManager.queryAll();
 	}
+
+	@RequestMapping("/view")
+	public ModelAndView view(@RequestParam(value = "userName") String userName) throws Exception {
+		ModelAndView modelAndView = new ModelAndView("users_view");
+		User user = usersManager.queryUserByName(userName);
+		modelAndView.addObject("my_form", user);
+		return modelAndView;
+	}
+
 }

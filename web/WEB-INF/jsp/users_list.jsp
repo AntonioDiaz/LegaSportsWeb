@@ -3,7 +3,11 @@
 	function fUpdate(userName) {
 		window.location.href = "/users/update?userName=" + userName;
 	}
-	
+
+	function fView(userName) {
+		window.location.href = "/users/view?userName=" + userName;
+	}
+
 	function fDelete(userName) {
 		var bodyTxt = "Se va a borrar el usuario " + userName + ", ¿desea continuar?";
 		showDialogConfirm(bodyTxt, 
@@ -12,6 +16,7 @@
 			}
 		);
 	}
+
 	$(document).ready(function() { 
 		<c:if test="${remove_done==true}">
 			showDialogAlert("El usuario ha sido borrado.");
@@ -51,10 +56,13 @@
 				</td>
 				<td>
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-default btn-block" onclick="fView('${user.username}')">Ver info</button>
+						</div>
+						<div class="col-sm-4">
 							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${user.username}')">Modificar</button>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${user.username}')">Eliminar</button>
 						</div>
 					</div>
