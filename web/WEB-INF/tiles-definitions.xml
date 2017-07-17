@@ -73,6 +73,10 @@
 		<put-attribute name="page_title" value="Actualizar centro deportivo" />
 		<put-attribute name="body" value="/WEB-INF/jsp/center_update.jsp" />
 	</definition>	
+	<definition name="center_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Detalles centro deportivo" />
+		<put-attribute name="body" value="/WEB-INF/jsp/center_view.jsp" />
+	</definition>
 	<definition name="courts_list" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/courts_list.jsp" />
 	</definition>	

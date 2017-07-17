@@ -2,7 +2,9 @@ package com.adiaz.services;
 
 import com.adiaz.daos.TownDAO;
 import com.adiaz.entities.Town;
+import com.adiaz.forms.SportCenterFormUtils;
 import com.adiaz.forms.TownForm;
+import com.adiaz.forms.TownFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +21,7 @@ public class TownManagerImpl implements TownManager {
 
 	@Override
 	public Long add(TownForm townForm) throws Exception {
-		Town town = generateTownEntityFromForm(townForm);
+		Town town = TownFormUtils.generateTownEntityFromForm(townForm);
 		return townDAO.create(town).getId();
 	}
 
@@ -32,20 +34,9 @@ public class TownManagerImpl implements TownManager {
 
 	@Override
 	public boolean update(Long id, TownForm townForm) throws Exception {
-		Town town = generateTownEntityFromForm(townForm);
+		Town town = TownFormUtils.generateTownEntityFromForm(townForm);
 		town.setId(id);
 		return townDAO.update(town);
-	}
-
-	private Town generateTownEntityFromForm(TownForm townForm) {
-		Town town = new Town();
-		town.setName(townForm.getName());
-		town.setAddress(townForm.getAddress());
-		town.setEmail(townForm.getEmail());
-		town.setContactPerson(townForm.getContactPerson());
-		town.setPhone(townForm.getPhone());
-		town.setActive(townForm.isActive());
-		return town;
 	}
 
 	@Override
@@ -55,20 +46,9 @@ public class TownManagerImpl implements TownManager {
 
 	@Override
 	public TownForm queryById(Long id) {
-		return generateTownFormFromEntity (townDAO.findById(id));
+		return TownFormUtils.generateTownFormFromEntity (townDAO.findById(id));
 	}
 
-	private TownForm generateTownFormFromEntity(Town townEntity) {
-		TownForm townForm = new TownForm();
-		townForm.setId(townEntity.getId());
-		townForm.setName(townEntity.getName());
-		townForm.setAddress(townEntity.getAddress());
-		townForm.setContactPerson(townEntity.getContactPerson());
-		townForm.setEmail(townEntity.getEmail());
-		townForm.setPhone(townEntity.getPhone());
-		townForm.setActive(townEntity.isActive());
-		return townForm;
-	}
 
 	@Override
 	public void removeAll() throws Exception {

@@ -2,6 +2,9 @@ package com.adiaz.controllers;
 
 import java.util.List;
 
+import com.adiaz.entities.Town;
+import com.adiaz.forms.SportCenterForm;
+import com.adiaz.services.TownManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.entities.SportCenter;
@@ -21,12 +25,14 @@ import com.adiaz.services.SportCourtManager;
 
 @Controller
 @RequestMapping (value="/center")
+@SessionAttributes("townsList")
 public class CenterController {
 
 	private static final Logger logger = Logger.getLogger(CenterController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
 	@Autowired SportCourtManager sportCourtManager;
+	@Autowired TownManager townManager;
 	@Autowired SportCenterFormValidator sportCenterFormValidator;
 	@Autowired SportCourtFormValidator sportCourtFormValidator;
 	
@@ -47,22 +53,23 @@ public class CenterController {
 	@RequestMapping("/add")
 	public ModelAndView addCenter() {
 		ModelAndView modelAndView = new ModelAndView("center_add");
-		modelAndView.addObject("my_form", new SportCenter());
+		modelAndView.addObject("my_form", new SportCenterForm());
 		return modelAndView;
 	}
 	
 	@RequestMapping("/doAdd")
-	public ModelAndView doAddCenter(@ModelAttribute("my_form") SportCenter sportCenter, BindingResult bindingResult) {
+	public ModelAndView doAddCenter(@ModelAttribute("my_form") SportCenterForm sportCenterForm, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
-		sportCenterFormValidator.validate(sportCenter, bindingResult);
+		sportCenterFormValidator.validate(sportCenterForm, bindingResult);
 		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("my_form", sportCenter);
+			modelAndView.addObject("my_form", sportCenterForm);
 			modelAndView.setViewName("center_add");
 		} else {
 			try {
-				sportsCenterManager.addSportCenter(sportCenter);
+				sportsCenterManager.addSportCenter(sportCenterForm);
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				// TODO: 17/07/2017 add error page.
+				logger.error(e);
 			}
 			String viewName = "redirect:/center/list";
 			viewName += "?add_done=true";
@@ -74,21 +81,21 @@ public class CenterController {
 	@RequestMapping("/update")
 	public ModelAndView updateCenter(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView("center_update");
-		SportCenter sportCenter = sportsCenterManager.querySportCentersById(id);
-		modelAndView.addObject("my_form", sportCenter);
+		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(id);
+		modelAndView.addObject("my_form", sportCenterForm);
 		return modelAndView;
 	}
 	
 	@RequestMapping("/doUpdate")
-	public ModelAndView doUpdateCenter(@ModelAttribute("my_form") SportCenter sportCenter, BindingResult bindingResult) {
+	public ModelAndView doUpdateCenter(@ModelAttribute("my_form") SportCenterForm sportCenterForm, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
-		sportCenterFormValidator.validate(sportCenter, bindingResult);
+		sportCenterFormValidator.validate(sportCenterForm, bindingResult);
 		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("my_form", sportCenter);
+			modelAndView.addObject("my_form", sportCenterForm);
 			modelAndView.setViewName("center_update");
 		} else {
 			try {
-				sportsCenterManager.updateSportCenter(sportCenter);
+				sportsCenterManager.updateSportCenter(sportCenterForm);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
@@ -119,22 +126,22 @@ public class CenterController {
 			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
 			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("courts_list");
-		SportCenter sportCenter = sportsCenterManager.querySportCentersById(idSportCenter);
-		modelAndView.addObject("sportCenter", sportCenter);
+		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(idSportCenter);
+		modelAndView.addObject("sportCenter", sportCenterForm);
 		modelAndView.addObject("courts", sportCourtManager.querySportCourts(idSportCenter));
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
-		modelAndView.addObject("add_done", addDone);		
+		modelAndView.addObject("add_done", addDone);
 		return modelAndView;
 	}
 	
 	@RequestMapping("/addCourt")
 	public ModelAndView addCourt(@RequestParam Long idCenter) {
 		ModelAndView modelAndView = new ModelAndView("courts_add");
-		SportCenter sportCenter = sportsCenterManager.querySportCentersById(idCenter);
+		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(idCenter);
 		SportsCourtForm sportsCourtForm = new SportsCourtForm();
 		sportsCourtForm.setIdCenter(idCenter);
-		sportsCourtForm.setNameCenter(sportCenter.getName());
+		sportsCourtForm.setNameCenter(sportCenterForm.getName());
 		modelAndView.addObject("my_form", sportsCourtForm);
 		return modelAndView;
 	}
@@ -204,4 +211,18 @@ public class CenterController {
 		}
 		return modelAndView;
 	}
+
+	@ModelAttribute("townsList")
+	public List<Town> addTownsToSession(){
+		return townManager.queryAll();
+	}
+
+	@RequestMapping("/view")
+	public ModelAndView viewCenter(@RequestParam Long id) {
+		ModelAndView modelAndView = new ModelAndView("center_view");
+		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(id);
+		modelAndView.addObject("my_form", sportCenterForm);
+		return modelAndView;
+	}
+
 }

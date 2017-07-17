@@ -17,6 +17,10 @@
 	function fUpdate(centerId) {
 		window.location.href = "/center/update?id=" + centerId;
 	}
+
+	function fView(centerId) {
+		window.location.href = "/center/view?id=" + centerId;
+	}
 	
 	function fViewCourts(centerId) {
 		window.location.href = "/center/listCourts?idSportCenter=" + centerId;
@@ -36,7 +40,7 @@
 	<thead>
 		<tr>
 			<th>Nombre centro</th>
-			<th>Dirección</th>
+			<th>Municipio</th>
 			<th>&nbsp;</th>
 		</tr>
 	</thead>
@@ -49,16 +53,19 @@
 		<c:forEach var="center" items="${centers}">
 			<tr>
 				<td style="vertical-align: middle;">${center.name}</td>
-				<td style="vertical-align: middle;">${center.address}</td>
+				<td style="vertical-align: middle;">${center.town.name}</td>
 				<td>
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<button type="button" class="btn btn-default btn-block" onclick="fViewCourts('${center.id}')">Pistas</button>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
+							<button type="button" class="btn btn-default btn-block" onclick="fView('${center.id}')">Ver info</button>
+						</div>
+						<div class="col-sm-3">
 							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${center.id}')">Modificar</button>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${center.id}')">Eliminar</button>
 						</div>
 					</div>

@@ -24,7 +24,7 @@ public class RegisterEntities {
 	@Autowired CategoriesManager categoriesManager;
 	@Autowired CompetitionsManager competitionsManager;
 	@Autowired UsersManager usersManager;
-	@Autowired SportCenterManager sportsCenterManager;
+	@Autowired SportCenterManager sportCenterManager;
 	@Autowired SportCourtManager sportCourtManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
@@ -50,14 +50,17 @@ public class RegisterEntities {
 		competitionsManager.removeAll();
 		usersManager.removeAll();
 		sportCourtManager.removeAll();
-		sportsCenterManager.removeAll();
+		sportCenterManager.removeAll();
 		townManager.removeAll();
 
 		/** load sports */
-		 Key<Sport> keySport = null;
+		 Key<Sport> keySportBasket = null;
 		 Key<Category> keyCategories = null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
-			 keySport = ofy().save().entity(new Sport(sportName)).now();
+			Key<Sport> key = ofy().save().entity(new Sport(sportName)).now();
+			if ("BALONCESTO".equals(sportName)) {
+				keySportBasket = key;
+			}
 		}
 		
 		/** load categories */
@@ -73,7 +76,7 @@ public class RegisterEntities {
 		Competition competition = new Competition();
 		competition.setName("liga division honor");
 		competition.setCategory(Ref.create(keyCategories));
-		competition.setSport(Ref.create(keySport));
+		competition.setSport(Ref.create(keySportBasket));
 		competitionsManager.add(competition);
 		
 		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition);
@@ -117,12 +120,14 @@ public class RegisterEntities {
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");
 		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
+		Key<Town> townKey = Key.create(Town.class, townId);
+		sportsCenter.setTownRef(Ref.create(townKey));
 		Key<SportCenter> centerKey = ofy().save().entity(sportsCenter).now();
 		
 		SportCourt court = new SportCourt();
 		court.setName("Pista central");
 		court.setCenter(Ref.create(centerKey));
-		court.getSports().add(Ref.create(keySport));
+		court.getSports().add(Ref.create(keySportBasket));
 		ofy().save().entity(court).now();
 
 		List<SportCenter> list = ofy().load().type(SportCenter.class).list();

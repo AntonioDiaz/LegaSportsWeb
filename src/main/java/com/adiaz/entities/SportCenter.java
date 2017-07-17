@@ -1,7 +1,7 @@
 package com.adiaz.entities;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.*;
 
 
 @Entity
@@ -13,7 +13,20 @@ public class SportCenter {
 	private String name;
 	
 	private String address;
-	
+
+	@Load
+	private Ref<Town> townRef;
+
+	@Ignore
+	private Town town;
+
+	@OnLoad
+	public void getRefs(){
+		if (townRef!=null && townRef.isLoaded()) {
+			town = townRef.get();
+		}
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -36,5 +49,21 @@ public class SportCenter {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Ref<Town> getTownRef() {
+		return townRef;
+	}
+
+	public void setTownRef(Ref<Town> townRef) {
+		this.townRef = townRef;
+	}
+
+	public Town getTown() {
+		return town;
+	}
+
+	public void setTown(Town town) {
+		this.town = town;
 	}
 }

@@ -19,5 +19,6 @@ public class SportCenterFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idTown", "field_required");
 	}
 }
