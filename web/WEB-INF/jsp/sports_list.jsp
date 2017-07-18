@@ -1,5 +1,5 @@
 <%@include file="taglibs.jsp"%>
 
-<c:forEach var="sportCenter" items="${sportsCenters}">
-	<li>${sportCenter.name}</li>
+<c:forEach var="sport" items="${sports}">
+	<li>${sport.name}</li>
 </c:forEach>

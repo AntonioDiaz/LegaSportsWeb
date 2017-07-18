@@ -70,7 +70,7 @@ public class RegisterEntities {
 		 Key<Category> keyCategories = null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
 			Key<Sport> key = ofy().save().entity(new Sport(sportName)).now();
-			if ("BALONCESTO".equals(sportName)) {
+			if (ConstantsLegaSport.BASKET.equals(sportName)) {
 				keySportBasket = key;
 			}
 		}

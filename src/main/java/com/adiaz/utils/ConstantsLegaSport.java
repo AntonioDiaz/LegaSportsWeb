@@ -9,12 +9,14 @@ public class ConstantsLegaSport {
 	public static final String USERNAME_PATTERN = "[a-zA-Z|\\.|ñ|Ñ]{4,20}";
 
 
-	public static String[] SPORTS_NAMES = new String[]{
-		"FUTBOL_11", "FUTBOL_7", "FUTBOL_SALA", "BALONCESTO", "BALONMANO", "VOLEIBOL", "UNIHOCKEY"
+	public static final String[] SPORTS_NAMES = new String[]{
+		"Futbol 11", "Futbol 7", "Futbol Sala", "Baloncesto", "Balonmano", "Voleybol", "Unihockey"
 	};
 
-	
-	public static String[] CATEGORIES_NAMES = new String[]{
+
+	public static final String BASKET = SPORTS_NAMES[3];
+
+	public static final String[] CATEGORIES_NAMES = new String[]{
 		"Benjamin", "Alevin", "Infantil", "Cadete", "Juvenil", "Absoluta", "Veterano"
 	};	
 	
