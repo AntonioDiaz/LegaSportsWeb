@@ -36,81 +36,78 @@ import static org.mockito.Mockito.*;
 @WebAppConfiguration("file:web")
 public class CompetitionsControllerTest {
 
-    @Autowired
-    private WebApplicationContext wac;
+	@Autowired
+	private WebApplicationContext wac;
 
+	@Mock
+	private CompetitionsDAO competitionsDAO;
 
+	@InjectMocks
+	private CompetitionsManagerImpl competitionsManager;
 
+	private MockMvc mockMvc;
 
-    @Mock
-    private CompetitionsDAO competitionsDAO;
+	@Before
+	public void setup() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		//when(this.competitionsDAO.findCompetitions()).thenReturn(new ArrayList<Competition>());
+		when(this.competitionsManager.queryCompetitions()).thenReturn(new ArrayList<Competition>());
+		System.out.println("Competitions: " + competitionsManager.queryCompetitions());
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+	}
 
-    @InjectMocks
-    private CompetitionsManagerImpl competitionsManager;
+	@Test
+	public void givenWac_whenServletContext_thenItProvidesCompetitionsController() {
+		ServletContext servletContext = wac.getServletContext();
+		assertNotNull(servletContext);
+		assertTrue(servletContext instanceof MockServletContext);
+		assertNotNull(wac.getBean("competitionsController"));
+	}
 
-    private MockMvc mockMvc;
+	@Test
+	public void listCompetitions() throws Exception {
+		mockMvc.perform(get("/competitions/list"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("competitions_list"));
+	}
 
-    @Before
-    public void setup() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        //when(this.competitionsDAO.findCompetitions()).thenReturn(new ArrayList<Competition>());
-        when(this.competitionsManager.queryCompetitions()).thenReturn(new ArrayList<Competition>());
-        System.out.println("Competitions: " + competitionsManager.queryCompetitions());
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+	@Test
+	public void addCompetitions() throws Exception {
+		mockMvc.perform(get("/competitions/add"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("competitions_add"));
+	}
 
-    @Test
-    public void givenWac_whenServletContext_thenItProvidesCompetitionsController() {
-        ServletContext servletContext = wac.getServletContext();
-        assertNotNull(servletContext);
-        assertTrue(servletContext instanceof MockServletContext);
-        assertNotNull(wac.getBean("competitionsController"));
-    }
+	@Test
+	public void doAddCompetition() throws Exception {
+	}
 
-    @Test
-    public void listCompetitions() throws Exception {
-        mockMvc.perform(get("/competitions/list"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("competitions_list"));
-    }
+	@Test
+	public void doRemoveCompetition() throws Exception {
+	}
 
-    @Test
-    public void addCompetitions() throws Exception {
-        mockMvc.perform(get("/competitions/add"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("competitions_add"));
-    }
+	@Test
+	public void viewCalendar() throws Exception {
+	}
 
-    @Test
-    public void doAddCompetition() throws Exception {
-    }
+	@Test
+	public void viewClassification() throws Exception {
+	}
 
-    @Test
-    public void doRemoveCompetition() throws Exception {
-    }
+	@Test
+	public void loadClassification() throws Exception {
+	}
 
-    @Test
-    public void viewCalendar() throws Exception {
-    }
+	@Test
+	public void doLoadClassification() throws Exception {
+	}
 
-    @Test
-    public void viewClassification() throws Exception {
-    }
+	@Test
+	public void loadCalendar() throws Exception {
+	}
 
-    @Test
-    public void loadClassification() throws Exception {
-    }
-
-    @Test
-    public void doLoadClassification() throws Exception {
-    }
-
-    @Test
-    public void loadCalendar() throws Exception {
-    }
-
-    @Test
-    public void doLoadCalendar() throws Exception {
-    }
+	@Test
+	public void doLoadCalendar() throws Exception {
+	}
 
 }

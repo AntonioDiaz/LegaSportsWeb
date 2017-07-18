@@ -5,6 +5,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.List;
 
 import com.adiaz.entities.Competition;
+import com.adiaz.entities.Town;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.Category;
@@ -56,15 +57,19 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 
 	@Override
-	public List<Competition> findCompetitions(Long sportId, Long categoryId) {
+	public List<Competition> findCompetitions(Long sportId, Long categoryId, Long townId) {
 		Query<Competition> query = ofy().load().type(Competition.class);
 		if (sportId!=null) {
 			Key<Sport> key = Key.create(Sport.class, sportId);
-			query = query.filter("sport", key);
+			query = query.filter("sportRef", key);
 		}
 		if (categoryId!=null) {
 			Key<Category> key = Key.create(Category.class, categoryId);
-			query = query.filter("category", key);
+			query = query.filter("categoryRef", key);
+		}
+		if (townId!=null) {
+			Key<Town> key = Key.create(Town.class, townId);
+			query = query.filter("townRef", key);
 		}
 		return query.list();
 	}

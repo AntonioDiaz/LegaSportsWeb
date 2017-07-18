@@ -1,43 +1,34 @@
 package com.adiaz.controllers;
 
-import java.security.Principal;
-import java.util.List;
-
-import com.adiaz.entities.Town;
-import com.adiaz.entities.User;
-import com.adiaz.forms.SportCenterForm;
-import com.adiaz.services.TownManager;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.SportCourt;
+import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.SportCenterFormValidator;
 import com.adiaz.forms.SportCourtFormValidator;
 import com.adiaz.forms.SportsCourtForm;
 import com.adiaz.services.SportCenterManager;
 import com.adiaz.services.SportCourtManager;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+
+import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
 
 @Controller
 @RequestMapping (value="/center")
-@SessionAttributes("townsList")
 public class CenterController {
 
 	private static final Logger logger = Logger.getLogger(CenterController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
 	@Autowired SportCourtManager sportCourtManager;
-	@Autowired TownManager townManager;
 	@Autowired SportCenterFormValidator sportCenterFormValidator;
 	@Autowired SportCourtFormValidator sportCourtFormValidator;
 	
@@ -48,12 +39,11 @@ public class CenterController {
 			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("center_list");
 		List<SportCenter> centers;
-		if (getPrincipal().isAdmin()) {
+		if (getActiveUser().isAdmin()) {
 			centers = sportsCenterManager.querySportCenters();
 		} else {
-			centers = sportsCenterManager.querySportCenters(getPrincipal().getTown().getId());
+			centers = sportsCenterManager.querySportCenters(getActiveUser().getTown().getId());
 		}
-
 		modelAndView.addObject("centers", centers);
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
@@ -65,7 +55,9 @@ public class CenterController {
 	public ModelAndView addCenter() {
 		ModelAndView modelAndView = new ModelAndView("center_add");
 		SportCenterForm sportCenterForm = new SportCenterForm();
-		sportCenterForm.setAdmin(getPrincipal().isAdmin());
+		if (!getActiveUser().isAdmin()) {
+			sportCenterForm.setIdTown(getActiveUser().getTown().getId());
+		}
 		modelAndView.addObject("my_form", sportCenterForm );
 		return modelAndView;
 	}
@@ -81,8 +73,9 @@ public class CenterController {
 			modelAndView.setViewName("center_add");
 		} else {
 			try {
-				if (!getPrincipal().isAdmin()) {
-					sportCenterForm.setIdTown(getPrincipal().getTown().getId());
+				/* in case malicious behavior */
+				if (!getActiveUser().isAdmin()) {
+					sportCenterForm.setIdTown(getActiveUser().getTown().getId());
 				}
 				sportsCenterManager.addSportCenter(sportCenterForm);
 			} catch (Exception e) {
@@ -100,7 +93,9 @@ public class CenterController {
 	public ModelAndView updateCenter(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView("center_update");
 		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(id);
-		sportCenterForm.setAdmin(getPrincipal().isAdmin());
+		if (!getActiveUser().isAdmin()) {
+			sportCenterForm.setIdTown(getActiveUser().getTown().getId());
+		}
 		modelAndView.addObject("my_form", sportCenterForm);
 
 		return modelAndView;
@@ -115,8 +110,9 @@ public class CenterController {
 			modelAndView.setViewName("center_update");
 		} else {
 			try {
-				if (!getPrincipal().isAdmin()) {
-					sportCenterForm.setIdTown(getPrincipal().getTown().getId());
+				/* in case malicious behavior */
+				if (!getActiveUser().isAdmin()) {
+					sportCenterForm.setIdTown(getActiveUser().getTown().getId());
 				}
 				sportsCenterManager.updateSportCenter(sportCenterForm);
 			} catch (Exception e) {
@@ -133,7 +129,15 @@ public class CenterController {
 	public ModelAndView doDelete(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
-			sportsCenterManager.removeSportCenter(id);
+			boolean validDelete = true;
+			/* in case malicious behavior */
+			if (!getActiveUser().isAdmin()) {
+				SportCenterForm center = sportsCenterManager.querySportCentersById(id);
+				validDelete = center.getIdTown()==getActiveUser().getTown().getId();
+			}
+			if (validDelete) {
+				sportsCenterManager.removeSportCenter(id);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -235,11 +239,6 @@ public class CenterController {
 		return modelAndView;
 	}
 
-	@ModelAttribute("townsList")
-	public List<Town> addTownsToSession(){
-		return townManager.queryAll();
-	}
-
 	@RequestMapping("/view")
 	public ModelAndView viewCenter(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView("center_view");
@@ -247,9 +246,4 @@ public class CenterController {
 		modelAndView.addObject("my_form", sportCenterForm);
 		return modelAndView;
 	}
-
-	private User getPrincipal(){
-		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	}
-
 }

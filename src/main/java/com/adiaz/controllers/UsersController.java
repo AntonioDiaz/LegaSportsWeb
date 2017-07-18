@@ -23,20 +23,20 @@ import com.adiaz.utils.UtilsLegaSport;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/users")
-@SessionAttributes("townsList")
+@RequestMapping("/users")
 public class UsersController {
-	
-	private static final Logger logger = Logger.getLogger(UsersController.class); 
-	@Autowired UsersManager usersManager;
-	@Autowired UserFormValidator userFormValidator;
-	@Autowired TownManager townManager;
+
+	private static final Logger logger = Logger.getLogger(UsersController.class);
+	@Autowired
+	UsersManager usersManager;
+	@Autowired
+	UserFormValidator userFormValidator;
 
 	@RequestMapping("/list")
 	public ModelAndView usersList(
-			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
-			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
+			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
+			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
+			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("users_list");
 		modelAndView.addObject("users", usersManager.queryAllUsers());
 		modelAndView.addObject("remove_done", removeDone);
@@ -51,7 +51,7 @@ public class UsersController {
 		modelAndView.addObject("my_form", new User());
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/doAdd")
 	public ModelAndView doAddUser(@ModelAttribute("my_form") User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -73,10 +73,10 @@ public class UsersController {
 		} else {
 			modelAndView.addObject("my_form", user);
 			modelAndView.setViewName("users_add");
-		}		
+		}
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/update")
 	public ModelAndView updateUser(@RequestParam String userName) {
 		ModelAndView modelAndView = new ModelAndView("users_update");
@@ -84,7 +84,7 @@ public class UsersController {
 		modelAndView.addObject("my_form", user);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/doUpdate")
 	public ModelAndView doUpdateUser(@ModelAttribute("my_form") User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -109,12 +109,12 @@ public class UsersController {
 		} else {
 			modelAndView.addObject("my_form", user);
 			modelAndView.setViewName("users_update");
-		}		
+		}
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/doDelete")
-	public ModelAndView doDelete (@RequestParam String userName) {
+	public ModelAndView doDelete(@RequestParam String userName) {
 		ModelAndView modelAndView = new ModelAndView();
 		String viewName = "redirect:/users/list";
 		try {
@@ -125,11 +125,6 @@ public class UsersController {
 		}
 		modelAndView.setViewName(viewName);
 		return modelAndView;
-	}
-
-	@ModelAttribute("townsList")
-	public List<Town> addTownsToSession(){
-		return townManager.queryAll();
 	}
 
 	@RequestMapping("/view")

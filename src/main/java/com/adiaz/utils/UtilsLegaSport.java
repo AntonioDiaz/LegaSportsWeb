@@ -20,6 +20,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 public class UtilsLegaSport {
@@ -157,5 +158,9 @@ public class UtilsLegaSport {
 				errors.rejectValue(fieldToCheckName, keyErrorMsg);
 			}
 		}
+	}
+
+	public static User getActiveUser(){
+		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }

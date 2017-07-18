@@ -53,6 +53,18 @@ public class RegisterEntities {
 		sportCenterManager.removeAll();
 		townManager.removeAll();
 
+
+		TownForm townForm = new TownForm();
+		townForm.setName("Leganés");
+		townForm.setActive(true);
+		Long townIdLega = townManager.add(townForm);
+		Key<Town> keyLega = Key.create(Town.class, townIdLega);
+
+		townForm = new TownForm();
+		townForm.setName("Fuenlabrada");
+		townForm.setActive(true);
+		townManager.add(townForm);
+
 		/** load sports */
 		 Key<Sport> keySportBasket = null;
 		 Key<Category> keyCategories = null;
@@ -75,10 +87,16 @@ public class RegisterEntities {
 		/** load competitions */
 		Competition competition = new Competition();
 		competition.setName("liga division honor");
-		competition.setCategory(Ref.create(keyCategories));
-		competition.setSport(Ref.create(keySportBasket));
-		competitionsManager.add(competition);
-		
+		competition.setCategoryRef(Ref.create(keyCategories));
+		competition.setSportRef(Ref.create(keySportBasket));
+		competition.setTownRef(Ref.create(keyLega));
+		try {
+			competitionsManager.add(competition);
+			logger.debug("insert competition");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition);
 		try {
 			matchesManager.add(matchesList);
@@ -94,16 +112,6 @@ public class RegisterEntities {
 			e.printStackTrace();
 		}
 
-		TownForm townForm = new TownForm();
-		townForm.setName("Leganés");
-		townForm.setActive(true);
-		Long townId = townManager.add(townForm);
-
-		townForm = new TownForm();
-		townForm.setName("Fuenlabrada");
-		townForm.setActive(true);
-		townManager.add(townForm);
-
 		/** load users */
 		String name = "antonio.diaz";
 		String password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
@@ -111,17 +119,12 @@ public class RegisterEntities {
 
 		name = "user.lega";
 		password ="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
-		usersManager.addUser(initUser(name, password, false), townId);
-
-
-
-
+		usersManager.addUser(initUser(name, password, false), townIdLega);
 
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");
 		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
-		Key<Town> townKey = Key.create(Town.class, townId);
-		sportsCenter.setTownRef(Ref.create(townKey));
+		sportsCenter.setTownRef(Ref.create(keyLega));
 		Key<SportCenter> centerKey = ofy().save().entity(sportsCenter).now();
 		
 		SportCourt court = new SportCourt();

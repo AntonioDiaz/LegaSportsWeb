@@ -51,8 +51,8 @@
 			<tr>
 				<td style="vertical-align: middle;"><strong>${court.name}</strong></td>
 				<td style="vertical-align: middle;">
-					<c:forEach items="${court.sportsDeref}" var="sport">
-						${sport.name} &nbsp; &nbsp;
+					<c:forEach items="${court.sportsDeref}" var="sportRef">
+						${sportRef.name} &nbsp; &nbsp;
 					</c:forEach>
 				</td>
 				<td style="vertical-align: middle;">

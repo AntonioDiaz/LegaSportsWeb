@@ -2,6 +2,7 @@ package com.adiaz.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.adiaz.services.TownManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -16,26 +17,28 @@ import com.adiaz.services.CategoriesManager;
 import com.adiaz.services.SportsManager;
 
 @Controller
-@SessionAttributes ({"sports", "categories"})
+@SessionAttributes ({"sports", "categories", "towns"})
 public class MainController {
 
 	@Autowired
 	SportsManager sportsManager;
 	@Autowired
 	CategoriesManager categoriesManager;
-    /*
-    @Autowired
+	@Autowired
+	TownManager townManager;
+	/*
+	@Autowired
 	CompetitionsManager competitionsManager;
 	@Autowired
 	MatchesManager matchesManager;
 	*/
-	
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelMap modelMap) {
 		ModelAndView modelAndView = new ModelAndView("home");
 		modelAndView.addObject("sports", sportsManager.querySports());
 		modelAndView.addObject("categories", categoriesManager.queryCategories());
+		modelAndView.addObject("towns", townManager.queryAll());
 		return modelAndView;
 	}
 	

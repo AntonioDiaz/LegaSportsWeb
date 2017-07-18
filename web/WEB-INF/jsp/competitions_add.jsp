@@ -10,14 +10,21 @@
 </script>
 <form:form method="post" action="doAdd" commandName="my_form" cssClass="form-horizontal">
 	<div class="form-group">
+		<label class="control-label col-sm-2" >Nombre</label>
+		<div class="col-sm-6">
+			<form:input path="name" class="form-control" />
+		</div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
+	</div>
+	<div class="form-group">
 		<label class="control-label col-sm-2" >Deporte</label> 
 		<div class="col-sm-6">
 			<form:select path="sportId" class="form-control">
 				<form:option value=""></form:option>
-				<form:options items="${sports}" itemLabel="name" itemValue="id" />
+				<form:options items="${sports}" itemLabel="name" itemValue="id"/>
 			</form:select>
 		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="sportId" cssClass="text-danger" /></label>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="sportId" cssClass="text-danger"/></label>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Categoria</label> 
@@ -30,11 +37,14 @@
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="categoryId" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-sm-2" >Nombre</label> 
+		<label class="control-label col-sm-2" >Municipio</label>
 		<div class="col-sm-6">
-			<form:input path="name" class="form-control" />
+		<form:select path="categoryId" class="form-control">
+			<form:option value=""></form:option>
+			<form:options items="${categories}" itemLabel="name" itemValue="id" />
+		</form:select>
 		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="categoryId" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
 		<div class="col-sm-4">

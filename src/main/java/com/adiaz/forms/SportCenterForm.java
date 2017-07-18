@@ -5,7 +5,6 @@ package com.adiaz.forms;
  */
 public class SportCenterForm {
 	private Long id;
-	private boolean isAdmin;
 	private String name;
 	private String address;
 	private Long idTown;
@@ -42,11 +41,4 @@ public class SportCenterForm {
 		this.idTown = idTown;
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-	public void setAdmin(boolean admin) {
-		isAdmin = admin;
-	}
 }

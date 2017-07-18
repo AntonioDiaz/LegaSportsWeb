@@ -78,7 +78,7 @@
 		<div class="col-sm-6">
 			<form:select path="town.id" class="form-control">
 				<form:option value=""></form:option>
-				<form:options items="${townsList}" itemLabel="name" itemValue="id" />
+				<form:options items="${towns}" itemLabel="name" itemValue="id" />
 			</form:select>
 		</div>
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="town" cssClass="text-danger" /></label>

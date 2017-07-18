@@ -3,6 +3,7 @@ package com.adiaz.daos;
 import com.adiaz.entities.Category;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Sport;
+import com.adiaz.entities.Town;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -18,127 +19,182 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-/** Created by toni on 11/07/2017. */
+/**
+ * Created by toni on 11/07/2017.
+ */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext-testing.xml")
 @WebAppConfiguration("file:web")
 public class CompetitionsDAOImplTest {
-    private static final String COPA_PRIMAVERA = "COPA_PRIMAVERA";
-    private static final String COPA_LIGA = "COPA_LIGA";
-    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+	private static final String COPA_PRIMAVERA = "COPA_PRIMAVERA";
+	private static final String COPA_LIGA = "COPA_LIGA";
+	public static final String LEGANES = "Leganes";
+	public static final String FUENLABRADA = "Fuenlabrada";
+	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-    @Autowired
-    CompetitionsDAO competitionsDAO;
-    @Autowired
-    CategoriesDAO categoriesDAO;
-    @Autowired
-    SportsDAO sportsDAO;
-    
-    private Ref<Category> refCategory;
-    private Ref<Sport> refSportBasket;
-    private Ref<Sport> refSportFutbol;
+	@Autowired
+	CompetitionsDAO competitionsDAO;
+	@Autowired
+	CategoriesDAO categoriesDAO;
+	@Autowired
+	SportsDAO sportsDAO;
+	@Autowired
+	TownDAO townDAO;
 
-    @Before
-    public void setUp() throws Exception {
-        helper.setUp();
-        ObjectifyService.register(Competition.class);
-        ObjectifyService.register(Category.class);
-        ObjectifyService.register(Sport.class);
-        Category category = new Category();
-        category.setName("Cadete");
-        Key<Category> categoryKey = categoriesDAO.create(category);
-        refCategory = Ref.create(categoryKey);
-        Sport sport = new Sport();
-        sport.setName("Basket");
-        Key<Sport> sportKey = sportsDAO.create(sport);
-        refSportBasket = Ref.create(sportKey);
-        sport = new Sport();
-        sport.setName("Futbol");
-        sportKey = sportsDAO.create(sport);
-        refSportFutbol = Ref.create(sportKey);
-    }
+	private Ref<Category> refCategoryCadete;
+	private Ref<Sport> refSportBasket;
+	private Ref<Sport> refSportFutbol;
+	private Ref<Town> refTownLeganes;
+	private Ref<Town> refTownFuenlabrada;
 
-    @After
-    public void tearDown() throws Exception {
-        helper.tearDown();
-    }
+	@Before
+	public void setUp() throws Exception {
+		helper.setUp();
+		ObjectifyService.register(Competition.class);
+		ObjectifyService.register(Category.class);
+		ObjectifyService.register(Sport.class);
+		ObjectifyService.register(Town.class);
+		/*category */
+		Category category = new Category();
+		category.setName("Cadete");
+		Key<Category> categoryKey = categoriesDAO.create(category);
+		refCategoryCadete = Ref.create(categoryKey);
+		/*sport: basket */
+		Sport sport = new Sport();
+		sport.setName("Basket");
+		Key<Sport> sportKey = sportsDAO.create(sport);
+		refSportBasket = Ref.create(sportKey);
+		/*sport: futbol */
+		sport = new Sport();
+		sport.setName("Futbol");
+		sportKey = sportsDAO.create(sport);
+		refSportFutbol = Ref.create(sportKey);
+		/*town: leganes*/
+		Town town = new Town();
+		town.setName(LEGANES);
+		Key<Town> townKey = townDAO.create(town);
+		refTownLeganes = Ref.create(townKey);
+		/*town: fuenlabrada*/
+		town = new Town();
+		town.setName(FUENLABRADA);
+		townKey = townDAO.create(town);
+		refTownFuenlabrada = Ref.create(townKey);
+	}
 
-    @Test
-    public void create() throws Exception {
-        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
-        Competition competition = Ref.create(key).getValue();
-        Assert.assertEquals(competition, competitionsDAO.findCompetitionsById(competition.getId()));
-    }
+	@After
+	public void tearDown() throws Exception {
+		helper.tearDown();
+	}
 
-    @Test
-    public void updateName() throws Exception {
-        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
-        Competition competition = Ref.create(key).getValue();
-        competition.setName(COPA_LIGA);
-        competitionsDAO.update(competition);
-        competition = competitionsDAO.findCompetitionsById(competition.getId());
-        Assert.assertEquals(COPA_LIGA, competition.getName());
-    }
+	@Test
+	public void create() throws Exception {
+		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+		Competition competition = Ref.create(key).getValue();
+		Assert.assertEquals(competition, competitionsDAO.findCompetitionsById(competition.getId()));
+	}
 
-    @Test
-    public void updateSport() throws Exception {
-        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
-        Competition competition = Ref.create(key).getValue();
-        competition.setSport(refSportFutbol);
-        competitionsDAO.update(competition);
-        competition = competitionsDAO.findCompetitionsById(competition.getId());
-        Assert.assertEquals(refSportFutbol, competition.getSport());
-        competition.getRefs();
-        Assert.assertEquals("Futbol", competition.getSportEntity().getName());
-    }
+	@Test
+	public void updateName() throws Exception {
+		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+		Competition competition = Ref.create(key).getValue();
+		competition.setName(COPA_LIGA);
+		competitionsDAO.update(competition);
+		competition = competitionsDAO.findCompetitionsById(competition.getId());
+		Assert.assertEquals(COPA_LIGA, competition.getName());
+	}
 
-    @Test
-    public void remove() throws Exception {
-        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
-        Competition competition = Ref.create(key).getValue();
-        competitionsDAO.remove(competition);
-        Assert.assertEquals(0, competitionsDAO.findCompetitions().size());
-    }
+	@Test
+	public void updateSport() throws Exception {
+		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+		Competition competition = Ref.create(key).getValue();
+		competition.setSportRef(refSportFutbol);
+		competitionsDAO.update(competition);
+		competition = competitionsDAO.findCompetitionsById(competition.getId());
+		Assert.assertEquals(refSportFutbol, competition.getSportRef());
+		competition.getRefs();
+		Assert.assertEquals("Futbol", competition.getSportEntity().getName());
+	}
 
-    @Test
-    public void findCompetitions() throws Exception {
-        createCompetition(COPA_PRIMAVERA);
-        createCompetition(COPA_LIGA);
-        Assert.assertEquals(2, competitionsDAO.findCompetitions().size());
-    }
+	@Test
+	public void remove() throws Exception {
+		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+		Competition competition = Ref.create(key).getValue();
+		competitionsDAO.remove(competition);
+		Assert.assertEquals(0, competitionsDAO.findCompetitions().size());
+	}
 
-    @Test
-    public void findCompetitionsBySport() throws Exception {
-        createCompetition(COPA_PRIMAVERA);
-        createCompetition(COPA_LIGA);
-        Assert.assertEquals(2, competitionsDAO.findCompetitionsBySport(refSportFutbol.getValue()).size());
-    }
+	@Test
+	public void findCompetitions() throws Exception {
+		createCompetition(COPA_PRIMAVERA);
+		createCompetition(COPA_LIGA);
+		Assert.assertEquals(2, competitionsDAO.findCompetitions().size());
+	}
 
-    @Test
-    public void findCompetitionsBySportAndCategory() throws Exception {
-        Key<Competition> keyCompetition01 = createCompetition(COPA_PRIMAVERA);
-        Key<Competition> keyCompetition02 = createCompetition(COPA_LIGA);
+	@Test
+	public void findCompetitionsBySport() throws Exception {
+		createCompetition(COPA_PRIMAVERA);
+		createCompetition(COPA_LIGA);
+		Assert.assertEquals(2, competitionsDAO.findCompetitionsBySport(refSportFutbol.getValue()).size());
+	}
 
-        long idCategory = refCategory.getKey().getId();
-        long idSport = refSportBasket.getKey().getId();
-        Assert.assertEquals(2, competitionsDAO.findCompetitions(idSport, idCategory).size());
-    }
+	@Test
+	public void findCompetitionsBySportAndCategory() throws Exception {
+		createCompetition(COPA_PRIMAVERA);
+		createCompetition(COPA_LIGA);
+		long idCategory = refCategoryCadete.getKey().getId();
+		long idSport = refSportBasket.getKey().getId();
+		Assert.assertEquals(2, competitionsDAO.findCompetitions(idSport, idCategory, null).size());
+	}
 
-    @Test
-    public void findCompetitionsById() throws Exception {
-        Key<Competition> key = createCompetition(COPA_PRIMAVERA);
-        Competition competition = Ref.create(key).getValue();
-        Assert.assertEquals(competition, competitionsDAO.findCompetitionsById(key.getId()));
-    }
+	@Test
+	public void findCompetitionsBySportAndCategory_filterBySport() throws Exception {
+		createCompetition(COPA_PRIMAVERA, refSportBasket);
+		createCompetition(COPA_LIGA, refSportFutbol);
+		createCompetition(COPA_LIGA, refSportFutbol);
+		long idCategory = refCategoryCadete.getKey().getId();
+		long idSport = refSportBasket.getKey().getId();
+		Assert.assertEquals(1, competitionsDAO.findCompetitions(idSport, idCategory, null).size());
+	}
 
-    private Key<Competition> createCompetition(String competitionName) throws Exception {
-        Competition competition = new Competition();
-        competition.setName(competitionName);
-        competition.setSport(refSportBasket);
-        competition.setCategory(refCategory);
-        return competitionsDAO.create(competition);
-    }
+	@Test
+	public void findCompetitionsBySportAndCategory_filterByTown() throws Exception {
+		createCompetition(refTownLeganes);
+		createCompetition(refTownLeganes);
+		createCompetition(refTownFuenlabrada);
+		Long idFuenla = refTownFuenlabrada.get().getId();
+		Long idLeganes = refTownLeganes.get().getId();
+		Long idFutbol = refSportFutbol.get().getId();
+		Assert.assertEquals(1, competitionsDAO.findCompetitions(null, null, idFuenla).size());
+		Assert.assertEquals(2, competitionsDAO.findCompetitions(null, null, idLeganes).size());
+		Assert.assertEquals(0, competitionsDAO.findCompetitions(idFutbol, null, idFuenla).size());
+	}
 
+	@Test
+	public void findCompetitionsById() throws Exception {
+		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
+		Competition competition = Ref.create(key).getValue();
+		Assert.assertEquals(competition, competitionsDAO.findCompetitionsById(key.getId()));
+	}
 
+	private Key<Competition> createCompetition(
+			String competitionName, Ref<Sport> refSport, Ref<Category> refCategory, Ref<Town> refTown) throws Exception {
+		Competition competition = new Competition();
+		competition.setName(competitionName);
+		competition.setSportRef(refSport);
+		competition.setCategoryRef(refCategory);
+		competition.setTownRef(refTown);
+		return competitionsDAO.create(competition);
+	}
+
+	private Key<Competition> createCompetition(String competitionName) throws Exception {
+		return createCompetition(competitionName, refSportBasket, refCategoryCadete, refTownLeganes);
+	}
+	private Key<Competition> createCompetition(Ref<Town> townRef) throws Exception {
+		return createCompetition(COPA_LIGA, refSportBasket, refCategoryCadete, townRef);
+	}
+
+	private Key<Competition> createCompetition(String competitionName, Ref<Sport> sportRef) throws Exception {
+		return createCompetition(competitionName, sportRef, refCategoryCadete, refTownLeganes);
+	}
 }

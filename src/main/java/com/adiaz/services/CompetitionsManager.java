@@ -11,7 +11,7 @@ public interface CompetitionsManager {
 	public boolean remove(Competition item) throws Exception;
 	public boolean update(Competition item) throws Exception;
 	public List<Competition> queryCompetitions();
-	public List<Competition> queryCompetitions(Long idSport, Long idCategory);
+	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown);
 	public Competition queryCompetitionsById(long id);
 	public List<Competition> queryCompetitionsBySport(Sport sport);
 	public void removeAll() throws Exception;

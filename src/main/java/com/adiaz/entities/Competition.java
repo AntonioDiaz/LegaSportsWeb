@@ -23,12 +23,12 @@ public class Competition {
 	@Load
 	@JsonIgnore
 	@Index
-	private Ref<Sport> sport;
+	private Ref<Sport> sportRef;
 	
 	@Load
 	@JsonIgnore
 	@Index
-	private Ref<Category> category;
+	private Ref<Category> categoryRef;
 	
 	
 	/* start: attributes not need to save. */
@@ -43,16 +43,26 @@ public class Competition {
 	
 	@Ignore
 	private List<ClassificationEntry> classification;
-	/* end: attributes not need to save. */
+
+	@Load
+	@JsonIgnore
+	@Index
+	private Ref<Town> townRef;
+
+	@Ignore
+	private Town town;
 	
 	@OnLoad
 	public void getRefs() {
-		if (sport!=null && sport.isLoaded()) {
-			sportEntity = sport.get();
+		if (sportRef !=null && sportRef.isLoaded()) {
+			sportEntity = sportRef.get();
 		}
-		if (category!=null && category.isLoaded()) {
-			categoryEntity = category.get();
-		}		
+		if (categoryRef !=null && categoryRef.isLoaded()) {
+			categoryEntity = categoryRef.get();
+		}
+		if (townRef!=null && townRef.isLoaded()) {
+			town = townRef.get();
+		}
 	}
 	
 	public Long getId() {
@@ -71,20 +81,20 @@ public class Competition {
 		this.name = name;
 	}
 
-	public Ref<Sport> getSport() {
-		return sport;
+	public Ref<Sport> getSportRef() {
+		return sportRef;
 	}
 
-	public void setSport(Ref<Sport> sport) {
-		this.sport = sport;
+	public void setSportRef(Ref<Sport> sportRef) {
+		this.sportRef = sportRef;
 	}
 
-	public Ref<Category> getCategory() {
-		return category;
+	public Ref<Category> getCategoryRef() {
+		return categoryRef;
 	}
 
-	public void setCategory(Ref<Category> category) {
-		this.category = category;
+	public void setCategoryRef(Ref<Category> categoryRef) {
+		this.categoryRef = categoryRef;
 	}
 
 	public Sport getSportEntity() {
@@ -117,5 +127,21 @@ public class Competition {
 
 	public void setClassification(List<ClassificationEntry> classification) {
 		this.classification = classification;
+	}
+
+	public Ref<Town> getTownRef() {
+		return townRef;
+	}
+
+	public void setTownRef(Ref<Town> townRef) {
+		this.townRef = townRef;
+	}
+
+	public Town getTown() {
+		return town;
+	}
+
+	public void setTown(Town town) {
+		this.town = town;
 	}
 }

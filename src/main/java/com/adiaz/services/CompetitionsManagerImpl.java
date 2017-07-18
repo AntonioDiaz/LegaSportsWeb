@@ -66,15 +66,15 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 		Competition competition = new Competition();
 		competition.setName(name);
 		Key<Sport> keySport = Key.create(Sport.class, sportId);
-		competition.setSport(Ref.create(keySport));
+		competition.setSportRef(Ref.create(keySport));
 		Key<Category> keyCategory = Key.create(Category.class, categoryId);
-		competition.setCategory(Ref.create(keyCategory));
+		competition.setCategoryRef(Ref.create(keyCategory));
 		competitionsDAO.create(competition);
 	}
 
 	@Override
-	public List<Competition> queryCompetitions(Long idSport, Long idCategory) {
-		return competitionsDAO.findCompetitions(idSport, idCategory);
+	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown) {
+		return competitionsDAO.findCompetitions(idSport, idCategory, idTown);
 	}
 
 	@Override
