@@ -3,7 +3,7 @@
 	$(document).ready(function() {
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/list";
+			window.location.href = "/competitions/doFilter";
 		});
 		$('#name').prop('readonly', true);
 		$('#idCategory').prop('disabled', true);

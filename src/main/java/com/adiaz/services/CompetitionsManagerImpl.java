@@ -3,6 +3,7 @@ package com.adiaz.services;
 import java.util.List;
 
 import com.adiaz.entities.*;
+import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
 import com.adiaz.forms.utils.CompetitionsFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,11 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	@Override
 	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown) {
 		return competitionsDAO.findCompetitions(idSport, idCategory, idTown);
+	}
+
+	@Override
+	public List<Competition> queryCompetitions(CompetitionsFilterForm f) {
+		return competitionsDAO.findCompetitions(f.getIdSport(), f.getIdCategory(), f.getIdTown());
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.adiaz.controllers;
 import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
+import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
 import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.validators.CompetitionsFormValidator;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping ("/competitions")
+@SessionAttributes ("form_filter")
 public class CompetitionsController {
 	private static final Logger logger = Logger.getLogger(CompetitionsController.class);
 	@Autowired CompetitionsManager competitionsManager;
@@ -33,19 +36,30 @@ public class CompetitionsController {
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
 
-	@RequestMapping ("/list")
-	public ModelAndView listCompetitions(
-			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
-			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
+
+	@RequestMapping("/list")
+	public ModelAndView list(@RequestParam(value="add_done", defaultValue="false") boolean addDone){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
-		modelAndView.addObject("competitions_list", competitionsManager.queryCompetitions());
-		modelAndView.addObject("remove_done", removeDone);
-		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("form_filter", new CompetitionsFilterForm());
 		modelAndView.addObject("add_done", addDone);
 		return modelAndView;
 	}
-	
+
+	@RequestMapping("/doFilter")
+	public ModelAndView doFilter(
+			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
+			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
+			@ModelAttribute("form_filter") CompetitionsFilterForm competitionsFilterForm){
+		ModelAndView modelAndView = new ModelAndView("competitions_list");
+		modelAndView.addObject("form_filter", competitionsFilterForm);
+		List<Competition> competitions = competitionsManager.queryCompetitions(competitionsFilterForm);
+		modelAndView.addObject("competitions", competitions);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("update_done", updateDone);
+		return modelAndView;
+	}
+
+
 	@RequestMapping ("/add")
 	public ModelAndView addCompetitions() {
 		ModelAndView modelAndView = new ModelAndView("competitions_add");
@@ -94,7 +108,7 @@ public class CompetitionsController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/competitions/list?remove_done=true";
+		return "redirect:/competitions/doFilter?remove_done=true";
 	}
 	
 	@RequestMapping ("/viewCalendar")
@@ -183,7 +197,7 @@ public class CompetitionsController {
 		} else {
 			try {
 				competitionsManager.update(competitionsForm);
-				modelAndView.setViewName("redirect:/competitions/list?update_done=true");
+				modelAndView.setViewName("redirect:/competitions/doFilter?update_done=true");
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
@@ -198,5 +212,4 @@ public class CompetitionsController {
 		modelAndView.addObject("my_form", competitionsForm);
 		return modelAndView;
 	}
-
 }
