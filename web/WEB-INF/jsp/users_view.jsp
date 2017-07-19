@@ -14,7 +14,7 @@
 		$('input[name=bannedUser]').prop("disabled", true);
 		$('input[name=accountNonExpired]').prop("disabled", true);
 		$('input[name=enabled]').prop("disabled", true);
-		setTimeout(function(){ $('#town\\.id').attr('disabled', true); }, 500);
+		setTimeout(function(){ $('#townEntity\\.id').attr('disabled', true); }, 500);
 
 	});
 </script>

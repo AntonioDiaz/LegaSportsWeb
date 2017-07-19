@@ -1,5 +1,6 @@
-package com.adiaz.forms;
+package com.adiaz.forms.validators;
 
+import com.adiaz.forms.SportsCourtForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

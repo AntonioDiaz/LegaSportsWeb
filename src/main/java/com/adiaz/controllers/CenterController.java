@@ -3,8 +3,8 @@ package com.adiaz.controllers;
 import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.SportCourt;
 import com.adiaz.forms.SportCenterForm;
-import com.adiaz.forms.SportCenterFormValidator;
-import com.adiaz.forms.SportCourtFormValidator;
+import com.adiaz.forms.validators.SportCenterFormValidator;
+import com.adiaz.forms.validators.SportCourtFormValidator;
 import com.adiaz.forms.SportsCourtForm;
 import com.adiaz.services.SportCenterManager;
 import com.adiaz.services.SportCourtManager;
@@ -42,7 +42,7 @@ public class CenterController {
 		if (getActiveUser().isAdmin()) {
 			centers = sportsCenterManager.querySportCenters();
 		} else {
-			centers = sportsCenterManager.querySportCenters(getActiveUser().getTown().getId());
+			centers = sportsCenterManager.querySportCenters(getActiveUser().getTownEntity().getId());
 		}
 		modelAndView.addObject("centers", centers);
 		modelAndView.addObject("remove_done", removeDone);
@@ -56,7 +56,7 @@ public class CenterController {
 		ModelAndView modelAndView = new ModelAndView("center_add");
 		SportCenterForm sportCenterForm = new SportCenterForm();
 		if (!getActiveUser().isAdmin()) {
-			sportCenterForm.setIdTown(getActiveUser().getTown().getId());
+			sportCenterForm.setIdTown(getActiveUser().getTownEntity().getId());
 		}
 		modelAndView.addObject("my_form", sportCenterForm );
 		return modelAndView;
@@ -75,7 +75,7 @@ public class CenterController {
 			try {
 				/* in case malicious behavior */
 				if (!getActiveUser().isAdmin()) {
-					sportCenterForm.setIdTown(getActiveUser().getTown().getId());
+					sportCenterForm.setIdTown(getActiveUser().getTownEntity().getId());
 				}
 				sportsCenterManager.addSportCenter(sportCenterForm);
 			} catch (Exception e) {
@@ -94,7 +94,7 @@ public class CenterController {
 		ModelAndView modelAndView = new ModelAndView("center_update");
 		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(id);
 		if (!getActiveUser().isAdmin()) {
-			sportCenterForm.setIdTown(getActiveUser().getTown().getId());
+			sportCenterForm.setIdTown(getActiveUser().getTownEntity().getId());
 		}
 		modelAndView.addObject("my_form", sportCenterForm);
 
@@ -112,7 +112,7 @@ public class CenterController {
 			try {
 				/* in case malicious behavior */
 				if (!getActiveUser().isAdmin()) {
-					sportCenterForm.setIdTown(getActiveUser().getTown().getId());
+					sportCenterForm.setIdTown(getActiveUser().getTownEntity().getId());
 				}
 				sportsCenterManager.updateSportCenter(sportCenterForm);
 			} catch (Exception e) {
@@ -129,11 +129,11 @@ public class CenterController {
 	public ModelAndView doDelete(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
-			boolean validDelete = true;
 			/* in case malicious behavior */
+			boolean validDelete = true;
 			if (!getActiveUser().isAdmin()) {
 				SportCenterForm center = sportsCenterManager.querySportCentersById(id);
-				validDelete = center.getIdTown()==getActiveUser().getTown().getId();
+				validDelete = center.getIdTown()==getActiveUser().getTownEntity().getId();
 			}
 			if (validDelete) {
 				sportsCenterManager.removeSportCenter(id);

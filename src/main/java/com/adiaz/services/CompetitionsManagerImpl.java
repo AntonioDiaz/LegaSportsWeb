@@ -2,15 +2,14 @@ package com.adiaz.services;
 
 import java.util.List;
 
-import com.adiaz.entities.Competition;
-import com.adiaz.entities.Sport;
+import com.adiaz.entities.*;
+import com.adiaz.forms.CompetitionsForm;
+import com.adiaz.forms.utils.CompetitionsFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.MatchesDAO;
-import com.adiaz.entities.Category;
-import com.adiaz.entities.Match;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
@@ -19,6 +18,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Autowired CompetitionsDAO competitionsDAO;
 	@Autowired MatchesDAO matchesDAO;
+	@Autowired CompetitionsFormUtils competitionsFormUtils;
 	
 	@Override
 	public void add(Competition item) throws Exception {
@@ -31,12 +31,13 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 		for (Match match : queryMatchesByCompetition) {
 			matchesDAO.remove(match);
 		}
-		return competitionsDAO.remove(competition);		
+		return competitionsDAO.remove(competition);
 	}
 	
 	@Override
-	public boolean update(Competition item) throws Exception {
-		return competitionsDAO.update(item);
+	public boolean update(CompetitionsForm competitionsForm) throws Exception {
+		Competition competition = competitionsFormUtils.formToEntity(competitionsForm);
+		return competitionsDAO.update(competition);
 	}
 	
 	@Override
@@ -49,26 +50,21 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 		return competitionsDAO.findCompetitionsBySport(sport);
 	}
 
-	// TODO: 14/07/2017 remove this?? 
-	public Competition queryCompetitionsById(long id) {
-		Competition competition = null; 
-		List<Competition> competitions = competitionsDAO.findCompetitions();
-		for (Competition c : competitions) {
-			if (id==c.getId()) {
-				competition = c;
-			}
-		}
-		return competition;
+	// TODO: 14/07/2017 remove this??
+	@Override
+	public CompetitionsForm queryCompetitionsById(long id) {
+		Competition competition = competitionsDAO.findCompetitionsById(id);
+		return competitionsFormUtils.entityToForm(competition);
 	}
 
 	@Override
-	public void add(String name, Long sportId, Long categoryId) throws Exception {
-		Competition competition = new Competition();
-		competition.setName(name);
-		Key<Sport> keySport = Key.create(Sport.class, sportId);
-		competition.setSportRef(Ref.create(keySport));
-		Key<Category> keyCategory = Key.create(Category.class, categoryId);
-		competition.setCategoryRef(Ref.create(keyCategory));
+	public Competition queryCompetitionsByIdEntity(long id) {
+		return competitionsDAO.findCompetitionsById(id);
+	}
+
+	@Override
+	public void add(CompetitionsForm competitionsForm) throws Exception {
+		Competition competition = competitionsFormUtils.formToEntity(competitionsForm);
 		competitionsDAO.create(competition);
 	}
 

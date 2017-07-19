@@ -2,9 +2,9 @@
 	<script>
 		$(document).ready(function() {
 			$('input[name=admin]').change(function () {
-				$('#town\\.id').attr('disabled', this.checked);
+				$('#townEntity\\.id').attr('disabled', this.checked);
 				if (this.checked){
-					$('#town\\.id').val('');
+					$('#townEntity\\.id').val('');
 				}
 			});
 			$('input[name=admin]').change();
@@ -76,10 +76,10 @@
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Municipio del usuario</label>
 		<div class="col-sm-6">
-			<form:select path="town.id" class="form-control">
+			<form:select path="townEntity.id" class="form-control">
 				<form:option value=""></form:option>
 				<form:options items="${towns}" itemLabel="name" itemValue="id" />
 			</form:select>
 		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="town" cssClass="text-danger" /></label>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="townEntity" cssClass="text-danger" /></label>
 	</div>

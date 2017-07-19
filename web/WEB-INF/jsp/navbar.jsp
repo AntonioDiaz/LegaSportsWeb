@@ -51,7 +51,7 @@
 						<sec:authentication property="principal" var="userSession"></sec:authentication>
 							<c:out value="${userSession.username}"></c:out>&nbsp;
 							<c:if test="${!userSession.admin}">
-								(<c:out value="${userSession.town.name}"></c:out>)&nbsp;
+								(<c:out value="${userSession.townEntity.name}"></c:out>)&nbsp;
 							</c:if>
 							<c:if test="${userSession.admin}">
 								(admin)&nbsp;

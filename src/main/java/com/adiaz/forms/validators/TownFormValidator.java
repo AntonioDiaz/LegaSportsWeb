@@ -1,16 +1,12 @@
-package com.adiaz.forms;
+package com.adiaz.forms.validators;
 
-import com.adiaz.entities.Town;
+import com.adiaz.forms.TownForm;
 import com.adiaz.utils.ConstantsLegaSport;
 import com.adiaz.utils.UtilsLegaSport;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by toni on 14/07/2017.

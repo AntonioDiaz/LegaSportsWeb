@@ -1,22 +1,24 @@
-package com.adiaz.forms;
+package com.adiaz.forms.validators;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.adiaz.entities.SportCenter;
+
 @Component
-public class CompetitionsFormValidator implements Validator {
+public class SportCenterFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> arg0) {
-		return CompetitionsForm.class.isAssignableFrom(arg0);
+		return SportCenter.class.isAssignableFrom(arg0);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sportId", "field_required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "categoryId", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idTown", "field_required");
 	}
 }

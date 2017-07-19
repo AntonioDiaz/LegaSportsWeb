@@ -24,6 +24,7 @@
         <appengine.version>1.9.54</appengine.version>
         <spring.version>4.1.4.RELEASE</spring.version>
         <spring-security.version>3.2.7.RELEASE</spring-security.version>
+        <!--<springsecurity.version>4.1.0.RELEASE</springsecurity.version>-->
         <aspectj.version>1.6.12</aspectj.version>
         <jstl.version>1.2</jstl.version>
         <objectify.version>5.0.5</objectify.version>

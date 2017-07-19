@@ -9,6 +9,7 @@
 
 	<!--<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />-->
 	<context:component-scan base-package="com.adiaz.daos" />
+	<context:component-scan base-package="com.adiaz.forms.utils" />
 	<context:component-scan base-package="com.adiaz.services" />
 	<context:component-scan base-package="com.adiaz.services.security" />
 	<context:spring-configured />
@@ -40,5 +41,6 @@
 			<password-encoder hash="sha-256" />
 		</authentication-provider>
 	</authentication-manager>
-	<global-method-security secured-annotations="enabled" />
+	<!--<global-method-security secured-annotations="enabled" pre-post-annotations="enabled" jsr250-annotations="enabled"/>-->
+	<global-method-security secured-annotations="enabled"/>
 </beans:beans>

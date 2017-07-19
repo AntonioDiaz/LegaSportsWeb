@@ -1,4 +1,4 @@
-package com.adiaz.forms;
+package com.adiaz.forms.validators;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,7 +8,6 @@ import com.adiaz.utils.UtilsLegaSport;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.adiaz.utils.ConstantsLegaSport;
@@ -24,7 +23,7 @@ public class UserFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User)target;
-		if (!user.isAdmin() && (user.getTown()==null || user.getTown().getId()==null)) {
+		if (!user.isAdmin() && (user.getTownEntity()==null || user.getTownEntity().getId()==null)) {
 			errors.rejectValue("town", "field_required");
 		}
 		UtilsLegaSport.validateNotEmptyAndFormat(

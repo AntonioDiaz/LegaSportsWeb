@@ -17,16 +17,16 @@ import com.googlecode.objectify.cmd.Query;
 public class CompetitionsDAOImpl implements CompetitionsDAO {
 
 	@Override
-	public Key<Competition> create(Competition item) throws Exception {
-		return ofy().save().entity(item).now();
+	public Key<Competition> create(Competition competition) throws Exception {
+		return ofy().save().entity(competition).now();
 	}
 
 	@Override
-	public boolean update(Competition competitionVO) throws Exception {
+	public boolean update(Competition competition) throws Exception {
 		boolean updateResult = false;
-		if (competitionVO != null && competitionVO.getId() != null) {
+		if (competition != null && competition.getId() != null) {
 			updateResult = true;
-			ofy().save().entity(competitionVO).now();
+			ofy().save().entity(competition).now();
 		}
 		return updateResult;
 	}
@@ -57,18 +57,18 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 
 	@Override
-	public List<Competition> findCompetitions(Long sportId, Long categoryId, Long townId) {
+	public List<Competition> findCompetitions(Long idSport, Long idCategory, Long idTown) {
 		Query<Competition> query = ofy().load().type(Competition.class);
-		if (sportId!=null) {
-			Key<Sport> key = Key.create(Sport.class, sportId);
+		if (idSport!=null) {
+			Key<Sport> key = Key.create(Sport.class, idSport);
 			query = query.filter("sportRef", key);
 		}
-		if (categoryId!=null) {
-			Key<Category> key = Key.create(Category.class, categoryId);
+		if (idCategory!=null) {
+			Key<Category> key = Key.create(Category.class, idCategory);
 			query = query.filter("categoryRef", key);
 		}
-		if (townId!=null) {
-			Key<Town> key = Key.create(Town.class, townId);
+		if (idTown!=null) {
+			Key<Town> key = Key.create(Town.class, idTown);
 			query = query.filter("townRef", key);
 		}
 		return query.list();

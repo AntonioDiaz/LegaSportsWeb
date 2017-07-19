@@ -19,12 +19,12 @@ public class SportCenter {
 	private Ref<Town> townRef;
 
 	@Ignore
-	private Town town;
+	private Town townEntity;
 
 	@OnLoad
 	public void getRefs(){
 		if (townRef!=null && townRef.isLoaded()) {
-			town = townRef.get();
+			townEntity = townRef.get();
 		}
 	}
 
@@ -60,11 +60,11 @@ public class SportCenter {
 		this.townRef = townRef;
 	}
 
-	public Town getTown() {
-		return town;
+	public Town getTownEntity() {
+		return townEntity;
 	}
 
-	public void setTown(Town town) {
-		this.town = town;
+	public void setTownEntity(Town townEntity) {
+		this.townEntity = townEntity;
 	}
 }

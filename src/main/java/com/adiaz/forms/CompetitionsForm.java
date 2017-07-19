@@ -3,22 +3,31 @@ package com.adiaz.forms;
 
 public class CompetitionsForm {
 
+	private Long id;
 	private String name;
-	private Long sportId;
-	private Long categoryId;
-	private Long townId;
+	private Long idSport;
+	private Long idCategory;
+	private Long idTown;
 
-	public Long getSportId() {
-		return sportId;
+	public Long getId() {
+		return id;
 	}
-	public void setSportId(Long sportId) {
-		this.sportId = sportId;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public Long getCategoryId() {
-		return categoryId;
+
+	public Long getIdSport() {
+		return idSport;
 	}
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
+	public void setIdSport(Long idSport) {
+		this.idSport = idSport;
+	}
+	public Long getIdCategory() {
+		return idCategory;
+	}
+	public void setIdCategory(Long idCategory) {
+		this.idCategory = idCategory;
 	}
 	public String getName() {
 		return name;
@@ -27,11 +36,11 @@ public class CompetitionsForm {
 		this.name = name;
 	}
 
-	public Long getTownId() {
-		return townId;
+	public Long getIdTown() {
+		return idTown;
 	}
 
-	public void setTownId(Long townId) {
-		this.townId = townId;
+	public void setIdTown(Long idTown) {
+		this.idTown = idTown;
 	}
 }

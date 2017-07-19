@@ -1,8 +1,7 @@
 package com.adiaz.controllers;
 
-import com.adiaz.entities.Town;
 import com.adiaz.forms.TownForm;
-import com.adiaz.forms.TownFormValidator;
+import com.adiaz.forms.validators.TownFormValidator;
 import com.adiaz.services.TownManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

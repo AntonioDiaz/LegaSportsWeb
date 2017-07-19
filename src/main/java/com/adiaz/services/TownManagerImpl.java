@@ -2,9 +2,8 @@ package com.adiaz.services;
 
 import com.adiaz.daos.TownDAO;
 import com.adiaz.entities.Town;
-import com.adiaz.forms.SportCenterFormUtils;
 import com.adiaz.forms.TownForm;
-import com.adiaz.forms.TownFormUtils;
+import com.adiaz.forms.utils.TownFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +17,12 @@ public class TownManagerImpl implements TownManager {
 
 	@Autowired
 	TownDAO townDAO;
+	@Autowired
+	TownFormUtils townFormUtils;
 
 	@Override
 	public Long add(TownForm townForm) throws Exception {
-		Town town = TownFormUtils.generateTownEntityFromForm(townForm);
+		Town town = townFormUtils.formToEntity(townForm);
 		return townDAO.create(town).getId();
 	}
 
@@ -34,7 +35,7 @@ public class TownManagerImpl implements TownManager {
 
 	@Override
 	public boolean update(Long id, TownForm townForm) throws Exception {
-		Town town = TownFormUtils.generateTownEntityFromForm(townForm);
+		Town town = townFormUtils.formToEntity(townForm);
 		town.setId(id);
 		return townDAO.update(town);
 	}
@@ -46,7 +47,7 @@ public class TownManagerImpl implements TownManager {
 
 	@Override
 	public TownForm queryById(Long id) {
-		return TownFormUtils.generateTownFormFromEntity (townDAO.findById(id));
+		return townFormUtils.entityToForm(townDAO.findById(id));
 	}
 
 

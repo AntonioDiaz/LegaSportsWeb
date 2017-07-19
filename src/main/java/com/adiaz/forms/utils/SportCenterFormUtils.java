@@ -1,18 +1,22 @@
-package com.adiaz.forms;
+package com.adiaz.forms.utils;
 
 import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.Town;
+import com.adiaz.forms.SportCenterForm;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by toni on 17/07/2017.
  */
-public class SportCenterFormUtils {
+@Repository
+public class SportCenterFormUtils implements GenericFormUtils<SportCenterForm, SportCenter> {
 
-	public static SportCenter formToEntity(SportCenterForm sportCenterForm) {
+	@Override
+	public SportCenter formToEntity(SportCenterForm sportCenterForm) {
 		SportCenter sportCenter = new SportCenter();
-		if (sportCenter!=null) {
+		if (sportCenterForm!=null) {
 			sportCenter.setId(sportCenterForm.getId());
 			sportCenter.setName(sportCenterForm.getName());
 			sportCenter.setAddress(sportCenterForm.getAddress());
@@ -24,14 +28,14 @@ public class SportCenterFormUtils {
 		return sportCenter;
 	}
 
-
-	public static SportCenterForm entityToForm(SportCenter sportCenter) {
+	@Override
+	public SportCenterForm entityToForm(SportCenter sportCenter) {
 		SportCenterForm sportCenterForm = new SportCenterForm();
 		sportCenterForm.setId(sportCenter.getId());
 		sportCenterForm.setName(sportCenter.getName());
 		sportCenterForm.setAddress(sportCenter.getAddress());
-		if (sportCenter.getTown()!=null) {
-			sportCenterForm.setIdTown(sportCenter.getTown().getId());
+		if (sportCenter.getTownEntity()!=null) {
+			sportCenterForm.setIdTown(sportCenter.getTownEntity().getId());
 		}
 		return sportCenterForm;
 	}

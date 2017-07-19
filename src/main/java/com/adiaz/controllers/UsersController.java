@@ -2,8 +2,6 @@ package com.adiaz.controllers;
 
 import com.adiaz.entities.Town;
 import com.adiaz.entities.User;
-import com.adiaz.forms.TownForm;
-import com.adiaz.services.TownManager;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -13,14 +11,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.adiaz.forms.UserFormValidator;
+import com.adiaz.forms.validators.UserFormValidator;
 import com.adiaz.services.UsersManager;
 import com.adiaz.utils.UtilsLegaSport;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -61,7 +56,7 @@ public class UsersController {
 				user.setPassword(UtilsLegaSport.sha256Encode(user.getPassword01()));
 				user.setEnabled(true);
 				user.setAccountNonExpired(true);
-				Key<Town> key = Key.create(Town.class, user.getTown().getId());
+				Key<Town> key = Key.create(Town.class, user.getTownEntity().getId());
 				user.setTownRef(Ref.create(key));
 				usersManager.addUser(user);
 			} catch (Exception e) {
@@ -97,7 +92,7 @@ public class UsersController {
 					User originalUser = usersManager.queryUserByName(user.getUsername());
 					user.setPassword(originalUser.getPassword());
 				}
-				Key<Town> key = Key.create(Town.class, user.getTown().getId());
+				Key<Town> key = Key.create(Town.class, user.getTownEntity().getId());
 				user.setTownRef(Ref.create(key));
 				usersManager.updateUser(user);
 			} catch (Exception e) {

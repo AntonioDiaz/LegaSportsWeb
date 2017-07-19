@@ -29,7 +29,11 @@ public class Competition {
 	@JsonIgnore
 	@Index
 	private Ref<Category> categoryRef;
-	
+
+	@Load
+	@JsonIgnore
+	@Index
+	private Ref<Town> townRef;
 	
 	/* start: attributes not need to save. */
 	@Ignore
@@ -37,20 +41,17 @@ public class Competition {
 	
 	@Ignore
 	private Category categoryEntity;
-	
+
+	@Ignore
+	private Town townEntity;
+
 	@Ignore
 	private List<Match> matches;
 	
 	@Ignore
 	private List<ClassificationEntry> classification;
 
-	@Load
-	@JsonIgnore
-	@Index
-	private Ref<Town> townRef;
 
-	@Ignore
-	private Town town;
 	
 	@OnLoad
 	public void getRefs() {
@@ -61,7 +62,7 @@ public class Competition {
 			categoryEntity = categoryRef.get();
 		}
 		if (townRef!=null && townRef.isLoaded()) {
-			town = townRef.get();
+			townEntity = townRef.get();
 		}
 	}
 	
@@ -137,11 +138,11 @@ public class Competition {
 		this.townRef = townRef;
 	}
 
-	public Town getTown() {
-		return town;
+	public Town getTownEntity() {
+		return townEntity;
 	}
 
-	public void setTown(Town town) {
-		this.town = town;
+	public void setTownEntity(Town townEntity) {
+		this.townEntity = townEntity;
 	}
 }

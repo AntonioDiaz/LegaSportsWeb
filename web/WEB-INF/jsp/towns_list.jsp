@@ -44,20 +44,20 @@
 			<td colspan="3">No hay municipios.</td>
 		</tr>
 	</c:if>
-	<c:forEach var="town" items="${towns}">
+	<c:forEach var="townEntity" items="${towns}">
 		<tr>
-			<td style="vertical-align: middle;">${town.name}</td>
-			<td style="vertical-align: middle;">${town.contactPerson}</td>
+			<td style="vertical-align: middle;">${townEntity.name}</td>
+			<td style="vertical-align: middle;">${townEntity.contactPerson}</td>
 			<td>
 				<div class="row">
 					<div class="col-sm-4">
-						<button type="button" class="btn btn-default btn-block" onclick="fView('${town.id}')">Ver info</button>
+						<button type="button" class="btn btn-default btn-block" onclick="fView('${townEntity.id}')">Ver info</button>
 					</div>
 					<div class="col-sm-4">
-						<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${town.id}')">Modificar</button>
+						<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${townEntity.id}')">Modificar</button>
 					</div>
 					<div class="col-sm-4">
-						<button type="button" class="btn btn-default btn-block" onclick="fDelete('${town.id}', '${town.name}')">Eliminar</button>
+						<button type="button" class="btn btn-default btn-block" onclick="fDelete('${townEntity.id}', '${townEntity.name}')">Eliminar</button>
 					</div>
 				</div>
 			</td>

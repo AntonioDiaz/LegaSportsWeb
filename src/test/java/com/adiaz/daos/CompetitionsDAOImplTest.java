@@ -105,7 +105,7 @@ public class CompetitionsDAOImplTest {
 	}
 
 	@Test
-	public void updateSport() throws Exception {
+	public void update_sport() throws Exception {
 		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
 		Competition competition = Ref.create(key).getValue();
 		competition.setSportRef(refSportFutbol);
@@ -114,6 +114,18 @@ public class CompetitionsDAOImplTest {
 		Assert.assertEquals(refSportFutbol, competition.getSportRef());
 		competition.getRefs();
 		Assert.assertEquals("Futbol", competition.getSportEntity().getName());
+	}
+
+	@Test
+	public void update_town() throws Exception {
+		Key<Competition> key = createCompetition(refTownLeganes);
+		Competition competition = competitionsDAO.findCompetitionsById(key.getId());
+		Assert.assertEquals(key.getId(), (long)competition.getId());
+		Assert.assertEquals(LEGANES, competition.getTownRef().get().getName());
+		competition.setTownRef(refTownFuenlabrada);
+		competitionsDAO.update(competition);
+		competition = competitionsDAO.findCompetitionsById(key.getId());
+		Assert.assertEquals(FUENLABRADA, competition.getTownRef().get().getName());
 	}
 
 	@Test

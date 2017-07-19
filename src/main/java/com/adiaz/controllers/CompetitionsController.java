@@ -1,10 +1,17 @@
 package com.adiaz.controllers;
 
-import java.util.List;
-
+import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.Competition;
-import com.adiaz.entities.Town;
-import com.adiaz.services.TownManager;
+import com.adiaz.entities.Match;
+import com.adiaz.forms.CompetitionsForm;
+import com.adiaz.forms.SportCenterForm;
+import com.adiaz.forms.validators.CompetitionsFormValidator;
+import com.adiaz.forms.LoadMatchesForm;
+import com.adiaz.services.ClassificationManager;
+import com.adiaz.services.CompetitionsManager;
+import com.adiaz.services.MatchesManager;
+import com.adiaz.utils.UtilsLegaSport;
+import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,18 +19,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.Match;
-import com.adiaz.forms.CompetitionsForm;
-import com.adiaz.forms.CompetitionsFormValidator;
-import com.adiaz.forms.LoadMatchesForm;
-import com.adiaz.services.ClassificationManager;
-import com.adiaz.services.CompetitionsManager;
-import com.adiaz.services.MatchesManager;
-import com.adiaz.utils.UtilsLegaSport;
+import java.util.List;
 
 
 @Controller
@@ -51,7 +49,11 @@ public class CompetitionsController {
 	@RequestMapping ("/add")
 	public ModelAndView addCompetitions() {
 		ModelAndView modelAndView = new ModelAndView("competitions_add");
-		modelAndView.addObject("my_form", new CompetitionsForm());
+		CompetitionsForm competitionsForm = new CompetitionsForm();
+		if (!getActiveUser().isAdmin()) {
+			competitionsForm.setIdTown(getActiveUser().getTownEntity().getId());
+		}
+		modelAndView.addObject("my_form", competitionsForm);
 		return modelAndView;
 	}
 	
@@ -64,7 +66,10 @@ public class CompetitionsController {
 			modelAndView.setViewName("competitions_add");
 		} else {
 			try {
-				competitionsManager.add(competitionsForm.getName(), competitionsForm.getSportId(), competitionsForm.getCategoryId());
+				if (!getActiveUser().isAdmin()) {
+					competitionsForm.setIdTown(getActiveUser().getTownEntity().getId());
+				}
+				competitionsManager.add(competitionsForm);
 				modelAndView.setViewName("redirect:/competitions/list?add_done=true");
 			} catch (Exception e) {
 				logger.error(e.getMessage());
@@ -75,9 +80,17 @@ public class CompetitionsController {
 	
 	@RequestMapping("/doRemove")
 	public String doRemoveCompetition(@RequestParam(value = "idCompetition") Long idCompetition) {
-		Competition competition = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		try {
-			competitionsManager.remove(competition);
+			/* in case malicious behavior */
+			boolean validDelete = true;
+			if (!getActiveUser().isAdmin()) {
+				CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
+				validDelete = competitionsForm.getIdTown()==getActiveUser().getTownEntity().getId();
+			}
+			if (validDelete) {
+				competitionsManager.remove(competition);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,7 +100,7 @@ public class CompetitionsController {
 	@RequestMapping ("/viewCalendar")
 	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
-		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<Match> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
 		modelAndView.addObject("competition", competitionsById);
@@ -99,7 +112,7 @@ public class CompetitionsController {
 	@RequestMapping ("/viewClassification")
 	public ModelAndView viewClassification(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
-		Competition competition = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<ClassificationEntry> classificationList = classificationManager.queryClassificationBySport(idCompetition);
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("classification_list", classificationList);
@@ -109,7 +122,7 @@ public class CompetitionsController {
 	@RequestMapping ("/loadClassification")
 	public ModelAndView loadClassification (@RequestParam(value="idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_load_classification");
-		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		modelAndView.addObject("competition", competitionsById);
 		LoadMatchesForm loadMatchesForm = new LoadMatchesForm();
 		loadMatchesForm.setIdCompetition(idCompetition);
@@ -132,17 +145,17 @@ public class CompetitionsController {
 	@RequestMapping ("/loadCalendar")
 	public ModelAndView loadCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_load_calendar");
-		Competition competitionsById = competitionsManager.queryCompetitionsById(idCompetition);
+		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		modelAndView.addObject("competition", competitionsById);
 		LoadMatchesForm loadMatchesForm = new LoadMatchesForm();
 		loadMatchesForm.setIdCompetition(idCompetition);
 		modelAndView.addObject("my_form", loadMatchesForm);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping ("/doLoadCalendar")
 	public String doLoadCalendar(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
-		Competition competitionsById = competitionsManager.queryCompetitionsById(loadMatchesForm.getIdCompetition());
+		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(loadMatchesForm.getIdCompetition());
 		List<Match> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById);
 		try {
 			matchesManager.add(matchesList);
@@ -151,4 +164,39 @@ public class CompetitionsController {
 		}
 		return  "redirect:/competitions/viewCalendar?idCompetition=" + loadMatchesForm.getIdCompetition();
 	}
+
+	@RequestMapping ("/update")
+	public ModelAndView update(@RequestParam(value = "idCompetition") Long idCompetition) {
+		ModelAndView modelAndView = new ModelAndView("competitions_update");
+		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
+		modelAndView.addObject("my_form", competitionsForm);
+		return modelAndView;
+	}
+
+	@RequestMapping ("/doUpdate")
+	public ModelAndView doUpdateCompetition(@ModelAttribute("my_form") CompetitionsForm competitionsForm, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		this.competitionsFormValidator.validate(competitionsForm, bindingResult);
+		if (bindingResult.hasErrors()) {
+			modelAndView.addObject("my_form", competitionsForm);
+			modelAndView.setViewName("competitions_update");
+		} else {
+			try {
+				competitionsManager.update(competitionsForm);
+				modelAndView.setViewName("redirect:/competitions/list?update_done=true");
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
+		}
+		return modelAndView;
+	}
+
+	@RequestMapping ("/view")
+	public ModelAndView view(@RequestParam(value = "idCompetition") Long idCompetition) {
+		ModelAndView modelAndView = new ModelAndView("competitions_view");
+		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
+		modelAndView.addObject("my_form", competitionsForm);
+		return modelAndView;
+	}
+
 }

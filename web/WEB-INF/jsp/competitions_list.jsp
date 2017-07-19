@@ -32,12 +32,20 @@
 				})
 			}
 			
-			$scope.viewCalendar = function fViewCalendar(idCompetition) {
+			$scope.viewCalendar = function (idCompetition) {
 				window.location.href = "/competitions/viewCalendar?idCompetition=" + idCompetition;
 			}
 			
-			$scope.viewClassification = function fViewClassification(idCompetition) {
+			$scope.viewClassification = function (idCompetition) {
 				window.location.href = "/competitions/viewClassification?idCompetition=" + idCompetition;
+			}
+
+			$scope.update = function (idCompetition) {
+				window.location.href = "/competitions/update?idCompetition=" + idCompetition;
+			}
+
+			$scope.view = function (idCompetition) {
+				window.location.href = "/competitions/view?idCompetition=" + idCompetition;
 			}
 			
 			$scope.removeCompetition = function fRemoveCompetition(idCompetition) {
@@ -77,10 +85,10 @@
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<div class="form-group">
 					<label style="margin-right: 10px;">Municipio</label>
-					<select class="form-control" id="town" ng-model="filterTown" style="width: 160px;">
+					<select class="form-control" id="townEntity" ng-model="filterTown" style="width: 160px;">
 						<option value="">&nbsp;</option>
-						<c:forEach items="${towns}" var="town">
-							<option value="${town.id}">${town.name}</option>
+						<c:forEach items="${towns}" var="townEntity">
+							<option value="${townEntity.id}">${townEntity.name}</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -97,14 +105,11 @@
 			<tr>
 				<th class="col-md-2">Competición</th>
 				<th class="col-md-2">Deporte</th>
-				<th class="col-md-2">Categoria</th>
+				<th class="col-md-1">Categoria</th>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<th class="col-md-2">Municipio</th>
+					<th class="col-md-1">Municipio</th>
 				</sec:authorize>
-				<sec:authorize access="!hasRole('ROLE_ADMIN')">
-					<th class="col-md-2">&nbsp;</th>
-				</sec:authorize>
-				<th class="col-md-4">&nbsp;</th>
+				<th class="col-md-6">&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -128,24 +133,33 @@
 				<td style="vertical-align: middle;">
 					{{row.categoryEntity.name}}
 				</td>
-				<td style="vertical-align: middle;">
-					<sec:authorize access="hasRole('ROLE_ADMIN')">
-						{{row.town.name}}
-					</sec:authorize>
-					<sec:authorize access="!hasRole('ROLE_ADMIN')">
-						&nbsp;
-					</sec:authorize>
-				</td>
-				<td>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<td style="vertical-align: middle;">
+						{{row.townEntity.name}}
+					</td>
+				</sec:authorize>
+				<td class="col-sm-6">
 					<div class="row">
-						<div class="col-sm-4 div_button_list">
+						<div class="col-sm-3 div_button_list">
 							<button type="button" class="btn btn-default btn-block" ng-click="viewCalendar(row.id)">Calendario</button>
 						</div>
-						<div class="col-sm-4 div_button_list">
+						<div class="col-sm-3 div_button_list">
 							<button type="button" class="btn btn-default btn-block" ng-click="viewClassification(row.id)">Clasificación</button>
 						</div>
-						<div class="col-sm-4 div_button_list" style="padding-right: 15px;">
-							<button type="button" class="btn btn-default btn-block" ng-click="removeCompetition(row.id)">Borrar</button>
+						<div class="col-sm-2 div_button_list" align="center">
+							<button type="button" class="btn btn-default btn-block" ng-click="view(row.id)" title="Ver">
+								<span class="glyphicon glyphicon-eye-open"></span>
+							</button>
+						</div>
+						<div class="col-sm-2 div_button_list" align="center">
+							<button type="button" class="btn btn-default btn-block" ng-click="update(row.id)" title="modificar">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+						</div>
+						<div class="col-sm-2 div_button_list" align="center">
+							<button type="button" class="btn btn-default btn-block" ng-click="removeCompetition(row.id)" title="borrar">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
 						</div>
 					</div>
 				</td>

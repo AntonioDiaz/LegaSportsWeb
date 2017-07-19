@@ -51,7 +51,7 @@
 						Administrador
 					</c:if>
 					<c:if test="${!user.admin}">
-						${user.town.name}
+						${user.townEntity.name}
 					</c:if>
 				</td>
 				<td>

@@ -3,7 +3,7 @@ package com.adiaz.services;
 import java.util.List;
 
 import com.adiaz.forms.SportCenterForm;
-import com.adiaz.forms.SportCenterFormUtils;
+import com.adiaz.forms.utils.SportCenterFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +15,17 @@ import com.adiaz.entities.SportCenter;
 public class SportCenterManagerImpl implements SportCenterManager {
 
 	@Autowired SportCenterDAO sportsCenterDAO;
+	@Autowired SportCenterFormUtils sportCenterFormUtils;
 	
 	@Override
 	public void addSportCenter(SportCenterForm sportCenterForm) throws Exception {
-		SportCenter sportCenter = SportCenterFormUtils.formToEntity(sportCenterForm);
+		SportCenter sportCenter = sportCenterFormUtils.formToEntity(sportCenterForm);
 		sportsCenterDAO.create(sportCenter);
 	}
 
 	@Override
 	public boolean updateSportCenter(SportCenterForm sportCenterForm) throws Exception {
-		SportCenter sportCenter = SportCenterFormUtils.formToEntity(sportCenterForm);
+		SportCenter sportCenter = sportCenterFormUtils.formToEntity(sportCenterForm);
 		return sportsCenterDAO.update(sportCenter);
 	}
 
@@ -50,7 +51,7 @@ public class SportCenterManagerImpl implements SportCenterManager {
 	@Override
 	public SportCenterForm querySportCentersById(Long id) {
 		SportCenter sportCenter = sportsCenterDAO.findSportsCenterById(id);
-		return SportCenterFormUtils.entityToForm(sportCenter);
+		return sportCenterFormUtils.entityToForm(sportCenter);
 	}
 
 	@Override

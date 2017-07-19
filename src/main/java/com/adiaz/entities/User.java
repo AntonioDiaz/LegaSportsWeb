@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,12 +39,12 @@ public class User implements UserDetails {
 	private Ref<Town> townRef;
 
 	@Ignore
-	private Town town;
+	private Town townEntity;
 
 	@OnLoad
 	public void getRefs(){
 		if (townRef!=null && townRef.isLoaded()) {
-			town = townRef.get();
+			townEntity = townRef.get();
 		}
 	}
 
@@ -149,11 +148,11 @@ public class User implements UserDetails {
 		this.townRef = townRef;
 	}
 
-	public Town getTown() {
-		return town;
+	public Town getTownEntity() {
+		return townEntity;
 	}
 
-	public void setTown(Town town) {
-		this.town = town;
+	public void setTownEntity(Town townEntity) {
+		this.townEntity = townEntity;
 	}
 }

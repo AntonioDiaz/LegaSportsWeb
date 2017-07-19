@@ -7,7 +7,7 @@
 		});
 	});
 </script>
-<form:form method="post" action="doAdd" commandName="my_form" cssClass="form-horizontal">
+<form:form method="post" action="doUpdate" commandName="my_form" cssClass="form-horizontal">
 	<%@ include file="/WEB-INF/jsp/competitions_form.jsp"%>
 	<div class="form-group">
 		<div class="col-sm-4">
@@ -17,7 +17,7 @@
 			<button id="btnBack" type="button" class="btn btn-default btn-block" >cancelar</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="submit" class="btn btn-default btn-block">crear</button>
+			<button type="submit" class="btn btn-default btn-block">actualizar</button>
 		</div>
 		<div class="col-sm-4">&nbsp;</div>
 	</div>

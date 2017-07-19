@@ -53,7 +53,7 @@
 		<c:forEach var="center" items="${centers}">
 			<tr>
 				<td style="vertical-align: middle;">${center.name}</td>
-				<td style="vertical-align: middle;">${center.town.name}</td>
+				<td style="vertical-align: middle;">${center.townEntity.name}</td>
 				<td>
 					<div class="row">
 						<div class="col-sm-3">
