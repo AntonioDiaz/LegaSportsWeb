@@ -1,9 +1,13 @@
 package com.adiaz.controllers;
 
 import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.adiaz.entities.*;
+import com.adiaz.utils.ConstantsLegaSport;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,9 +117,9 @@ public class RESTController {
 	public ResponseEntity<Match> getMatch(@PathVariable("id") Long id) {
 		Match match = matchesManager.queryMatchesById(id);
 		if (match == null) {
-			return new ResponseEntity<Match>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Match>(match, HttpStatus.OK);
+		return new ResponseEntity<>(match, HttpStatus.OK);
 	}
 
 	// TODO: 10/07/2017 IMPORTAN protect this call in production environment. 
@@ -123,16 +127,21 @@ public class RESTController {
 	public ResponseEntity<Match> updateMatchScore(@PathVariable("id") Long id, @RequestBody Match newMatchVO) {
 		Match match = matchesManager.queryMatchesById(id);
 		if (match == null) {
-			return new ResponseEntity<Match>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		match.setScoreLocal(newMatchVO.getScoreLocal());
 		match.setScoreVisitor(newMatchVO.getScoreVisitor());
 		try {
-			boolean update = matchesManager.update(match);
+			if (newMatchVO.getDateStr()!=null) {
+				match.setDateStr(newMatchVO.getDateStr());
+				DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
+				match.setDate(dateFormat.parse(newMatchVO.getDateStr()));
+			}
+			matchesManager.update(match);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			return new ResponseEntity<Match>(HttpStatus.NOT_MODIFIED);
+			logger.error(e);
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
-		return new ResponseEntity<Match>(match, HttpStatus.OK);
+		return new ResponseEntity<>(match, HttpStatus.OK);
 	}
 }

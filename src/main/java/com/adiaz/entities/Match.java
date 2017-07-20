@@ -1,7 +1,10 @@
 package com.adiaz.entities;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.adiaz.utils.ConstantsLegaSport;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
@@ -44,11 +47,19 @@ public class Match {
 	@Ignore
 	@JsonIgnore
 	private Competition competition;
-	
+
+	@Ignore
+	private String dateStr;
+
+
 	@OnLoad
 	public void getRefs() {
 		if (competitionRef!=null && competitionRef.isLoaded()) {
 			competition = competitionRef.get();
+		}
+		if (date!=null) {
+			DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
+			dateStr = dateFormat.format(date);
 		}
 	}
 
@@ -148,5 +159,12 @@ public class Match {
 	public void setWeek(int week) {
 		this.week = week;
 	}
-	
+
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
+	}
 }
