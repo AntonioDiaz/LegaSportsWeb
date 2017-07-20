@@ -1,7 +1,7 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.SportCenter;
-import com.adiaz.entities.SportCourt;
+import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.entities.Sport;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -27,7 +27,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext-testing.xml")
 @WebAppConfiguration("file:web")
-public class SportCourtDAOImplTest {
+public class SportCenterCourtDAOImplTest {
 
     private static final String SPORTCOURT_NAME_1 = "PISTA CENTRAL";
     private static final String SPORTCOURT_NAME_2 = "PISTA SECUNDARIA";
@@ -55,7 +55,7 @@ public class SportCourtDAOImplTest {
     @Before
     public void setUp() throws Exception {
         helper.setUp();
-        ObjectifyService.register(SportCourt.class);
+        ObjectifyService.register(SportCenterCourt.class);
         ObjectifyService.register(SportCenter.class);
         ObjectifyService.register(Sport.class);
         /* create center 01*/
@@ -88,59 +88,59 @@ public class SportCourtDAOImplTest {
     @Test
     public void create() throws Exception {
         Assert.assertEquals(0, sportCourtDAO.findAllSportCourt().size());
-        Key<SportCourt> key = createSportCourt();
+        Key<SportCenterCourt> key = createSportCourt();
         Assert.assertEquals(1, sportCourtDAO.findAllSportCourt().size());
-        SportCourt sportCourt = sportCourtDAO.findSportCourt(key.getId());
-        Assert.assertEquals(centerRefLaCantera, sportCourt.getSportCenterRef());
+        SportCenterCourt sportCenterCourt = sportCourtDAO.findSportCourt(key.getId());
+        Assert.assertEquals(centerRefLaCantera, sportCenterCourt.getSportCenterRef());
         Assert.assertEquals(LA_CANTERA, centerRefLaCantera.getValue().getName());
-        Assert.assertEquals(2, sportCourt.getSports().size());
-        Assert.assertEquals(BASKET, sportCourt.getSports().get(0).getValue().getName());
-        Assert.assertEquals(FUTBOL, sportCourt.getSports().get(1).getValue().getName());
+        Assert.assertEquals(2, sportCenterCourt.getSports().size());
+        Assert.assertEquals(BASKET, sportCenterCourt.getSports().get(0).getValue().getName());
+        Assert.assertEquals(FUTBOL, sportCenterCourt.getSports().get(1).getValue().getName());
     }
 
     @Test
     public void createReturnRef() throws Exception {
         Assert.assertEquals(0, sportCourtDAO.findAllSportCourt().size());
-        Ref<SportCourt> sportCourtReturnRef = createSportCourtReturnRef();
+        Ref<SportCenterCourt> sportCourtReturnRef = createSportCourtReturnRef();
         Assert.assertEquals(1, sportCourtDAO.findAllSportCourt().size());
         Assert.assertEquals(SPORTCOURT_NAME_1, sportCourtReturnRef.getValue().getName());
     }
 
     @Test
     public void updateName() throws Exception {
-        Ref<SportCourt> ref = createSportCourtReturnRef();
-        SportCourt sportCourt = ref.getValue();
-        sportCourt.setName(SPORTCOURT_NAME_2);
-        sportCourtDAO.update(sportCourt);
-        SportCourt sportCourtUpdated = sportCourtDAO.findSportCourt(sportCourt.getId());
-        Assert.assertEquals(SPORTCOURT_NAME_2, sportCourtUpdated.getName());
+        Ref<SportCenterCourt> ref = createSportCourtReturnRef();
+        SportCenterCourt sportCenterCourt = ref.getValue();
+        sportCenterCourt.setName(SPORTCOURT_NAME_2);
+        sportCourtDAO.update(sportCenterCourt);
+        SportCenterCourt sportCenterCourtUpdated = sportCourtDAO.findSportCourt(sportCenterCourt.getId());
+        Assert.assertEquals(SPORTCOURT_NAME_2, sportCenterCourtUpdated.getName());
 
     }
 
     @Test
     public void updateCenter() throws Exception {
-        SportCourt sportCourt = createSportCourtReturnRef().getValue();
-        Assert.assertEquals(centerRefLaCantera, sportCourt.getSportCenterRef());
-        sportCourt.setSportCenterRef(centerRefPabellonEuropa);
-        sportCourtDAO.update(sportCourt);
-        Assert.assertEquals(centerRefPabellonEuropa, sportCourt.getSportCenterRef());
+        SportCenterCourt sportCenterCourt = createSportCourtReturnRef().getValue();
+        Assert.assertEquals(centerRefLaCantera, sportCenterCourt.getSportCenterRef());
+        sportCenterCourt.setSportCenterRef(centerRefPabellonEuropa);
+        sportCourtDAO.update(sportCenterCourt);
+        Assert.assertEquals(centerRefPabellonEuropa, sportCenterCourt.getSportCenterRef());
     }
 
     @Test
     public void updateSports() throws Exception {
-        SportCourt sportCourt = createSportCourtReturnRef().getValue();
-        Assert.assertEquals(2, sportCourt.getSports().size());
-        sportCourt.getSports().remove(0);
-        sportCourtDAO.update(sportCourt);
-        Assert.assertEquals(1, sportCourt.getSports().size());
+        SportCenterCourt sportCenterCourt = createSportCourtReturnRef().getValue();
+        Assert.assertEquals(2, sportCenterCourt.getSports().size());
+        sportCenterCourt.getSports().remove(0);
+        sportCourtDAO.update(sportCenterCourt);
+        Assert.assertEquals(1, sportCenterCourt.getSports().size());
     }
 
     @Test
     public void remove() throws Exception {
-        SportCourt sportCourt = createSportCourtReturnRef().getValue();
-        Assert.assertEquals(sportCourt, sportCourtDAO.findSportCourt(sportCourt.getId()));
-        sportCourtDAO.remove(sportCourt);
-        Assert.assertEquals(null, sportCourtDAO.findSportCourt(sportCourt.getId()));
+        SportCenterCourt sportCenterCourt = createSportCourtReturnRef().getValue();
+        Assert.assertEquals(sportCenterCourt, sportCourtDAO.findSportCourt(sportCenterCourt.getId()));
+        sportCourtDAO.remove(sportCenterCourt);
+        Assert.assertEquals(null, sportCourtDAO.findSportCourt(sportCenterCourt.getId()));
     }
 
     @Test
@@ -152,9 +152,9 @@ public class SportCourtDAOImplTest {
 
     @Test
     public void findSportCourtById() throws Exception {
-        Key<SportCourt> sportCourtKey = createSportCourt();
-        SportCourt sportCourt = sportCourtDAO.findSportCourt(sportCourtKey.getId());
-        Assert.assertEquals(sportCourtKey.getId(), (long)sportCourt.getId());
+        Key<SportCenterCourt> sportCourtKey = createSportCourt();
+        SportCenterCourt sportCenterCourt = sportCourtDAO.findSportCourt(sportCourtKey.getId());
+        Assert.assertEquals(sportCourtKey.getId(), (long) sportCenterCourt.getId());
     }
 
     @Test
@@ -165,26 +165,26 @@ public class SportCourtDAOImplTest {
     }
 
 
-    private Key<SportCourt> createSportCourt() throws Exception {
-        SportCourt sportCourt = new SportCourt();
-        sportCourt.setName(SPORTCOURT_NAME_1);
-        sportCourt.setSportCenterRef(centerRefLaCantera);
+    private Key<SportCenterCourt> createSportCourt() throws Exception {
+        SportCenterCourt sportCenterCourt = new SportCenterCourt();
+        sportCenterCourt.setName(SPORTCOURT_NAME_1);
+        sportCenterCourt.setSportCenterRef(centerRefLaCantera);
         List<Ref<Sport>> list = new ArrayList<>();
         list.add(sportRefFutbol);
-        sportCourt.getSports().add(sportRefBasket);
-        sportCourt.getSports().add(sportRefFutbol);
-        return sportCourtDAO.create(sportCourt);
+        sportCenterCourt.getSports().add(sportRefBasket);
+        sportCenterCourt.getSports().add(sportRefFutbol);
+        return sportCourtDAO.create(sportCenterCourt);
     }
 
 
-    private Ref<SportCourt> createSportCourtReturnRef() throws Exception {
-        SportCourt sportCourt = new SportCourt();
-        sportCourt.setName(SPORTCOURT_NAME_1);
-        sportCourt.setSportCenterRef(centerRefLaCantera);
+    private Ref<SportCenterCourt> createSportCourtReturnRef() throws Exception {
+        SportCenterCourt sportCenterCourt = new SportCenterCourt();
+        sportCenterCourt.setName(SPORTCOURT_NAME_1);
+        sportCenterCourt.setSportCenterRef(centerRefLaCantera);
         List<Ref<Sport>> list = new ArrayList<>();
         list.add(sportRefFutbol);
-        sportCourt.getSports().add(sportRefBasket);
-        sportCourt.getSports().add(sportRefFutbol);
-        return sportCourtDAO.createReturnRef(sportCourt);
+        sportCenterCourt.getSports().add(sportRefBasket);
+        sportCenterCourt.getSports().add(sportRefFutbol);
+        return sportCourtDAO.createReturnRef(sportCenterCourt);
     }
 }

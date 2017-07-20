@@ -32,7 +32,7 @@ public class Match {
 
 	@Load
 	@JsonIgnore
-	private Ref<SportCourt> sportCourtRef;
+	private Ref<SportCenterCourt> sportCenterCourtRef;
 
 	private int scoreLocal;
 	
@@ -54,7 +54,7 @@ public class Match {
 	private String dateStr;
 
 	@Ignore
-	private SportCourt sportCourt;
+	private SportCenterCourt sportCenterCourt;
 
 
 	@OnLoad
@@ -66,8 +66,8 @@ public class Match {
 			DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
 			dateStr = dateFormat.format(date);
 		}
-		if (sportCourtRef!=null && sportCourtRef.isLoaded()) {
-			sportCourt = sportCourtRef.get();
+		if (sportCenterCourtRef !=null && sportCenterCourtRef.isLoaded()) {
+			sportCenterCourt = sportCenterCourtRef.get();
 		}
 	}
 
@@ -166,19 +166,19 @@ public class Match {
 		this.dateStr = dateStr;
 	}
 
-	public Ref<SportCourt> getSportCourtRef() {
-		return sportCourtRef;
+	public Ref<SportCenterCourt> getSportCenterCourtRef() {
+		return sportCenterCourtRef;
 	}
 
-	public void setSportCourtRef(Ref<SportCourt> sportCourtRef) {
-		this.sportCourtRef = sportCourtRef;
+	public void setSportCenterCourtRef(Ref<SportCenterCourt> sportCenterCourtRef) {
+		this.sportCenterCourtRef = sportCenterCourtRef;
 	}
 
-	public SportCourt getSportCourt() {
-		return sportCourt;
+	public SportCenterCourt getSportCenterCourt() {
+		return sportCenterCourt;
 	}
 
-	public void setSportCourt(SportCourt sportCourt) {
-		this.sportCourt = sportCourt;
+	public void setSportCenterCourt(SportCenterCourt sportCenterCourt) {
+		this.sportCenterCourt = sportCenterCourt;
 	}
 }

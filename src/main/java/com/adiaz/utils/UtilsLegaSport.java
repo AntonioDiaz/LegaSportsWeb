@@ -27,7 +27,7 @@ public class UtilsLegaSport {
 
 	//private static final Logger log = Logger.getLogger(UtilsLegaSport.class.getName());
 
-	public static List<Match> parseCalendar(String lines, Competition competition, Ref<SportCourt> sportCourtRef) {
+	public static List<Match> parseCalendar(String lines, Competition competition, Ref<SportCenterCourt> sportCourtRef) {
 		List<Match> matchesList = new ArrayList<>();
 		String[] split = lines.split("\\r\\n");
 		int week = 0;
@@ -42,7 +42,7 @@ public class UtilsLegaSport {
 				match.setTeamLocal(strings[2]);
 				match.setTeamVisitor(strings[3]);
 				if (strings.length >= 5) {
-					match.setSportCourtRef(sportCourtRef);
+					match.setSportCenterCourtRef(sportCourtRef);
 				}
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 				Date myDate;
@@ -60,7 +60,7 @@ public class UtilsLegaSport {
 		return matchesList;
 	}
 
-	public static List<Match> parseCalendar(Competition competition, Ref<SportCourt> sportCourtRef) {
+	public static List<Match> parseCalendar(Competition competition, Ref<SportCenterCourt> sportCourtRef) {
 		String lines = parseLinesTextFile("static_calendar.txt");
 		return  parseCalendar(lines, competition, sportCourtRef);
 	}

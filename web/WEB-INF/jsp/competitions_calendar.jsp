@@ -194,8 +194,8 @@
 			</div>
 		</td>
 		<td id="place_${match.id}" class="col-sm-3" class="tdlink">
-			<c:if test="${match.sportCourt!=null}">
-				${match.sportCourt.sportCenter.name} - ${match.sportCourt.name}
+			<c:if test="${match.sportCenterCourt!=null}">
+				${match.sportCenterCourt.sportCenter.name} - ${match.sportCenterCourt.name}
 			</c:if>
 		</td>
 	</tr>

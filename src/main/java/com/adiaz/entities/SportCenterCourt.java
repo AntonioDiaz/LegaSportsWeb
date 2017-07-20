@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.*;
 
 
 @Entity
-public class SportCourt {
+public class SportCenterCourt {
 
 	@Id
 	private Long id;

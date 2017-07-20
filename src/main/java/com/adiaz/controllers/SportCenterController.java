@@ -1,7 +1,7 @@
 package com.adiaz.controllers;
 
 import com.adiaz.entities.SportCenter;
-import com.adiaz.entities.SportCourt;
+import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.validators.SportCenterFormValidator;
 import com.adiaz.forms.validators.SportCourtFormValidator;
@@ -212,7 +212,7 @@ public class SportCenterController {
 	@RequestMapping("/updateCourt")
 	public ModelAndView updateCourt(@RequestParam Long idCourt) {
 		ModelAndView modelAndView = new ModelAndView("courts_update");
-		SportCourt court = sportCourtManager.querySportCourt(idCourt);
+		SportCenterCourt court = sportCourtManager.querySportCourt(idCourt);
 		SportsCourtForm sportsCourtForm = new SportsCourtForm(court);
 		modelAndView.addObject("my_form", sportsCourtForm);
 		return modelAndView;

@@ -61,7 +61,7 @@ public class SportCenterManagerImpl implements SportCenterManager {
 	
 //	@Override
 //	public boolean addCourtToCenter(SportsCourtForm sportsCourtForm) throws Exception{
-//		SportCourt sportCourt = new SportCourt();
+//		SportCenterCourt sportCourt = new SportCenterCourt();
 //		sportCourt.setName(sportsCourtForm.getName());		
 //		for (Long idSport : sportsCourtForm.getCourtsSports()) {
 //			Key<Sport> newSport = Key.create(Sport.class, idSport);
@@ -69,7 +69,7 @@ public class SportCenterManagerImpl implements SportCenterManager {
 //		}
 //		
 //		//TODO: check if already exists an court with the same name.
-//		Key<SportCourt> newCourt = sportsCourtDAO.create(sportCourt);
+//		Key<SportCenterCourt> newCourt = sportsCourtDAO.create(sportCourt);
 //		SportCenter sportCenter = sportsCenterDAO.findSportsCenterById(sportsCourtForm.getIdCenter());
 //		sportCenter.getCourts().add(Ref.create(newCourt));
 //		sportsCenterDAO.update(sportCenter);

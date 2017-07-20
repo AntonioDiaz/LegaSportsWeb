@@ -2,7 +2,7 @@ package com.adiaz.forms;
 
 import com.adiaz.entities.Sport;
 import com.adiaz.entities.SportCenter;
-import com.adiaz.entities.SportCourt;
+import com.adiaz.entities.SportCenterCourt;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
@@ -14,7 +14,7 @@ public class SportsCourtForm {
 	private String name;
 	private Long[] courtsSports;
 	
-	public SportsCourtForm(SportCourt court) {
+	public SportsCourtForm(SportCenterCourt court) {
 		super();
 		this.setIdCourt(court.getId());
 		this.setIdCenter(court.getSportCenterRef().get().getId());
@@ -60,16 +60,16 @@ public class SportsCourtForm {
 	public void setNameCenter(String nameCenter) {
 		this.nameCenter = nameCenter;
 	}
-	public SportCourt getCourt() {
-		SportCourt sportCourt = new SportCourt();
-		sportCourt.setId(this.getIdCourt());
-		sportCourt.setName(this.getName());	
+	public SportCenterCourt getCourt() {
+		SportCenterCourt sportCenterCourt = new SportCenterCourt();
+		sportCenterCourt.setId(this.getIdCourt());
+		sportCenterCourt.setName(this.getName());
 		for (Long idSport : this.getCourtsSports()) {
 			Key<Sport> newSport = Key.create(Sport.class, idSport);
-			sportCourt.getSports().add(Ref.create(newSport));
+			sportCenterCourt.getSports().add(Ref.create(newSport));
 		}		
 		Key<SportCenter> refCenter = Key.create(SportCenter.class, this.getIdCenter());
-		sportCourt.setSportCenterRef(Ref.create(refCenter));
-		return sportCourt;
+		sportCenterCourt.setSportCenterRef(Ref.create(refCenter));
+		return sportCenterCourt;
 	}
 }

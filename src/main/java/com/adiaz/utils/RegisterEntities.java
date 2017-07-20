@@ -38,7 +38,7 @@ public class RegisterEntities {
 		ObjectifyService.register(ClassificationEntry.class);
 		ObjectifyService.register(User.class);
 		ObjectifyService.register(SportCenter.class);
-		ObjectifyService.register(SportCourt.class);
+		ObjectifyService.register(SportCenterCourt.class);
 		ObjectifyService.register(Town.class);
 
 		/** clean DB. */
@@ -91,11 +91,11 @@ public class RegisterEntities {
 		sportsCenter.setTownRef(Ref.create(keyLega));
 		Key<SportCenter> centerKey = ofy().save().entity(sportsCenter).now();
 
-		SportCourt court = new SportCourt();
+		SportCenterCourt court = new SportCenterCourt();
 		court.setName("Pista central");
 		court.setSportCenterRef(Ref.create(centerKey));
 		court.getSports().add(Ref.create(keySportBasket));
-		Key<SportCourt> courtKey = ofy().save().entity(court).now();
+		Key<SportCenterCourt> courtKey = ofy().save().entity(court).now();
 
 
 		/** load competitions */
