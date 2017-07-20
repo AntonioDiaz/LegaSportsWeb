@@ -11,6 +11,7 @@ import com.adiaz.forms.LoadMatchesForm;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
 import com.adiaz.services.MatchesManager;
+import com.adiaz.services.SportCourtManager;
 import com.adiaz.utils.UtilsLegaSport;
 import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
 import org.apache.log4j.Logger;
@@ -35,6 +36,7 @@ public class CompetitionsController {
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
+	@Autowired SportCourtManager sportCourtManager;
 
 
 	@RequestMapping("/list")
@@ -86,7 +88,7 @@ public class CompetitionsController {
 				competitionsManager.add(competitionsForm);
 				modelAndView.setViewName("redirect:/competitions/list?add_done=true");
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e);
 			}
 		}
 		return modelAndView;
@@ -170,7 +172,7 @@ public class CompetitionsController {
 	@RequestMapping ("/doLoadCalendar")
 	public String doLoadCalendar(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
 		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(loadMatchesForm.getIdCompetition());
-		List<Match> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById);
+		List<Match> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById, null);
 		try {
 			matchesManager.add(matchesList);
 		} catch (Exception e) {
@@ -199,7 +201,7 @@ public class CompetitionsController {
 				competitionsManager.update(competitionsForm);
 				modelAndView.setViewName("redirect:/competitions/doFilter?update_done=true");
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e);
 			}
 		}
 		return modelAndView;

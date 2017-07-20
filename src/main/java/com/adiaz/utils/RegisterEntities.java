@@ -84,6 +84,20 @@ public class RegisterEntities {
 			category.setOrder(order++);
 			keyCategories = ofy().save().entity(category).now();
 		}
+
+		SportCenter sportsCenter = new SportCenter();
+		sportsCenter.setName("Pabellon Europa");
+		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
+		sportsCenter.setTownRef(Ref.create(keyLega));
+		Key<SportCenter> centerKey = ofy().save().entity(sportsCenter).now();
+
+		SportCourt court = new SportCourt();
+		court.setName("Pista central");
+		court.setSportCenterRef(Ref.create(centerKey));
+		court.getSports().add(Ref.create(keySportBasket));
+		Key<SportCourt> courtKey = ofy().save().entity(court).now();
+
+
 		/** load competitions */
 		Competition competition = new Competition();
 		competition.setName("liga division honor");
@@ -97,16 +111,15 @@ public class RegisterEntities {
 			e.printStackTrace();
 		}
 
-		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition);
+		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition, Ref.create(courtKey));
 		try {
 			matchesManager.add(matchesList);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 		}
 		
 		try {
-			String classificationStr = UtilsLegaSport.classificationStr();
-			List<ClassificationEntry> classificationList = UtilsLegaSport.parseClassification(classificationStr, competition.getId());
+			List<ClassificationEntry> classificationList = UtilsLegaSport.parseClassification(competition.getId());
 			classificationManager.add(classificationList);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -120,27 +133,6 @@ public class RegisterEntities {
 		name = "user.lega";
 		password ="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
 		usersManager.addUser(initUser(name, password, false), townIdLega);
-
-		SportCenter sportsCenter = new SportCenter();
-		sportsCenter.setName("Pabellon Europa");
-		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
-		sportsCenter.setTownRef(Ref.create(keyLega));
-		Key<SportCenter> centerKey = ofy().save().entity(sportsCenter).now();
-		
-		SportCourt court = new SportCourt();
-		court.setName("Pista central");
-		court.setCenter(Ref.create(centerKey));
-		court.getSports().add(Ref.create(keySportBasket));
-		ofy().save().entity(court).now();
-
-		List<SportCenter> list = ofy().load().type(SportCenter.class).list();
-		for (SportCenter sportCenter : list) {
-			Key<SportCenter> keyCenter = Key.create(SportCenter.class, sportCenter.getId());
-			Ref<SportCenter> refCenter = Ref.create(keyCenter);
-			ofy().load().type(SportCourt.class).filter("center", refCenter).list();
-		}
-
-
 
 		logger.debug("finished init...");
 	}

@@ -29,9 +29,11 @@ public class Match {
 	
 	@Index
 	private Date date;
-	
-	private String place;
-	
+
+	@Load
+	@JsonIgnore
+	private Ref<SportCourt> sportCourtRef;
+
 	private int scoreLocal;
 	
 	private int scoreVisitor;
@@ -51,6 +53,9 @@ public class Match {
 	@Ignore
 	private String dateStr;
 
+	@Ignore
+	private SportCourt sportCourt;
+
 
 	@OnLoad
 	public void getRefs() {
@@ -60,6 +65,9 @@ public class Match {
 		if (date!=null) {
 			DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
 			dateStr = dateFormat.format(date);
+		}
+		if (sportCourtRef!=null && sportCourtRef.isLoaded()) {
+			sportCourt = sportCourtRef.get();
 		}
 	}
 
@@ -100,16 +108,6 @@ public class Match {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-
-	public String getPlace() {
-		return place;
-	}
-
-
-	public void setPlace(String place) {
-		this.place = place;
 	}
 
 
@@ -166,5 +164,21 @@ public class Match {
 
 	public void setDateStr(String dateStr) {
 		this.dateStr = dateStr;
+	}
+
+	public Ref<SportCourt> getSportCourtRef() {
+		return sportCourtRef;
+	}
+
+	public void setSportCourtRef(Ref<SportCourt> sportCourtRef) {
+		this.sportCourtRef = sportCourtRef;
+	}
+
+	public SportCourt getSportCourt() {
+		return sportCourt;
+	}
+
+	public void setSportCourt(SportCourt sportCourt) {
+		this.sportCourt = sportCourt;
 	}
 }

@@ -35,6 +35,20 @@
 							<input class="form-control" id="inputMatchDate" type="text" maxlength="16">
 						</div>
 					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-6">
+							Polideportivo / Pista
+						</div>
+						<div class="col-sm-6">
+							<select class="form-control">
+								<option value=""></option>
+								<c:forEach var="town" items="${towns}" varStatus="loop">
+									<option value="${town.id}">${town.name}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -125,16 +139,15 @@
 
 	var matchesArray = [];
 	<c:forEach var="match" items="${matches_list}" varStatus="loop">
-	matchesArray[${loop.index}] = {
-		id:${match.id},
-		week:${match.week},
-		teamLocal: "${match.teamLocal}",
-		teamVisitor: "${match.teamVisitor}",
-		scoreLocal:${match.scoreLocal},
-		scoreVisitor:${match.scoreVisitor},
-		matchPlace: "${match.place}",
-		dateStr: "${match.dateStr}"
-	}
+		matchesArray[${loop.index}] = {
+			id: ${match.id},
+			week: ${match.week},
+			teamLocal: "${match.teamLocal}",
+			teamVisitor: "${match.teamVisitor}",
+			scoreLocal: ${match.scoreLocal},
+			scoreVisitor: ${match.scoreVisitor},
+			dateStr: "${match.dateStr}"
+		}
 	</c:forEach>
 </script>
 <h2 style="color: #0061a8">
@@ -175,12 +188,16 @@
 		</td>
 		<td class="col-sm-3">${match.teamLocal}</td>
 		<td class="col-sm-3">${match.teamVisitor}</td>
-		<td class="col-sm-2">
+		<td class="col-sm-1">
 			<div id="score_${match.id}" class="divlink" onclick="fUpdateShowPopup(${loop.index})">
 					${match.scoreLocal} - ${match.scoreVisitor}
 			</div>
 		</td>
-		<td id="place_${match.id}" class="col-sm-2" class="tdlink">${match.place}&nbsp;</td>
+		<td id="place_${match.id}" class="col-sm-3" class="tdlink">
+			<c:if test="${match.sportCourt!=null}">
+				${match.sportCourt.sportCenter.name} - ${match.sportCourt.name}
+			</c:if>
+		</td>
 	</tr>
 	<c:set var="previous_week" value="${match.week}"></c:set>
 </c:forEach>

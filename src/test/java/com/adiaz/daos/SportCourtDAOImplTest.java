@@ -91,7 +91,7 @@ public class SportCourtDAOImplTest {
         Key<SportCourt> key = createSportCourt();
         Assert.assertEquals(1, sportCourtDAO.findAllSportCourt().size());
         SportCourt sportCourt = sportCourtDAO.findSportCourt(key.getId());
-        Assert.assertEquals(centerRefLaCantera, sportCourt.getCenter());
+        Assert.assertEquals(centerRefLaCantera, sportCourt.getSportCenterRef());
         Assert.assertEquals(LA_CANTERA, centerRefLaCantera.getValue().getName());
         Assert.assertEquals(2, sportCourt.getSports().size());
         Assert.assertEquals(BASKET, sportCourt.getSports().get(0).getValue().getName());
@@ -120,10 +120,10 @@ public class SportCourtDAOImplTest {
     @Test
     public void updateCenter() throws Exception {
         SportCourt sportCourt = createSportCourtReturnRef().getValue();
-        Assert.assertEquals(centerRefLaCantera, sportCourt.getCenter());
-        sportCourt.setCenter(centerRefPabellonEuropa);
+        Assert.assertEquals(centerRefLaCantera, sportCourt.getSportCenterRef());
+        sportCourt.setSportCenterRef(centerRefPabellonEuropa);
         sportCourtDAO.update(sportCourt);
-        Assert.assertEquals(centerRefPabellonEuropa, sportCourt.getCenter());
+        Assert.assertEquals(centerRefPabellonEuropa, sportCourt.getSportCenterRef());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class SportCourtDAOImplTest {
     private Key<SportCourt> createSportCourt() throws Exception {
         SportCourt sportCourt = new SportCourt();
         sportCourt.setName(SPORTCOURT_NAME_1);
-        sportCourt.setCenter(centerRefLaCantera);
+        sportCourt.setSportCenterRef(centerRefLaCantera);
         List<Ref<Sport>> list = new ArrayList<>();
         list.add(sportRefFutbol);
         sportCourt.getSports().add(sportRefBasket);
@@ -180,7 +180,7 @@ public class SportCourtDAOImplTest {
     private Ref<SportCourt> createSportCourtReturnRef() throws Exception {
         SportCourt sportCourt = new SportCourt();
         sportCourt.setName(SPORTCOURT_NAME_1);
-        sportCourt.setCenter(centerRefLaCantera);
+        sportCourt.setSportCenterRef(centerRefLaCantera);
         List<Ref<Sport>> list = new ArrayList<>();
         list.add(sportRefFutbol);
         sportCourt.getSports().add(sportRefBasket);

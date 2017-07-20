@@ -55,11 +55,11 @@ public class SportCourtDAOImpl implements SportCourtDAO {
 	
 	@Override
 	public SportCourt findSportCourt(Long idCourt) {
-		Key<SportCourt> key = Key.create(SportCourt.class, idCourt);		
+		Key<SportCourt> key = Key.create(SportCourt.class, idCourt);
 		return ofy().load().key(key).now();
 	}
 	@Override
 	public List<SportCourt> findSportCourt(Ref<SportCenter> sportCenterRef) {
-		return ofy().load().type(SportCourt.class).filter("center", sportCenterRef).list();
+		return ofy().load().type(SportCourt.class).filter("sportCenterRef", sportCenterRef).list();
 	}
 }

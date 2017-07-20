@@ -22,10 +22,10 @@ import java.util.List;
 import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
 
 @Controller
-@RequestMapping (value="/center")
-public class CenterController {
+@RequestMapping (value="/sportCenter")
+public class SportCenterController {
 
-	private static final Logger logger = Logger.getLogger(CenterController.class);
+	private static final Logger logger = Logger.getLogger(SportCenterController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
 	@Autowired SportCourtManager sportCourtManager;
@@ -82,7 +82,7 @@ public class CenterController {
 				// TODO: 17/07/2017 add error page.
 				logger.error(e);
 			}
-			String viewName = "redirect:/center/list";
+			String viewName = "redirect:/sportCenter/list";
 			viewName += "?add_done=true";
 			modelAndView.setViewName(viewName);
 		}
@@ -116,9 +116,9 @@ public class CenterController {
 				}
 				sportsCenterManager.updateSportCenter(sportCenterForm);
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e);
 			}
-			String viewName = "redirect:/center/list";
+			String viewName = "redirect:/sportCenter/list";
 			viewName += "?update_done=true";
 			modelAndView.setViewName(viewName);
 		}
@@ -139,9 +139,9 @@ public class CenterController {
 				sportsCenterManager.removeSportCenter(id);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 		}
-		String viewName = "redirect:/center/list";
+		String viewName = "redirect:/sportCenter/list";
 		viewName += "?remove_done=true";
 		modelAndView.setViewName(viewName);
 		return modelAndView;
@@ -184,9 +184,9 @@ public class CenterController {
 			try {
 				sportCourtManager.addSportCourt(sportsCourtForm);
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e);
 			}
-			String viewName = "redirect:/center/listCourts";
+			String viewName = "redirect:/sportCenter/listCourts";
 			viewName += "?add_done=true";
 			viewName += "&idSportCenter=" + sportsCourtForm.getIdCenter();
 			modelAndView.setViewName(viewName);
@@ -200,9 +200,9 @@ public class CenterController {
 		try {
 			sportCourtManager.removeSportCourt(idCourt);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 		}
-		String viewName = "redirect:/center/listCourts";
+		String viewName = "redirect:/sportCenter/listCourts";
 		viewName += "?remove_done=true";
 		viewName += "&idSportCenter=" + idCenter;
 		modelAndView.setViewName(viewName);
@@ -229,9 +229,9 @@ public class CenterController {
 			try {
 				sportCourtManager.updateSportCourt(sportsCourtForm);
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e);
 			}
-			String viewName = "redirect:/center/listCourts";
+			String viewName = "redirect:/sportCenter/listCourts";
 			viewName += "?update_done=true";
 			viewName += "&idSportCenter=" + sportsCourtForm.getIdCenter();
 			modelAndView.setViewName(viewName);

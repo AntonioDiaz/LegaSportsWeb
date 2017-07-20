@@ -3,7 +3,7 @@
 	$(document).ready(function(){
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/center/list";
+			window.location.href = "/sportCenter/list";
 		});
 		$('#name').prop('readonly', true);
 		$('#address').prop('readonly', true);

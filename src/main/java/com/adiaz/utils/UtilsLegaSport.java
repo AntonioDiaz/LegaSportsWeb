@@ -25,29 +25,11 @@ import org.springframework.validation.Errors;
 
 public class UtilsLegaSport {
 
-	
 	//private static final Logger log = Logger.getLogger(UtilsLegaSport.class.getName());
 
-	public static List<Match> parseCalendar(Competition competition) {
-		String calendarTxt = "";
-		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
-		File file = new File(classLoader.getResource("static_calendar.txt").getFile());
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = reader.readLine()) != null ){
-				calendarTxt += line + "\r\n";
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return parseCalendar (calendarTxt, competition);
-	}
-	
-	public static List<Match> parseCalendar(String matchesTxt, Competition competition) {
+	public static List<Match> parseCalendar(String lines, Competition competition, Ref<SportCourt> sportCourtRef) {
 		List<Match> matchesList = new ArrayList<>();
-		String[] split = matchesTxt.split("\\r\\n");
+		String[] split = lines.split("\\r\\n");
 		int week = 0;
 		for (int i = 0; i < split.length; i++) {
 			String line = split[i];
@@ -59,8 +41,8 @@ public class UtilsLegaSport {
 				match.setWeek(week);
 				match.setTeamLocal(strings[2]);
 				match.setTeamVisitor(strings[3]);
-				if (strings.length>=5) {
-					match.setPlace(strings[4]);
+				if (strings.length >= 5) {
+					match.setSportCourtRef(sportCourtRef);
 				}
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 				Date myDate;
@@ -73,14 +55,19 @@ public class UtilsLegaSport {
 				Key<Competition> competitionKey = Key.create(Competition.class, competition.getId());
 				match.setCompetitionRef(Ref.create(competitionKey));
 				matchesList.add(match);
-			}				
+			}
 		}
 		return matchesList;
 	}
+
+	public static List<Match> parseCalendar(Competition competition, Ref<SportCourt> sportCourtRef) {
+		String lines = parseLinesTextFile("static_calendar.txt");
+		return  parseCalendar(lines, competition, sportCourtRef);
+	}
 	
-	public static List<ClassificationEntry> parseClassification(String classificationTxt, Long competitionId) {
+	public static List<ClassificationEntry> parseClassification(String lines, Long competitionId) {
 		List<ClassificationEntry> classificationList = new ArrayList<ClassificationEntry>();
-		String[] split = classificationTxt.split("\\r\\n");
+		String[] split = lines.split("\\r\\n");
 		for (int i = 0; i < split.length; i++) {
 			ClassificationEntry classificationEntry = new ClassificationEntry();
 			String[] strings = split[i].split("\\t");
@@ -98,6 +85,10 @@ public class UtilsLegaSport {
 		}
 		return classificationList;
 	}
+	public static List<ClassificationEntry> parseClassification(Long competitionId) {
+		String lines = parseLinesTextFile("static_classification.txt");
+		return  parseClassification(lines, competitionId);
+	}
 	
 	public static void main(String[] args) {
 		ObjectifyService.register(Sport.class);
@@ -105,28 +96,9 @@ public class UtilsLegaSport {
 		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(Match.class);
 		System.out.println("parse calendar....");
-		String calendarTxt = classificationStr();
-		System.out.println(UtilsLegaSport.parseClassification(calendarTxt, 1L).size());
+		System.out.println(UtilsLegaSport.parseClassification(1L).size());
 	}
-	
-	public static String classificationStr (){
-		String calendarTxt = "";
-		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
-		File file = new File(classLoader.getResource("static_classification.txt").getFile());
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = reader.readLine()) != null ){
-				calendarTxt += line + "\r\n";
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return calendarTxt;
-	}
-	
-	
+
 	public static String sha256Encode(String text) throws Exception {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
@@ -163,4 +135,22 @@ public class UtilsLegaSport {
 	public static User getActiveUser(){
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
+
+	private static String parseLinesTextFile(String fileName) {
+		String calendarTxt = "";
+		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = reader.readLine()) != null ){
+				calendarTxt += line + "\r\n";
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return calendarTxt;
+	}
+
 }

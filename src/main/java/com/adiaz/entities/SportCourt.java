@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.adiaz.utils.Deref;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
+import com.googlecode.objectify.annotation.*;
 
 
 @Entity
@@ -24,10 +22,21 @@ public class SportCourt {
 
 	@Load
 	@Index
-	private Ref<SportCenter> center; 
-	
+	@JsonIgnore
+	private Ref<SportCenter> sportCenterRef;
 
-	public List<Sport> getSportsDeref() {
+	@Ignore
+	@JsonIgnore
+	private SportCenter sportCenter;
+
+	@OnLoad
+	public void getRefs() {
+		if (sportCenterRef!=null && sportCenterRef.isLoaded()) {
+			sportCenter = sportCenterRef.get();
+		}
+	}
+
+		public List<Sport> getSportsDeref() {
 		return Deref.deref(sports); 
 	}
 	
@@ -61,13 +70,20 @@ public class SportCourt {
 	}
 
 
-	public Ref<SportCenter> getCenter() {
-		return center;
+	public Ref<SportCenter> getSportCenterRef() {
+		return sportCenterRef;
 	}
 
 
-	public void setCenter(Ref<SportCenter> center) {
-		this.center = center;
+	public void setSportCenterRef(Ref<SportCenter> sportCenterRef) {
+		this.sportCenterRef = sportCenterRef;
 	}
-	
+
+	public SportCenter getSportCenter() {
+		return sportCenter;
+	}
+
+	public void setSportCenter(SportCenter sportCenter) {
+		this.sportCenter = sportCenter;
+	}
 }

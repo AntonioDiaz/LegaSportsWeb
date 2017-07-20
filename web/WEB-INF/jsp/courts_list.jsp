@@ -13,18 +13,18 @@
 	});
 
 	function fAddCourt(idCenter) {
-		window.location.href = "/center/addCourt?idCenter=" + idCenter;
+		window.location.href = "/sportCenter/addCourt?idCenter=" + idCenter;
 	}
 	
 	function fUpdate(idCourt) {
-		window.location.href = "/center/updateCourt?idCourt=" + idCourt;
+		window.location.href = "/sportCenter/updateCourt?idCourt=" + idCourt;
 	}
 	
 	function fDelete(idCourt, idCenter) {
 		var bodyTxt = "Se va a borrar la pista, ¿desea continuar?";
 		showDialogConfirm(bodyTxt, 
 			function(){ 
-				window.location.href = "/center/doDeleteCourt?idCourt=" + idCourt + "&idCenter=" + idCenter; 
+				window.location.href = "/sportCenter/doDeleteCourt?idCourt=" + idCourt + "&idCenter=" + idCenter;
 			}
 		);
 	}

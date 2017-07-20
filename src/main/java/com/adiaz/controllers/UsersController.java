@@ -60,7 +60,7 @@ public class UsersController {
 				user.setTownRef(Ref.create(key));
 				usersManager.addUser(user);
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e);
 			}
 			String viewName = "redirect:/users/list";
 			viewName += "?add_done=true";

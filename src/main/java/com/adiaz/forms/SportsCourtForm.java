@@ -17,8 +17,8 @@ public class SportsCourtForm {
 	public SportsCourtForm(SportCourt court) {
 		super();
 		this.setIdCourt(court.getId());
-		this.setIdCenter(court.getCenter().get().getId());
-		this.setNameCenter(court.getCenter().get().getName());
+		this.setIdCenter(court.getSportCenterRef().get().getId());
+		this.setNameCenter(court.getSportCenterRef().get().getName());
 		this.setName(court.getName());
 		Long [] sportsIds = new Long[court.getSportsDeref().size()];
 		for (int i = 0; i < sportsIds.length; i++) {
@@ -69,7 +69,7 @@ public class SportsCourtForm {
 			sportCourt.getSports().add(Ref.create(newSport));
 		}		
 		Key<SportCenter> refCenter = Key.create(SportCenter.class, this.getIdCenter());
-		sportCourt.setCenter(Ref.create(refCenter));
+		sportCourt.setSportCenterRef(Ref.create(refCenter));
 		return sportCourt;
 	}
 }
