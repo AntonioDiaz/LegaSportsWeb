@@ -25,7 +25,8 @@ public class RegisterEntities {
 	@Autowired CompetitionsManager competitionsManager;
 	@Autowired UsersManager usersManager;
 	@Autowired SportCenterManager sportCenterManager;
-	@Autowired SportCourtManager sportCourtManager;
+	@Autowired
+	SportCenterCourtManager sportCenterCourtManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired TownManager townManager;
@@ -49,7 +50,7 @@ public class RegisterEntities {
 		classificationManager.removeAll();
 		competitionsManager.removeAll();
 		usersManager.removeAll();
-		sportCourtManager.removeAll();
+		sportCenterCourtManager.removeAll();
 		sportCenterManager.removeAll();
 		townManager.removeAll();
 

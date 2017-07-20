@@ -7,7 +7,7 @@ import com.adiaz.forms.validators.SportCenterFormValidator;
 import com.adiaz.forms.validators.SportCourtFormValidator;
 import com.adiaz.forms.SportsCourtForm;
 import com.adiaz.services.SportCenterManager;
-import com.adiaz.services.SportCourtManager;
+import com.adiaz.services.SportCenterCourtManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,8 @@ public class SportCenterController {
 	private static final Logger logger = Logger.getLogger(SportCenterController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
-	@Autowired SportCourtManager sportCourtManager;
+	@Autowired
+	SportCenterCourtManager sportCenterCourtManager;
 	@Autowired SportCenterFormValidator sportCenterFormValidator;
 	@Autowired SportCourtFormValidator sportCourtFormValidator;
 	
@@ -155,7 +156,7 @@ public class SportCenterController {
 		ModelAndView modelAndView = new ModelAndView("courts_list");
 		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(idSportCenter);
 		modelAndView.addObject("sportCenter", sportCenterForm);
-		modelAndView.addObject("courts", sportCourtManager.querySportCourts(idSportCenter));
+		modelAndView.addObject("courts", sportCenterCourtManager.querySportCourts(idSportCenter));
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("add_done", addDone);
@@ -182,7 +183,7 @@ public class SportCenterController {
 			modelAndView.setViewName("courts_add");
 		} else {
 			try {
-				sportCourtManager.addSportCourt(sportsCourtForm);
+				sportCenterCourtManager.addSportCourt(sportsCourtForm);
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -198,7 +199,7 @@ public class SportCenterController {
 	public ModelAndView doDeleteCourt(@RequestParam Long idCourt, @RequestParam Long idCenter) {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
-			sportCourtManager.removeSportCourt(idCourt);
+			sportCenterCourtManager.removeSportCourt(idCourt);
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -212,7 +213,7 @@ public class SportCenterController {
 	@RequestMapping("/updateCourt")
 	public ModelAndView updateCourt(@RequestParam Long idCourt) {
 		ModelAndView modelAndView = new ModelAndView("courts_update");
-		SportCenterCourt court = sportCourtManager.querySportCourt(idCourt);
+		SportCenterCourt court = sportCenterCourtManager.querySportCourt(idCourt);
 		SportsCourtForm sportsCourtForm = new SportsCourtForm(court);
 		modelAndView.addObject("my_form", sportsCourtForm);
 		return modelAndView;
@@ -227,7 +228,7 @@ public class SportCenterController {
 			modelAndView.setViewName("courts_update");
 		} else {
 			try {
-				sportCourtManager.updateSportCourt(sportsCourtForm);
+				sportCenterCourtManager.updateSportCourt(sportsCourtForm);
 			} catch (Exception e) {
 				logger.error(e);
 			}

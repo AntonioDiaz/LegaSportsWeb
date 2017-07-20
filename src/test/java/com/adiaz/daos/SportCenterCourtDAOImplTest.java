@@ -39,7 +39,7 @@ public class SportCenterCourtDAOImplTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
     @Autowired
-    SportCourtDAO sportCourtDAO;
+    SportCenterCourtDAO sportCenterCourtDAO;
     @Autowired
     SportCenterDAO sportCenterDAO;
     @Autowired
@@ -87,10 +87,10 @@ public class SportCenterCourtDAOImplTest {
 
     @Test
     public void create() throws Exception {
-        Assert.assertEquals(0, sportCourtDAO.findAllSportCourt().size());
+        Assert.assertEquals(0, sportCenterCourtDAO.findAllSportCourt().size());
         Key<SportCenterCourt> key = createSportCourt();
-        Assert.assertEquals(1, sportCourtDAO.findAllSportCourt().size());
-        SportCenterCourt sportCenterCourt = sportCourtDAO.findSportCourt(key.getId());
+        Assert.assertEquals(1, sportCenterCourtDAO.findAllSportCourt().size());
+        SportCenterCourt sportCenterCourt = sportCenterCourtDAO.findSportCourt(key.getId());
         Assert.assertEquals(centerRefLaCantera, sportCenterCourt.getSportCenterRef());
         Assert.assertEquals(LA_CANTERA, centerRefLaCantera.getValue().getName());
         Assert.assertEquals(2, sportCenterCourt.getSports().size());
@@ -100,9 +100,9 @@ public class SportCenterCourtDAOImplTest {
 
     @Test
     public void createReturnRef() throws Exception {
-        Assert.assertEquals(0, sportCourtDAO.findAllSportCourt().size());
+        Assert.assertEquals(0, sportCenterCourtDAO.findAllSportCourt().size());
         Ref<SportCenterCourt> sportCourtReturnRef = createSportCourtReturnRef();
-        Assert.assertEquals(1, sportCourtDAO.findAllSportCourt().size());
+        Assert.assertEquals(1, sportCenterCourtDAO.findAllSportCourt().size());
         Assert.assertEquals(SPORTCOURT_NAME_1, sportCourtReturnRef.getValue().getName());
     }
 
@@ -111,8 +111,8 @@ public class SportCenterCourtDAOImplTest {
         Ref<SportCenterCourt> ref = createSportCourtReturnRef();
         SportCenterCourt sportCenterCourt = ref.getValue();
         sportCenterCourt.setName(SPORTCOURT_NAME_2);
-        sportCourtDAO.update(sportCenterCourt);
-        SportCenterCourt sportCenterCourtUpdated = sportCourtDAO.findSportCourt(sportCenterCourt.getId());
+        sportCenterCourtDAO.update(sportCenterCourt);
+        SportCenterCourt sportCenterCourtUpdated = sportCenterCourtDAO.findSportCourt(sportCenterCourt.getId());
         Assert.assertEquals(SPORTCOURT_NAME_2, sportCenterCourtUpdated.getName());
 
     }
@@ -122,7 +122,7 @@ public class SportCenterCourtDAOImplTest {
         SportCenterCourt sportCenterCourt = createSportCourtReturnRef().getValue();
         Assert.assertEquals(centerRefLaCantera, sportCenterCourt.getSportCenterRef());
         sportCenterCourt.setSportCenterRef(centerRefPabellonEuropa);
-        sportCourtDAO.update(sportCenterCourt);
+        sportCenterCourtDAO.update(sportCenterCourt);
         Assert.assertEquals(centerRefPabellonEuropa, sportCenterCourt.getSportCenterRef());
     }
 
@@ -131,37 +131,37 @@ public class SportCenterCourtDAOImplTest {
         SportCenterCourt sportCenterCourt = createSportCourtReturnRef().getValue();
         Assert.assertEquals(2, sportCenterCourt.getSports().size());
         sportCenterCourt.getSports().remove(0);
-        sportCourtDAO.update(sportCenterCourt);
+        sportCenterCourtDAO.update(sportCenterCourt);
         Assert.assertEquals(1, sportCenterCourt.getSports().size());
     }
 
     @Test
     public void remove() throws Exception {
         SportCenterCourt sportCenterCourt = createSportCourtReturnRef().getValue();
-        Assert.assertEquals(sportCenterCourt, sportCourtDAO.findSportCourt(sportCenterCourt.getId()));
-        sportCourtDAO.remove(sportCenterCourt);
-        Assert.assertEquals(null, sportCourtDAO.findSportCourt(sportCenterCourt.getId()));
+        Assert.assertEquals(sportCenterCourt, sportCenterCourtDAO.findSportCourt(sportCenterCourt.getId()));
+        sportCenterCourtDAO.remove(sportCenterCourt);
+        Assert.assertEquals(null, sportCenterCourtDAO.findSportCourt(sportCenterCourt.getId()));
     }
 
     @Test
     public void findAllSportCourt() throws Exception {
         createSportCourt();
         createSportCourt();
-        Assert.assertEquals(2, sportCourtDAO.findAllSportCourt().size());
+        Assert.assertEquals(2, sportCenterCourtDAO.findAllSportCourt().size());
     }
 
     @Test
     public void findSportCourtById() throws Exception {
         Key<SportCenterCourt> sportCourtKey = createSportCourt();
-        SportCenterCourt sportCenterCourt = sportCourtDAO.findSportCourt(sportCourtKey.getId());
+        SportCenterCourt sportCenterCourt = sportCenterCourtDAO.findSportCourt(sportCourtKey.getId());
         Assert.assertEquals(sportCourtKey.getId(), (long) sportCenterCourt.getId());
     }
 
     @Test
     public void findSportCourtByCenterRef() throws Exception {
         createSportCourt();
-        Assert.assertEquals(1, sportCourtDAO.findSportCourt(centerRefLaCantera).size());
-        Assert.assertEquals(0, sportCourtDAO.findSportCourt(centerRefPabellonEuropa).size());
+        Assert.assertEquals(1, sportCenterCourtDAO.findSportCourt(centerRefLaCantera).size());
+        Assert.assertEquals(0, sportCenterCourtDAO.findSportCourt(centerRefPabellonEuropa).size());
     }
 
 
@@ -173,7 +173,7 @@ public class SportCenterCourtDAOImplTest {
         list.add(sportRefFutbol);
         sportCenterCourt.getSports().add(sportRefBasket);
         sportCenterCourt.getSports().add(sportRefFutbol);
-        return sportCourtDAO.create(sportCenterCourt);
+        return sportCenterCourtDAO.create(sportCenterCourt);
     }
 
 
@@ -185,6 +185,6 @@ public class SportCenterCourtDAOImplTest {
         list.add(sportRefFutbol);
         sportCenterCourt.getSports().add(sportRefBasket);
         sportCenterCourt.getSports().add(sportRefFutbol);
-        return sportCourtDAO.createReturnRef(sportCenterCourt);
+        return sportCenterCourtDAO.createReturnRef(sportCenterCourt);
     }
 }

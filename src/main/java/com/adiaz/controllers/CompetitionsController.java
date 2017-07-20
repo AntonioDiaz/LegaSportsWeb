@@ -5,13 +5,12 @@ import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
 import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
-import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.validators.CompetitionsFormValidator;
 import com.adiaz.forms.LoadMatchesForm;
 import com.adiaz.services.ClassificationManager;
 import com.adiaz.services.CompetitionsManager;
 import com.adiaz.services.MatchesManager;
-import com.adiaz.services.SportCourtManager;
+import com.adiaz.services.SportCenterCourtManager;
 import com.adiaz.utils.UtilsLegaSport;
 import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
 import org.apache.log4j.Logger;
@@ -36,7 +35,8 @@ public class CompetitionsController {
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
-	@Autowired SportCourtManager sportCourtManager;
+	@Autowired
+	SportCenterCourtManager sportCenterCourtManager;
 
 
 	@RequestMapping("/list")

@@ -6,7 +6,7 @@ import com.adiaz.entities.SportCenter;
 import com.adiaz.entities.SportCenterCourt;
 import com.googlecode.objectify.Ref;
 
-public interface SportCourtDAO extends GenericDAO<SportCenterCourt> {
+public interface SportCenterCourtDAO extends GenericDAO<SportCenterCourt> {
 	
 	public Ref<SportCenterCourt> createReturnRef(SportCenterCourt item) throws Exception;
 	public List<SportCenterCourt> findAllSportCourt();

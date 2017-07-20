@@ -13,7 +13,7 @@ import com.googlecode.objectify.Ref;
 
 
 @Repository
-public class SportCourtDAOImpl implements SportCourtDAO {
+public class SportCenterCourtDAOImpl implements SportCenterCourtDAO {
 
 	
 	@Override

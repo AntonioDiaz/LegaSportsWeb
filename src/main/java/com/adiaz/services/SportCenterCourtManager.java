@@ -6,7 +6,7 @@ import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.SportsCourtForm;
 import com.googlecode.objectify.Ref;
 
-public interface SportCourtManager {
+public interface SportCenterCourtManager {
 
 	public Ref<SportCenterCourt> addSportCourt(SportCenterCourt sportCenterCourt) throws Exception;
 	public Ref<SportCenterCourt> addSportCourt(SportsCourtForm sportCourtForm) throws Exception;
