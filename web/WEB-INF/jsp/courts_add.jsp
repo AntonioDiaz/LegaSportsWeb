@@ -8,7 +8,7 @@
 		
 	});
 </script>
-<h2 style="color: #0061a8">
+<h2>
 	${my_form.nameCenter} - Nueva pista 
 </h2>
 <hr>

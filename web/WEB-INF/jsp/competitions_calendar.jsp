@@ -208,7 +208,7 @@
 </c:if>
 <c:forEach begin="1" end="${weeks_count}" varStatus="loopForWeek">
 	<div name="week_id_${loopForWeek.index}">
-		<h3>Jornada ${loopForWeek.index}</h3>
+		<h4>Jornada ${loopForWeek.index}</h4>
 		<table class="table table-hover	table-condensed">
 			<c:forEach var="match" items="${matches_list}" varStatus="loopForMatches">
 				<c:if test="${loopForWeek.index==match.week}">

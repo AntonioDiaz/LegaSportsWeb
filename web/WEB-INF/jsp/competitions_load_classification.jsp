@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="taglibs.jsp"%>
 <script>
 	$(document).ready(function() {
@@ -7,14 +8,14 @@
 		});						
 	});	
 </script>
-<h2 style="color: #0061a8">
+<h2>
 	Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})
 </h2>
 <hr>
 <form:form method="post" action="doLoadClassification" commandName="my_form" cssClass="form-horizontal">
 	<form:hidden path="idCompetition"/>
 	<div class="form-group">
-		<label class="control-label" >Clasificación:</label> 
+		<label class="control-label" >ClasificaciÃ³n:</label>
 		<form:textarea path="matchesTxt" rows="15" class="form-control"/>
 	</div>
 	<div class="form-group">

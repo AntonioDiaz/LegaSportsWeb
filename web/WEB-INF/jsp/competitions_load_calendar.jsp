@@ -7,7 +7,7 @@
 		});						
 	});	
 </script>
-<h2 style="color: #0061a8">
+<h2>
 	Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})
 </h2>
 <hr>
