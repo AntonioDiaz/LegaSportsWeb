@@ -18,6 +18,7 @@ public class SportCenterCourt {
 	private String name;
 	
 	@Load
+	@JsonIgnore
 	private List<Ref<Sport>> sports = new ArrayList<Ref<Sport>>();
 
 	@Load
@@ -26,7 +27,6 @@ public class SportCenterCourt {
 	private Ref<SportCenter> sportCenterRef;
 
 	@Ignore
-	@JsonIgnore
 	private SportCenter sportCenter;
 
 	@OnLoad
@@ -36,7 +36,7 @@ public class SportCenterCourt {
 		}
 	}
 
-		public List<Sport> getSportsDeref() {
+	public List<Sport> getSportsDeref() {
 		return Deref.deref(sports); 
 	}
 	

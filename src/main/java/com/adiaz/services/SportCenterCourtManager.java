@@ -2,6 +2,7 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.entities.Sport;
 import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.SportsCourtForm;
 import com.googlecode.objectify.Ref;
@@ -16,6 +17,7 @@ public interface SportCenterCourtManager {
 	public SportCenterCourt querySportCourt(Long idCourt);
 	public void removeAll() throws Exception;
 	public List<SportCenterCourt> querySportCourts(Long idSportCenter);
+	public List<SportCenterCourt> querySportCourtsByTownAndSport(Long idTown, Long idSport);
 	public void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception;
 
 }

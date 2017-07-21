@@ -3,6 +3,7 @@ package com.adiaz.controllers;
 import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
+import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
 import com.adiaz.forms.validators.CompetitionsFormValidator;
@@ -35,8 +36,7 @@ public class CompetitionsController {
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
-	@Autowired
-	SportCenterCourtManager sportCenterCourtManager;
+	@Autowired SportCenterCourtManager sportCenterCourtManager;
 
 
 	@RequestMapping("/list")
@@ -116,12 +116,15 @@ public class CompetitionsController {
 	@RequestMapping ("/viewCalendar")
 	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
-		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<Match> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
-		modelAndView.addObject("competition", competitionsById);
+		List<SportCenterCourt> courts = sportCenterCourtManager.querySportCourtsByTownAndSport(
+				competition.getTownEntity().getId(), competition.getSportEntity().getId());
+		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("matches_list", matchesList);
 		modelAndView.addObject("weeks_count", howManyWeek);
+		modelAndView.addObject("courts", courts);
 		return modelAndView;
 	}
 	
@@ -130,6 +133,7 @@ public class CompetitionsController {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<ClassificationEntry> classificationList = classificationManager.queryClassificationBySport(idCompetition);
+
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("classification_list", classificationList);
 		return modelAndView;

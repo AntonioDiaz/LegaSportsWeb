@@ -1,7 +1,11 @@
 package com.adiaz.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.adiaz.daos.SportCenterDAO;
+import com.adiaz.daos.SportsDAO;
+import com.adiaz.entities.Sport;
 import com.adiaz.entities.SportCenterCourt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,10 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 
 	@Autowired
 	SportCenterCourtDAO sportCenterCourtDAO;
+	@Autowired
+	SportCenterDAO sportCenterDAO;
+	@Autowired
+	SportsDAO sportsDAO;
 
 	@Override
 	public Ref<SportCenterCourt> addSportCourt(SportCenterCourt sportCenterCourt) throws Exception {
@@ -30,7 +38,7 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 
 	@Override
 	public boolean removeSportCourt(Long idCourt) throws Exception {
-		SportCenterCourt sportCenterCourt = sportCenterCourtDAO.findSportCourt(idCourt);
+		SportCenterCourt sportCenterCourt = sportCenterCourtDAO.findBySportCenter(idCourt);
 		return sportCenterCourtDAO.remove(sportCenterCourt);
 	}
 
@@ -49,7 +57,7 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 
 	@Override
 	public SportCenterCourt querySportCourt(Long idCourt) {
-		return sportCenterCourtDAO.findSportCourt(idCourt);
+		return sportCenterCourtDAO.findBySportCenter(idCourt);
 	}
 
 	@Override
@@ -62,12 +70,30 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 	public List<SportCenterCourt> querySportCourts(Long idSportCenter) {
 		Key<SportCenter> keyCenter = Key.create(SportCenter.class, idSportCenter);
 		Ref<SportCenter> refCenter = Ref.create(keyCenter);
-		return sportCenterCourtDAO.findSportCourt(refCenter);
+		return sportCenterCourtDAO.findBySportCenter(refCenter);
 	}
 
 	@Override
 	public void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception {
 		SportCenterCourt sportCenterCourt = sportsCourtForm.getCourt();
 		sportCenterCourtDAO.update(sportCenterCourt);
+	}
+
+	@Override
+	public List<SportCenterCourt> querySportCourtsByTownAndSport(Long idTown, Long idSport) {
+		Sport sport = sportsDAO.findSportById(idSport);
+		List<SportCenterCourt> courts = new ArrayList<>();
+		/*first find sportCenters of this town. */
+		List<SportCenter> sportCenters = sportCenterDAO.findSportsCenterByTown(idTown);
+		/*second select courts in which it is possible to play the sport. */
+		for (SportCenter sportCenter : sportCenters) {
+			List<SportCenterCourt> c = sportCenterCourtDAO.findBySportCenter(Ref.create(sportCenter));
+			for (SportCenterCourt sportCenterCourt : c) {
+				if (sportCenterCourt.getSportsDeref().contains(sport)) {
+					courts.add(sportCenterCourt);
+				}
+			}
+		}
+		return courts;
 	}
 }

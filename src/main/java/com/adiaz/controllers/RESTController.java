@@ -8,6 +8,9 @@ import java.util.List;
 
 import com.adiaz.entities.*;
 import com.adiaz.utils.ConstantsLegaSport;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +77,12 @@ public class RESTController {
 	public List<Competition> competitions() {
 		logger.debug("*competitions");
 		List<Competition> competitions = competitionsManager.queryCompetitions();
-		for (Competition competition : competitions) {
+		/*for (Competition competition : competitions) {
 			List<Match> matchesList = matchesManager.queryMatchesByCompetition(competition.getId());
 			competition.setMatches(matchesList);
 			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competition.getId());
 			competition.setClassification(classification);
-		}
+		}*/
 		return competitions;
 	}
 
@@ -132,14 +135,21 @@ public class RESTController {
 		match.setScoreLocal(newMatchVO.getScoreLocal());
 		match.setScoreVisitor(newMatchVO.getScoreVisitor());
 		try {
-			if (newMatchVO.getDateStr()!=null) {
+			match.setDate(null);
+			if (StringUtils.isNotBlank(newMatchVO.getDateStr())) {
 				match.setDateStr(newMatchVO.getDateStr());
 				DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
 				match.setDate(dateFormat.parse(newMatchVO.getDateStr()));
 			}
+			match.setSportCenterCourtRef(null);
+			if (newMatchVO.getCourtId()!=null) {
+				Key<SportCenterCourt> key = Key.create(SportCenterCourt.class, newMatchVO.getCourtId());
+				Ref<SportCenterCourt> sportCenterCourtRef = Ref.create(key);
+				match.setSportCenterCourtRef(sportCenterCourtRef);
+			}
 			matchesManager.update(match);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage() , e);
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<>(match, HttpStatus.OK);

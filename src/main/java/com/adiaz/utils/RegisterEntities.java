@@ -25,8 +25,7 @@ public class RegisterEntities {
 	@Autowired CompetitionsManager competitionsManager;
 	@Autowired UsersManager usersManager;
 	@Autowired SportCenterManager sportCenterManager;
-	@Autowired
-	SportCenterCourtManager sportCenterCourtManager;
+	@Autowired SportCenterCourtManager sportCenterCourtManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired TownManager townManager;

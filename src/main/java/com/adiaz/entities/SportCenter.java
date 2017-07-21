@@ -1,5 +1,6 @@
 package com.adiaz.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
@@ -16,6 +17,7 @@ public class SportCenter {
 
 	@Load
 	@Index
+	@JsonIgnore
 	private Ref<Town> townRef;
 
 	@Ignore

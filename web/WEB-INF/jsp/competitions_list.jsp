@@ -117,16 +117,16 @@
 				<td style="vertical-align: middle;">${competition.categoryEntity.name}</td>
 				<td style="vertical-align: middle;">${competition.townEntity.name}</td>
 				<td align="right">
-					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title="	calendario">
+					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title=calendario">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</button>
 					<button type="button" class="btn btn-default" onclick="fViewClassification('${competition.id}')" title="clasificación">
 						<span class="glyphicon glyphicon-list"></span>
 					</button>
-					<button type="button" class="btn btn-default" onclick="fView('${competition.id}')" title="borrar">
+					<button type="button" class="btn btn-default" onclick="fView('${competition.id}')" title="ver">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
-					<button type="button" class="btn btn-default" onclick="fUpdate('${competition.id}')" title="borrar">
+					<button type="button" class="btn btn-default" onclick="fUpdate('${competition.id}')" title="actualizar">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</button>
 					<button type="button" class="btn btn-default" onclick="fRemove('${competition.id}')" title="borrar">

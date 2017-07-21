@@ -54,6 +54,9 @@ public class Match {
 	private String dateStr;
 
 	@Ignore
+	private Long courtId;
+
+	@Ignore
 	private SportCenterCourt sportCenterCourt;
 
 
@@ -68,6 +71,9 @@ public class Match {
 		}
 		if (sportCenterCourtRef !=null && sportCenterCourtRef.isLoaded()) {
 			sportCenterCourt = sportCenterCourtRef.get();
+			if (sportCenterCourtRef.get()!=null) {
+				courtId = sportCenterCourtRef.get().getId();
+			}
 		}
 	}
 
@@ -180,5 +186,13 @@ public class Match {
 
 	public void setSportCenterCourt(SportCenterCourt sportCenterCourt) {
 		this.sportCenterCourt = sportCenterCourt;
+	}
+
+	public Long getCourtId() {
+		return courtId;
+	}
+
+	public void setCourtId(Long courtId) {
+		this.courtId = courtId;
 	}
 }

@@ -10,8 +10,6 @@
 			$('input[name=j_username]').val('antonio.diaz');
 			$('input[name=j_password]').val('admin');
 		});
-
-
 	</script>
 </head>
 <body>

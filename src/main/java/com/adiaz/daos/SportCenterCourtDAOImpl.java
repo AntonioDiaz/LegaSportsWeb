@@ -4,7 +4,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.adiaz.entities.Sport;
 import com.adiaz.entities.SportCenterCourt;
+import com.adiaz.entities.Town;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.SportCenter;
@@ -54,12 +56,12 @@ public class SportCenterCourtDAOImpl implements SportCenterCourtDAO {
 	}
 	
 	@Override
-	public SportCenterCourt findSportCourt(Long idCourt) {
+	public SportCenterCourt findBySportCenter(Long idCourt) {
 		Key<SportCenterCourt> key = Key.create(SportCenterCourt.class, idCourt);
 		return ofy().load().key(key).now();
 	}
 	@Override
-	public List<SportCenterCourt> findSportCourt(Ref<SportCenter> sportCenterRef) {
+	public List<SportCenterCourt> findBySportCenter(Ref<SportCenter> sportCenterRef) {
 		return ofy().load().type(SportCenterCourt.class).filter("sportCenterRef", sportCenterRef).list();
 	}
 }
