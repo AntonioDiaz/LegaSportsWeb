@@ -37,8 +37,13 @@ input:-webkit-autofill:focus {
 }
 .munilist{vertical-align: middle;}
 
-.modal-munisports {
+.modal-header-munisports {
 	background: #0061A8; color: #fff;
+}
+
+.modal-body-munisports {
+	font-size: 14px;
+	margin-right: 10px;
 }
 
 .close-munisports {
@@ -50,3 +55,11 @@ input:-webkit-autofill:focus {
 	color: #ffffff;
 }
 
+.modal-row-munisports {
+	margin-bottom: 10px;
+}
+
+.modal-row-munisports-title {
+	font-size: 18px;
+	margin-bottom: 10px
+}

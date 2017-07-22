@@ -1,57 +1,67 @@
 <%@include file="taglibs.jsp" %>
 <!-- Modal -->
 <div id="updatePopup" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-sm" style="width: 40%">
+	<div class="modal-dialog modal-sm" style="width: 45%">
 		<!-- Modal content-->
 		<div class="modal-content">
-			<div class="modal-header modal-munisports">
+			<div class="modal-header modal-header-munisports">
 				<button type="button" class="close-munisports close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title" id="modalTitle">MuniSports 2017 - Jornada <spam id="weekNumber"></spam> </h4>
+				<h4 class="modal-title" id="modalTitle">MuniSports 2017</h4>
 			</div>
-			<div class="modal-body">
-				<div>
-					<div class="row">
-						<div class="col-sm-6">
-							<p id="scoreLocalTeam" style="font-size: 16px;">Local</p>
-						</div>
-						<div class="col-sm-6">
-							<p id="scoreVisitorTeam" style="font-size: 16px;">Visitante</p>
-						</div>
+			<div class="modal-body modal-body-munisports">
+				<div class="modal-row-munisports-title">
+					<u>
+						<spam>Jornada <spam id="weekNumber"></spam>:</spam>
+						${competition.name} <small>(${competition.sportEntity.name} - ${competition.categoryEntity.name})</small>
+					</u>
+				</div>
+				<div class="row modal-row-munisports">
+					<div class="col-sm-4">Equipo local</div>
+					<div class="col-sm-8">
+						<spam id="scoreLocalTeam">Local</spam>
 					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<input class="form-control" id="inputScoreLocal" type="number" min="0">
-						</div>
-						<div class="col-sm-6">
-							<input class="form-control" id="inputScoreVisitor" type="number" min="0">
-						</div>
+				</div>
+				<div class="row modal-row-munisports">
+					<div class="col-sm-4">Equipo visitante</div>
+					<div class="col-sm-8">
+						<spam id="scoreVisitorTeam">Visitante</spam>
 					</div>
-					<br>
-					<div class="row">
-						<div class="col-sm-6">
-							Fecha y hora
-						</div>
-						<div class="col-sm-6">
-							<input class="form-control" id="inputMatchDate" type="text" maxlength="16"
-								   onchange="javascript:fValidateDate()">
-						</div>
+				</div>
+				<div class="row modal-row-munisports">
+					<div class="col-sm-4">
+						Fecha y hora
 					</div>
-					<br>
-					<div class="row">
-						<div class="col-sm-6">
-							Polideportivo / Pista
-						</div>
-						<div class="col-sm-6">
-							<select class="form-control" id="selectMatchCourt">
-								<option value=""></option>
-								<c:forEach var="court" items="${courts}" varStatus="loop">
-									<option value="${court.id}">${court.sportCenter.name} - ${court.name}</option>
-								</c:forEach>
-							</select>
-						</div>
+					<div class="col-sm-8">
+						<input class="form-control" id="inputMatchDate" type="text" maxlength="16" placeholder="dd/MM/yyyy hh:mm"
+							   onchange="javascript:fValidateDate()">
+					</div>
+				</div>
+				<div class="row modal-row-munisports">
+					<div class="col-sm-4">
+						Polideportivo / Pista
+					</div>
+					<div class="col-sm-8">
+						<select class="form-control" id="selectMatchCourt">
+							<option value=""></option>
+							<c:forEach var="court" items="${courts}" varStatus="loop">
+								<option value="${court.id}">${court.sportCenter.name} - ${court.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				<div class="row modal-row-munisports">
+					<div class="col-sm-4">
+						Marcador <br> (local / visitante)
+					</div>
+					<div class="col-sm-4">
+						<input class="form-control" id="inputScoreLocal" type="number" min="0">
+					</div>
+					<div class="col-sm-4">
+						<input class="form-control" id="inputScoreVisitor" type="number" min="0">
 					</div>
 				</div>
 			</div>
+
 			<div class="modal-footer">
 				<div id="buttons_confirm" class="row">
 					<div class="col-sm-6">&nbsp;</div>
@@ -176,8 +186,8 @@
 		});
 	}
 
-	$('#updateScorePopup').on('shown.bs.modal', function () {
-		$(this).find("input:visible:first").focus();
+	$('#updatePopup').on('shown.bs.modal', function () {
+		$(this).find("#inputScoreLocal").focus();
 	});
 
 	/*Init matchesArray*/
