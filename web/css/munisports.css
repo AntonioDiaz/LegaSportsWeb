@@ -33,3 +33,17 @@ input:-webkit-autofill:focus {
 	padding-right: 5px; padding-left: 5px;
 }
 .munilist{vertical-align: middle;}
+
+.modal-munisports {
+	background: #0061A8; color: #fff;
+}
+
+.close-munisports {
+	opacity: 1;
+	color: #ffffff;
+}
+.close-munisports:hover, .close-munisports:focus {
+	opacity: 1;
+	color: #ffffff;
+}
+
