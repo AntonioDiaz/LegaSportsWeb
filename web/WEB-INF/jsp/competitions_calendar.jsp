@@ -32,7 +32,8 @@
 							Fecha y hora
 						</div>
 						<div class="col-sm-6">
-							<input class="form-control" id="inputMatchDate" type="text" maxlength="16">
+							<input class="form-control" id="inputMatchDate" type="text" maxlength="16"
+								   onchange="javascript:fValidateDate()">
 						</div>
 					</div>
 					<br>
@@ -73,6 +74,19 @@
 		window.location.href = "/competitions/loadCalendar?idCompetition=" + idCompetition;
 	}
 
+	/* if the date has wrong format mark the input as error. */
+	function fValidateDate(){
+		const pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2})$/g;
+		let newDate = $('#inputMatchDate').val();
+		let isValidDate = pattern.test(newDate);
+		$('#score_button_accept').prop("disabled", !isValidDate);
+		$('#inputMatchDate').parent().removeClass("has-error");
+		if (!isValidDate){
+			$('#inputMatchDate').parent().addClass("has-error");
+		}
+
+	}
+
 	/* show the div with the week selected, if none is selected show every week. */
 	function fUpdateWeekCalendar() {
 		if ($("#week_selection").val()) {
@@ -111,7 +125,8 @@
 		} else {
 			$('#selectMatchCourt option[value=""]').prop("selected", "selected");
 		}
-
+		$('#score_button_accept').prop("disabled", false);
+		$('#inputMatchDate').parent().removeClass("has-error");
 		$('#updatePopup').modal('show');
 		$('#score_button_accept').off('click');
 		$("#score_button_accept").click(function () {
@@ -127,7 +142,6 @@
 				contentType: "application/json",
 				success: function (result) {
 					console.log("result ->" + JSON.stringify(result));
-					//matchesArray[indexArray] = result;
 					updateMatchProperties(indexArray)
 				}
 			});
