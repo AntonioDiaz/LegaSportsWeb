@@ -59,6 +59,27 @@ public class Match {
 	@Ignore
 	private SportCenterCourt sportCenterCourt;
 
+	@Index
+	private boolean workingCopy;
+
+
+	@Load
+	@JsonIgnore
+	private Ref<Match> matchPublishedRef;
+
+	@Ignore
+	@JsonIgnore
+	private Match matchPublished;
+
+
+	@Ignore
+	private boolean updatedDate;
+
+	@Ignore
+	private boolean updatedScore;
+
+	@Ignore
+	private boolean updatedCourt;
 
 	@OnLoad
 	public void getRefs() {
@@ -73,6 +94,20 @@ public class Match {
 			sportCenterCourt = sportCenterCourtRef.get();
 			if (sportCenterCourtRef.get()!=null) {
 				courtId = sportCenterCourtRef.get().getId();
+			}
+		}
+		if (matchPublishedRef!=null && matchPublishedRef.isLoaded()) {
+			matchPublished = matchPublishedRef.get();
+			if (this.scoreLocal!=matchPublished.getScoreLocal() || this.scoreVisitor!=matchPublished.getScoreVisitor()) {
+				updatedScore = true;
+			}
+			if ( date==null && matchPublished.getDate()!=null
+					||date!=null && matchPublished.getDate()==null
+					|| date!=null && matchPublished.getDate()!=null && !date.equals(matchPublished.getDate())) {
+				updatedDate = true;
+			}
+			if (courtId!=matchPublished.getCourtId()) {
+				updatedCourt = true;
 			}
 		}
 	}
@@ -194,5 +229,53 @@ public class Match {
 
 	public void setCourtId(Long courtId) {
 		this.courtId = courtId;
+	}
+
+	public boolean isWorkingCopy() {
+		return workingCopy;
+	}
+
+	public void setWorkingCopy(boolean workingCopy) {
+		this.workingCopy = workingCopy;
+	}
+
+	public Ref<Match> getMatchPublishedRef() {
+		return matchPublishedRef;
+	}
+
+	public void setMatchPublishedRef(Ref<Match> matchPublishedRef) {
+		this.matchPublishedRef = matchPublishedRef;
+	}
+
+	public Match getMatchPublished() {
+		return matchPublished;
+	}
+
+	public void setMatchPublished(Match matchPublished) {
+		this.matchPublished = matchPublished;
+	}
+
+	public boolean isUpdatedScore() {
+		return updatedScore;
+	}
+
+	public void setUpdatedScore(boolean updatedScore) {
+		this.updatedScore = updatedScore;
+	}
+
+	public boolean isUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(boolean updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public boolean isUpdatedCourt() {
+		return updatedCourt;
+	}
+
+	public void setUpdatedCourt(boolean updatedCourt) {
+		this.updatedCourt = updatedCourt;
 	}
 }

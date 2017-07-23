@@ -77,7 +77,12 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function () { });
+	$(document).ready(function () {	});
+
+	/* */
+	function fPublishCalendar(idCompetition) {
+		window.location.href = "/competitions/publishCalendar?idCompetition=" + idCompetition;
+	}
 
 	/* */
 	function fLoadCalendar(idCompetition) {
@@ -88,7 +93,7 @@
 	function fValidateDate(){
 		const pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2})$/g;
 		let newDate = $('#inputMatchDate').val();
-		let isValidDate = pattern.test(newDate);
+		let isValidDate = newDate=="" || pattern.test(newDate);
 		$('#score_button_accept').prop("disabled", !isValidDate);
 		$('#inputMatchDate').parent().removeClass("has-error");
 		if (!isValidDate){
@@ -173,14 +178,28 @@
 				matchesArray[indexArray].scoreVisitor = result.scoreVisitor;
 				matchesArray[indexArray].dateStr = result.dateStr;
 				matchesArray[indexArray].courtId = result.courtId;
-				$("#score_" + matchSelected.id).html(result.scoreLocal + " - " + result.scoreVisitor);
-				$("#date_" + matchSelected.id).html(result.dateStr);
-				$("#place_" + matchSelected.id).html("");
+				$("#score_" + matchSelected.id).html(result.scoreLocal + "-" + result.scoreVisitor);
+				$("#date_" + matchSelected.id).html(result.dateStr==null?"-":result.dateStr);
+				$("#place_" + matchSelected.id).html("-");
 				if (result.sportCenterCourt!=null && result.sportCenterCourt.sportCenter.name!=null) {
 					var courtNameStr = result.sportCenterCourt.sportCenter.name;
 					courtNameStr += " - ";
 					courtNameStr += result.sportCenterCourt.name;
 					$("#place_" + matchSelected.id).html(courtNameStr);
+				}
+				/*mark fields add updated.*/
+				$("#date_" + matchSelected.id).removeClass("updated_field");
+				if (result.updatedDate) {
+					$("#date_" + matchSelected.id).addClass("updated_field");
+				}
+				$("#score_" + matchSelected.id).removeClass("updated_field");
+
+				if (result.updatedScore) {
+					$("#score_" + matchSelected.id).addClass("updated_field");
+				}
+				$("#place_" + matchSelected.id).removeClass("updated_field");
+				if (result.updatedCourt) {
+					$("#place_" + matchSelected.id).addClass("updated_field");
 				}
 			}
 		});
@@ -213,12 +232,21 @@
 		<h2><small>Calendario: </small>${competition.name} - ${competition.sportEntity.name} - ${competition.categoryEntity.name}</h2>
 	</div>
 	<div class="col-sm-2" style="position: absolute; bottom: 0px; right: 0px; margin-bottom: 10px;">
-		<select id="week_selection" class="form-control" onchange="fUpdateWeekCalendar()">
-			<option></option>
-			<c:forEach begin="1" end="${weeks_count}" varStatus="loop">
-				<option value="${loop.index}">Jornada ${loop.index}</option>
-			</c:forEach>
-		</select>
+		<div class="row">
+			<div class="col-sm-8" style="padding: 0px;">
+				<select id="week_selection" class="form-control" onchange="fUpdateWeekCalendar()">
+					<option></option>
+					<c:forEach begin="1" end="${weeks_count}" varStatus="loop">
+						<option value="${loop.index}">Jornada ${loop.index}</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="col-sm-2" style="padding-left: 5px;">
+				<button type="button" class="btn btn-default" onclick="fPublishCalendar('${competition.id}')" title="publicar">
+					<span class="glyphicon glyphicon-ok"></span>
+				</button>
+			</div>
+		</div>
 	</div>
 </div>
 <hr>
@@ -236,23 +264,45 @@
 		<table class="table table-hover	table-condensed">
 			<c:forEach var="match" items="${matches_list}" varStatus="loopForMatches">
 				<c:if test="${loopForWeek.index==match.week}">
+					<c:set var="updated_date" value=""></c:set>
+					<c:set var="updated_score" value=""></c:set>
+					<c:set var="updated_court" value=""></c:set>
+					<c:if test="${match.updatedDate}">
+						<c:set var="updated_date" value="updated_field"></c:set>
+					</c:if>
+					<c:if test="${match.updatedScore}">
+						<c:set var="updated_score" value="updated_field"></c:set>
+					</c:if>
+					<c:if test="${match.updatedCourt}">
+						<c:set var="updated_court" value="updated_field"></c:set>
+					</c:if>
 					<tr class="divlink" onclick="fUpdateShowPopup(${match.id})">
-						<td class="col-sm-2">
-							<div id="date_${match.id}">
+						<td class="col-sm-2 ">
+							<div id="date_${match.id}" class="${updated_date}" style="width: 100%">
+								<c:if test="${match.dateStr!=null}">
 									${match.dateStr}
+								</c:if>
+								<c:if test="${match.dateStr==null}">
+									-
+								</c:if>
 							</div>
 						</td>
 						<td class="col-sm-3" style="text-align: left">${match.teamLocal}</td>
 						<td class="col-sm-3" style="text-align: left">${match.teamVisitor}</td>
 						<td class="col-sm-1">
-							<div id="score_${match.id}">
+							<div id="score_${match.id}" class="${updated_score}">
 									${match.scoreLocal} - ${match.scoreVisitor}
 							</div>
 						</td>
-						<td id="place_${match.id}" class="col-sm-3">
-							<c:if test="${match.sportCenterCourt!=null}">
-								${match.sportCenterCourt.sportCenter.name} - ${match.sportCenterCourt.name}
-							</c:if>
+						<td class="col-sm-3">
+							<div id="place_${match.id}" class="${updated_court}" style="width: 100%">
+								<c:if test="${match.sportCenterCourt!=null}">
+									${match.sportCenterCourt.sportCenter.name} - ${match.sportCenterCourt.name}
+								</c:if>
+								<c:if test="${match.sportCenterCourt==null}">
+									-
+								</c:if>
+							</div>
 						</td>
 					</tr>
 					</c:if>

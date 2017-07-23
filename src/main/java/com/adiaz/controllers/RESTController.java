@@ -77,12 +77,12 @@ public class RESTController {
 	public List<Competition> competitions() {
 		logger.debug("*competitions");
 		List<Competition> competitions = competitionsManager.queryCompetitions();
-		/*for (Competition competition : competitions) {
-			List<Match> matchesList = matchesManager.queryMatchesByCompetition(competition.getId());
+		for (Competition competition : competitions) {
+			List<Match> matchesList = matchesManager.queryMatchesByCompetitionPublished(competition.getId());
 			competition.setMatches(matchesList);
 			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competition.getId());
 			competition.setClassification(classification);
-		}*/
+		}
 		return competitions;
 	}
 
@@ -106,7 +106,7 @@ public class RESTController {
 
 	@RequestMapping(value = "/matches/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Match> getMatches(@PathVariable("competition_id") Long competitionId) {
-		List<Match> matches = matchesManager.queryMatchesByCompetition(competitionId);
+		List<Match> matches = matchesManager.queryMatchesByCompetitionWorkingCopy(competitionId);
 		return matches;
 	}
 

@@ -49,6 +49,7 @@ public class CompetitionsController {
 
 	@RequestMapping("/doFilter")
 	public ModelAndView doFilter(
+			@RequestParam(value="publish_done", defaultValue="false") boolean publishDone,
 			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
 			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
 			@ModelAttribute("form_filter") CompetitionsFilterForm competitionsFilterForm){
@@ -58,6 +59,7 @@ public class CompetitionsController {
 		modelAndView.addObject("competitions", competitions);
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("publish_done", publishDone);
 		return modelAndView;
 	}
 
@@ -117,7 +119,7 @@ public class CompetitionsController {
 	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		List<Match> matchesList = matchesManager.queryMatchesByCompetition(idCompetition);
+		List<Match> matchesList = matchesManager.queryMatchesByCompetitionWorkingCopy(idCompetition);
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
 		List<SportCenterCourt> courts = sportCenterCourtManager.querySportCourtsByTownAndSport(
 				competition.getTownEntity().getId(), competition.getSportEntity().getId());
@@ -178,7 +180,7 @@ public class CompetitionsController {
 		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(loadMatchesForm.getIdCompetition());
 		List<Match> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById, null);
 		try {
-			matchesManager.add(matchesList);
+			matchesManager.addMatchListAndPublish(matchesList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -217,5 +219,11 @@ public class CompetitionsController {
 		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
 		modelAndView.addObject("my_form", competitionsForm);
 		return modelAndView;
+	}
+
+	@RequestMapping("/publishCalendar")
+	public String publishCalendar(@RequestParam(value = "idCompetition") Long idCompetition) throws Exception {
+		matchesManager.updatePublishedMatches(idCompetition);
+		return "redirect:/competitions/doFilter?publish_done=true";
 	}
 }

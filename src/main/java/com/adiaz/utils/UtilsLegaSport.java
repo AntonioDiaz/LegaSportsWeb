@@ -41,6 +41,7 @@ public class UtilsLegaSport {
 				match.setWeek(week);
 				match.setTeamLocal(strings[2]);
 				match.setTeamVisitor(strings[3]);
+				match.setWorkingCopy(false);
 				if (strings.length >= 5) {
 					match.setSportCenterCourtRef(sportCourtRef);
 				}

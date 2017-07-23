@@ -41,7 +41,7 @@ public class RegisterEntities {
 		ObjectifyService.register(SportCenterCourt.class);
 		ObjectifyService.register(Town.class);
 
-		/** clean DB. */
+		/* clean DB. */
 		logger.debug("DB clean");
 		sportsManager.removeAll();
 		categoriesManager.removeAll();
@@ -65,7 +65,7 @@ public class RegisterEntities {
 		townForm.setActive(true);
 		townManager.add(townForm);
 
-		/** load sports */
+		/* load sports */
 		 Key<Sport> keySportBasket = null;
 		 Key<Category> keyCategories = null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
@@ -75,7 +75,7 @@ public class RegisterEntities {
 			}
 		}
 		
-		/** load categories */
+		/* load categories */
 		String[] categoriesNames = ConstantsLegaSport.CATEGORIES_NAMES;
 		int order = 0;
 		for (String name : categoriesNames) {
@@ -98,7 +98,7 @@ public class RegisterEntities {
 		Key<SportCenterCourt> courtKey = ofy().save().entity(court).now();
 
 
-		/** load competitions */
+		/* load competitions */
 		Competition competition = new Competition();
 		competition.setName("liga division honor");
 		competition.setCategoryRef(Ref.create(keyCategories));
@@ -113,7 +113,7 @@ public class RegisterEntities {
 
 		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition, Ref.create(courtKey));
 		try {
-			matchesManager.add(matchesList);
+			matchesManager.addMatchListAndPublish(matchesList);
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -125,7 +125,7 @@ public class RegisterEntities {
 			e.printStackTrace();
 		}
 
-		/** load users */
+		/* load users */
 		String name = "antonio.diaz";
 		String password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
 		usersManager.addUser(initUser(name, password, true));

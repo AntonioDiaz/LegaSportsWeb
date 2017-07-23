@@ -45,11 +45,19 @@ public class MatchesDAOImpl implements MatchesDAO {
 
 	@Override
 	public List<Match> findByCompetition(Long competitionId) {
+		return findByCompetition(competitionId, false);
+	}
+
+	@Override
+	public List<Match> findByCompetition(Long competitionId, boolean workingCopy) {
 		List<Match> matches = null;
 		Query<Match> query = ofy().load().type(Match.class);
 		if (competitionId!=null) {
 			Key<Competition> key = Key.create(Competition.class, competitionId);
-			matches = query.filter("competitionRef", Ref.create(key)).order("week").order("date").list();
+			matches = query
+					.filter("competitionRef", Ref.create(key))
+					.filter("workingCopy", workingCopy)
+					.order("week").order("date").list();
 		}
 		return matches;
 	}

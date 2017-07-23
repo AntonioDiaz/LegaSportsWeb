@@ -101,6 +101,7 @@ public class MatchesDAOImplTest {
 		Match match = new Match();
 		match.setTeamLocal(ATLETICO_MADRID);
 		match.setCompetitionRef(competitionRef);
+		match.setWorkingCopy(false);
 		return matchesDAO.create(match);
 	}
 

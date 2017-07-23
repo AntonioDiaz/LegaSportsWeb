@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.adiaz.utils.RegisterEntities;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,33 +18,70 @@ import com.adiaz.entities.Match;
 @Service ("matchesManager")
 public class MatchesManagerImpl implements MatchesManager {
 
+	private static final Logger logger = Logger.getLogger(MatchesManagerImpl.class.getName());
+
 	@Autowired
 	MatchesDAO matchesDAO;
 	
 	@Override
-	public void add(Match item) throws Exception {
-		matchesDAO.create(item);
+	public Long add(Match match) throws Exception {
+		return matchesDAO.create(match).getId();
 	}
 
 	@Override
-	public boolean remove(Match item) throws Exception {
-		return matchesDAO.remove(item);
+	public Long addPublishedAndWorkingcopy(Match match) throws Exception {
+		match.setWorkingCopy(false);
+		Long idPublisedCopy = this.add(match);
+		Key<Match> matchKey = Key.create(Match.class, idPublisedCopy);
+		match.setId(null);
+		match.setWorkingCopy(true);
+		match.setMatchPublishedRef(Ref.create(matchKey));
+		Long idWorkingCopy = this.add(match);
+		logger.debug("idPublisedCopy " +  idPublisedCopy);
+		logger.debug("idWorkingCopy " +  idWorkingCopy);
+		return idWorkingCopy;
 	}
 
 	@Override
-	public boolean update(Match item) throws Exception {
-		return matchesDAO.update(item);
+	public boolean remove(Match match) throws Exception {
+		return matchesDAO.remove(match);
 	}
 
 	@Override
-	public List<Match> queryMatchesByCompetition(Long competitionId) {
-		return matchesDAO.findByCompetition(competitionId);
+	public boolean update(Match match) throws Exception {
+		return matchesDAO.update(match);
 	}
 
 	@Override
-	public void add(List<Match> matchesList) throws Exception {
+	public void updatePublishedMatches(Long idCompetition) throws Exception {
+		List<Match> matches = queryMatchesByCompetitionWorkingCopy(idCompetition);
+		for (Match match : matches) {
+			// TODO: 22/07/2017 optimize this method, check if it is necessary to update.
+			Match published = match.getMatchPublished();
+			published.setScoreLocal(match.getScoreLocal());
+			published.setScoreVisitor(match.getScoreVisitor());
+			published.setDate(match.getDate());
+			published.setSportCenterCourtRef(match.getSportCenterCourtRef());
+			//// TODO: 22/07/2017 optimize this method, could be better to send a list of entities to update 
+			update(published);
+		}
+
+	}
+
+	@Override
+	public List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId) {
+		return matchesDAO.findByCompetition(competitionId, true);
+	}
+
+	@Override
+	public List<Match> queryMatchesByCompetitionPublished(Long competitionId) {
+		return matchesDAO.findByCompetition(competitionId, false);
+	}
+
+	@Override
+	public void addMatchListAndPublish(List<Match> matchesList) throws Exception {
 		for (Match match : matchesList) {
-			this.add(match);
+			addPublishedAndWorkingcopy(match);
 		}
 	}
 
@@ -56,7 +97,7 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	@Override
     public Integer howManyWeek(List<Match> matchesList) {
-        Set<Integer> diferentsWeeks = new HashSet<Integer>();
+        Set<Integer> diferentsWeeks = new HashSet<>();
         for (Match match : matchesList) {
             diferentsWeeks.add(match.getWeek());
         }
