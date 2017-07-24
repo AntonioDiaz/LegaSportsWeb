@@ -65,7 +65,17 @@ public class MatchesManagerImpl implements MatchesManager {
 			//// TODO: 22/07/2017 optimize this method, could be better to send a list of entities to update 
 			update(published);
 		}
+	}
 
+	@Override
+	public boolean checkUpdatesToPublish(Long idCompetition) throws Exception {
+		List<Match> matches = queryMatchesByCompetitionWorkingCopy(idCompetition);
+		for (Match match : matches) {
+			if (match.isUpdatedScore() || match.isUpdatedDate() || match.isUpdatedCourt()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

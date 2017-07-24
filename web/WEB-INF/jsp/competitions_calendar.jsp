@@ -133,7 +133,9 @@
 		$('#scoreLocalTeam').html(local);
 		$('#scoreVisitorTeam').html(visitor);
 		$('#inputScoreLocal').val(scoreLocal);
+		$('#inputScoreLocal').focus(function() { $(this).select(); } );
 		$('#inputScoreVisitor').val(scoreVisitor);
+		$('#inputScoreVisitor').focus(function() { $(this).select(); } );
 		$('#inputMatchDate').val(matchDate);
 		if (matchCourtId!=null) {
 			$('#selectMatchCourt option[value="'+ matchCourtId +'"]').prop("selected", "selected");
@@ -178,9 +180,9 @@
 				matchesArray[indexArray].scoreVisitor = result.scoreVisitor;
 				matchesArray[indexArray].dateStr = result.dateStr;
 				matchesArray[indexArray].courtId = result.courtId;
-				$("#score_" + matchSelected.id).html(result.scoreLocal + "-" + result.scoreVisitor);
-				$("#date_" + matchSelected.id).html(result.dateStr==null?"-":result.dateStr);
-				$("#place_" + matchSelected.id).html("-");
+				$("#score_" + matchSelected.id).html(result.scoreLocal + " - " + result.scoreVisitor);
+				$("#date_" + matchSelected.id).html(result.dateStr==null?" - ":result.dateStr);
+				$("#place_" + matchSelected.id).html(" - ");
 				if (result.sportCenterCourt!=null && result.sportCenterCourt.sportCenter.name!=null) {
 					var courtNameStr = result.sportCenterCourt.sportCenter.name;
 					courtNameStr += " - ";

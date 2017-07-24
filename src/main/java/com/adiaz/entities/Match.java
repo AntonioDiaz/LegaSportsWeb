@@ -96,7 +96,7 @@ public class Match {
 				courtId = sportCenterCourtRef.get().getId();
 			}
 		}
-		if (matchPublishedRef!=null && matchPublishedRef.isLoaded()) {
+		if (matchPublishedRef!=null && matchPublishedRef.isLoaded() && matchPublishedRef.get()!=null) {
 			matchPublished = matchPublishedRef.get();
 			if (this.scoreLocal!=matchPublished.getScoreLocal() || this.scoreVisitor!=matchPublished.getScoreVisitor()) {
 				updatedScore = true;

@@ -40,29 +40,32 @@ public class CompetitionsController {
 
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam(value="add_done", defaultValue="false") boolean addDone){
+	public ModelAndView list(
+			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
+			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
+			@RequestParam(value="update_done", defaultValue="false") boolean updateDone
+		){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("form_filter", new CompetitionsFilterForm());
 		modelAndView.addObject("add_done", addDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("update_done", updateDone);
 		return modelAndView;
 	}
 
 	@RequestMapping("/doFilter")
 	public ModelAndView doFilter(
 			@RequestParam(value="publish_done", defaultValue="false") boolean publishDone,
-			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
+			@RequestParam(value="publish_none", defaultValue="false") boolean publishNone,
 			@ModelAttribute("form_filter") CompetitionsFilterForm competitionsFilterForm){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("form_filter", competitionsFilterForm);
 		List<Competition> competitions = competitionsManager.queryCompetitions(competitionsFilterForm);
 		modelAndView.addObject("competitions", competitions);
-		modelAndView.addObject("remove_done", removeDone);
-		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("publish_done", publishDone);
+		modelAndView.addObject("publish_none", publishNone);
 		return modelAndView;
 	}
-
 
 	@RequestMapping ("/add")
 	public ModelAndView addCompetitions() {
@@ -112,7 +115,7 @@ public class CompetitionsController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/competitions/doFilter?remove_done=true";
+		return "redirect:/competitions/list?remove_done=true";
 	}
 	
 	@RequestMapping ("/viewCalendar")
@@ -205,7 +208,7 @@ public class CompetitionsController {
 		} else {
 			try {
 				competitionsManager.update(competitionsForm);
-				modelAndView.setViewName("redirect:/competitions/doFilter?update_done=true");
+				modelAndView.setViewName("redirect:/competitions/list?update_done=true");
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -223,7 +226,13 @@ public class CompetitionsController {
 
 	@RequestMapping("/publishCalendar")
 	public String publishCalendar(@RequestParam(value = "idCompetition") Long idCompetition) throws Exception {
-		matchesManager.updatePublishedMatches(idCompetition);
-		return "redirect:/competitions/doFilter?publish_done=true";
+		String redirectTo;
+		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
+			matchesManager.updatePublishedMatches(idCompetition);
+			redirectTo = "redirect:/competitions/doFilter?publish_done=true";
+		} else {
+			redirectTo = "redirect:/competitions/doFilter?publish_none=true";
+		}
+		return redirectTo;
 	}
 }

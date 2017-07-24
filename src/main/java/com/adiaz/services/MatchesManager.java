@@ -12,6 +12,7 @@ public interface MatchesManager {
 	public void removeAll() throws Exception;	
 	public boolean update(Match item) throws Exception;
 	public void updatePublishedMatches(Long idCompetition) throws Exception;
+	public boolean checkUpdatesToPublish(Long idCompetition) throws Exception;
 	public List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId);
 	public List<Match> queryMatchesByCompetitionPublished(Long competitionId);
 	public void addMatchListAndPublish(List<Match> matchesList) throws Exception;

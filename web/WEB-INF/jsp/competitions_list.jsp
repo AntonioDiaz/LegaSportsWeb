@@ -6,6 +6,9 @@
 		<c:if test="${publish_done==true}">
 			showDialogAlert("Se ha publicado el calendario con las ultimas modificaciones.");
 		</c:if>
+		<c:if test="${publish_none==true}">
+			showDialogAlert("No hay ningún cambio para publicar en el calendario.");
+		</c:if>
 		<c:if test="${add_done==true}">
 			showDialogAlert("La competición ha sido creada.");
 		</c:if>
