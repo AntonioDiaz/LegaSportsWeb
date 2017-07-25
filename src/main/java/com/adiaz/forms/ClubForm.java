@@ -1,43 +1,16 @@
-package com.adiaz.entities;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.*;
+package com.adiaz.forms;
 
 /**
- * Created by toni on 24/07/2017.
+ * Created by toni on 25/07/2017.
  */
-@Entity
-public class Club {
-	@Id
+public class ClubForm {
 	private Long id;
-
 	private String name;
-
 	private String contactPerson;
-
 	private String contactEmail;
-
 	private String contactAddress;
-
 	private String contactPhone;
-
-	@Load
-	@JsonIgnore
-	@Index
-	private Ref<Town> townRef;
-
-	@Ignore
-	@JsonIgnore
-	private Town townEntity;
-
-	@OnLoad
-	private void getRefs(){
-		if (townRef!=null && townRef.isLoaded()){
-			townEntity = townRef.get();
-		}
-	}
-
+	private Long idTown;
 
 	public Long getId() {
 		return id;
@@ -87,19 +60,11 @@ public class Club {
 		this.contactPhone = contactPhone;
 	}
 
-	public Ref<Town> getTownRef() {
-		return townRef;
+	public Long getIdTown() {
+		return idTown;
 	}
 
-	public void setTownRef(Ref<Town> townRef) {
-		this.townRef = townRef;
-	}
-
-	public Town getTownEntity() {
-		return townEntity;
-	}
-
-	public void setTownEntity(Town townEntity) {
-		this.townEntity = townEntity;
+	public void setIdTown(Long idTown) {
+		this.idTown = idTown;
 	}
 }

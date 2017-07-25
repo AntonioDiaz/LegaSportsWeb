@@ -28,8 +28,7 @@ public class SportCenterController {
 	private static final Logger logger = Logger.getLogger(SportCenterController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
-	@Autowired
-	SportCenterCourtManager sportCenterCourtManager;
+	@Autowired SportCenterCourtManager sportCenterCourtManager;
 	@Autowired SportCenterFormValidator sportCenterFormValidator;
 	@Autowired SportCourtFormValidator sportCourtFormValidator;
 	
@@ -81,7 +80,7 @@ public class SportCenterController {
 				sportsCenterManager.addSportCenter(sportCenterForm);
 			} catch (Exception e) {
 				// TODO: 17/07/2017 add error page.
-				logger.error(e);
+				logger.error(e.getMessage(), e);
 			}
 			String viewName = "redirect:/sportCenter/list";
 			viewName += "?add_done=true";

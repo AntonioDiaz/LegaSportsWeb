@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.adiaz.entities.*;
+import com.adiaz.forms.ClubForm;
 import com.adiaz.forms.TownForm;
 import com.adiaz.services.*;
 import org.apache.log4j.Logger;
@@ -29,7 +30,8 @@ public class RegisterEntities {
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired TownManager townManager;
-	
+	@Autowired ClubManager clubManager;
+
 	public void init() throws Exception {
 		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Category.class);
@@ -40,6 +42,7 @@ public class RegisterEntities {
 		ObjectifyService.register(SportCenter.class);
 		ObjectifyService.register(SportCenterCourt.class);
 		ObjectifyService.register(Town.class);
+		ObjectifyService.register(Club.class);
 
 		/* clean DB. */
 		logger.debug("DB clean");
@@ -52,6 +55,7 @@ public class RegisterEntities {
 		sportCenterCourtManager.removeAll();
 		sportCenterManager.removeAll();
 		townManager.removeAll();
+		clubManager.removaAll();
 
 
 		TownForm townForm = new TownForm();
@@ -133,6 +137,11 @@ public class RegisterEntities {
 		name = "user.lega";
 		password ="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
 		usersManager.addUser(initUser(name, password, false), townIdLega);
+
+		ClubForm clubForm = new ClubForm();
+		clubForm.setName("CD LEGANES");
+		clubForm.setIdTown(keyLega.getId());
+		clubManager.add(clubForm);
 
 		logger.debug("finished init...");
 	}

@@ -12,5 +12,7 @@ public interface SportsManager {
 	public Key<Sport> add(Sport sport) throws Exception;
 	public boolean remove(Sport sport) throws Exception;
 	public boolean update(Sport sport) throws Exception;
+
+	// TODO: 24/07/2017 delete all removeAll methods :)
 	public void removeAll() throws Exception;
 }

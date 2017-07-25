@@ -30,14 +30,17 @@
 					</ul>
 				</li>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuarios <span class="caret"></span></a>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Equipos <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/club/list">Lista clubes</a></li>
+							<li><a href="/club/add">Nuevo club</a></li>
+
+						</ul>
+					</li>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuarios<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="/users/list">Lista usuarios</a></li>
 							<li><a href="/users/add">Nuevo usuario</a></li>
-						</ul>
-					</li>
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Municipios <span class="caret"></span></a>
-						<ul class="dropdown-menu">
 							<li><a href="/towns/list">Lista municipios</a></li>
 							<li><a href="/towns/add">Nuevo municipio</a></li>
 						</ul>

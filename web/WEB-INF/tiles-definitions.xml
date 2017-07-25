@@ -110,4 +110,22 @@
 		<put-attribute name="page_title" value="Ver detalles municipio" />
 		<put-attribute name="body" value="/WEB-INF/jsp/towns_view.jsp" />
 	</definition>
+
+	<definition name="club_list" extends="homeTemplate">
+		<put-attribute name="page_title" value="Lista de clubs" />
+		<put-attribute name="body" value="/WEB-INF/jsp/club_list.jsp" />
+	</definition>
+	<definition name="club_add" extends="homeTemplate">
+		<put-attribute name="page_title" value="Añadir club" />
+		<put-attribute name="body" value="/WEB-INF/jsp/club_add.jsp" />
+	</definition>
+	<definition name="club_update" extends="homeTemplate">
+		<put-attribute name="page_title" value="Actualizar club" />
+		<put-attribute name="body" value="/WEB-INF/jsp/club_update.jsp" />
+	</definition>
+	<definition name="club_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Ver detalles club" />
+		<put-attribute name="body" value="/WEB-INF/jsp/club_view.jsp" />
+	</definition>
+
 </tiles-definitions>

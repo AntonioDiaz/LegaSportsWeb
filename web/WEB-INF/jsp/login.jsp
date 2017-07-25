@@ -19,8 +19,8 @@
 			<div class="row">
 				<br>
 				<div class="col-sm-3">&nbsp;</div>
-				<div class="col-sm-4">
-					<div style="margin: 5%; border-radius: 5px; background: #f5f5f5; padding: 10px;">
+				<div class="col-sm-6">
+					<div style="margin: 5%; border-radius: 5px; background: #f5f5f5; padding: 30px;">
 						<div style="text-align: center; width: 100%; margin-top: 20px;'">
 							<img src="images/logo.png" class="img-rounded" width="90%">
 						</div>
