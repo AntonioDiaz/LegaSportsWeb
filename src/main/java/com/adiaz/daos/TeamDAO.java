@@ -11,5 +11,5 @@ import java.util.List;
 public interface TeamDAO extends GenericDAO<Team>{
 	public List<Team> findAll();
 	public Team findById(Long id);
-	public List<Team> find(Long idTown, Long idCategory);
+	public List<Team> find(Long idTown, Long idCategory, Long idSport);
 }

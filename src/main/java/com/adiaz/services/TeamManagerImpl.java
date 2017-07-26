@@ -2,6 +2,7 @@ package com.adiaz.services;
 
 import com.adiaz.daos.TeamDAO;
 import com.adiaz.entities.Team;
+import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
 import com.adiaz.forms.utils.TeamFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class TeamManagerImpl implements TeamManager {
 	}
 
 	@Override
-	public List<Team> queryByIdTownAndCategory(Long idTown, Long idCategory) {
-		return teamDAO.find(idTown, idCategory);
+	public List<Team> queryByFilter(TeamFilterForm filterForm) {
+		return teamDAO.find(filterForm.getIdTown(), filterForm.getIdCategory(), filterForm.getIdSport());
 	}
 }

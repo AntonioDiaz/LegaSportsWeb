@@ -35,25 +35,34 @@
 </script>
 <form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
 	<div class="row">
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<div class="form-group">
-				<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;&nbsp;</label>
-				<form:select path="idTown" class="form-control" cssStyle="width: 200px">
+				<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;</label>
+				<form:select path="idTown" class="form-control" cssStyle="width: 150px">
 					<form:option value=""></form:option>
 					<form:options items="${towns}" itemLabel="name" itemValue="id" />
 				</form:select>
 			</div>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<div class="form-group">
-				<label class="control-label" for="idTown">Categoria &nbsp;&nbsp;&nbsp;</label>
-				<form:select path="idCategory" class="form-control" cssStyle="width: 200px">
+				<label class="control-label" for="idCategory">Categoría &nbsp;&nbsp;</label>
+				<form:select path="idCategory" class="form-control" cssStyle="width: 150px">
 					<form:option value=""></form:option>
 					<form:options items="${categories}" itemLabel="name" itemValue="id" />
 				</form:select>
 			</div>
 		</div>
-		<div class="col-sm-2">&nbsp;</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label class="control-label" for="idSport">Deporte &nbsp;&nbsp;</label>
+				<form:select path="idSport" class="form-control" cssStyle="width: 150px">
+					<form:option value=""></form:option>
+					<form:options items="${sports}" itemLabel="name" itemValue="id" />
+				</form:select>
+			</div>
+		</div>
+		<div class="col-sm-1">&nbsp;</div>
 		<div class="col-sm-2">
 			<button id="btnBack" type="submit" class="btn btn-default btn-block">buscar</button>
 		</div>
@@ -63,10 +72,11 @@
 <table class="table table-hover">
 	<thead>
 	<tr>
-		<th>Nombre equipo</th>
-		<th>Municipio</th>
-		<th>Categoria</th>
-		<th>&nbsp;</th>
+		<th class="col-sm-2">Nombre equipo</th>
+		<th class="col-sm-2">Municipio</th>
+		<th class="col-sm-2">Categoria</th>
+		<th class="col-sm-2">Deporte</th>
+		<th class="col-sm-4">&nbsp;</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -87,16 +97,16 @@
 			<td style="vertical-align: middle;">${team.name}</td>
 			<td style="vertical-align: middle;">${team.townEntity.name}</td>
 			<td style="vertical-align: middle;">${team.categoryEntity.name}</td>
+			<td style="vertical-align: middle;">${team.sportEntity.name}</td>
 			<td>
 				<div class="row">
-					<div class="col-sm-3">&nbsp;</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<button type="button" class="btn btn-default btn-block" onclick="fView('${team.id}')">Ver info</button>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${team.id}')">Modificar</button>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<button type="button" class="btn btn-default btn-block" onclick="fDelete('${team.id}')">Eliminar</button>
 					</div>
 				</div>

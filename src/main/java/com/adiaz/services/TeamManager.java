@@ -1,6 +1,7 @@
 package com.adiaz.services;
 
 import com.adiaz.entities.Team;
+import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,6 @@ public interface TeamManager {
 	public void removeAll() throws Exception;
 	public boolean update(TeamForm teamForm) throws Exception;
 	public TeamForm queryById(Long id);
-	public List<Team> queryByIdTownAndCategory(Long idTown, Long idCategory);
+	public List<Team> queryByFilter(TeamFilterForm teamFilterForm);
 
 }

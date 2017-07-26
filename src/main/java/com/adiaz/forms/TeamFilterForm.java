@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class TeamFilterForm implements Serializable {
 	private Long idCategory;
+	private Long idSport;
 	private Long idTown;
 
 	public Long getIdCategory() {
@@ -23,5 +24,13 @@ public class TeamFilterForm implements Serializable {
 
 	public void setIdTown(Long idTown) {
 		this.idTown = idTown;
+	}
+
+	public Long getIdSport() {
+		return idSport;
+	}
+
+	public void setIdSport(Long idSport) {
+		this.idSport = idSport;
 	}
 }

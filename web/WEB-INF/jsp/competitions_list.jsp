@@ -47,46 +47,37 @@
 
 
 </script>
-<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-horizontal">
+<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
 	<div class="row">
-		<div class="col-md-10">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="idSport" style="text-align: left;">Deporte</label>
-						<div class="col-sm-8">
-							<form:select path="idSport" class="form-control">
-								<form:option value=""></form:option>
-								<form:options items="${sports}" itemLabel="name" itemValue="id" />
-							</form:select>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="idCategory">Categoria</label>
-						<div class="col-sm-8">
-							<form:select path="idCategory" class="form-control">
-								<form:option value=""></form:option>
-								<form:options items="${categories}" itemLabel="name" itemValue="id" />
-							</form:select>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="idTown">Municipio</label>
-						<div class="col-sm-8">
-							<form:select path="idTown" class="form-control">
-								<form:option value=""></form:option>
-								<form:options items="${towns}" itemLabel="name" itemValue="id" />
-							</form:select>
-						</div>
-					</div>
-				</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;</label>
+				<form:select path="idTown" class="form-control" cssStyle="width: 150px">
+					<form:option value=""></form:option>
+					<form:options items="${towns}" itemLabel="name" itemValue="id" />
+				</form:select>
 			</div>
 		</div>
-		<div class="col-md-2" align="right">
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label class="control-label" for="idCategory">Categoría &nbsp;&nbsp;</label>
+				<form:select path="idCategory" class="form-control" cssStyle="width: 150px">
+					<form:option value=""></form:option>
+					<form:options items="${categories}" itemLabel="name" itemValue="id" />
+				</form:select>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label class="control-label" for="idSport">Deporte &nbsp;&nbsp;</label>
+				<form:select path="idSport" class="form-control" cssStyle="width: 150px">
+					<form:option value=""></form:option>
+					<form:options items="${sports}" itemLabel="name" itemValue="id" />
+				</form:select>
+			</div>
+		</div>
+		<div class="col-sm-1">&nbsp;</div>
+		<div class="col-sm-2">
 			<button id="btnBack" type="submit" class="btn btn-default btn-block">buscar</button>
 		</div>
 	</div>

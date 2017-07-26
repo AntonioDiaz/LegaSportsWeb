@@ -59,7 +59,7 @@ public class TeamController {
 			@RequestParam(value = "delete_done", defaultValue = "false") boolean deleteDone){
 		ModelAndView modelAndView = new ModelAndView("team_list");
 		modelAndView.addObject("form_filter", filterForm);
-		List<Team> teams = teamManager.queryByIdTownAndCategory(filterForm.getIdTown(), filterForm.getIdCategory());
+		List<Team> teams = teamManager.queryByFilter(filterForm);
 		modelAndView.addObject("teamList", teams);
 		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("update_done", updateDone);

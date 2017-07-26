@@ -1,9 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.Club;
-import com.adiaz.entities.Team;
-import com.adiaz.entities.Town;
+import com.adiaz.entities.*;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.cmd.Query;
@@ -54,7 +51,7 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public List<Team> find(Long townId, Long categoryId) {
+	public List<Team> find(Long townId, Long categoryId, Long sportId) {
 		Query<Team> query = ofy().load().type(Team.class);
 		if (townId!=null) {
 			Key<Town> key = Key.create(Town.class, townId);
@@ -63,6 +60,10 @@ public class TeamDAOImpl implements TeamDAO {
 		if (categoryId!=null) {
 			Key<Category> key = Key.create(Category.class, categoryId);
 			query = query.filter("categoryRef", Ref.create(key));
+		}
+		if (sportId!=null) {
+			Key<Sport> key = Key.create(Sport.class, sportId);
+			query = query.filter("sportRef", Ref.create(key));
 		}
 		return query.order("name").list();
 	}
