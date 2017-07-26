@@ -52,7 +52,7 @@ public class ClubController {
 	}
 
 	@RequestMapping("/doAdd")
-	public ModelAndView doAdd(@ModelAttribute("my_form") ClubForm clubForm, BindingResult bindingResult) {
+	public ModelAndView doAdd(@ModelAttribute("my_form") ClubForm clubForm, BindingResult bindingResult) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		clubFormValidator.validate(clubForm, bindingResult);
 		if (bindingResult.hasErrors()) {
@@ -62,11 +62,7 @@ public class ClubController {
 			if (!getActiveUser().isAdmin()) {
 				clubForm.setIdTown(getActiveUser().getTownEntity().getId());
 			}
-			try {
-				clubManager.add(clubForm);
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-			}
+			clubManager.add(clubForm);
 			String viewName = "redirect:/club/list?add_done=true";
 			modelAndView.setViewName(viewName);
 		}

@@ -128,4 +128,21 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/club_view.jsp" />
 	</definition>
 
+	<definition name="team_list" extends="homeTemplate">
+		<put-attribute name="page_title" value="Lista de equipos" />
+		<put-attribute name="body" value="/WEB-INF/jsp/team_list.jsp" />
+	</definition>
+
+	<definition name="team_add" extends="homeTemplate">
+		<put-attribute name="page_title" value="Añadir equipo" />
+		<put-attribute name="body" value="/WEB-INF/jsp/team_add.jsp" />
+	</definition>
+	<definition name="team_update" extends="homeTemplate">
+		<put-attribute name="page_title" value="Modificar equipo" />
+		<put-attribute name="body" value="/WEB-INF/jsp/team_update.jsp" />
+	</definition>
+	<definition name="team_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Ver detalles equipo" />
+		<put-attribute name="body" value="/WEB-INF/jsp/team_view.jsp" />
+	</definition>
 </tiles-definitions>

@@ -32,9 +32,10 @@
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Equipos <span class="caret"></span></a>
 						<ul class="dropdown-menu">
+							<li><a href="/team/list">Lista equipos</a></li>
+							<li><a href="/team/add">Nuevo equipo</a></li>
 							<li><a href="/club/list">Lista clubes</a></li>
 							<li><a href="/club/add">Nuevo club</a></li>
-
 						</ul>
 					</li>
 					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuarios<span class="caret"></span></a>

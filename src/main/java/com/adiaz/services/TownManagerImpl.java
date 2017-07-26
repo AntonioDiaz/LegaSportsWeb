@@ -51,6 +51,7 @@ public class TownManagerImpl implements TownManager {
 	}
 
 
+	// TODO: 25/07/2017 remove this!!!
 	@Override
 	public void removeAll() throws Exception {
 		List<Town> towns = townDAO.findAll();
