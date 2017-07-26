@@ -1,9 +1,6 @@
 package com.adiaz.forms.utils;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.Club;
-import com.adiaz.entities.Team;
-import com.adiaz.entities.Town;
+import com.adiaz.entities.*;
 import com.adiaz.forms.TeamForm;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -32,6 +29,10 @@ public class TeamFormUtils implements GenericFormUtils<TeamForm, Team> {
 			Key<Club> key = Key.create(Club.class, f.getIdClub());
 			team.setClubRef(Ref.create(key));
 		}
+		if (f.getIdSport()!=null) {
+			Key<Sport> key = Key.create(Sport.class, f.getIdSport());
+			team.setSportRef(Ref.create(key));
+		}
 		return team;
 	}
 
@@ -48,6 +49,9 @@ public class TeamFormUtils implements GenericFormUtils<TeamForm, Team> {
 		}
 		if (entity.getClubEntity()!=null) {
 			f.setIdClub(entity.getClubEntity().getId());
+		}
+		if (entity.getSportEntity()!=null) {
+			f.setIdSport(entity.getSportEntity().getId());
 		}
 		return f;
 	}

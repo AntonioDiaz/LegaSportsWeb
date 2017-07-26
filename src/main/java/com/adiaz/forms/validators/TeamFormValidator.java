@@ -23,5 +23,6 @@ public class TeamFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idCategory", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idTown", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idSport", "field_required");
 	}
 }

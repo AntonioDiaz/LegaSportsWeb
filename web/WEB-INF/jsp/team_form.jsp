@@ -68,6 +68,16 @@
 	</div>
 	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCategory" cssClass="text-danger" /></label>
 </div>
+<div class="form-group">
+	<label class="control-label col-sm-2">Deporte</label>
+	<div class="col-sm-6">
+		<form:select path="idSport" class="form-control">
+			<form:option value=""></form:option>
+			<form:options items="${sports}" itemLabel="name" itemValue="id" />
+		</form:select>
+	</div>
+	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCategory" cssClass="text-danger" /></label>
+</div>
 
 <div class="form-group">
 	<label class="control-label col-sm-2">Nombre</label>

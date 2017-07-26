@@ -44,6 +44,14 @@ public class Team {
 	@Ignore
 	private Club clubEntity;
 
+	@Load
+	@Index
+	@JsonIgnore
+	private Ref<Sport> sportRef;
+
+	@Ignore
+	private Sport sportEntity;
+
 	@OnLoad
 	public void getRefs() {
 		if (categoryRef!=null && categoryRef.isLoaded()) {
@@ -54,6 +62,9 @@ public class Team {
 		}
 		if (townRef!=null && townRef.isLoaded()) {
 			townEntity = townRef.get();
+		}
+		if (sportRef!=null && sportRef.isLoaded()) {
+			sportEntity = sportRef.get();
 		}
 	}
 
@@ -119,5 +130,21 @@ public class Team {
 
 	public void setTownEntity(Town townEntity) {
 		this.townEntity = townEntity;
+	}
+
+	public Ref<Sport> getSportRef() {
+		return sportRef;
+	}
+
+	public void setSportRef(Ref<Sport> sportRef) {
+		this.sportRef = sportRef;
+	}
+
+	public Sport getSportEntity() {
+		return sportEntity;
+	}
+
+	public void setSportEntity(Sport sportEntity) {
+		this.sportEntity = sportEntity;
 	}
 }

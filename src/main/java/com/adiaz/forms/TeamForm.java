@@ -10,6 +10,7 @@ public class TeamForm {
 	private Long idCategory;
 	private Long idTown;
 	private Long idClub;
+	private Long idSport;
 
 	public Long getId() {
 		return id;
@@ -49,5 +50,13 @@ public class TeamForm {
 
 	public void setIdClub(Long idClub) {
 		this.idClub = idClub;
+	}
+
+	public Long getIdSport() {
+		return idSport;
+	}
+
+	public void setIdSport(Long idSport) {
+		this.idSport = idSport;
 	}
 }

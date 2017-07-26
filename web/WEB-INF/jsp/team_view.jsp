@@ -7,6 +7,7 @@
 		});
 		$('#idTown').prop('disabled', true);
 		$('#idClub').prop('disabled', true);
+		$('#idSport').prop('disabled', true);
 		$('#idCategory').prop('disabled', true);
 		$('#name').prop('readonly', true);
 	});
