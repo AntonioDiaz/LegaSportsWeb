@@ -1,21 +1,39 @@
 <%@include file="taglibs.jsp"%>
 <script>
-	$(document).ready(function() { });
+	$(document).ready(function() {
+		$('#btnBack').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/viewCalendar?idCompetition=${competition.id}";
+		});
+	});
 	
-	/* */
-	function fLoadClassification(idCompetition) {
-		window.location.href = "/competitions/loadClassification?idCompetition=" + idCompetition;
-	}		
 </script>
-<h2>
-	Calendario: ${competition.name}  (${competition.sportEntity.name} - ${competition.categoryEntity.name})
-</h2>
+<div class="row" style="position: relative">
+	<div class="col-sm-10">
+		<div class="font_title">
+			<div>${competition.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-2"><small>Deporte</small></div>
+			<div>${competition.sportEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-2"><small>Categoria</small></div>
+			<div>${competition.categoryEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-2"><small>Municipio</small></div>
+			<div>${competition.townEntity.name}</div>
+		</div>
+	</div>
+	<div class="col-sm-2" style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;">
+		<button type="button" class="btn btn-default btn-block" id="btnBack">
+			volver
+		</button>
+	</div>
+</div>
 <hr>
-<c:if test="${empty classification_list}">
-	<button type="button" class="btn btn-primary" id="fLoadClassification" onclick="fLoadClassification('${competition.id}')">cargar clasificación</button>
-	<br>
-</c:if>
-<table class="table table-hover table-condensed">	
+<table class="table table-hover table-condensed">
 	<thead>
 	<tr>
 	 	<th class="col-sm-3">Posición</th>

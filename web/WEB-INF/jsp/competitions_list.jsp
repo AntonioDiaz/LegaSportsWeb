@@ -3,20 +3,8 @@
 <script>
 
 	$(document).ready(function() {
-		<c:if test="${publish_done==true}">
-			showDialogAlert("Se ha publicado el calendario con las ultimas modificaciones.");
-		</c:if>
-		<c:if test="${publish_none==true}">
-			showDialogAlert("No hay ningún cambio para publicar en el calendario.");
-		</c:if>
-		<c:if test="${add_done==true}">
-			showDialogAlert("La competición ha sido creada.");
-		</c:if>
 		<c:if test="${remove_done==true}">
 			showDialogAlert("La competición ha sido eliminada.");
-		</c:if>
-		<c:if test="${update_done==true}">
-			showDialogAlert("La competición ha sido actualizada.");
 		</c:if>
 	});
 
@@ -27,24 +15,6 @@
 	function fViewClassification (idCompetition) {
 		window.location.href = "/competitions/viewClassification?idCompetition=" + idCompetition;
 	}
-
-	function fUpdate (idCompetition) {
-		window.location.href = "/competitions/update?idCompetition=" + idCompetition;
-	}
-
-	function fView (idCompetition) {
-		window.location.href = "/competitions/view?idCompetition=" + idCompetition;
-	}
-
-	function fRemove (idCompetition) {
-		var bodyTxt = "¿Se va a borrar la competición y todos sus partidos desea continuar?";
-		showDialogConfirm(bodyTxt,
-			function(){
-				window.location.href = "/competitions/doRemove?idCompetition=" + idCompetition;
-			}
-		);
-	}
-
 
 </script>
 <form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
@@ -114,20 +84,11 @@
 				<td style="vertical-align: middle;">${competition.categoryEntity.name}</td>
 				<td style="vertical-align: middle;">${competition.townEntity.name}</td>
 				<td align="right">
-					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title=calendario">
+					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title="calendario">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</button>
 					<button type="button" class="btn btn-default" onclick="fViewClassification('${competition.id}')" title="clasificación">
 						<span class="glyphicon glyphicon-list"></span>
-					</button>
-					<button type="button" class="btn btn-default" onclick="fView('${competition.id}')" title="ver">
-						<span class="glyphicon glyphicon-eye-open"></span>
-					</button>
-					<button type="button" class="btn btn-default" onclick="fUpdate('${competition.id}')" title="actualizar">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</button>
-					<button type="button" class="btn btn-default" onclick="fRemove('${competition.id}')" title="borrar">
-						<span class="glyphicon glyphicon-remove"></span>
 					</button>
 				</td>
 			</tr>

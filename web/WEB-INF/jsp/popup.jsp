@@ -3,8 +3,8 @@
 	function showDialogAlert(bodyText) {
 		$('#modalContent').html(bodyText);
 		$('#myModalAlert').modal('show');
-		 $("#buttons_alert").show();
-		 $("#buttons_confirm").hide();
+		$("#buttons_alert").show();
+		$("#buttons_confirm").hide();
 	}
 	
 	function showDialogConfirm(bodyText, functionAccept) {

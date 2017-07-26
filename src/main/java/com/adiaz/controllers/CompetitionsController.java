@@ -14,6 +14,8 @@ import com.adiaz.services.MatchesManager;
 import com.adiaz.services.SportCenterCourtManager;
 import com.adiaz.utils.UtilsLegaSport;
 import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
+
+import com.sun.javafx.fxml.builder.URLBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 
@@ -40,30 +44,20 @@ public class CompetitionsController {
 
 
 	@RequestMapping("/list")
-	public ModelAndView list(
-			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
-			@RequestParam(value="update_done", defaultValue="false") boolean updateDone
-		){
+	public ModelAndView list(@RequestParam(value="remove_done", defaultValue="false") boolean removeDone){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("form_filter", new CompetitionsFilterForm());
-		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("remove_done", removeDone);
-		modelAndView.addObject("update_done", updateDone);
 		return modelAndView;
 	}
 
 	@RequestMapping("/doFilter")
 	public ModelAndView doFilter(
-			@RequestParam(value="publish_done", defaultValue="false") boolean publishDone,
-			@RequestParam(value="publish_none", defaultValue="false") boolean publishNone,
 			@ModelAttribute("form_filter") CompetitionsFilterForm competitionsFilterForm){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("form_filter", competitionsFilterForm);
 		List<Competition> competitions = competitionsManager.queryCompetitions(competitionsFilterForm);
 		modelAndView.addObject("competitions", competitions);
-		modelAndView.addObject("publish_done", publishDone);
-		modelAndView.addObject("publish_none", publishNone);
 		return modelAndView;
 	}
 
@@ -119,7 +113,11 @@ public class CompetitionsController {
 	}
 	
 	@RequestMapping ("/viewCalendar")
-	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
+	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition,
+									 @RequestParam(value="add_done", defaultValue="false") boolean addDone,
+									 @RequestParam(value="update_done", defaultValue="false") boolean updateDone,
+									 @RequestParam(value="publish_done", defaultValue="false") boolean publishDone,
+									 @RequestParam(value="publish_none", defaultValue="false") boolean publishNone) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<Match> matchesList = matchesManager.queryMatchesByCompetitionWorkingCopy(idCompetition);
@@ -130,6 +128,10 @@ public class CompetitionsController {
 		modelAndView.addObject("matches_list", matchesList);
 		modelAndView.addObject("weeks_count", howManyWeek);
 		modelAndView.addObject("courts", courts);
+		modelAndView.addObject("add_done", addDone);
+		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("publish_done", publishDone);
+		modelAndView.addObject("publish_none", publishNone);
 		return modelAndView;
 	}
 	
@@ -138,7 +140,6 @@ public class CompetitionsController {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<ClassificationEntry> classificationList = classificationManager.queryClassificationBySport(idCompetition);
-
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("classification_list", classificationList);
 		return modelAndView;
@@ -208,7 +209,10 @@ public class CompetitionsController {
 		} else {
 			try {
 				competitionsManager.update(competitionsForm);
-				modelAndView.setViewName("redirect:/competitions/list?update_done=true");
+				String viewNameStr = "redirect:/competitions/viewCalendar?" +
+						"idCompetition=" + competitionsForm.getId() +
+						"&update_done=true";
+				modelAndView.setViewName(viewNameStr);
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -216,22 +220,14 @@ public class CompetitionsController {
 		return modelAndView;
 	}
 
-	@RequestMapping ("/view")
-	public ModelAndView view(@RequestParam(value = "idCompetition") Long idCompetition) {
-		ModelAndView modelAndView = new ModelAndView("competitions_view");
-		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
-		modelAndView.addObject("my_form", competitionsForm);
-		return modelAndView;
-	}
-
 	@RequestMapping("/publishCalendar")
 	public String publishCalendar(@RequestParam(value = "idCompetition") Long idCompetition) throws Exception {
-		String redirectTo;
+		String redirectTo = "redirect:/competitions/viewCalendar?idCompetition=" +  idCompetition;
 		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
 			matchesManager.updatePublishedMatches(idCompetition);
-			redirectTo = "redirect:/competitions/doFilter?publish_done=true";
+			redirectTo += "&publish_done=true";
 		} else {
-			redirectTo = "redirect:/competitions/doFilter?publish_none=true";
+			redirectTo += "&publish_none=true";
 		}
 		return redirectTo;
 	}

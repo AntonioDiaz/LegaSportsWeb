@@ -11,8 +11,12 @@
 			<div class="modal-body modal-body-munisports">
 				<div class="modal-row-munisports-title">
 					<u>
-						<spam>Jornada <spam id="weekNumber"></spam>:</spam>
-						${competition.name} <small>(${competition.sportEntity.name} - ${competition.categoryEntity.name})</small>
+						<spam>Jornada
+							<spam id="weekNumber"></spam>
+							:
+						</spam>
+						${competition.name}
+						<small>(${competition.sportEntity.name} - ${competition.categoryEntity.name})</small>
 					</u>
 				</div>
 				<div class="row modal-row-munisports">
@@ -63,13 +67,14 @@
 			</div>
 
 			<div class="modal-footer">
-				<div id="buttons_confirm" class="row">
+				<div class="row">
 					<div class="col-sm-6">&nbsp;</div>
 					<div class="col-sm-3">
 						<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancelar</button>
 					</div>
 					<div class="col-sm-3">
-						<button id="score_button_accept" type="button" class="btn btn-default btn-block" data-dismiss="modal">Aceptar</button>
+						<button id="score_button_accept" type="button" class="btn btn-default btn-block" data-dismiss="modal">Aceptar
+						</button>
 					</div>
 				</div>
 			</div>
@@ -77,26 +82,65 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function () {	});
+	$(document).ready(function () {
+		<c:if test="${publish_done==true}">
+			showDialogAlert("Se ha publicado el calendario con las ultimas modificaciones.");
+		</c:if>
+		<c:if test="${publish_none==true}">
+			showDialogAlert("No hay ningún cambio para publicar en el calendario.");
+		</c:if>
+		<c:if test="${add_done==true}">
+			showDialogAlert("La competición ha sido creada.");
+		</c:if>
+		<c:if test="${update_done==true}">
+			showDialogAlert("La competición ha sido actualizada.");
+		</c:if>
 
-	/* */
-	function fPublishCalendar(idCompetition) {
-		window.location.href = "/competitions/publishCalendar?idCompetition=" + idCompetition;
-	}
 
-	/* */
-	function fLoadCalendar(idCompetition) {
-		window.location.href = "/competitions/loadCalendar?idCompetition=" + idCompetition;
-	}
+		$('#btnBack').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/doFilter";
+		});
+		$('#btnPublish').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/publishCalendar?idCompetition=${competition.id}";
+		});
+		$('#btnGenerate').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/loadCalendar?idCompetition=${competition.id}";
+		});
+		$('#btnUpdate').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/update?idCompetition=${competition.id}";
+		});
+		$('#btnViewClassification').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/viewClassification?idCompetition=${competition.id}";
+		});
+		$('#btnDelete').on('click', function(event) {
+			event.preventDefault();
+			var bodyTxt = "¿Se va a borrar la competición y todos sus partidos desea continuar?";
+			showDialogConfirm(bodyTxt,
+				function(){
+					window.location.href = "/competitions/doRemove?idCompetition=${competition.id}";
+				}
+			);
+		});
+		<c:if test="${empty matches_list}">
+			$('#btnPublish').prop("disabled", true);
+			$('#week_selection').prop("disabled", true);
+		</c:if>
+
+	});
 
 	/* if the date has wrong format mark the input as error. */
-	function fValidateDate(){
+	function fValidateDate() {
 		const pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2})$/g;
 		let newDate = $('#inputMatchDate').val();
-		let isValidDate = newDate=="" || pattern.test(newDate);
+		let isValidDate = newDate == "" || pattern.test(newDate);
 		$('#score_button_accept').prop("disabled", !isValidDate);
 		$('#inputMatchDate').parent().removeClass("has-error");
-		if (!isValidDate){
+		if (!isValidDate) {
 			$('#inputMatchDate').parent().addClass("has-error");
 		}
 
@@ -117,7 +161,6 @@
 		}
 	}
 
-
 	function fUpdateShowPopup(indexArray) {
 		var matchSelected = matchesArray[indexArray];
 		var idMatch = matchSelected.id;
@@ -133,12 +176,16 @@
 		$('#scoreLocalTeam').html(local);
 		$('#scoreVisitorTeam').html(visitor);
 		$('#inputScoreLocal').val(scoreLocal);
-		$('#inputScoreLocal').focus(function() { $(this).select(); } );
+		$('#inputScoreLocal').focus(function () {
+			$(this).select();
+		});
 		$('#inputScoreVisitor').val(scoreVisitor);
-		$('#inputScoreVisitor').focus(function() { $(this).select(); } );
+		$('#inputScoreVisitor').focus(function () {
+			$(this).select();
+		});
 		$('#inputMatchDate').val(matchDate);
-		if (matchCourtId!=null) {
-			$('#selectMatchCourt option[value="'+ matchCourtId +'"]').prop("selected", "selected");
+		if (matchCourtId != null) {
+			$('#selectMatchCourt option[value="' + matchCourtId + '"]').prop("selected", "selected");
 		} else {
 			$('#selectMatchCourt option[value=""]').prop("selected", "selected");
 		}
@@ -181,9 +228,9 @@
 				matchesArray[indexArray].dateStr = result.dateStr;
 				matchesArray[indexArray].courtId = result.courtId;
 				$("#score_" + matchSelected.id).html(result.scoreLocal + " - " + result.scoreVisitor);
-				$("#date_" + matchSelected.id).html(result.dateStr==null?" - ":result.dateStr);
+				$("#date_" + matchSelected.id).html(result.dateStr == null ? " - " : result.dateStr);
 				$("#place_" + matchSelected.id).html(" - ");
-				if (result.sportCenterCourt!=null && result.sportCenterCourt.sportCenter.name!=null) {
+				if (result.sportCenterCourt != null && result.sportCenterCourt.sportCenter.name != null) {
 					var courtNameStr = result.sportCenterCourt.sportCenter.name;
 					courtNameStr += " - ";
 					courtNameStr += result.sportCenterCourt.name;
@@ -214,52 +261,75 @@
 	/*Init matchesArray*/
 	var matchesArray = [];
 	<c:forEach var="match" items="${matches_list}" varStatus="loop">
-		matchesArray[${match.id}] = {
-			id: ${match.id},
-			week: ${match.week},
-			teamLocal: "${match.teamLocal}",
-			teamVisitor: "${match.teamVisitor}",
-			scoreLocal: ${match.scoreLocal},
-			scoreVisitor: ${match.scoreVisitor},
-			dateStr: "${match.dateStr}"
-		}
-		<c:if test="${match.sportCenterCourt!=null}">
-			matchesArray[${match.id}].courtId = "${match.sportCenterCourt.id}";
-			matchesArray[${match.id}].courtName = "${match.sportCenterCourt.name}";
-		</c:if>
+	matchesArray[${match.id}] = {
+		id: ${match.id},
+		week: ${match.week},
+		teamLocal: "${match.teamLocal}",
+		teamVisitor: "${match.teamVisitor}",
+		scoreLocal: ${match.scoreLocal},
+		scoreVisitor: ${match.scoreVisitor},
+		dateStr: "${match.dateStr}"
+	}
+	<c:if test="${match.sportCenterCourt!=null}">
+	matchesArray[${match.id}].courtId = "${match.sportCenterCourt.id}";
+	matchesArray[${match.id}].courtName = "${match.sportCenterCourt.name}";
+	</c:if>
 	</c:forEach>
 </script>
 <div class="row" style="position: relative">
-	<div class="col-sm-10">
-		<h2><small>Calendario: </small>${competition.name} - ${competition.sportEntity.name} - ${competition.categoryEntity.name}</h2>
+	<div class="col-sm-8">
+		<div class="font_title">
+			<div>${competition.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-2"><small>Deporte</small></div>
+			<div>${competition.sportEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-2"><small>Categoria</small></div>
+			<div>${competition.categoryEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-2"><small>Municipio</small></div>
+			<div>${competition.townEntity.name}</div>
+		</div>
 	</div>
-	<div class="col-sm-2" style="position: absolute; bottom: 0px; right: 0px; margin-bottom: 10px;">
+	<div class="col-sm-4" style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;">
 		<div class="row">
-			<div class="col-sm-8" style="padding: 0px;">
-				<select id="week_selection" class="form-control" onchange="fUpdateWeekCalendar()">
+			<div class="col-sm-6">
+				<c:if test="${empty matches_list}">
+					<button type="button" class="btn btn-default btn-block" id="btnGenerate">
+						generar calendario
+					</button>
+				</c:if>
+				<c:if test="${!empty matches_list}">
+					<button type="button" class="btn btn-default btn-block" id="btnViewClassification">
+						clasificación
+					</button>
+				</c:if>
+				<button type="button" class="btn btn-default btn-block" id="btnUpdate">
+					modificar
+				</button>
+				<button type="button" class="btn btn-default btn-block" id="btnDelete">
+					eliminar
+				</button>
+			</div>
+			<div class="col-sm-6">
+				<button type="button" class="btn btn-default btn-block" id="btnBack">
+					volver
+				</button>
+				<button type="button" class="btn btn-default btn-block" id="btnPublish">publicar</button>
+				<select id="week_selection" class="form-control" onchange="fUpdateWeekCalendar()" style="margin-top: 5px">
 					<option></option>
 					<c:forEach begin="1" end="${weeks_count}" varStatus="loop">
 						<option value="${loop.index}">Jornada ${loop.index}</option>
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-sm-2" style="padding-left: 5px;">
-				<button type="button" class="btn btn-default" onclick="fPublishCalendar('${competition.id}')" title="publicar">
-					<span class="glyphicon glyphicon-ok"></span>
-				</button>
-			</div>
 		</div>
 	</div>
 </div>
 <hr>
-<c:if test="${empty matches_list}">
-	<div align="right">
-		<button type="button" class="btn btn-default" id="fLoadCalendar" onclick="fLoadCalendar('${competition.id}')" style="width: 200px;">
-			cargar calendario
-		</button>
-	</div>
-	<br>
-</c:if>
 <c:forEach begin="1" end="${weeks_count}" varStatus="loopForWeek">
 	<div name="week_id_${loopForWeek.index}">
 		<h4>Jornada ${loopForWeek.index}</h4>
@@ -307,7 +377,7 @@
 							</div>
 						</td>
 					</tr>
-					</c:if>
+				</c:if>
 			</c:forEach>
 		</table>
 	</div>
