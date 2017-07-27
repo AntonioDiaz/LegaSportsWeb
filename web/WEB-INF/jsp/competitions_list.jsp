@@ -76,7 +76,6 @@
 				</tr>
 			</c:if>
 		</c:if>
-
 		<c:forEach var="competition" items="${competitions}">
 			<tr>
 				<td style="vertical-align: middle;"><strong>${competition.name}</strong></td>
@@ -85,10 +84,7 @@
 				<td style="vertical-align: middle;">${competition.townEntity.name}</td>
 				<td align="right">
 					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title="calendario">
-						<span class="glyphicon glyphicon-calendar"></span>
-					</button>
-					<button type="button" class="btn btn-default" onclick="fViewClassification('${competition.id}')" title="clasificación">
-						<span class="glyphicon glyphicon-list"></span>
+						Ver detalles &nbsp; &nbsp;<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
 				</td>
 			</tr>
