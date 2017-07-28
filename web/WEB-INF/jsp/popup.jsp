@@ -34,7 +34,7 @@
 				</div>
 				<div id="buttons_confirm">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					<button id="button_accept" type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+					<button id="button_accept" type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 				</div>
 			</div>
 		</div>

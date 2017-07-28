@@ -17,7 +17,7 @@
 			<button id="btnBack" type="button" class="btn btn-default btn-block">cancelar</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="submit" class="btn btn-default btn-block">crear club</button>
+			<button type="submit" class="btn btn-primary btn-block">crear club</button>
 		</div>
 		<div class="col-sm-4">&nbsp;</div>
 	</div>

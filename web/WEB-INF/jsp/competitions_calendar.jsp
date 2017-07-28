@@ -73,7 +73,7 @@
 						<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancelar</button>
 					</div>
 					<div class="col-sm-3">
-						<button id="score_button_accept" type="button" class="btn btn-default btn-block" data-dismiss="modal">Aceptar
+						<button id="score_button_accept" type="button" class="btn btn-primary btn-block" data-dismiss="modal">Aceptar
 						</button>
 					</div>
 				</div>
