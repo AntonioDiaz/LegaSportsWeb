@@ -1,6 +1,8 @@
 package com.adiaz.services;
 
+import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.TeamDAO;
+import com.adiaz.entities.Competition;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
@@ -20,6 +22,8 @@ public class TeamManagerImpl implements TeamManager {
 	TeamDAO teamDAO;
 	@Autowired
 	TeamFormUtils teamFormUtils;
+	@Autowired
+	CompetitionsDAO competitionsDAO;
 
 	@Override
 	public Long add(TeamForm teamForm) throws Exception {
@@ -60,5 +64,14 @@ public class TeamManagerImpl implements TeamManager {
 	@Override
 	public List<Team> queryByFilter(TeamFilterForm filterForm) {
 		return teamDAO.find(filterForm.getIdTown(), filterForm.getIdCategory(), filterForm.getIdSport());
+	}
+
+	@Override
+	public List<Team> queryByCompetition(Long idCompetition) {
+		Competition competition = competitionsDAO.findCompetitionsById(idCompetition);
+		Long idTown = competition.getTownEntity().getId();
+		Long idCategory = competition.getCategoryEntity().getId();
+		Long idSport = competition.getSportEntity().getId();
+		return teamDAO.find(idTown, idCategory, idSport);
 	}
 }

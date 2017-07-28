@@ -18,5 +18,6 @@ public interface TeamManager {
 	public boolean update(TeamForm teamForm) throws Exception;
 	public TeamForm queryById(Long id);
 	public List<Team> queryByFilter(TeamFilterForm teamFilterForm);
+	public List<Team> queryByCompetition(Long idCompetition);
 
 }

@@ -1,21 +1,16 @@
 package com.adiaz.controllers;
 
-import com.adiaz.entities.ClassificationEntry;
-import com.adiaz.entities.Competition;
-import com.adiaz.entities.Match;
-import com.adiaz.entities.SportCenterCourt;
+import com.adiaz.entities.*;
+import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
+import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.validators.CompetitionsFormValidator;
-import com.adiaz.forms.LoadMatchesForm;
-import com.adiaz.services.ClassificationManager;
-import com.adiaz.services.CompetitionsManager;
-import com.adiaz.services.MatchesManager;
-import com.adiaz.services.SportCenterCourtManager;
-import com.adiaz.utils.UtilsLegaSport;
+import com.adiaz.forms.validators.GenerateCalendarFormValidator;
+import com.adiaz.services.*;
+
 import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
 
-import com.sun.javafx.fxml.builder.URLBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,22 +21,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
 
 @Controller
 @RequestMapping ("/competitions")
-@SessionAttributes ("form_filter")
+@SessionAttributes ({"form_filter", "courts"})
 public class CompetitionsController {
 	private static final Logger logger = Logger.getLogger(CompetitionsController.class);
 	@Autowired CompetitionsManager competitionsManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
+	@Autowired GenerateCalendarFormValidator generateCalendarFormValidator;
 	@Autowired SportCenterCourtManager sportCenterCourtManager;
-
+	@Autowired TeamManager teamManager;
 
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(value="remove_done", defaultValue="false") boolean removeDone){
@@ -145,50 +139,34 @@ public class CompetitionsController {
 		return modelAndView;
 	}	
 	
-	@RequestMapping ("/loadClassification")
-	public ModelAndView loadClassification (@RequestParam(value="idCompetition") Long idCompetition) {
-		ModelAndView modelAndView = new ModelAndView("competitions_load_classification");
-		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		modelAndView.addObject("competition", competitionsById);
-		LoadMatchesForm loadMatchesForm = new LoadMatchesForm();
-		loadMatchesForm.setIdCompetition(idCompetition);
-		modelAndView.addObject("my_form", loadMatchesForm);
-		return modelAndView;
-	}
-	
-	@RequestMapping ("/doLoadClassification")
-	public String doLoadClassification(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
-		List<ClassificationEntry> classificationList =
-				UtilsLegaSport.parseClassification(loadMatchesForm.getMatchesTxt(), loadMatchesForm.getIdCompetition());
-		try {
-			classificationManager.add(classificationList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return  "redirect:/competitions/viewClassification?idCompetition=" + loadMatchesForm.getIdCompetition();
-	}	
-	
 	@RequestMapping ("/loadCalendar")
 	public ModelAndView loadCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_load_calendar");
-		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		modelAndView.addObject("competition", competitionsById);
-		LoadMatchesForm loadMatchesForm = new LoadMatchesForm();
-		loadMatchesForm.setIdCompetition(idCompetition);
-		modelAndView.addObject("my_form", loadMatchesForm);
+		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+		modelAndView.addObject("competition", competition);
+		GenerateCalendarForm form = new GenerateCalendarForm();
+		form.setIdCompetition(idCompetition);
+		modelAndView.addObject("my_form", form);
+		List<Team> teams = teamManager.queryByCompetition(idCompetition);
+		modelAndView.addObject("teams", teams);
 		return modelAndView;
 	}
 
 	@RequestMapping ("/doLoadCalendar")
-	public String doLoadCalendar(@ModelAttribute("my_form") LoadMatchesForm loadMatchesForm) {
-		Competition competitionsById = competitionsManager.queryCompetitionsByIdEntity(loadMatchesForm.getIdCompetition());
-		List<Match> matchesList = UtilsLegaSport.parseCalendar(loadMatchesForm.getMatchesTxt(), competitionsById, null);
-		try {
-			matchesManager.addMatchListAndPublish(matchesList);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public ModelAndView doLoadCalendar(@ModelAttribute("my_form") GenerateCalendarForm form, BindingResult bindingResult) throws Exception {
+				ModelAndView modelAndView = new ModelAndView();
+		generateCalendarFormValidator.validate(form, bindingResult);
+		if (bindingResult.hasErrors()) {
+			modelAndView.setViewName("competitions_load_calendar");
+			Competition competition = competitionsManager.queryCompetitionsByIdEntity(form.getIdCompetition());
+			modelAndView.addObject("competition", competition);
+			modelAndView.addObject("my_form", form);
+		} else {
+			matchesManager.generateCalendar(form);
+			String viewStr = "redirect:/competitions/viewCalendar?idCompetition=" + form.getIdCompetition();
+			modelAndView.setViewName(viewStr);
 		}
-		return  "redirect:/competitions/viewCalendar?idCompetition=" + loadMatchesForm.getIdCompetition();
+		return modelAndView;
 	}
 
 	@RequestMapping ("/update")

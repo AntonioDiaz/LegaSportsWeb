@@ -1,5 +1,6 @@
 package com.adiaz.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.googlecode.objectify.annotation.*;
 
 
 @Entity
-public class SportCenterCourt {
+public class SportCenterCourt implements Serializable {
 
 	@Id
 	private Long id;

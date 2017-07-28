@@ -71,11 +71,13 @@ public class RegisterEntities {
 		townForm = new TownForm();
 		townForm.setName("Fuenlabrada");
 		townForm.setActive(true);
-		townManager.add(townForm);
+		Long townIdFuenla = townManager.add(townForm);
+		Key<Town> keyFuenla = Key.create(Town.class, townIdFuenla);
 
 		/* load sports */
 		 Key<Sport> keySportBasket = null;
-		 Key<Category> keyCategories = null;
+		 Key<Category> keyCadete = null;
+		 Key<Category> keyJuvenil = null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
 			Key<Sport> key = ofy().save().entity(new Sport(sportName)).now();
 			if (ConstantsLegaSport.BASKET.equals(sportName)) {
@@ -90,8 +92,11 @@ public class RegisterEntities {
 			Category category = new Category();
 			category.setName(name);
 			category.setOrder(order++);
-			keyCategories = ofy().save().entity(category).now();
+			ofy().save().entity(category).now();
 		}
+		Category category = categoriesManager.queryCategoriesByName("Cadete");
+		keyCadete = Key.create(category);
+		keyJuvenil = Key.create(categoriesManager.queryCategoriesByName("Juvenil"));
 
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");
@@ -109,7 +114,7 @@ public class RegisterEntities {
 		/* load competitions */
 		Competition competition = new Competition();
 		competition.setName("liga division honor");
-		competition.setCategoryRef(Ref.create(keyCategories));
+		competition.setCategoryRef(Ref.create(keyJuvenil));
 		competition.setSportRef(Ref.create(keySportBasket));
 		competition.setTownRef(Ref.create(keyLega));
 		try {
@@ -133,6 +138,14 @@ public class RegisterEntities {
 			e.printStackTrace();
 		}
 
+		competition = new Competition();
+		competition.setName("Liga division honor");
+		competition.setCategoryRef(Ref.create(keyCadete));
+		competition.setSportRef(Ref.create(keySportBasket));
+		competition.setTownRef(Ref.create(keyLega));
+		competitionsManager.add(competition);
+
+
 		/* load users */
 		String name = "antonio.diaz";
 		String password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
@@ -152,7 +165,7 @@ public class RegisterEntities {
 		teamForm.setName("CD LEGANES A");
 		teamForm.setIdClub(idCdLeganes);
 		teamForm.setIdTown(townIdLega);
-		teamForm.setIdCategory(keyCategories.getId());
+		teamForm.setIdCategory(keyCadete.getId());
 		teamManager.add(teamForm);
 		logger.debug("finished init...");
 	}

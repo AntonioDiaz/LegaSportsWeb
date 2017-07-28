@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.adiaz.daos.CompetitionsDAO;
+import com.adiaz.entities.Competition;
+import com.adiaz.entities.SportCenterCourt;
+import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.utils.RegisterEntities;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -22,7 +26,12 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	@Autowired
 	MatchesDAO matchesDAO;
-	
+	@Autowired
+	CompetitionsDAO competitionsDAO;
+	@Autowired
+	SportCenterCourtManager sportCenterCourtManager;
+
+
 	@Override
 	public Long add(Match match) throws Exception {
 		return matchesDAO.create(match).getId();
@@ -37,8 +46,6 @@ public class MatchesManagerImpl implements MatchesManager {
 		match.setWorkingCopy(true);
 		match.setMatchPublishedRef(Ref.create(matchKey));
 		Long idWorkingCopy = this.add(match);
-		logger.debug("idPublisedCopy " +  idPublisedCopy);
-		logger.debug("idWorkingCopy " +  idWorkingCopy);
 		return idWorkingCopy;
 	}
 
@@ -122,6 +129,22 @@ public class MatchesManagerImpl implements MatchesManager {
 		}		
 	}
 
-
-
+	@Override
+	public void generateCalendar(GenerateCalendarForm form) throws Exception {
+		Competition competition = competitionsDAO.findCompetitionsById(form.getIdCompetition());
+		Ref<Competition> competitionRef = Ref.create(competition);
+		SportCenterCourt court = sportCenterCourtManager.querySportCourt(form.getIdCourt());
+		Ref<SportCenterCourt> courtRef = Ref.create(court);
+		int weeks = form.getNumTeams() * 2 - 2;
+		int matchesEachWeek = form.getNumTeams() / 2;
+		for (int i = 0; i < weeks; i++) {
+			for (int j = 0; j < matchesEachWeek; j++) {
+				Match match = new Match();
+				match.setCompetitionRef(competitionRef);
+				match.setSportCenterCourtRef(courtRef);
+				match.setWeek(i+1);
+				addPublishedAndWorkingcopy(match);
+			}
+		}
+	}
 }

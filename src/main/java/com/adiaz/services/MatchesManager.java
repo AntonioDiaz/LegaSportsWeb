@@ -3,6 +3,7 @@ package com.adiaz.services;
 import java.util.List;
 
 import com.adiaz.entities.Match;
+import com.adiaz.forms.GenerateCalendarForm;
 
 public interface MatchesManager {
 
@@ -19,4 +20,5 @@ public interface MatchesManager {
 	public List<Match> queryMatches();
 	public Match queryMatchesById(Long id);
 	public Integer howManyWeek(List<Match> matchesList);
+	public void generateCalendar(GenerateCalendarForm form) throws Exception;
 }

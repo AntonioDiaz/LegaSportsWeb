@@ -47,9 +47,6 @@
 	<definition name="competitions_classification" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_classification.jsp" />
 	</definition>
-	<definition name="competitions_load_classification" extends="homeTemplateNoTitle">
-		<put-attribute name="body" value="/WEB-INF/jsp/competitions_load_classification.jsp" />
-	</definition>
 	<definition name="competitions_places" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_places.jsp" />
 	</definition>	

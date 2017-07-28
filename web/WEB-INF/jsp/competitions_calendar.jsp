@@ -279,7 +279,7 @@
 <div class="row" style="position: relative">
 	<div class="col-sm-8">
 		<div class="font_title">
-			<div>${competition.name}</div>
+			<div><u>${competition.name}</u></div>
 		</div>
 		<div class="row font_subtitle">
 			<div class="col-sm-2"><small>Deporte</small></div>
