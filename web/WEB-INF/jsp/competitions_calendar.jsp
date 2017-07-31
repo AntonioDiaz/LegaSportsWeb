@@ -48,7 +48,7 @@
 						<select class="form-control" id="selectMatchCourt">
 							<option value=""></option>
 							<c:forEach var="court" items="${courts}" varStatus="loop">
-								<option value="${court.id}">${court.sportCenter.name} - ${court.name}</option>
+								<option value="${court.id}">${court.nameWithCenter}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -198,14 +198,12 @@
 			matchSelected.scoreVisitor = $('#inputScoreVisitor').val();
 			matchSelected.dateStr = $('#inputMatchDate').val();
 			matchSelected.courtId = $('#selectMatchCourt').val();
-			console.log("matchSelected ->" + JSON.stringify(matchSelected));
 			$.ajax({
 				url: '/server/match/' + idMatch,
 				type: 'PUT',
 				data: JSON.stringify(matchSelected),
 				contentType: "application/json",
 				success: function (result) {
-					console.log("result ->" + JSON.stringify(result));
 					updateMatchProperties(indexArray)
 				}
 			});
@@ -222,7 +220,6 @@
 			data: JSON.stringify(matchSelected),
 			contentType: "application/json",
 			success: function (result) {
-				console.log("result GET ->" + JSON.stringify(result));
 				matchesArray[indexArray].scoreLocal = result.scoreLocal;
 				matchesArray[indexArray].scoreVisitor = result.scoreVisitor;
 				matchesArray[indexArray].dateStr = result.dateStr;
@@ -230,11 +227,8 @@
 				$("#score_" + matchSelected.id).html(result.scoreLocal + " - " + result.scoreVisitor);
 				$("#date_" + matchSelected.id).html(result.dateStr == null ? " - " : result.dateStr);
 				$("#place_" + matchSelected.id).html(" - ");
-				if (result.sportCenterCourt != null && result.sportCenterCourt.sportCenter.name != null) {
-					var courtNameStr = result.sportCenterCourt.sportCenter.name;
-					courtNameStr += " - ";
-					courtNameStr += result.sportCenterCourt.name;
-					$("#place_" + matchSelected.id).html(courtNameStr);
+				if (result.sportCenterCourt != null) {
+					$("#place_" + matchSelected.id).html(result.sportCenterCourt.nameWithCenter);
 				}
 				/*mark fields add updated.*/
 				$("#date_" + matchSelected.id).removeClass("updated_field");
@@ -271,8 +265,8 @@
 		dateStr: "${match.dateStr}"
 	}
 	<c:if test="${match.sportCenterCourt!=null}">
-	matchesArray[${match.id}].courtId = "${match.sportCenterCourt.id}";
-	matchesArray[${match.id}].courtName = "${match.sportCenterCourt.name}";
+		matchesArray[${match.id}].courtId = "${match.sportCenterCourt.id}";
+		matchesArray[${match.id}].courtName = "${match.sportCenterCourt.name}";
 	</c:if>
 	</c:forEach>
 </script>
@@ -369,7 +363,7 @@
 						<td class="col-sm-3">
 							<div id="place_${match.id}" class="${updated_court}" style="width: 100%">
 								<c:if test="${match.sportCenterCourt!=null}">
-									${match.sportCenterCourt.sportCenter.name} - ${match.sportCenterCourt.name}
+									${match.sportCenterCourt.nameWithCenter}
 								</c:if>
 								<c:if test="${match.sportCenterCourt==null}">
 									-

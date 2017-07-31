@@ -1,8 +1,11 @@
 package com.adiaz.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.appengine.repackaged.com.google.protos.appengine_proto.TeamsLog;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -34,7 +37,12 @@ public class Competition {
 	@JsonIgnore
 	@Index
 	private Ref<Town> townRef;
-	
+
+	@Load
+	@JsonIgnore
+	@Index
+	private Ref<SportCenterCourt> sportCenterCourtRef;
+
 	/* start: attributes not need to save. */
 	@Ignore
 	private Sport sportEntity;
@@ -46,13 +54,19 @@ public class Competition {
 	private Town townEntity;
 
 	@Ignore
+	private SportCenterCourt sportCenterCourtEntity;
+
+	@Ignore
 	private List<Match> matches;
 	
 	@Ignore
 	private List<ClassificationEntry> classification;
 
+	@Load
+	@JsonIgnore
+	private List<Ref<Team>> teams = new ArrayList<Ref<Team>>();
 
-	
+
 	@OnLoad
 	public void getRefs() {
 		if (sportRef !=null && sportRef.isLoaded()) {
@@ -64,8 +78,15 @@ public class Competition {
 		if (townRef!=null && townRef.isLoaded()) {
 			townEntity = townRef.get();
 		}
+		if (sportCenterCourtRef!=null && sportCenterCourtRef.isLoaded()) {
+			sportCenterCourtEntity = sportCenterCourtRef.get();
+		}
 	}
-	
+
+	public List<Team> getTeamsDeref() {
+		return Deref.deref(teams);
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -144,5 +165,29 @@ public class Competition {
 
 	public void setTownEntity(Town townEntity) {
 		this.townEntity = townEntity;
+	}
+
+	public List<Ref<Team>> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(List<Ref<Team>> teams) {
+		this.teams = teams;
+	}
+
+	public Ref<SportCenterCourt> getSportCenterCourtRef() {
+		return sportCenterCourtRef;
+	}
+
+	public void setSportCenterCourtRef(Ref<SportCenterCourt> sportCenterCourtRef) {
+		this.sportCenterCourtRef = sportCenterCourtRef;
+	}
+
+	public SportCenterCourt getSportCenterCourtEntity() {
+		return sportCenterCourtEntity;
+	}
+
+	public void setSportCenterCourtEntity(SportCenterCourt sportCenterCourtEntity) {
+		this.sportCenterCourtEntity = sportCenterCourtEntity;
 	}
 }

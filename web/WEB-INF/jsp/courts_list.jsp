@@ -30,7 +30,7 @@
 	}
 	
 </script>
-<h2>
+<h2 class="munisport-title">
 	${sportCenter.name} 
 </h2>
 <hr>

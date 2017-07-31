@@ -161,13 +161,21 @@ public class RegisterEntities {
 		Long idCdLeganes = clubManager.add(clubForm);
 
 
-		TeamForm teamForm = new TeamForm();
-		teamForm.setName("CD LEGANES A");
-		teamForm.setIdClub(idCdLeganes);
-		teamForm.setIdTown(townIdLega);
-		teamForm.setIdCategory(keyCadete.getId());
-		teamManager.add(teamForm);
+		createTeams(idCdLeganes, townIdLega, keyCadete.getId(), keySportBasket.getId());
 		logger.debug("finished init...");
+	}
+
+	private void createTeams(Long idClub, Long idTown, long idCategory, long idSport) throws Exception {
+		String[] teamsNames = new String[]{"CD LEGANES A", "Legamar A", "Concepcion Arenal", "Lope de Vega"};
+		for (int i = 0; i < teamsNames.length; i++) {
+			TeamForm teamForm = new TeamForm();
+			teamForm.setName(teamsNames[i]);
+			teamForm.setIdClub(idClub);
+			teamForm.setIdTown(idTown);
+			teamForm.setIdCategory(idCategory);
+			teamForm.setIdSport(idSport);
+			teamManager.add(teamForm);
+		}
 	}
 
 	private User initUser(String name, String password, boolean isAdmin) {

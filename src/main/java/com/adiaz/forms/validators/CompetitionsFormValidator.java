@@ -16,9 +16,14 @@ public class CompetitionsFormValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		CompetitionsForm competitionsForm = (CompetitionsForm)target;
+
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idSport", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idCategory", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idTown", "field_required");
+		if (competitionsForm.getTeams()==null || competitionsForm.getTeams().length<3 || competitionsForm.getTeams().length>24) {
+			errors.rejectValue("teams", "teams_number_error");
+		}
 	}
 }

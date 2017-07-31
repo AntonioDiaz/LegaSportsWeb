@@ -8,7 +8,7 @@
 		
 	});
 </script>
-<h2>
+<h2 class="munisport-title">
 	${my_form.nameCenter} - Nueva pista 
 </h2>
 <hr>

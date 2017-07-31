@@ -4,8 +4,16 @@
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
 			window.location.href = "/competitions/viewCalendar?idCompetition=" + ${competition.id};
-		});						
-	});	
+		});
+		updateTeamSelected();
+	});
+
+	function updateTeamSelected(){
+		if ($("#teams").val()) {
+			teamsSelected = $("#teams").val().length;
+			$("#spamTeamsSelected").html(": " + teamsSelected);
+		}
+	}
 </script>
 <div class="row" style="position: relative">
 	<div class="col-sm-8">
@@ -45,15 +53,20 @@
 		<div class="col-sm-6">
 			<form:select path="idCourt" class="form-control">
 				<form:option value=""></form:option>
-				<form:options items="${courts}" itemLabel="name" itemValue="id" />
+				<form:options items="${courts}" itemLabel="nameWithCenter" itemValue="id" />
 			</form:select>
 		</div>
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCourt" cssClass="text-danger" /></label>
 	</div>
-<%--	<c:forEach items="${teams}" var="team">
-		${team.name}
-	</c:forEach>--%>
-
+	<div class="form-group">
+		<label class="control-label col-sm-2">Equipos <spam id="spamTeamsSelected"></spam></label>
+		<div class="col-sm-6">
+			<form:select path="teams" class="form-control" size="11" onchange="updateTeamSelected()">
+				<form:options items="${teams_available}" itemLabel="name" itemValue="id" />
+			</form:select>
+		</div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="teams" cssClass="text-danger" /></label>
+	</div>
 	<div class="form-group" id="div_botones">
 		<label class="control-label col-sm-4">&nbsp;</label>
 		<div class="col-sm-2">

@@ -40,6 +40,15 @@ public class SportCenterCourt implements Serializable {
 	public List<Sport> getSportsDeref() {
 		return Deref.deref(sports); 
 	}
+
+	public String getNameWithCenter() {
+		String longName = "";
+		if (sportCenter!=null) {
+			longName += sportCenter.getName() + " - ";
+		}
+		longName += name;
+		return longName;
+	}
 	
 	public String getName() {
 		return name;
@@ -87,4 +96,7 @@ public class SportCenterCourt implements Serializable {
 	public void setSportCenter(SportCenter sportCenter) {
 		this.sportCenter = sportCenter;
 	}
+
+
+
 }

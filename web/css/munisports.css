@@ -1,6 +1,11 @@
 body {
 	font-family: 'Noto Sans', serif;
 }
+
+.munisport-title {
+	margin-top: 5px;
+}
+
 input:-webkit-autofill {
 	border: 1px solid #ccc;
 	-webkit-box-shadow: inset 0 0 0px 9999px white;
@@ -70,3 +75,4 @@ input:-webkit-autofill:focus {
 
 .font_title{font-size: 30px}
 .font_subtitle{font-size: 20px}
+.custom-header {background: #000000; color: #ffffff;padding: 5px;}

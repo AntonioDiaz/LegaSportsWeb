@@ -148,7 +148,7 @@ public class CompetitionsController {
 		form.setIdCompetition(idCompetition);
 		modelAndView.addObject("my_form", form);
 		List<Team> teams = teamManager.queryByCompetition(idCompetition);
-		modelAndView.addObject("teams", teams);
+		modelAndView.addObject("teams_available", teams);
 		return modelAndView;
 	}
 
@@ -160,8 +160,11 @@ public class CompetitionsController {
 			modelAndView.setViewName("competitions_load_calendar");
 			Competition competition = competitionsManager.queryCompetitionsByIdEntity(form.getIdCompetition());
 			modelAndView.addObject("competition", competition);
+			modelAndView.addObject("teams_available", teamManager.queryByCompetition(competition.getId()));
 			modelAndView.addObject("my_form", form);
 		} else {
+
+			//competitionsManager.updateAddTeams();
 			matchesManager.generateCalendar(form);
 			String viewStr = "redirect:/competitions/viewCalendar?idCompetition=" + form.getIdCompetition();
 			modelAndView.setViewName(viewStr);

@@ -10,6 +10,16 @@ public class TeamFilterForm implements Serializable {
 	private Long idSport;
 	private Long idTown;
 
+	public TeamFilterForm(Long idTown, Long idSport, Long idCategory) {
+		this.idTown = idTown;
+		this.idSport = idSport;
+		this.idCategory = idCategory;
+	}
+
+	public TeamFilterForm() {
+
+	}
+
 	public Long getIdCategory() {
 		return idCategory;
 	}

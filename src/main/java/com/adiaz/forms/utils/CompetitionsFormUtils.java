@@ -1,13 +1,13 @@
 package com.adiaz.forms.utils;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.Competition;
-import com.adiaz.entities.Sport;
-import com.adiaz.entities.Town;
+import com.adiaz.entities.*;
 import com.adiaz.forms.CompetitionsForm;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by toni on 18/07/2017.
@@ -33,6 +33,16 @@ public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm,
 			Ref<Town> townRef = Ref.create(Key.create(Town.class, form.getIdTown()));
 			competition.setTownRef(townRef);
 		}
+		if (form.getIdCourt()!=null) {
+			Ref<SportCenterCourt> sportCenterCourtRef = Ref.create(Key.create(SportCenterCourt.class, form.getIdCourt()));
+			competition.setSportCenterCourtRef(sportCenterCourtRef);
+		}
+		List<Ref<Team>> teamsRefList = new ArrayList<>();
+		for (int i = 0; i < form.getTeams().length; i++) {
+			Ref<Team> teamRef = Ref.create(Key.create(Team.class, form.getTeams()[i]));
+			teamsRefList.add(teamRef);
+		}
+		competition.setTeams(teamsRefList);
 		return competition;
 	}
 
@@ -49,6 +59,16 @@ public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm,
 		}
 		if (entity.getTownEntity()!=null) {
 			competitionsForm.setIdTown(entity.getTownEntity().getId());
+		}
+		if (entity.getSportCenterCourtEntity()!=null) {
+			competitionsForm.setIdCourt(entity.getSportCenterCourtEntity().getId());
+		}
+		if (entity.getTeams()!=null){
+			Long teamsIds[] = new Long[entity.getTeams().size()];
+			for (int i = 0; i < entity.getTeams().size(); i++) {
+				teamsIds[i] = entity.getTeamsDeref().get(i).getId();
+			}
+			competitionsForm.setTeams(teamsIds);
 		}
 		return competitionsForm;
 	}

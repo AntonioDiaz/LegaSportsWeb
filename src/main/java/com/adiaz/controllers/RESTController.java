@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.adiaz.entities.*;
+import com.adiaz.forms.TeamFilterForm;
+import com.adiaz.services.*;
 import com.adiaz.utils.ConstantsLegaSport;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -20,11 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.adiaz.entities.Sport;
-import com.adiaz.services.CategoriesManager;
-import com.adiaz.services.ClassificationManager;
-import com.adiaz.services.CompetitionsManager;
-import com.adiaz.services.MatchesManager;
-import com.adiaz.services.SportsManager;
 
 @RestController
 @RequestMapping("server")
@@ -40,6 +37,11 @@ public class RESTController {
 	MatchesManager matchesManager;
 	@Autowired
 	ClassificationManager classificationManager;
+	@Autowired
+	SportCenterCourtManager sportCenterCourtManager;
+	@Autowired
+	TeamManager teamManager;
+
 
 	private static final Logger logger = Logger.getLogger(RESTController.class);
 
@@ -153,5 +155,21 @@ public class RESTController {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<>(match, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/courts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<SportCenterCourt> courts(
+			@RequestParam(value = "idTown") Long idTown,
+			@RequestParam(value = "idSport") Long idSport) {
+		return sportCenterCourtManager.querySportCourtsByTownAndSport(idTown, idSport);
+	}
+
+	@RequestMapping(value = "/teams", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Team> teams(
+			@RequestParam(value = "idTown") Long idTown,
+			@RequestParam(value = "idSport") Long idSport,
+			@RequestParam(value = "idCategory") Long idCategory) {
+		TeamFilterForm teamFilterForm = new TeamFilterForm(idTown, idSport, idCategory);
+		return teamManager.queryByFilter(teamFilterForm);
 	}
 }

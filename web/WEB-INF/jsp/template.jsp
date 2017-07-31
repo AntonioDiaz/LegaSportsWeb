@@ -9,7 +9,7 @@
 	<div class="container">
 		<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
 		<div class="jumbotron" style="padding: 10px 30px;height:100%; min-height: 550px; background:transparent !important; border: 1px solid #e7e7e7;">
-			<h2>
+			<h2 class="munisport-title">
 				<tiles:insertAttribute name="page_title" ignore="true" defaultValue="title" />
 			</h2>
 			<hr>
