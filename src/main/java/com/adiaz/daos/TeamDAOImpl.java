@@ -51,7 +51,7 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public List<Team> find(Long townId, Long categoryId, Long sportId) {
+	public List<Team> find(Long townId, Long categoryId, Long sportId, String name) {
 		Query<Team> query = ofy().load().type(Team.class);
 		if (townId!=null) {
 			Key<Town> key = Key.create(Town.class, townId);
@@ -65,6 +65,14 @@ public class TeamDAOImpl implements TeamDAO {
 			Key<Sport> key = Key.create(Sport.class, sportId);
 			query = query.filter("sportRef", Ref.create(key));
 		}
+		if (name!=null) {
+			query = query.filter("name", name);
+		}
 		return query.order("name").list();
+	}
+
+	@Override
+	public List<Team> find(Long townId, Long categoryId, Long sportId) {
+		return  find(townId, categoryId, sportId, null);
 	}
 }

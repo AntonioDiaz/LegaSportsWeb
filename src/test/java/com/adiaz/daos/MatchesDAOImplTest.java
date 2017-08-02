@@ -2,6 +2,7 @@ package com.adiaz.daos;
 
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
+import com.adiaz.entities.Team;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -30,17 +31,35 @@ public class MatchesDAOImplTest {
 	public static final String LEGANES = "LEGANES";
 	public static final String COPA_PRIMAVERA = "COPA PRIMAVERA";
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
 	@Autowired
 	MatchesDAO matchesDAO;
+
 	@Autowired
 	CompetitionsDAO competitionsDAO;
+
+	@Autowired
+	TeamDAO teamDAO;
+
 	private Ref<Competition> competitionRef;
+	private Ref<Team> atleticoRef;
+	private Ref<Team> leganesRef;
 
 	@Before
 	public void setUp() throws Exception {
 		helper.setUp();
 		ObjectifyService.register(Match.class);
 		ObjectifyService.register(Competition.class);
+		ObjectifyService.register(Team.class);
+
+		Team team = new Team();
+		team.setName(ATLETICO_MADRID);
+		atleticoRef = Ref.create(teamDAO.create(team));
+
+		team = new Team();
+		team.setName(LEGANES);
+		leganesRef = Ref.create(teamDAO.create(team));
+
 		Competition competition = new Competition();
 		competition.setName(COPA_PRIMAVERA);
 		Key<Competition> key = competitionsDAO.create(competition);
@@ -62,9 +81,10 @@ public class MatchesDAOImplTest {
 	public void update() throws Exception {
 		Key<Match> key = createMatch();
 		Match match = Ref.create(key).getValue();
-		match.setTeamLocal(LEGANES);
+		match.setTeamLocalRef(leganesRef);
 		matchesDAO.update(match);
-		Assert.assertEquals(LEGANES, matchesDAO.findById(match.getId()).getTeamLocal());
+		Assert.assertEquals(leganesRef, matchesDAO.findById(match.getId()).getTeamLocalRef());
+		Assert.assertEquals(LEGANES, matchesDAO.findById(match.getId()).getTeamLocalRef().get().getName());
 
 	}
 
@@ -99,7 +119,7 @@ public class MatchesDAOImplTest {
 
 	private Key<Match> createMatch() throws Exception {
 		Match match = new Match();
-		match.setTeamLocal(ATLETICO_MADRID);
+		match.setTeamLocalRef(atleticoRef);
 		match.setCompetitionRef(competitionRef);
 		match.setWorkingCopy(false);
 		return matchesDAO.create(match);

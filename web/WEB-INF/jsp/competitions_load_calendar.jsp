@@ -5,18 +5,10 @@
 			event.preventDefault();
 			window.location.href = "/competitions/viewCalendar?idCompetition=" + ${competition.id};
 		});
-		updateTeamSelected();
 	});
-
-	function updateTeamSelected(){
-		if ($("#teams").val()) {
-			teamsSelected = $("#teams").val().length;
-			$("#spamTeamsSelected").html(": " + teamsSelected);
-		}
-	}
 </script>
 <div class="row" style="position: relative">
-	<div class="col-sm-8">
+	<div class="col-sm-10">
 		<div class="font_title">
 			<div class="row">
 				<div class="col-sm-6"><u>${competition.name}</u></div>
@@ -36,18 +28,11 @@
 			<div>${competition.townEntity.name}</div>
 		</div>
 	</div>
-	<div class="col-sm-4">&nbsp;</div>
+	<div class="col-sm-2">&nbsp;</div>
 </div>
 <hr>
 <form:form method="post" action="doLoadCalendar" commandName="my_form" cssClass="form-horizontal">
 	<form:hidden path="idCompetition"></form:hidden>
-	<div class="form-group">
-		<label class="control-label col-sm-2">Número de equipos</label>
-		<div class="col-sm-6">
-			<input class="form-control" id="numTeams" name="numTeams" type="number" min="0" value="${my_form.numTeams}">
-		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="numTeams" cssClass="text-danger" /></label>
-	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2">Pista Centro</label>
 		<div class="col-sm-6">
@@ -59,13 +44,27 @@
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCourt" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-sm-2">Equipos <spam id="spamTeamsSelected"></spam></label>
+		<c:set var="teamNumber" value="0"></c:set>
+		<c:if test="${! empty competition.teamsDeref}">
+			<c:set var="teamNumber" value="${fn:length(competition.teamsDeref)}"></c:set>
+		</c:if>
+		<label class="control-label col-sm-2">Equipos: ${teamNumber}</label>
+
 		<div class="col-sm-6">
-			<form:select path="teams" class="form-control" size="11" onchange="updateTeamSelected()">
-				<form:options items="${teams_available}" itemLabel="name" itemValue="id" />
-			</form:select>
+			<div class="row">
+				<div class="col-sm-6">
+					<c:forEach items="${competition.teamsDeref}" var="team" step="2">
+						${team.name}<br>
+					</c:forEach>
+				</div>
+				<div class="col-sm-6">
+					<c:forEach items="${competition.teamsDeref}" var="team" begin="1" step="2">
+						${team.name}<br>
+					</c:forEach>
+				</div>
+			</div>
 		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="teams" cssClass="text-danger" /></label>
+		<label class="control-label col-sm-4" style="text-align: left;"></label>
 	</div>
 	<div class="form-group" id="div_botones">
 		<label class="control-label col-sm-4">&nbsp;</label>

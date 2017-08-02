@@ -14,6 +14,7 @@ public interface TownManager {
 	public boolean remove(Long id) throws Exception;
 	public boolean update(Long id, TownForm townForm) throws Exception;
 	public List<Town> queryAll();
+	public List<Town> queryActives();
 	public TownForm queryById(Long id);
 	public void removeAll() throws Exception;
 }

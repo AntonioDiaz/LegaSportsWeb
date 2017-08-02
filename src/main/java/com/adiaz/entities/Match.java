@@ -22,10 +22,14 @@ public class Match {
 	private Long id;
 	
 	@Index
-	private String teamLocal;
+	@Load
+	@JsonIgnore
+	private Ref<Team> teamLocalRef;
 	
 	@Index
-	private String teamVisitor;
+	@Load
+	@JsonIgnore
+	private Ref<Team> teamVisitorRef;
 	
 	@Index
 	private Date date;
@@ -51,12 +55,6 @@ public class Match {
 	private Competition competition;
 
 	@Ignore
-	private String dateStr;
-
-	@Ignore
-	private Long courtId;
-
-	@Ignore
 	private SportCenterCourt sportCenterCourt;
 
 	@Index
@@ -71,44 +69,29 @@ public class Match {
 	@JsonIgnore
 	private Match matchPublished;
 
+	@Ignore
+	private Team teamLocalEntity;
 
 	@Ignore
-	private boolean updatedDate;
+	private Team teamVisitorEntity;
 
-	@Ignore
-	private boolean updatedScore;
-
-	@Ignore
-	private boolean updatedCourt;
 
 	@OnLoad
 	public void getRefs() {
 		if (competitionRef!=null && competitionRef.isLoaded()) {
 			competition = competitionRef.get();
 		}
-		if (date!=null) {
-			DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
-			dateStr = dateFormat.format(date);
+		if (teamLocalRef!=null && teamLocalRef.isLoaded()) {
+			teamLocalEntity = teamLocalRef.get();
+		}
+		if (teamVisitorRef!=null && teamVisitorRef.isLoaded()) {
+			teamVisitorEntity = teamVisitorRef.get();
 		}
 		if (sportCenterCourtRef !=null && sportCenterCourtRef.isLoaded()) {
 			sportCenterCourt = sportCenterCourtRef.get();
-			if (sportCenterCourtRef.get()!=null) {
-				courtId = sportCenterCourtRef.get().getId();
-			}
 		}
 		if (matchPublishedRef!=null && matchPublishedRef.isLoaded() && matchPublishedRef.get()!=null) {
 			matchPublished = matchPublishedRef.get();
-			if (this.scoreLocal!=matchPublished.getScoreLocal() || this.scoreVisitor!=matchPublished.getScoreVisitor()) {
-				updatedScore = true;
-			}
-			if ( date==null && matchPublished.getDate()!=null
-					||date!=null && matchPublished.getDate()==null
-					|| date!=null && matchPublished.getDate()!=null && !date.equals(matchPublished.getDate())) {
-				updatedDate = true;
-			}
-			if (courtId!=matchPublished.getCourtId()) {
-				updatedCourt = true;
-			}
 		}
 	}
 
@@ -120,27 +103,6 @@ public class Match {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-	public String getTeamLocal() {
-		return teamLocal;
-	}
-
-
-	public void setTeamLocal(String teamLocal) {
-		this.teamLocal = teamLocal;
-	}
-
-
-	public String getTeamVisitor() {
-		return teamVisitor;
-	}
-
-
-	public void setTeamVisitor(String teamVisitor) {
-		this.teamVisitor = teamVisitor;
-	}
-
 
 	public Date getDate() {
 		return date;
@@ -199,13 +161,6 @@ public class Match {
 		this.week = week;
 	}
 
-	public String getDateStr() {
-		return dateStr;
-	}
-
-	public void setDateStr(String dateStr) {
-		this.dateStr = dateStr;
-	}
 
 	public Ref<SportCenterCourt> getSportCenterCourtRef() {
 		return sportCenterCourtRef;
@@ -221,14 +176,6 @@ public class Match {
 
 	public void setSportCenterCourt(SportCenterCourt sportCenterCourt) {
 		this.sportCenterCourt = sportCenterCourt;
-	}
-
-	public Long getCourtId() {
-		return courtId;
-	}
-
-	public void setCourtId(Long courtId) {
-		this.courtId = courtId;
 	}
 
 	public boolean isWorkingCopy() {
@@ -255,27 +202,35 @@ public class Match {
 		this.matchPublished = matchPublished;
 	}
 
-	public boolean isUpdatedScore() {
-		return updatedScore;
+	public Ref<Team> getTeamLocalRef() {
+		return teamLocalRef;
 	}
 
-	public void setUpdatedScore(boolean updatedScore) {
-		this.updatedScore = updatedScore;
+	public void setTeamLocalRef(Ref<Team> teamLocalRef) {
+		this.teamLocalRef = teamLocalRef;
 	}
 
-	public boolean isUpdatedDate() {
-		return updatedDate;
+	public Ref<Team> getTeamVisitorRef() {
+		return teamVisitorRef;
 	}
 
-	public void setUpdatedDate(boolean updatedDate) {
-		this.updatedDate = updatedDate;
+	public void setTeamVisitorRef(Ref<Team> teamVisitorRef) {
+		this.teamVisitorRef = teamVisitorRef;
 	}
 
-	public boolean isUpdatedCourt() {
-		return updatedCourt;
+	public Team getTeamLocalEntity() {
+		return teamLocalEntity;
 	}
 
-	public void setUpdatedCourt(boolean updatedCourt) {
-		this.updatedCourt = updatedCourt;
+	public void setTeamLocalEntity(Team teamLocalEntity) {
+		this.teamLocalEntity = teamLocalEntity;
+	}
+
+	public Team getTeamVisitorEntity() {
+		return teamVisitorEntity;
+	}
+
+	public void setTeamVisitorEntity(Team teamVisitorEntity) {
+		this.teamVisitorEntity = teamVisitorEntity;
 	}
 }

@@ -22,13 +22,23 @@
 				<div class="row modal-row-munisports">
 					<div class="col-sm-4">Equipo local</div>
 					<div class="col-sm-8">
-						<spam id="scoreLocalTeam">Local</spam>
+						<select class="form-control" id="selectTeamLocal">
+							<option value=""></option>
+							<c:forEach var="team" items="${competition.teamsDeref}">
+								<option value="${team.id}">${team.name}</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 				<div class="row modal-row-munisports">
 					<div class="col-sm-4">Equipo visitante</div>
 					<div class="col-sm-8">
-						<spam id="scoreVisitorTeam">Visitante</spam>
+						<select class="form-control" id="selectTeamVisitor">
+							<option value=""></option>
+							<c:forEach var="team" items="${competition.teamsDeref}">
+								<option value="${team.id}">${team.name}</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 				<div class="row modal-row-munisports">
@@ -47,7 +57,7 @@
 					<div class="col-sm-8">
 						<select class="form-control" id="selectMatchCourt">
 							<option value=""></option>
-							<c:forEach var="court" items="${courts}" varStatus="loop">
+							<c:forEach var="court" items="${courts}">
 								<option value="${court.id}">${court.nameWithCenter}</option>
 							</c:forEach>
 						</select>
@@ -165,16 +175,16 @@
 		var matchSelected = matchesArray[indexArray];
 		var idMatch = matchSelected.id;
 		var week = matchSelected.week;
-		var local = matchSelected.teamLocal;
-		var visitor = matchSelected.teamVisitor;
+		var teamLocalId = matchSelected.teamLocalId;
+		var teamVisitorId = matchSelected.teamVisitorId;
 		var scoreLocal = matchSelected.scoreLocal;
 		var scoreVisitor = matchSelected.scoreVisitor;
 		var matchDate = matchSelected.dateStr;
 		var matchCourtId = matchSelected.courtId;
 		/* init popup values */
 		$('#weekNumber').html(week);
-		$('#scoreLocalTeam').html(local);
-		$('#scoreVisitorTeam').html(visitor);
+		//$('#scoreLocalTeam').html(local);
+		//$('#scoreVisitorTeam').html(visitor);
 		$('#inputScoreLocal').val(scoreLocal);
 		$('#inputScoreLocal').focus(function () {
 			$(this).select();
@@ -189,19 +199,35 @@
 		} else {
 			$('#selectMatchCourt option[value=""]').prop("selected", "selected");
 		}
+		console.log("teamLocalId " + teamLocalId)
+		if (teamLocalId!= null) {
+			$('#selectTeamLocal option[value="' + teamLocalId + '"]').prop("selected", "selected");
+		} else {
+			$('#selectTeamLocal option[value=""]').prop("selected", "selected");
+		}
+		if (teamVisitorId!= null) {
+			$('#selectTeamVisitor option[value="' + teamVisitorId + '"]').prop("selected", "selected");
+		} else {
+			$('#selectTeamVisitor option[value=""]').prop("selected", "selected");
+		}
 		$('#score_button_accept').prop("disabled", false);
 		$('#inputMatchDate').parent().removeClass("has-error");
 		$('#updatePopup').modal('show');
 		$('#score_button_accept').off('click');
 		$("#score_button_accept").click(function () {
-			matchSelected.scoreLocal = $('#inputScoreLocal').val();
-			matchSelected.scoreVisitor = $('#inputScoreVisitor').val();
-			matchSelected.dateStr = $('#inputMatchDate').val();
-			matchSelected.courtId = $('#selectMatchCourt').val();
+			let newMatch = {
+				id: matchSelected.id,
+				courtId: $('#selectMatchCourt').val(),
+				dateStr: $('#inputMatchDate').val(),
+				teamLocalId: $('#selectTeamLocal').val(),
+				teamVisitorId: $('#selectTeamVisitor').val(),
+				scoreLocal: $('#inputScoreLocal').val(),
+				scoreVisitor: $('#inputScoreVisitor').val()
+			};
 			$.ajax({
 				url: '/server/match/' + idMatch,
 				type: 'PUT',
-				data: JSON.stringify(matchSelected),
+				data: JSON.stringify(newMatch),
 				contentType: "application/json",
 				success: function (result) {
 					updateMatchProperties(indexArray)
@@ -220,29 +246,42 @@
 			data: JSON.stringify(matchSelected),
 			contentType: "application/json",
 			success: function (result) {
+				console.log("get result " + JSON.stringify(result));
 				matchesArray[indexArray].scoreLocal = result.scoreLocal;
 				matchesArray[indexArray].scoreVisitor = result.scoreVisitor;
 				matchesArray[indexArray].dateStr = result.dateStr;
 				matchesArray[indexArray].courtId = result.courtId;
+				matchesArray[indexArray].teamLocalId = result.teamLocalId;
+				matchesArray[indexArray].teamLocalName = result.teamLocalName;
+				matchesArray[indexArray].teamVisitorId = result.teamVisitorId;
+				matchesArray[indexArray].teamVisitorName = result.teamVisitorName;
+				$("#teamlocal_" + matchSelected.id).html(result.teamLocalName ==  null ? " - " : result.teamLocalName);
+				$("#teamvisitor_" + matchSelected.id).html(result.teamVisitorName ==  null ? " - " : result.teamVisitorName);
 				$("#score_" + matchSelected.id).html(result.scoreLocal + " - " + result.scoreVisitor);
 				$("#date_" + matchSelected.id).html(result.dateStr == null ? " - " : result.dateStr);
-				$("#place_" + matchSelected.id).html(" - ");
-				if (result.sportCenterCourt != null) {
-					$("#place_" + matchSelected.id).html(result.sportCenterCourt.nameWithCenter);
-				}
-				/*mark fields add updated.*/
+				$("#place_" + matchSelected.id).html(result.courtName==null? " - " : result.courtName);
+				/* mark fields add updated. */
 				$("#date_" + matchSelected.id).removeClass("updated_field");
 				if (result.updatedDate) {
 					$("#date_" + matchSelected.id).addClass("updated_field");
 				}
-				$("#score_" + matchSelected.id).removeClass("updated_field");
 
+				$("#score_" + matchSelected.id).removeClass("updated_field");
 				if (result.updatedScore) {
 					$("#score_" + matchSelected.id).addClass("updated_field");
 				}
+
 				$("#place_" + matchSelected.id).removeClass("updated_field");
 				if (result.updatedCourt) {
 					$("#place_" + matchSelected.id).addClass("updated_field");
+				}
+				$("#teamlocal_" + matchSelected.id).removeClass("updated_field");
+				if (result.updatedTeamLocal) {
+					$("#teamlocal_" + matchSelected.id).addClass("updated_field");
+				}
+				$("#teamvisitor_" + matchSelected.id).removeClass("updated_field");
+				if (result.updatedTeamVisitor) {
+					$("#teamvisitor_" + matchSelected.id).addClass("updated_field");
 				}
 			}
 		});
@@ -254,20 +293,20 @@
 
 	/*Init matchesArray*/
 	var matchesArray = [];
-	<c:forEach var="match" items="${matches_list}" varStatus="loop">
-	matchesArray[${match.id}] = {
-		id: ${match.id},
-		week: ${match.week},
-		teamLocal: "${match.teamLocal}",
-		teamVisitor: "${match.teamVisitor}",
-		scoreLocal: ${match.scoreLocal},
-		scoreVisitor: ${match.scoreVisitor},
-		dateStr: "${match.dateStr}"
-	}
-	<c:if test="${match.sportCenterCourt!=null}">
-		matchesArray[${match.id}].courtId = "${match.sportCenterCourt.id}";
-		matchesArray[${match.id}].courtName = "${match.sportCenterCourt.name}";
-	</c:if>
+	<c:forEach var="matchForm" items="${matches_list}" varStatus="loop">
+		matchesArray[${matchForm.id}] = {
+			id: ${matchForm.id},
+			week: ${matchForm.week},
+			teamLocalId: "${matchForm.teamLocalId}",
+			teamLocalName: "${matchForm.teamLocalName}",
+			teamVisitorId: "${matchForm.teamVisitorId}",
+			teamVisitorName: "${matchForm.teamVisitorName}",
+			scoreLocal: ${matchForm.scoreLocal},
+			scoreVisitor: ${matchForm.scoreVisitor},
+			dateStr: "${matchForm.dateStr}",
+			courtId: "${matchForm.courtId}",
+			courtName: "${matchForm.courtName}"
+		}
 	</c:forEach>
 </script>
 <div class="row" style="position: relative">
@@ -328,44 +367,70 @@
 	<div name="week_id_${loopForWeek.index}">
 		<h4>Jornada ${loopForWeek.index}</h4>
 		<table class="table table-hover	table-condensed">
-			<c:forEach var="match" items="${matches_list}" varStatus="loopForMatches">
-				<c:if test="${loopForWeek.index==match.week}">
+			<c:forEach var="matchForm" items="${matches_list}" varStatus="loopForMatches">
+				<c:if test="${loopForWeek.index==matchForm.week}">
 					<c:set var="updated_date" value=""></c:set>
 					<c:set var="updated_score" value=""></c:set>
 					<c:set var="updated_court" value=""></c:set>
-					<c:if test="${match.updatedDate}">
+					<c:set var="updated_team_local" value=""></c:set>
+					<c:set var="updated_team_visitor" value=""></c:set>
+					<c:if test="${matchForm.updatedDate}">
 						<c:set var="updated_date" value="updated_field"></c:set>
 					</c:if>
-					<c:if test="${match.updatedScore}">
+					<c:if test="${matchForm.updatedScore}">
 						<c:set var="updated_score" value="updated_field"></c:set>
 					</c:if>
-					<c:if test="${match.updatedCourt}">
+					<c:if test="${matchForm.updatedCourt}">
 						<c:set var="updated_court" value="updated_field"></c:set>
 					</c:if>
-					<tr class="divlink" onclick="fUpdateShowPopup(${match.id})">
+					<c:if test="${matchForm.updatedTeamLocal}">
+						<c:set var="updated_team_local" value="updated_field"></c:set>
+					</c:if>
+					<c:if test="${matchForm.updatedTeamVisitor}">
+						<c:set var="updated_team_visitor" value="updated_field"></c:set>
+					</c:if>
+					<tr class="divlink" onclick="fUpdateShowPopup(${matchForm.id})">
 						<td class="col-sm-2 ">
-							<div id="date_${match.id}" class="${updated_date}" style="width: 100%">
-								<c:if test="${match.dateStr!=null}">
-									${match.dateStr}
+							<div id="date_${matchForm.id}" class="${updated_date}" style="width: 100%">
+								<c:if test="${matchForm.dateStr!=null}">
+									${matchForm.dateStr}
 								</c:if>
-								<c:if test="${match.dateStr==null}">
+								<c:if test="${matchForm.dateStr==null}">
 									-
 								</c:if>
 							</div>
 						</td>
-						<td class="col-sm-3" style="text-align: left">${match.teamLocal}</td>
-						<td class="col-sm-3" style="text-align: left">${match.teamVisitor}</td>
+						<td class="col-sm-3" style="text-align: left">
+							<div id="teamlocal_${matchForm.id}" class="${updated_team_local}" style="width: 100%">
+								<c:if test="${matchForm.teamLocalName!=null}">
+									${matchForm.teamLocalName}
+								</c:if>
+								<c:if test="${matchForm.teamLocalName==null}">
+									-
+								</c:if>
+							</div>
+						</td>
+						<td class="col-sm-3" style="text-align: left">
+							<div id="teamvisitor_${matchForm.id}" class="${updated_team_visitor}" style="width: 100%">
+								<c:if test="${matchForm.teamVisitorName!=null}">
+									${matchForm.teamVisitorName}
+								</c:if>
+								<c:if test="${matchForm.teamVisitorName==null}">
+									-
+								</c:if>
+							</div>
+						</td>
 						<td class="col-sm-1">
-							<div id="score_${match.id}" class="${updated_score}">
-									${match.scoreLocal} - ${match.scoreVisitor}
+							<div id="score_${matchForm.id}" class="${updated_score}">
+									${matchForm.scoreLocal} - ${matchForm.scoreVisitor}
 							</div>
 						</td>
 						<td class="col-sm-3">
-							<div id="place_${match.id}" class="${updated_court}" style="width: 100%">
-								<c:if test="${match.sportCenterCourt!=null}">
-									${match.sportCenterCourt.nameWithCenter}
+							<div id="place_${matchForm.id}" class="${updated_court}" style="width: 100%">
+								<c:if test="${matchForm.courtName!=null}">
+									${matchForm.courtName}
 								</c:if>
-								<c:if test="${match.sportCenterCourt==null}">
+								<c:if test="${matchForm.courtName==null}">
 									-
 								</c:if>
 							</div>

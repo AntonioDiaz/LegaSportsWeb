@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.adiaz.entities.*;
+import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.TeamFilterForm;
+import com.adiaz.forms.utils.MatchFormUtils;
 import com.adiaz.services.*;
 import com.adiaz.utils.ConstantsLegaSport;
 import com.googlecode.objectify.Key;
@@ -41,7 +43,11 @@ public class RESTController {
 	SportCenterCourtManager sportCenterCourtManager;
 	@Autowired
 	TeamManager teamManager;
+	@Autowired
+	MatchFormUtils matchFormUtils;
 
+	@Autowired
+	TownManager townManager;
 
 	private static final Logger logger = Logger.getLogger(RESTController.class);
 
@@ -119,42 +125,30 @@ public class RESTController {
 	}
 
 	@RequestMapping(value = "/match/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Match> getMatch(@PathVariable("id") Long id) {
+	public ResponseEntity<MatchForm> getMatch(@PathVariable("id") Long id) {
 		Match match = matchesManager.queryMatchesById(id);
 		if (match == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(match, HttpStatus.OK);
+		MatchForm matchForm = matchFormUtils.entityToForm(match);
+		return new ResponseEntity<>(matchForm, HttpStatus.OK);
 	}
 
 	// TODO: 10/07/2017 IMPORTAN protect this call in production environment. 
 	@RequestMapping(value = "/match/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Match> updateMatchScore(@PathVariable("id") Long id, @RequestBody Match newMatchVO) {
-		Match match = matchesManager.queryMatchesById(id);
-		if (match == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		match.setScoreLocal(newMatchVO.getScoreLocal());
-		match.setScoreVisitor(newMatchVO.getScoreVisitor());
+	public ResponseEntity<MatchForm> updateMatchScore(@PathVariable("id") Long id, @RequestBody MatchForm matchForm) {
+		boolean updated;
 		try {
-			match.setDate(null);
-			if (StringUtils.isNotBlank(newMatchVO.getDateStr())) {
-				match.setDateStr(newMatchVO.getDateStr());
-				DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
-				match.setDate(dateFormat.parse(newMatchVO.getDateStr()));
-			}
-			match.setSportCenterCourtRef(null);
-			if (newMatchVO.getCourtId()!=null) {
-				Key<SportCenterCourt> key = Key.create(SportCenterCourt.class, newMatchVO.getCourtId());
-				Ref<SportCenterCourt> sportCenterCourtRef = Ref.create(key);
-				match.setSportCenterCourtRef(sportCenterCourtRef);
-			}
-			matchesManager.update(match);
+			updated = matchesManager.update(matchForm);
 		} catch (Exception e) {
 			logger.error(e.getMessage() , e);
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
-		return new ResponseEntity<>(match, HttpStatus.OK);
+		if (updated) {
+			return new ResponseEntity<>(matchForm, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
 	}
 
 	@RequestMapping(value = "/courts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -172,4 +166,10 @@ public class RESTController {
 		TeamFilterForm teamFilterForm = new TeamFilterForm(idTown, idSport, idCategory);
 		return teamManager.queryByFilter(teamFilterForm);
 	}
+
+	@RequestMapping(value = "/towns", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Town> towns(){
+		return townManager.queryActives();
+	}
+
 }

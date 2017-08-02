@@ -33,10 +33,6 @@ public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm,
 			Ref<Town> townRef = Ref.create(Key.create(Town.class, form.getIdTown()));
 			competition.setTownRef(townRef);
 		}
-		if (form.getIdCourt()!=null) {
-			Ref<SportCenterCourt> sportCenterCourtRef = Ref.create(Key.create(SportCenterCourt.class, form.getIdCourt()));
-			competition.setSportCenterCourtRef(sportCenterCourtRef);
-		}
 		List<Ref<Team>> teamsRefList = new ArrayList<>();
 		for (int i = 0; i < form.getTeams().length; i++) {
 			Ref<Team> teamRef = Ref.create(Key.create(Team.class, form.getTeams()[i]));
@@ -59,9 +55,6 @@ public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm,
 		}
 		if (entity.getTownEntity()!=null) {
 			competitionsForm.setIdTown(entity.getTownEntity().getId());
-		}
-		if (entity.getSportCenterCourtEntity()!=null) {
-			competitionsForm.setIdCourt(entity.getSportCenterCourtEntity().getId());
 		}
 		if (entity.getTeams()!=null){
 			Long teamsIds[] = new Long[entity.getTeams().size()];

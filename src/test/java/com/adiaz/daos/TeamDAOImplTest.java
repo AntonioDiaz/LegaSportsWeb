@@ -198,6 +198,17 @@ public class TeamDAOImplTest {
 		assertEquals(2, teams.size());
 	}
 
+	@Test
+	public void find_filterByName() throws Exception {
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refCadete, refLeganes, soccerRef);
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refJuvenil, refLeganes, soccerRef);
+		createTeam(CD_LEGANES_JUVENIL, refCdLeganes, refJuvenil, refFuenlabrada, basketRef);
+		List<Team> teams = teamDAO.find(null, null, null, CD_LEGANES_CADETE);
+		assertEquals(2, teams.size());
+		teams = teamDAO.find(null, null, null, CD_LEGANES_JUVENIL);
+		assertEquals(1, teams.size());
+	}
+
 	private Key<Team> createTeam(
 			String teamName, Ref<Club> refCdLeganes, Ref<Category> refCadete, Ref<Town> refTown, Ref<Sport> refSport) throws Exception {
 		Team team = new Team();

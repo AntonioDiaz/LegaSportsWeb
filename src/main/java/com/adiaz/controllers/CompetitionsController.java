@@ -1,10 +1,7 @@
 package com.adiaz.controllers;
 
 import com.adiaz.entities.*;
-import com.adiaz.forms.GenerateCalendarForm;
-import com.adiaz.forms.CompetitionsFilterForm;
-import com.adiaz.forms.CompetitionsForm;
-import com.adiaz.forms.TeamFilterForm;
+import com.adiaz.forms.*;
 import com.adiaz.forms.validators.CompetitionsFormValidator;
 import com.adiaz.forms.validators.GenerateCalendarFormValidator;
 import com.adiaz.services.*;
@@ -114,7 +111,7 @@ public class CompetitionsController {
 									 @RequestParam(value="publish_none", defaultValue="false") boolean publishNone) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		List<Match> matchesList = matchesManager.queryMatchesByCompetitionWorkingCopy(idCompetition);
+		List<MatchForm> matchesList = matchesManager.queryMatchesFormWorkingCopy(idCompetition);
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
 		List<SportCenterCourt> courts = sportCenterCourtManager.querySportCourtsByTownAndSport(
 				competition.getTownEntity().getId(), competition.getSportEntity().getId());

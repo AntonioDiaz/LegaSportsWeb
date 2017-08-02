@@ -1,5 +1,6 @@
 package com.adiaz.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -17,10 +18,20 @@ public class Town implements Serializable {
 
 	@Index
 	private String name;
+
+	@JsonIgnore
 	private String contactPerson;
+
+	@JsonIgnore
 	private String phone;
+
+	@JsonIgnore
 	private String email;
+
+	@JsonIgnore
 	private String address;
+
+	@JsonIgnore
 	private boolean isActive;
 
 	public Long getId() {

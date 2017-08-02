@@ -8,7 +8,6 @@ public class CompetitionsForm {
 	private Long idSport;
 	private Long idCategory;
 	private Long idTown;
-	private Long idCourt;
 	private Long[] teams;
 
 	public Long getId() {
@@ -44,14 +43,6 @@ public class CompetitionsForm {
 
 	public void setIdTown(Long idTown) {
 		this.idTown = idTown;
-	}
-
-	public Long getIdCourt() {
-		return idCourt;
-	}
-
-	public void setIdCourt(Long idCourt) {
-		this.idCourt = idCourt;
 	}
 
 	public Long[] getTeams() {

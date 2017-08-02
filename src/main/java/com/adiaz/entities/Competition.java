@@ -38,11 +38,6 @@ public class Competition {
 	@Index
 	private Ref<Town> townRef;
 
-	@Load
-	@JsonIgnore
-	@Index
-	private Ref<SportCenterCourt> sportCenterCourtRef;
-
 	/* start: attributes not need to save. */
 	@Ignore
 	private Sport sportEntity;
@@ -52,9 +47,6 @@ public class Competition {
 
 	@Ignore
 	private Town townEntity;
-
-	@Ignore
-	private SportCenterCourt sportCenterCourtEntity;
 
 	@Ignore
 	private List<Match> matches;
@@ -77,9 +69,6 @@ public class Competition {
 		}
 		if (townRef!=null && townRef.isLoaded()) {
 			townEntity = townRef.get();
-		}
-		if (sportCenterCourtRef!=null && sportCenterCourtRef.isLoaded()) {
-			sportCenterCourtEntity = sportCenterCourtRef.get();
 		}
 	}
 
@@ -175,19 +164,4 @@ public class Competition {
 		this.teams = teams;
 	}
 
-	public Ref<SportCenterCourt> getSportCenterCourtRef() {
-		return sportCenterCourtRef;
-	}
-
-	public void setSportCenterCourtRef(Ref<SportCenterCourt> sportCenterCourtRef) {
-		this.sportCenterCourtRef = sportCenterCourtRef;
-	}
-
-	public SportCenterCourt getSportCenterCourtEntity() {
-		return sportCenterCourtEntity;
-	}
-
-	public void setSportCenterCourtEntity(SportCenterCourt sportCenterCourtEntity) {
-		this.sportCenterCourtEntity = sportCenterCourtEntity;
-	}
 }

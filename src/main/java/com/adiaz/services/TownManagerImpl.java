@@ -7,6 +7,7 @@ import com.adiaz.forms.utils.TownFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,5 +59,17 @@ public class TownManagerImpl implements TownManager {
 		for (Town town : towns) {
 			townDAO.remove(town);
 		}
+	}
+
+	@Override
+	public List<Town> queryActives() {
+		List<Town> townsActives = new ArrayList<>();
+		List<Town> towns = townDAO.findAll();
+		for (Town town : towns) {
+			if (town.isActive()) {
+				townsActives.add(town);
+			}
+		}
+		return townsActives;
 	}
 }

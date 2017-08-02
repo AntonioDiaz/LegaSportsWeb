@@ -22,8 +22,8 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	@Autowired CompetitionsFormUtils competitionsFormUtils;
 	
 	@Override
-	public void add(Competition item) throws Exception {
-		competitionsDAO.create(item);
+	public Long add(Competition competition) throws Exception {
+		return competitionsDAO.create(competition).getId();
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	}
 
 	@Override
-	public void add(CompetitionsForm competitionsForm) throws Exception {
+	public Long add(CompetitionsForm competitionsForm) throws Exception {
 		Competition competition = competitionsFormUtils.formToEntity(competitionsForm);
-		competitionsDAO.create(competition);
+		return add(competition);
 	}
 
 	@Override

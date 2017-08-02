@@ -9,8 +9,8 @@ import com.adiaz.forms.CompetitionsForm;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface CompetitionsManager {
-	public void add(Competition item) throws Exception;
-	public void add(CompetitionsForm competitionsForm) throws Exception;
+	public Long add(Competition item) throws Exception;
+	public Long add(CompetitionsForm competitionsForm) throws Exception;
 	public boolean remove(Competition item) throws Exception;
 	public boolean update(CompetitionsForm competitionsForm) throws Exception;
 	public List<Competition> queryCompetitions();

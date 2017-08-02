@@ -1,5 +1,6 @@
 package com.adiaz.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,8 @@ import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.GenerateCalendarForm;
-import com.adiaz.utils.RegisterEntities;
+import com.adiaz.forms.MatchForm;
+import com.adiaz.forms.utils.MatchFormUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -30,7 +32,8 @@ public class MatchesManagerImpl implements MatchesManager {
 	CompetitionsDAO competitionsDAO;
 	@Autowired
 	SportCenterCourtManager sportCenterCourtManager;
-
+	@Autowired
+	MatchFormUtils matchFormUtils;
 
 	@Override
 	public Long add(Match match) throws Exception {
@@ -55,7 +58,9 @@ public class MatchesManagerImpl implements MatchesManager {
 	}
 
 	@Override
-	public boolean update(Match match) throws Exception {
+	public boolean update(MatchForm matchForm) throws Exception {
+		Match match = queryMatchesById(matchForm.getId());
+		matchFormUtils.formToEntity(match, matchForm);
 		return matchesDAO.update(match);
 	}
 
@@ -69,16 +74,18 @@ public class MatchesManagerImpl implements MatchesManager {
 			published.setScoreVisitor(match.getScoreVisitor());
 			published.setDate(match.getDate());
 			published.setSportCenterCourtRef(match.getSportCenterCourtRef());
+			published.setTeamLocalRef(match.getTeamLocalRef());
+			published.setTeamVisitorRef(match.getTeamVisitorRef());
 			//// TODO: 22/07/2017 optimize this method, could be better to send a list of entities to update 
-			update(published);
+			matchesDAO.update(published);
 		}
 	}
 
 	@Override
 	public boolean checkUpdatesToPublish(Long idCompetition) throws Exception {
-		List<Match> matches = queryMatchesByCompetitionWorkingCopy(idCompetition);
-		for (Match match : matches) {
-			if (match.isUpdatedScore() || match.isUpdatedDate() || match.isUpdatedCourt()) {
+		List<MatchForm> matchesForm = queryMatchesFormWorkingCopy(idCompetition);
+		for (MatchForm matchForm : matchesForm) {
+			if (matchForm.checkIfChangesToPublish()) {
 				return true;
 			}
 		}
@@ -89,6 +96,17 @@ public class MatchesManagerImpl implements MatchesManager {
 	public List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId) {
 		return matchesDAO.findByCompetition(competitionId, true);
 	}
+
+	@Override
+	public List<MatchForm> queryMatchesFormWorkingCopy(Long competitionId) {
+		List <MatchForm> matchFormList = new ArrayList<>();
+		List<Match> byCompetition = matchesDAO.findByCompetition(competitionId, true);
+		for (Match match : byCompetition) {
+			matchFormList.add(matchFormUtils.entityToForm(match));
+		}
+		return matchFormList;
+	}
+
 
 	@Override
 	public List<Match> queryMatchesByCompetitionPublished(Long competitionId) {
@@ -113,10 +131,10 @@ public class MatchesManagerImpl implements MatchesManager {
 	}
 
 	@Override
-    public Integer howManyWeek(List<Match> matchesList) {
+    public Integer howManyWeek(List<MatchForm> matchFormList) {
         Set<Integer> diferentsWeeks = new HashSet<>();
-        for (Match match : matchesList) {
-            diferentsWeeks.add(match.getWeek());
+		for (MatchForm matchForm : matchFormList) {
+			diferentsWeeks.add(matchForm.getWeek());
         }
         return diferentsWeeks.size();
     }
@@ -135,8 +153,12 @@ public class MatchesManagerImpl implements MatchesManager {
 		Ref<Competition> competitionRef = Ref.create(competition);
 		SportCenterCourt court = sportCenterCourtManager.querySportCourt(form.getIdCourt());
 		Ref<SportCenterCourt> courtRef = Ref.create(court);
-		int weeks = form.getNumTeams() * 2 - 2;
-		int matchesEachWeek = form.getNumTeams() / 2;
+		int numTeams = competition.getTeams().size();
+		int weeks = numTeams * 2 - 2;
+		if (numTeams%2==1) {
+			weeks = (numTeams +1) * 2 - 2;
+		}
+		int matchesEachWeek = (numTeams + 1) / 2;
 		for (int i = 0; i < weeks; i++) {
 			for (int j = 0; j < matchesEachWeek; j++) {
 				Match match = new Match();

@@ -3,13 +3,14 @@ package com.adiaz.utils;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 import com.adiaz.entities.*;
 import com.adiaz.forms.ClubForm;
 import com.adiaz.forms.TeamForm;
 import com.adiaz.forms.TownForm;
 import com.adiaz.services.*;
+import com.google.appengine.repackaged.com.google.protos.appengine_proto.TeamsLog;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +22,9 @@ import com.googlecode.objectify.Ref;
 public class RegisterEntities {
 
 	private static final Logger logger = Logger.getLogger(RegisterEntities.class.getName());
-	
+	public static final String LIGA_DIVISION_HONOR = "Liga division honor";
+	public static final String COPA_DE_PRIMAVERA = "Copa de Primavera";
+
 	@Autowired SportsManager sportsManager;
 	@Autowired CategoriesManager categoriesManager;
 	@Autowired CompetitionsManager competitionsManager;
@@ -35,17 +38,13 @@ public class RegisterEntities {
 	@Autowired TeamManager teamManager;
 
 	public void init() throws Exception {
-		ObjectifyService.register(Sport.class);
-		ObjectifyService.register(Category.class);
-		ObjectifyService.register(Competition.class);
-		ObjectifyService.register(Match.class);
-		ObjectifyService.register(ClassificationEntry.class);
-		ObjectifyService.register(User.class);
-		ObjectifyService.register(SportCenter.class);
-		ObjectifyService.register(SportCenterCourt.class);
-		ObjectifyService.register(Town.class);
-		ObjectifyService.register(Club.class);
-		ObjectifyService.register(Team.class);
+
+		registerEntities();
+
+	}
+	public void initAux() throws Exception {
+
+		registerEntities();
 
 		/* clean DB. */
 		logger.debug("DB clean");
@@ -78,6 +77,7 @@ public class RegisterEntities {
 		 Key<Sport> keySportBasket = null;
 		 Key<Category> keyCadete = null;
 		 Key<Category> keyJuvenil = null;
+		 Key<Category> keyInfantil= null;
 		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
 			Key<Sport> key = ofy().save().entity(new Sport(sportName)).now();
 			if (ConstantsLegaSport.BASKET.equals(sportName)) {
@@ -94,9 +94,9 @@ public class RegisterEntities {
 			category.setOrder(order++);
 			ofy().save().entity(category).now();
 		}
-		Category category = categoriesManager.queryCategoriesByName("Cadete");
-		keyCadete = Key.create(category);
+		keyCadete = Key.create(categoriesManager.queryCategoriesByName("Cadete"));
 		keyJuvenil = Key.create(categoriesManager.queryCategoriesByName("Juvenil"));
+		keyInfantil = Key.create(categoriesManager.queryCategoriesByName("Infantil"));
 
 		SportCenter sportsCenter = new SportCenter();
 		sportsCenter.setName("Pabellon Europa");
@@ -109,42 +109,6 @@ public class RegisterEntities {
 		court.setSportCenterRef(Ref.create(centerKey));
 		court.getSports().add(Ref.create(keySportBasket));
 		Key<SportCenterCourt> courtKey = ofy().save().entity(court).now();
-
-
-		/* load competitions */
-		Competition competition = new Competition();
-		competition.setName("liga division honor");
-		competition.setCategoryRef(Ref.create(keyJuvenil));
-		competition.setSportRef(Ref.create(keySportBasket));
-		competition.setTownRef(Ref.create(keyLega));
-		try {
-			competitionsManager.add(competition);
-			logger.debug("insert competition");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		List<Match> matchesList = UtilsLegaSport.parseCalendar(competition, Ref.create(courtKey));
-		try {
-			matchesManager.addMatchListAndPublish(matchesList);
-		} catch (Exception e) {
-			logger.error(e);
-		}
-		
-		try {
-			List<ClassificationEntry> classificationList = UtilsLegaSport.parseClassification(competition.getId());
-			classificationManager.add(classificationList);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		competition = new Competition();
-		competition.setName("Liga division honor");
-		competition.setCategoryRef(Ref.create(keyCadete));
-		competition.setSportRef(Ref.create(keySportBasket));
-		competition.setTownRef(Ref.create(keyLega));
-		competitionsManager.add(competition);
-
 
 		/* load users */
 		String name = "antonio.diaz";
@@ -161,21 +125,74 @@ public class RegisterEntities {
 		Long idCdLeganes = clubManager.add(clubForm);
 
 
-		createTeams(idCdLeganes, townIdLega, keyCadete.getId(), keySportBasket.getId());
+		Set<String> teamsSet = UtilsLegaSport.parseCalendarGetTeams();
+		List<String> teamsList = new ArrayList<>();
+		teamsList.addAll(teamsSet);
+		Map<String, Ref<Team>> teamsMap = createTeams(teamsList, idCdLeganes, townIdLega, keyJuvenil.getId(), keySportBasket.getId());
+		Collection<Ref<Team>> values = teamsMap.values();
+		List<Ref<Team>> teamsRefList = new ArrayList<>(values);
+
+		try {
+		/* load competitions */
+			Long idCompetition = createCompetition(LIGA_DIVISION_HONOR, keyJuvenil, keySportBasket, keyLega, teamsRefList);
+			List<Match> matchesList = UtilsLegaSport.parseCalendar(idCompetition, Ref.create(courtKey), teamsMap);
+			matchesManager.addMatchListAndPublish(matchesList);
+			List<ClassificationEntry> classificationList = UtilsLegaSport.parseClassification(idCompetition);
+			classificationManager.add(classificationList);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			createCompetition(LIGA_DIVISION_HONOR, keyInfantil, keySportBasket, keyLega, null);
+			createCompetition(COPA_DE_PRIMAVERA, keyInfantil, keySportBasket, keyLega, null);
+			createCompetition(LIGA_DIVISION_HONOR, keyCadete, keySportBasket, keyLega, null);
+			createCompetition(COPA_DE_PRIMAVERA, keyJuvenil, keySportBasket, keyLega, null);
+			createCompetition(COPA_DE_PRIMAVERA, keyCadete, keySportBasket, keyLega, null);
+		} catch (Exception e) {
+
+		}
+
 		logger.debug("finished init...");
 	}
 
-	private void createTeams(Long idClub, Long idTown, long idCategory, long idSport) throws Exception {
-		String[] teamsNames = new String[]{"CD LEGANES A", "Legamar A", "Concepcion Arenal", "Lope de Vega"};
-		for (int i = 0; i < teamsNames.length; i++) {
+	private void registerEntities() {
+		ObjectifyService.register(Sport.class);
+		ObjectifyService.register(Category.class);
+		ObjectifyService.register(Competition.class);
+		ObjectifyService.register(Match.class);
+		ObjectifyService.register(ClassificationEntry.class);
+		ObjectifyService.register(User.class);
+		ObjectifyService.register(SportCenter.class);
+		ObjectifyService.register(SportCenterCourt.class);
+		ObjectifyService.register(Town.class);
+		ObjectifyService.register(Club.class);
+		ObjectifyService.register(Team.class);
+	}
+
+	private Long createCompetition(
+			String ligaDivisionHonor, Key<Category> keyJuvenil, Key<Sport> keySportBasket, Key<Town> keyLega, List<Ref<Team>> teamsList) throws Exception {
+		Competition competition = new Competition();
+		competition.setName(ligaDivisionHonor);
+		competition.setCategoryRef(Ref.create(keyJuvenil));
+		competition.setSportRef(Ref.create(keySportBasket));
+		competition.setTownRef(Ref.create(keyLega));
+		competition.setTeams(teamsList);
+		return competitionsManager.add(competition);
+	}
+
+	private Map<String, Ref<Team>> createTeams(List<String> teamsList, Long idClub, Long idTown, long idCategory, long idSport) throws Exception {
+		Map<String, Ref<Team>> teamsMap = new HashMap<>();
+		for (String teamName : teamsList) {
 			TeamForm teamForm = new TeamForm();
-			teamForm.setName(teamsNames[i]);
+			teamForm.setName(teamName);
 			teamForm.setIdClub(idClub);
 			teamForm.setIdTown(idTown);
 			teamForm.setIdCategory(idCategory);
 			teamForm.setIdSport(idSport);
-			teamManager.add(teamForm);
+			Long id = teamManager.add(teamForm);
+			teamsMap.put(teamName, Ref.create(Key.create(Team.class, id)));
 		}
+		return teamsMap;
 	}
 
 	private User initUser(String name, String password, boolean isAdmin) {

@@ -19,18 +19,6 @@ public class GenerateCalendarFormValidator implements Validator {
 
 	@Override
 	public void validate(Object o, Errors errors) {
-		GenerateCalendarForm form = (GenerateCalendarForm) o;
-		if (form.getNumTeams()==null) {
-			errors.rejectValue("numTeams", "field_required");
-		} else {
-			if (form.getNumTeams()<4 || form.getNumTeams()>24 || form.getNumTeams()%2==1) {
-				errors.rejectValue("numTeams", "teams_number_error");
-			} else {
-				if (form.getNumTeams()!=form.getTeams().length) {
-					errors.rejectValue("teams", "teams_selected_error");
-				}
-			}
-		}
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idCourt", "field_required");
 	}
 }

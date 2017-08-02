@@ -7,8 +7,6 @@ public class GenerateCalendarForm {
 	private Long idCompetition;
 	private Long idCourt;
 	private Integer numWeeks;
-	private Integer numTeams;
-	private Long[] teams;
 
 	public Long getIdCompetition() {
 		return idCompetition;
@@ -34,19 +32,4 @@ public class GenerateCalendarForm {
 		this.numWeeks = numWeeks;
 	}
 
-	public Integer getNumTeams() {
-		return numTeams;
-	}
-
-	public void setNumTeams(Integer numTeams) {
-		this.numTeams = numTeams;
-	}
-
-	public Long[] getTeams() {
-		return teams;
-	}
-
-	public void setTeams(Long[] teams) {
-		this.teams = teams;
-	}
 }

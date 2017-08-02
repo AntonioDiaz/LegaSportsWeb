@@ -8,9 +8,7 @@ import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +25,7 @@ public class UtilsLegaSport {
 
 	//private static final Logger log = Logger.getLogger(UtilsLegaSport.class.getName());
 
-	public static List<Match> parseCalendar(String lines, Competition competition, Ref<SportCenterCourt> sportCourtRef) {
+	public static List<Match> parseCalendar(String lines, long idCompetition, Ref<SportCenterCourt> sportCourtRef,Map<String, Ref<Team>> teamsMap) {
 		List<Match> matchesList = new ArrayList<>();
 		String[] split = lines.split("\\r\\n");
 		int week = 0;
@@ -39,8 +37,10 @@ public class UtilsLegaSport {
 				String[] strings = line.split("\\t");
 				Match match = new Match();
 				match.setWeek(week);
-				match.setTeamLocal(strings[2]);
-				match.setTeamVisitor(strings[3]);
+				match.setTeamLocalRef(teamsMap.get(strings[2]));
+				match.setTeamVisitorRef(teamsMap.get(strings[3]));
+
+
 				match.setWorkingCopy(false);
 				if (strings.length >= 5) {
 					match.setSportCenterCourtRef(sportCourtRef);
@@ -53,7 +53,7 @@ public class UtilsLegaSport {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				Key<Competition> competitionKey = Key.create(Competition.class, competition.getId());
+				Key<Competition> competitionKey = Key.create(Competition.class, idCompetition);
 				match.setCompetitionRef(Ref.create(competitionKey));
 				matchesList.add(match);
 			}
@@ -61,9 +61,23 @@ public class UtilsLegaSport {
 		return matchesList;
 	}
 
-	public static List<Match> parseCalendar(Competition competition, Ref<SportCenterCourt> sportCourtRef) {
+	public static Set<String> parseCalendarGetTeams() {
+		Set<String> teamsNames = new HashSet<>();
 		String lines = parseLinesTextFile("static_calendar.txt");
-		return  parseCalendar(lines, competition, sportCourtRef);
+		String[] split = lines.split("\\r\\n");
+		for (int i = 0; i < split.length; i++) {
+			String[] strings = split[i].split("\\t");
+			if (strings.length>=3) {
+				teamsNames.add(strings[2]);
+				teamsNames.add(strings[3]);
+			}
+		}
+		return teamsNames;
+	}
+
+	public static List<Match> parseCalendar(Long idCompetition, Ref<SportCenterCourt> sportCourtRef, Map<String, Ref<Team>> teamsMap) {
+		String lines = parseLinesTextFile("static_calendar.txt");
+		return  parseCalendar(lines, idCompetition, sportCourtRef, teamsMap);
 	}
 	
 	public static List<ClassificationEntry> parseClassification(String lines, Long competitionId) {
