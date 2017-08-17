@@ -1,20 +1,18 @@
 package com.adiaz.controllers;
 
-import com.adiaz.entities.Club;
 import com.adiaz.forms.ClubForm;
 import com.adiaz.forms.validators.ClubFormValidator;
 import com.adiaz.services.ClubManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
+import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
 /**
  * Created by toni on 24/07/2017.

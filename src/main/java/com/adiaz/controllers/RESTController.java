@@ -1,9 +1,5 @@
 package com.adiaz.controllers;
 
-import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.adiaz.entities.*;
@@ -11,10 +7,6 @@ import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.utils.MatchFormUtils;
 import com.adiaz.services.*;
-import com.adiaz.utils.ConstantsLegaSport;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Ref;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;

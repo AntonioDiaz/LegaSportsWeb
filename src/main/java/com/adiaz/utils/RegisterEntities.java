@@ -10,7 +10,6 @@ import com.adiaz.forms.ClubForm;
 import com.adiaz.forms.TeamForm;
 import com.adiaz.forms.TownForm;
 import com.adiaz.services.*;
-import com.google.appengine.repackaged.com.google.protos.appengine_proto.TeamsLog;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,7 +41,7 @@ public class RegisterEntities {
 		registerEntities();
 
 	}
-	public void initAux() throws Exception {
+	public void initLong() throws Exception {
 
 		registerEntities();
 
@@ -78,15 +77,15 @@ public class RegisterEntities {
 		 Key<Category> keyCadete = null;
 		 Key<Category> keyJuvenil = null;
 		 Key<Category> keyInfantil= null;
-		for (String sportName : ConstantsLegaSport.SPORTS_NAMES) {
+		for (String sportName : MuniSportsConstants.SPORTS_NAMES) {
 			Key<Sport> key = ofy().save().entity(new Sport(sportName)).now();
-			if (ConstantsLegaSport.BASKET.equals(sportName)) {
+			if (MuniSportsConstants.BASKET.equals(sportName)) {
 				keySportBasket = key;
 			}
 		}
 		
 		/* load categories */
-		String[] categoriesNames = ConstantsLegaSport.CATEGORIES_NAMES;
+		String[] categoriesNames = MuniSportsConstants.CATEGORIES_NAMES;
 		int order = 0;
 		for (String name : categoriesNames) {
 			Category category = new Category();
@@ -125,7 +124,7 @@ public class RegisterEntities {
 		Long idCdLeganes = clubManager.add(clubForm);
 
 
-		Set<String> teamsSet = UtilsLegaSport.parseCalendarGetTeams();
+		Set<String> teamsSet = MuniSportsUtils.parseCalendarGetTeams();
 		List<String> teamsList = new ArrayList<>();
 		teamsList.addAll(teamsSet);
 		Map<String, Ref<Team>> teamsMap = createTeams(teamsList, idCdLeganes, townIdLega, keyJuvenil.getId(), keySportBasket.getId());
@@ -135,9 +134,9 @@ public class RegisterEntities {
 		try {
 		/* load competitions */
 			Long idCompetition = createCompetition(LIGA_DIVISION_HONOR, keyJuvenil, keySportBasket, keyLega, teamsRefList);
-			List<Match> matchesList = UtilsLegaSport.parseCalendar(idCompetition, Ref.create(courtKey), teamsMap);
+			List<Match> matchesList = MuniSportsUtils.parseCalendar(idCompetition, Ref.create(courtKey), teamsMap);
 			matchesManager.addMatchListAndPublish(matchesList);
-			List<ClassificationEntry> classificationList = UtilsLegaSport.parseClassification(idCompetition);
+			List<ClassificationEntry> classificationList = MuniSportsUtils.parseClassification(idCompetition);
 			classificationManager.add(classificationList);
 		} catch (IOException e) {
 			e.printStackTrace();

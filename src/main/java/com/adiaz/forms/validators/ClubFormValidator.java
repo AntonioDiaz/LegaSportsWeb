@@ -1,9 +1,8 @@
 package com.adiaz.forms.validators;
 
-import com.adiaz.entities.Club;
 import com.adiaz.forms.ClubForm;
-import com.adiaz.utils.ConstantsLegaSport;
-import com.adiaz.utils.UtilsLegaSport;
+import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.MuniSportsUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -26,12 +25,12 @@ public class ClubFormValidator implements Validator {
 				errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(
 				errors, "contactPerson", "field_required");
-		UtilsLegaSport.validateNotEmptyAndFormat(
-				errors, clubForm.getContactEmail(), "contactEmail", "email_format_error", ConstantsLegaSport.EMAIL_PATTERN);
+		MuniSportsUtils.validateNotEmptyAndFormat(
+				errors, clubForm.getContactEmail(), "contactEmail", "email_format_error", MuniSportsConstants.EMAIL_PATTERN);
 		ValidationUtils.rejectIfEmptyOrWhitespace(
 				errors, "contactAddress", "field_required");
-		UtilsLegaSport.validateNotEmptyAndFormat(
-				errors, clubForm.getContactPhone(), "contactPhone", "phone_format_error", ConstantsLegaSport.PHONE_PATTERN);
+		MuniSportsUtils.validateNotEmptyAndFormat(
+				errors, clubForm.getContactPhone(), "contactPhone", "phone_format_error", MuniSportsConstants.PHONE_PATTERN);
 		ValidationUtils.rejectIfEmptyOrWhitespace(
 				errors, "idTown", "field_required");
 	}

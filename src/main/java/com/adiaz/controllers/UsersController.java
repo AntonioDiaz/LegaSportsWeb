@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.forms.validators.UserFormValidator;
 import com.adiaz.services.UsersManager;
-import com.adiaz.utils.UtilsLegaSport;
+import com.adiaz.utils.MuniSportsUtils;
 
 @Controller
 @RequestMapping("/users")
@@ -53,7 +53,7 @@ public class UsersController {
 		userFormValidator.validate(user, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			try {
-				user.setPassword(UtilsLegaSport.sha256Encode(user.getPassword01()));
+				user.setPassword(MuniSportsUtils.sha256Encode(user.getPassword01()));
 				user.setEnabled(true);
 				user.setAccountNonExpired(true);
 				Key<Town> key = Key.create(Town.class, user.getTownEntity().getId());
@@ -87,7 +87,7 @@ public class UsersController {
 		if (!bindingResult.hasErrors()) {
 			try {
 				if (user.isUpdatePassword()) {
-					user.setPassword(UtilsLegaSport.sha256Encode(user.getPassword01()));
+					user.setPassword(MuniSportsUtils.sha256Encode(user.getPassword01()));
 				} else {
 					User originalUser = usersManager.queryUserByName(user.getUsername());
 					user.setPassword(originalUser.getPassword());

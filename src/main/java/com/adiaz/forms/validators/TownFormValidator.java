@@ -1,8 +1,8 @@
 package com.adiaz.forms.validators;
 
 import com.adiaz.forms.TownForm;
-import com.adiaz.utils.ConstantsLegaSport;
-import com.adiaz.utils.UtilsLegaSport;
+import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.MuniSportsUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -24,8 +24,8 @@ public class TownFormValidator implements Validator {
 		TownForm townForm = (TownForm) o;
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contactPerson", "field_required");
-		UtilsLegaSport.validateNotEmptyAndFormat(errors, townForm.getPhone(), "phone", "phone_format_error", ConstantsLegaSport.PHONE_PATTERN);
-		UtilsLegaSport.validateNotEmptyAndFormat(errors, townForm.getEmail(), "email", "email_format_error", ConstantsLegaSport.EMAIL_PATTERN);
+		MuniSportsUtils.validateNotEmptyAndFormat(errors, townForm.getPhone(), "phone", "phone_format_error", MuniSportsConstants.PHONE_PATTERN);
+		MuniSportsUtils.validateNotEmptyAndFormat(errors, townForm.getEmail(), "email", "email_format_error", MuniSportsConstants.EMAIL_PATTERN);
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "field_required");
 	}
 }

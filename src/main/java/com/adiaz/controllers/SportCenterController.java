@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
+import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
 @Controller
 @RequestMapping (value="/sportCenter")

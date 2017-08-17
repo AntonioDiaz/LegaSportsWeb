@@ -4,7 +4,7 @@ import com.adiaz.entities.Match;
 import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.MatchForm;
-import com.adiaz.utils.ConstantsLegaSport;
+import com.adiaz.utils.MuniSportsConstants;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +25,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 		match.setScoreVisitor(matchForm.getScoreVisitor());
 		match.setDate(null);
 		if (StringUtils.isNotBlank(matchForm.getDateStr())) {
-			DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
+			DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
 			match.setDate(dateFormat.parse(matchForm.getDateStr()));
 		}
 		match.setSportCenterCourtRef(null);
@@ -59,7 +59,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 		MatchForm f = new MatchForm();
 		f.setId(e.getId());
 		f.setWeek(e.getWeek());
-		DateFormat dateFormat = new SimpleDateFormat(ConstantsLegaSport.DATE_FORMAT);
+		DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
 		if (e.getDate()!=null) {
 			f.setDateStr(dateFormat.format(e.getDate()));
 		}

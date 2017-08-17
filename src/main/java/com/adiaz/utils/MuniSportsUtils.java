@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
-public class UtilsLegaSport {
+public class MuniSportsUtils {
 
-	private static final Logger logger = Logger.getLogger(UtilsLegaSport.class.getName());
+	private static final Logger logger = Logger.getLogger(MuniSportsUtils.class.getName());
 
 	public static List<Match> parseCalendar(String lines, long idCompetition, Ref<SportCenterCourt> sportCourtRef,Map<String, Ref<Team>> teamsMap) {
 		List<Match> matchesList = new ArrayList<>();
@@ -112,7 +112,7 @@ public class UtilsLegaSport {
 		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(Match.class);
 		System.out.println("parse calendar....");
-		System.out.println(UtilsLegaSport.parseClassification(1L).size());
+		System.out.println(MuniSportsUtils.parseClassification(1L).size());
 	}
 
 	public static String sha256Encode(String text) throws Exception {
@@ -160,7 +160,7 @@ public class UtilsLegaSport {
 
 	private static String parseLinesTextFile(String fileName) {
 		String calendarTxt = "";
-		ClassLoader classLoader = UtilsLegaSport.class.getClassLoader();
+		ClassLoader classLoader = MuniSportsUtils.class.getClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));

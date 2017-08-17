@@ -6,7 +6,7 @@ import com.adiaz.forms.validators.CompetitionsFormValidator;
 import com.adiaz.forms.validators.GenerateCalendarFormValidator;
 import com.adiaz.services.*;
 
-import static com.adiaz.utils.UtilsLegaSport.getActiveUser;
+import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
