@@ -314,20 +314,37 @@
 		<div class="font_title">
 			<div><u>${competition.name}</u></div>
 		</div>
-		<div class="row font_subtitle">
-			<div class="col-sm-2"><small>Deporte</small></div>
-			<div>${competition.sportEntity.name}</div>
-		</div>
-		<div class="row font_subtitle">
-			<div class="col-sm-2"><small>Categoria</small></div>
-			<div>${competition.categoryEntity.name}</div>
-		</div>
-		<div class="row font_subtitle">
-			<div class="col-sm-2"><small>Municipio</small></div>
-			<div>${competition.townEntity.name}</div>
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="row font_subtitle">
+					<div class="col-sm-4"><small>Deporte</small></div>
+					<div>${competition.sportEntity.name}</div>
+				</div>
+				<div class="row font_subtitle">
+					<div class="col-sm-4"><small>Categoria</small></div>
+					<div>${competition.categoryEntity.name}</div>
+				</div>
+			</div>
+			<div class="col-sm-7">
+				<div class="row font_subtitle">
+					<div class="col-sm-5"><small>Municipio</small></div>
+					<div>${competition.townEntity.name}</div>
+				</div>
+				<div class="row font_subtitle">
+					<div class="col-sm-5"><small>Fecha publicación</small></div>
+					<div>
+						<c:if test="${competition.lastUpdate eq null}">
+							Sin publicar
+						</c:if>
+						<c:if test="${competition.lastUpdate ne null}">
+							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastUpdate}"></fmt:formatDate>
+						</c:if>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="col-sm-4" style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;">
+	<div class="col-sm-4" <%--style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;"--%>>
 		<div class="row">
 			<div class="col-sm-6">
 				<c:if test="${empty matches_list}">

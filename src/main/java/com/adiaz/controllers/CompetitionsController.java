@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -186,8 +187,9 @@ public class CompetitionsController {
 			modelAndView.setViewName("competitions_update");
 		} else {
 			try {
-				competitionsManager.update(competitionsForm);
-				String viewNameStr = "redirect:/competitions/viewCalendar?" +
+				competitionsManager.update(competitionsForm.getId(), competitionsForm);
+				String viewNameStr =
+						"redirect:/competitions/viewCalendar?" +
 						"idCompetition=" + competitionsForm.getId() +
 						"&update_done=true";
 				modelAndView.setViewName(viewNameStr);
@@ -203,6 +205,9 @@ public class CompetitionsController {
 		String redirectTo = "redirect:/competitions/viewCalendar?idCompetition=" +  idCompetition;
 		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
 			matchesManager.updatePublishedMatches(idCompetition);
+			Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+			competition.setLastUpdate(new Date());
+			competitionsManager.update(competition);
 			redirectTo += "&publish_done=true";
 		} else {
 			redirectTo += "&publish_none=true";

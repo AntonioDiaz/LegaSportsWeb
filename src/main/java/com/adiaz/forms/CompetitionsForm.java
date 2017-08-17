@@ -1,6 +1,8 @@
 package com.adiaz.forms;
 
 
+import java.util.Date;
+
 public class CompetitionsForm {
 
 	private Long id;
@@ -52,4 +54,5 @@ public class CompetitionsForm {
 	public void setTeams(Long[] teams) {
 		this.teams = teams;
 	}
+
 }

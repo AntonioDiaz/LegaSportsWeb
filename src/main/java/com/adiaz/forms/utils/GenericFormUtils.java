@@ -5,5 +5,6 @@ package com.adiaz.forms.utils;
  */
 public interface GenericFormUtils <F, E> {
 	public E formToEntity(F form);
+	public void formToEntity(E entity, F form);
 	public F entityToForm(E entity);
 }

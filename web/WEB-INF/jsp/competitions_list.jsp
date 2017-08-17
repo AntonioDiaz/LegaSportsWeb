@@ -56,11 +56,12 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
-			<th class="col-md-3">Nombre</th>
+			<th class="col-md-2">Nombre</th>
 			<th class="col-md-2">Deporte</th>
 			<th class="col-md-2">Categoria</th>
 			<th class="col-md-2">Municipio</th>
-			<th class="col-md-3">&nbsp;</th>
+			<th class="col-md-2">Fecha Publicación</th>
+			<th class="col-md-2">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -82,6 +83,14 @@
 				<td style="vertical-align: middle;">${competition.sportEntity.name}</td>
 				<td style="vertical-align: middle;">${competition.categoryEntity.name}</td>
 				<td style="vertical-align: middle;">${competition.townEntity.name}</td>
+				<td style="vertical-align: middle;">
+					<c:if test="${competition.lastUpdate eq null}">
+						Sin publicar
+					</c:if>
+					<c:if test="${competition.lastUpdate ne null}">
+						<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastUpdate}"></fmt:formatDate>
+					</c:if>
+				</td>
 				<td align="right">
 					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title="calendario">
 						Ver detalles &nbsp; &nbsp;<span class="glyphicon glyphicon-eye-open"></span>

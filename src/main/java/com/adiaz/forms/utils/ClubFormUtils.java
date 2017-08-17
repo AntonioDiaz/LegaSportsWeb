@@ -15,8 +15,7 @@ import org.springframework.stereotype.Repository;
 public class ClubFormUtils implements GenericFormUtils<ClubForm, Club>{
 
 	@Override
-	public Club formToEntity(ClubForm form) {
-		Club club = new Club();
+	public void formToEntity(Club club, ClubForm form) {
 		club.setId(form.getId());
 		club.setName(form.getName());
 		club.setContactPerson(form.getContactPerson());
@@ -27,6 +26,13 @@ public class ClubFormUtils implements GenericFormUtils<ClubForm, Club>{
 			Key<Town> key = Key.create(Town.class, form.getIdTown());
 			club.setTownRef(Ref.create(key));
 		}
+	}
+
+
+		@Override
+	public Club formToEntity(ClubForm form) {
+		Club club = new Club();
+		formToEntity(club, form);
 		return club;
 	}
 

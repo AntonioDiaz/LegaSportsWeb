@@ -13,14 +13,19 @@ import org.springframework.stereotype.Repository;
 public class TownFormUtils implements GenericFormUtils<TownForm, Town> {
 
 	@Override
-	public Town formToEntity(TownForm townForm) {
-		Town town = new Town();
+	public void formToEntity(Town town, TownForm townForm) {
 		town.setName(townForm.getName());
 		town.setAddress(townForm.getAddress());
 		town.setEmail(townForm.getEmail());
 		town.setContactPerson(townForm.getContactPerson());
 		town.setPhone(townForm.getPhone());
 		town.setActive(townForm.isActive());
+	}
+
+	@Override
+	public Town formToEntity(TownForm townForm) {
+		Town town = new Town();
+		formToEntity(town, townForm);
 		return town;
 	}
 

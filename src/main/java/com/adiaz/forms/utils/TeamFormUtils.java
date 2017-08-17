@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
 public class TeamFormUtils implements GenericFormUtils<TeamForm, Team> {
 
 	@Override
-	public Team formToEntity(TeamForm f) {
-		Team team = new Team();
+	public void formToEntity(Team team, TeamForm f) {
 		team.setId(f.getId());
 		team.setName(f.getName());
 		if (f.getIdCategory()!=null) {
@@ -33,6 +32,12 @@ public class TeamFormUtils implements GenericFormUtils<TeamForm, Team> {
 			Key<Sport> key = Key.create(Sport.class, f.getIdSport());
 			team.setSportRef(Ref.create(key));
 		}
+	}
+
+	@Override
+	public Team formToEntity(TeamForm f) {
+		Team team = new Team();
+		formToEntity(team, f);
 		return team;
 	}
 

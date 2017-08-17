@@ -34,10 +34,16 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 		}
 		return competitionsDAO.remove(competition);
 	}
-	
+
 	@Override
-	public boolean update(CompetitionsForm competitionsForm) throws Exception {
-		Competition competition = competitionsFormUtils.formToEntity(competitionsForm);
+	public boolean update(Competition competition) throws Exception {
+		return competitionsDAO.update(competition);
+	}
+
+	@Override
+	public boolean update(Long idCompetition, CompetitionsForm competitionsForm) throws Exception {
+		Competition competition = queryCompetitionsByIdEntity(idCompetition);
+		competitionsFormUtils.formToEntity(competition, competitionsForm);
 		return competitionsDAO.update(competition);
 	}
 	

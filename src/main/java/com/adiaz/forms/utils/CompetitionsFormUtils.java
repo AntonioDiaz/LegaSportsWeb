@@ -15,10 +15,8 @@ import java.util.List;
 @Repository
 public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm, Competition> {
 
-
 	@Override
-	public Competition formToEntity(CompetitionsForm form) {
-		Competition competition = new Competition();
+	public void formToEntity(Competition competition, CompetitionsForm form) {
 		competition.setId(form.getId());
 		competition.setName(form.getName());
 		if (form.getIdCategory()!=null) {
@@ -39,6 +37,13 @@ public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm,
 			teamsRefList.add(teamRef);
 		}
 		competition.setTeams(teamsRefList);
+	}
+
+
+	@Override
+	public Competition formToEntity(CompetitionsForm form) {
+		Competition competition = new Competition();
+		formToEntity(competition, form);
 		return competition;
 	}
 

@@ -1,11 +1,11 @@
 package com.adiaz.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.appengine.repackaged.com.google.protos.appengine_proto.TeamsLog;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -57,6 +57,8 @@ public class Competition {
 	@Load
 	@JsonIgnore
 	private List<Ref<Team>> teams = new ArrayList<Ref<Team>>();
+
+	private Date lastUpdate;
 
 
 	@OnLoad
@@ -164,4 +166,11 @@ public class Competition {
 		this.teams = teams;
 	}
 
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 }

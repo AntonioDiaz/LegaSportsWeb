@@ -14,8 +14,7 @@ import org.springframework.stereotype.Repository;
 public class SportCenterFormUtils implements GenericFormUtils<SportCenterForm, SportCenter> {
 
 	@Override
-	public SportCenter formToEntity(SportCenterForm sportCenterForm) {
-		SportCenter sportCenter = new SportCenter();
+	public void formToEntity(SportCenter sportCenter, SportCenterForm sportCenterForm) {
 		if (sportCenterForm!=null) {
 			sportCenter.setId(sportCenterForm.getId());
 			sportCenter.setName(sportCenterForm.getName());
@@ -25,6 +24,12 @@ public class SportCenterFormUtils implements GenericFormUtils<SportCenterForm, S
 				sportCenter.setTownRef(Ref.create(key));
 			}
 		}
+	}
+
+	@Override
+	public SportCenter formToEntity(SportCenterForm sportCenterForm) {
+		SportCenter sportCenter = new SportCenter();
+		formToEntity(sportCenter, sportCenterForm);
 		return sportCenter;
 	}
 

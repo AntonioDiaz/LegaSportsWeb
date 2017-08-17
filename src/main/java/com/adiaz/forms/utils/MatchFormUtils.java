@@ -8,9 +8,11 @@ import com.adiaz.utils.MuniSportsConstants;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
@@ -20,13 +22,20 @@ import java.util.Objects;
 @Repository
 public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 
-	public void formToEntity(Match match, MatchForm matchForm) throws Exception {
+	private static final Logger logger = Logger.getLogger(MatchForm.class);
+
+	@Override
+	public void formToEntity(Match match, MatchForm matchForm) {
 		match.setScoreLocal(matchForm.getScoreLocal());
 		match.setScoreVisitor(matchForm.getScoreVisitor());
 		match.setDate(null);
 		if (StringUtils.isNotBlank(matchForm.getDateStr())) {
 			DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
-			match.setDate(dateFormat.parse(matchForm.getDateStr()));
+			try {
+				match.setDate(dateFormat.parse(matchForm.getDateStr()));
+			} catch (ParseException e) {
+				logger.error("error on parse form to entity " + matchForm, e);
+			}
 		}
 		match.setSportCenterCourtRef(null);
 		if (matchForm.getCourtId()!=null) {
@@ -50,8 +59,13 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 
 	@Override
 	public Match formToEntity(MatchForm form) {
-
-		return null;
+		Match match = new Match();
+		try {
+			formToEntity(match, form);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return match;
 	}
 
 	@Override

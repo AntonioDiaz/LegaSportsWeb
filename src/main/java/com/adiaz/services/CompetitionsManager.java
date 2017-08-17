@@ -12,7 +12,8 @@ public interface CompetitionsManager {
 	public Long add(Competition item) throws Exception;
 	public Long add(CompetitionsForm competitionsForm) throws Exception;
 	public boolean remove(Competition item) throws Exception;
-	public boolean update(CompetitionsForm competitionsForm) throws Exception;
+	public boolean update(Competition competition) throws Exception;
+	public boolean update(Long idCompetition, CompetitionsForm competitionsForm) throws Exception;
 	public List<Competition> queryCompetitions();
 	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown);
 	public List<Competition> queryCompetitions(CompetitionsFilterForm competitionsFilterForm);
