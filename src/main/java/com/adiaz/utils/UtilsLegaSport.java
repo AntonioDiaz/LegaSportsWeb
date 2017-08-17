@@ -18,12 +18,13 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 public class UtilsLegaSport {
 
-	//private static final Logger log = Logger.getLogger(UtilsLegaSport.class.getName());
+	private static final Logger logger = Logger.getLogger(UtilsLegaSport.class.getName());
 
 	public static List<Match> parseCalendar(String lines, long idCompetition, Ref<SportCenterCourt> sportCourtRef,Map<String, Ref<Team>> teamsMap) {
 		List<Match> matchesList = new ArrayList<>();
@@ -148,7 +149,13 @@ public class UtilsLegaSport {
 	}
 
 	public static User getActiveUser(){
-		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = null;
+		try {
+			user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return user;
 	}
 
 	private static String parseLinesTextFile(String fileName) {

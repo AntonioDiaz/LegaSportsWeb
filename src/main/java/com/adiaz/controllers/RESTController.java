@@ -99,9 +99,6 @@ public class RESTController {
 			@RequestParam(value = "idSport", required = false) Long idSport,
 			@RequestParam(value = "idCategory", required = false) Long idCategory,
 			@RequestParam(value = "idTown", required = false) Long idTown) {
-		if (!getActiveUser().isAdmin()) {
-			idTown = getActiveUser().getTownEntity().getId();
-		}
 		List<Competition> competitions = competitionsManager.queryCompetitions(idSport, idCategory, idTown);
 		return competitions;
 	}
