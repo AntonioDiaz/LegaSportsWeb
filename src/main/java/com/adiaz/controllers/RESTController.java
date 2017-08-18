@@ -1,6 +1,7 @@
 package com.adiaz.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import com.adiaz.entities.*;
 import com.adiaz.forms.MatchForm;
@@ -98,6 +99,37 @@ public class RESTController {
 	public List<Match> getMatches() {
 		List<Match> matches = matchesManager.queryMatches();
 		return matches;
+	}
+
+	class CompetitionDetails {
+		private List<Match> matches;
+		private List<ClassificationEntry> classification;
+
+		public List<Match> getMatches() {
+			return matches;
+		}
+
+		public void setMatches(List<Match> matches) {
+			this.matches = matches;
+		}
+
+		public List<ClassificationEntry> getClassification() {
+			return classification;
+		}
+
+		public void setClassification(List<ClassificationEntry> classification) {
+			this.classification = classification;
+		}
+	}
+
+	@RequestMapping(value = "/competitiondetails/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public CompetitionDetails getMatchesAndClassification(@PathVariable("competition_id") Long competitionId){
+		List<Match> matches = matchesManager.queryMatchesByCompetitionPublished(competitionId);
+		List<ClassificationEntry> classificationEntries = classificationManager.queryClassificationByCompetition(competitionId);
+		CompetitionDetails competitionDetails = new CompetitionDetails();
+		competitionDetails.matches = matches;
+		competitionDetails.classification = classificationEntries;
+		return competitionDetails;
 	}
 
 	@RequestMapping(value = "/matches/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

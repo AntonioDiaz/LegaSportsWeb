@@ -52,7 +52,6 @@ public class Match {
 	private Competition competition;
 
 	@Ignore
-	@JsonIgnore
 	private SportCenterCourt sportCenterCourt;
 
 	@Index

@@ -37,6 +37,7 @@ public class SportCenterCourt implements Serializable {
 		}
 	}
 
+	@JsonIgnore
 	public List<Sport> getSportsDeref() {
 		return Deref.deref(sports); 
 	}

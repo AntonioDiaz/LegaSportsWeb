@@ -23,6 +23,7 @@ public class SportCenter implements Serializable {
 	private Ref<Town> townRef;
 
 	@Ignore
+	@JsonIgnore
 	private Town townEntity;
 
 	@OnLoad
