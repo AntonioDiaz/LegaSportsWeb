@@ -26,6 +26,7 @@ public class Team {
 	private Ref<Category> categoryRef;
 
 	@Ignore
+	@JsonIgnore
 	private Category categoryEntity;
 
 	@Load
@@ -34,6 +35,7 @@ public class Team {
 	private Ref<Town> townRef;
 
 	@Ignore
+	@JsonIgnore
 	private Town townEntity;
 
 	@Load
@@ -42,6 +44,7 @@ public class Team {
 	private Ref<Club> clubRef;
 
 	@Ignore
+	@JsonIgnore
 	private Club clubEntity;
 
 	@Load
@@ -50,6 +53,7 @@ public class Team {
 	private Ref<Sport> sportRef;
 
 	@Ignore
+	@JsonIgnore
 	private Sport sportEntity;
 
 	@OnLoad
