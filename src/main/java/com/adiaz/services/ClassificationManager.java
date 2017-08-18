@@ -10,7 +10,7 @@ public interface ClassificationManager {
 	public boolean remove(ClassificationEntry item) throws Exception;
 	public void removeAll() throws Exception;
 	public boolean update(ClassificationEntry item) throws Exception;
-	public List<ClassificationEntry> queryClassificationBySport(Long idCompetition);
+	public List<ClassificationEntry> queryClassificationByCompetition(Long idCompetition);
 	public void add(List<ClassificationEntry> classificationList) throws Exception;
 
 }

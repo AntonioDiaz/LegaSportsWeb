@@ -48,12 +48,6 @@ public class Competition {
 	@Ignore
 	private Town townEntity;
 
-	@Ignore
-	private List<Match> matches;
-	
-	@Ignore
-	private List<ClassificationEntry> classification;
-
 	@Load
 	@JsonIgnore
 	private List<Ref<Team>> teams = new ArrayList<Ref<Team>>();
@@ -124,22 +118,6 @@ public class Competition {
 
 	public void setCategoryEntity(Category categoryEntity) {
 		this.categoryEntity = categoryEntity;
-	}
-
-	public List<Match> getMatches() {
-		return matches;
-	}
-
-	public void setMatches(List<Match> matches) {
-		this.matches = matches;
-	}
-
-	public List<ClassificationEntry> getClassification() {
-		return classification;
-	}
-
-	public void setClassification(List<ClassificationEntry> classification) {
-		this.classification = classification;
 	}
 
 	public Ref<Town> getTownRef() {

@@ -75,15 +75,14 @@ public class RESTController {
 
 	@RequestMapping(value = "/competitions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Competition> competitions() {
-		logger.debug("*competitions");
 		List<Competition> competitions = competitionsManager.queryCompetitions();
-		for (Competition competition : competitions) {
-			List<Match> matchesList = matchesManager.queryMatchesByCompetitionPublished(competition.getId());
-			competition.setMatches(matchesList);
-			List<ClassificationEntry> classification = classificationManager.queryClassificationBySport(competition.getId());
-			competition.setClassification(classification);
-		}
 		return competitions;
+	}
+
+	@RequestMapping(value = "/competitions/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Competition competitions(@PathVariable("competition_id") Long competitionId) {
+		Competition competition = competitionsManager.queryCompetitionsByIdEntity(competitionId);
+		return competition;
 	}
 
 	@RequestMapping(value = "/search_competitions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,8 +102,14 @@ public class RESTController {
 
 	@RequestMapping(value = "/matches/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Match> getMatches(@PathVariable("competition_id") Long competitionId) {
-		List<Match> matches = matchesManager.queryMatchesByCompetitionWorkingCopy(competitionId);
+		List<Match> matches = matchesManager.queryMatchesByCompetitionPublished(competitionId);
 		return matches;
+	}
+
+	@RequestMapping(value = "/classification/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<ClassificationEntry> getClassification(@PathVariable("competition_id") Long competitionId) {
+		List<ClassificationEntry> classificationList = classificationManager.queryClassificationByCompetition(competitionId);
+		return classificationList;
 	}
 
 	@RequestMapping(value = "/sports", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

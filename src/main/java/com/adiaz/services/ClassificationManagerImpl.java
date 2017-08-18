@@ -30,7 +30,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	}
 
 	@Override
-	public List<ClassificationEntry> queryClassificationBySport(Long idCompetition) {
+	public List<ClassificationEntry> queryClassificationByCompetition(Long idCompetition) {
 		return classificationEntriesDAO.findByCompetitionId(idCompetition);
 	}
 

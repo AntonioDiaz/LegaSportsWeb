@@ -131,7 +131,7 @@ public class CompetitionsController {
 	public ModelAndView viewClassification(@RequestParam(value = "idCompetition") Long idCompetition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		List<ClassificationEntry> classificationList = classificationManager.queryClassificationBySport(idCompetition);
+		List<ClassificationEntry> classificationList = classificationManager.queryClassificationByCompetition(idCompetition);
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("classification_list", classificationList);
 		return modelAndView;
