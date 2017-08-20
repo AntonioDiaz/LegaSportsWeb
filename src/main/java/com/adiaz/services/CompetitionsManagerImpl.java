@@ -1,5 +1,7 @@
 package com.adiaz.services;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.adiaz.entities.*;
@@ -77,12 +79,19 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown) {
-		return competitionsDAO.findCompetitions(idSport, idCategory, idTown);
+		List<Competition> competitions = competitionsDAO.findCompetitions(idSport, idCategory, idTown);
+		Collections.sort(competitions, new Comparator<Competition>() {
+			@Override
+			public int compare(Competition o1, Competition o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return competitions;
 	}
 
 	@Override
 	public List<Competition> queryCompetitions(CompetitionsFilterForm f) {
-		return competitionsDAO.findCompetitions(f.getIdSport(), f.getIdCategory(), f.getIdTown());
+		return queryCompetitions(f.getIdSport(), f.getIdCategory(), f.getIdTown());
 	}
 
 	@Override
