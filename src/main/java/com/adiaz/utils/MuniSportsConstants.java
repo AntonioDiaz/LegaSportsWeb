@@ -10,17 +10,21 @@ public class MuniSportsConstants {
 
 	public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
 
-	public static final String[] SPORTS_NAMES = new String[]{
-		"Futbol 11", "Futbol 7", "Futbol Sala", "Baloncesto", "Balonmano", "Voleybol", "Unihockey"
+	public static final String[][] SPORTS_NAMES = new String[][]{
+			{"Futbol 11", "FUTBOL_11"},
+			{"Futbol 7", "FUTBOL_7"},
+			{"Futbol Sala", "FUTBOL_SALA"},
+			{"Baloncesto", "BALONCESTO"},
+			{"Balonmano", "BALONMANO"},
+			{"Voleybol", "VOLEYBOL"},
+			{"Unihockey", "UNIHOCKEY"}};
+
+
+	public static final String BASKET = SPORTS_NAMES[3][0];
+
+	public static final String[] CATEGORIES_NAMES = new String[]{
+			"Benjamin", "Alevin", "Infantil", "Cadete", "Juvenil", "Absoluta", "Veterano"
 	};
 
 
-	public static final String BASKET = SPORTS_NAMES[3];
-
-	public static final String[] CATEGORIES_NAMES = new String[]{
-		"Benjamin", "Alevin", "Infantil", "Cadete", "Juvenil", "Absoluta", "Veterano"
-	};	
-	
-	
-	
 }

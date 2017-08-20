@@ -19,13 +19,17 @@ public class Sport implements Serializable {
 	@Index
 	private String name;
 
+	@Index
+	private String tag;
+
 	public Sport() {
 		super();
 	}	
 	
-	public Sport(String name) {
+	public Sport(String name, String tag) {
 		super();
 		this.name = name;
+		this.tag = tag;
 	}
 
 	public Long getId() {
@@ -42,5 +46,13 @@ public class Sport implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

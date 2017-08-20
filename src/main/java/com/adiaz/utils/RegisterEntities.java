@@ -37,9 +37,18 @@ public class RegisterEntities {
 	@Autowired TeamManager teamManager;
 
 	public void init() throws Exception {
-
 		registerEntities();
-
+		List<Sport> sports = sportsManager.querySports();
+		for (Sport sport : sports) {
+			String sportTag = "";
+			for (String[] sportsName : MuniSportsConstants.SPORTS_NAMES) {
+				if (sportsName[0].equals(sport.getName())) {
+					sportTag = sportsName[1];
+				}
+			}
+			sport.setTag(sportTag);
+			sportsManager.update(sport);
+		}
 	}
 	public void initLong() throws Exception {
 
@@ -77,8 +86,10 @@ public class RegisterEntities {
 		 Key<Category> keyCadete = null;
 		 Key<Category> keyJuvenil = null;
 		 Key<Category> keyInfantil= null;
-		for (String sportName : MuniSportsConstants.SPORTS_NAMES) {
-			Key<Sport> key = ofy().save().entity(new Sport(sportName)).now();
+		for (String[] sportsName : MuniSportsConstants.SPORTS_NAMES) {
+			String sportName = sportsName[0];
+			String sportTag = sportsName[1];
+			Key<Sport> key = ofy().save().entity(new Sport(sportName, sportTag)).now();
 			if (MuniSportsConstants.BASKET.equals(sportName)) {
 				keySportBasket = key;
 			}
