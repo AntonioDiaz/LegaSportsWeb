@@ -101,6 +101,7 @@ public class RESTController {
 	}
 
 	class CompetitionDetails {
+		private Long lastPublished;
 		private List<Match> matches;
 		private List<ClassificationEntry> classification;
 
@@ -119,15 +120,25 @@ public class RESTController {
 		public void setClassification(List<ClassificationEntry> classification) {
 			this.classification = classification;
 		}
+
+		public Long getLastPublished() {
+			return lastPublished;
+		}
+
+		public void setLastPublished(Long lastPublished) {
+			this.lastPublished = lastPublished;
+		}
 	}
 
 	@RequestMapping(value = "/competitiondetails/{competition_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CompetitionDetails getMatchesAndClassification(@PathVariable("competition_id") Long competitionId){
+		Competition competition = competitionsManager.queryCompetitionsByIdEntity(competitionId);
 		List<Match> matches = matchesManager.queryMatchesByCompetitionPublished(competitionId);
 		List<ClassificationEntry> classificationEntries = classificationManager.queryClassificationByCompetition(competitionId);
 		CompetitionDetails competitionDetails = new CompetitionDetails();
 		competitionDetails.matches = matches;
 		competitionDetails.classification = classificationEntries;
+		competitionDetails.setLastPublished(competition.getLastPublished().getTime());
 		return competitionDetails;
 	}
 
