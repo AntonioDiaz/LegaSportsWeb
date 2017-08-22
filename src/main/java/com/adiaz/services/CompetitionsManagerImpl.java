@@ -78,8 +78,8 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	}
 
 	@Override
-	public List<Competition> queryCompetitionsPublished(long idTown) {
-		List<Competition> competitions = competitionsDAO.findCompetitions(idTown, true);
+	public List<Competition> queryCompetitionsByTown(long idTown, boolean onlyPublished) {
+		List<Competition> competitions = competitionsDAO.findCompetitions(idTown, onlyPublished);
 		Collections.sort(competitions, new Comparator<Competition>() {
 			@Override
 			public int compare(Competition o1, Competition o2) {

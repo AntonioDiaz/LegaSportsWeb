@@ -90,7 +90,7 @@ public class RESTController {
 	public List<Competition> searchCompetitions(
 			@RequestParam(value = "idTown") Long idTown,
 			@RequestParam(value = "onlyPublished", required = false, defaultValue = "true") Boolean onlyPublised) {
-		List<Competition> competitions = competitionsManager.queryCompetitionsPublished(idTown);
+		List<Competition> competitions = competitionsManager.queryCompetitionsByTown(idTown, onlyPublised);
 		return competitions;
 	}
 
