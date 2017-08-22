@@ -9,6 +9,12 @@
         <property name="competitionRef" direction="asc"/>
         <property name="position" direction="asc"/>
     </datastore-index>
+
+    <datastore-index kind="Competition" ancestor="false" source="manual">
+        <property name="townRef" direction="asc"/>
+        <property name="lastPublished" direction="asc"/>
+    </datastore-index>
+
     <datastore-index kind="Team" ancestor="false" source="manual">
         <property name="townRef" direction="asc"/>
         <property name="name" direction="asc"/>

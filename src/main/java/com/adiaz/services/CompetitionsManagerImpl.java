@@ -78,8 +78,8 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	}
 
 	@Override
-	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown, boolean onlyPublished) {
-		List<Competition> competitions = competitionsDAO.findCompetitions(idSport, idCategory, idTown, onlyPublished);
+	public List<Competition> queryCompetitionsPublished(long idTown) {
+		List<Competition> competitions = competitionsDAO.findCompetitions(idTown, true);
 		Collections.sort(competitions, new Comparator<Competition>() {
 			@Override
 			public int compare(Competition o1, Competition o2) {
@@ -91,8 +91,16 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown) {
-		return queryCompetitions(idSport, idCategory, idTown, false);
+		List<Competition> competitions = competitionsDAO.findCompetitions(idSport, idCategory, idTown);
+		Collections.sort(competitions, new Comparator<Competition>() {
+			@Override
+			public int compare(Competition o1, Competition o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return competitions;
 	}
+
 
 	@Override
 	public List<Competition> queryCompetitions(CompetitionsFilterForm f) {

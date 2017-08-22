@@ -88,11 +88,9 @@ public class RESTController {
 
 	@RequestMapping(value = "/search_competitions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Competition> searchCompetitions(
-			@RequestParam(value = "idSport", required = false) Long idSport,
-			@RequestParam(value = "idCategory", required = false) Long idCategory,
-			@RequestParam(value = "idTown", required = false) Long idTown,
+			@RequestParam(value = "idTown") Long idTown,
 			@RequestParam(value = "onlyPublished", required = false, defaultValue = "true") Boolean onlyPublised) {
-		List<Competition> competitions = competitionsManager.queryCompetitions(idSport, idCategory, idTown, onlyPublised);
+		List<Competition> competitions = competitionsManager.queryCompetitionsPublished(idTown);
 		return competitions;
 	}
 

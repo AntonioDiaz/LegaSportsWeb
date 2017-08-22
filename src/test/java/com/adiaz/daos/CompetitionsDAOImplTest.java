@@ -188,11 +188,12 @@ public class CompetitionsDAOImplTest {
 	public void findCompetitionsBySportAndCategory_filterPublised() throws Exception {
 		Key<Competition> key = createCompetition(refTownLeganes);
 		Assert.assertEquals(1, competitionsDAO.findCompetitions(null, null, null).size());
-		Assert.assertEquals(0, competitionsDAO.findCompetitions(null, null, null, true).size());
+		Assert.assertEquals(0, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), true).size());
+		Assert.assertEquals(1, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), false).size());
 		Competition competition = Ref.create(key).getValue();
 		competition.setLastPublished(new Date());
 		competitionsDAO.update(competition);
-		Assert.assertEquals(1, competitionsDAO.findCompetitions(null, null, null, true).size());
+		Assert.assertEquals(1, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), true).size());
 	}
 		@Test
 	public void findCompetitionsById() throws Exception {

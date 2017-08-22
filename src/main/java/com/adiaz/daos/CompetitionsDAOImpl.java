@@ -57,12 +57,18 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 
 	@Override
-	public List<Competition> findCompetitions(Long idSport, Long idCategory, Long idTown) {
-		return findCompetitions(idSport, idCategory, idTown, false);
+	public List<Competition> findCompetitions(Long idTown, boolean onlyPublished) {
+		Query<Competition> query = ofy().load().type(Competition.class);
+		Key<Town> key = Key.create(Town.class, idTown);
+		query = query.filter("townRef", key);
+		if (onlyPublished) {
+			query = query.filter("lastPublished !=", null);
+		}
+		return query.list();
 	}
 
 		@Override
-	public List<Competition> findCompetitions(Long idSport, Long idCategory, Long idTown, boolean onlyPublished) {
+	public List<Competition> findCompetitions(Long idSport, Long idCategory, Long idTown) {
 		Query<Competition> query = ofy().load().type(Competition.class);
 		if (idSport!=null) {
 			Key<Sport> key = Key.create(Sport.class, idSport);
@@ -75,9 +81,6 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 		if (idTown!=null) {
 			Key<Town> key = Key.create(Town.class, idTown);
 			query = query.filter("townRef", key);
-		}
-		if (onlyPublished) {
-			query = query.filter("lastPublished !=", null);
 		}
 		return query.list();
 	}
