@@ -206,7 +206,7 @@ public class CompetitionsController {
 		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
 			matchesManager.updatePublishedMatches(idCompetition);
 			Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-			competition.setLastUpdate(new Date());
+			competition.setLastPublished(new Date());
 			competitionsManager.update(competition);
 			redirectTo += "&publish_done=true";
 		} else {

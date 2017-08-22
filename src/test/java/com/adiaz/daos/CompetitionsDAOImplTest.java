@@ -19,6 +19,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.Date;
+
 /**
  * Created by toni on 11/07/2017.
  */
@@ -183,6 +185,16 @@ public class CompetitionsDAOImplTest {
 	}
 
 	@Test
+	public void findCompetitionsBySportAndCategory_filterPublised() throws Exception {
+		Key<Competition> key = createCompetition(refTownLeganes);
+		Assert.assertEquals(1, competitionsDAO.findCompetitions(null, null, null).size());
+		Assert.assertEquals(0, competitionsDAO.findCompetitions(null, null, null, true).size());
+		Competition competition = Ref.create(key).getValue();
+		competition.setLastPublished(new Date());
+		competitionsDAO.update(competition);
+		Assert.assertEquals(1, competitionsDAO.findCompetitions(null, null, null, true).size());
+	}
+		@Test
 	public void findCompetitionsById() throws Exception {
 		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
 		Competition competition = Ref.create(key).getValue();

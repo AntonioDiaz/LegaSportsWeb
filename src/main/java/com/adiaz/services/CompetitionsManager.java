@@ -16,6 +16,7 @@ public interface CompetitionsManager {
 	public boolean update(Long idCompetition, CompetitionsForm competitionsForm) throws Exception;
 	public List<Competition> queryCompetitions();
 	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown);
+	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown, boolean onlyPublished);
 	public List<Competition> queryCompetitions(CompetitionsFilterForm competitionsFilterForm);
 	public CompetitionsForm queryCompetitionsById(long id);
 	public Competition queryCompetitionsByIdEntity(long id);

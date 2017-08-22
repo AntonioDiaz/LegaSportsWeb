@@ -52,7 +52,8 @@ public class Competition {
 	@JsonIgnore
 	private List<Ref<Team>> teams = new ArrayList<Ref<Team>>();
 
-	private Date lastUpdate;
+	@Index
+	private Date lastPublished;
 
 
 	@OnLoad
@@ -144,11 +145,11 @@ public class Competition {
 		this.teams = teams;
 	}
 
-	public Date getLastUpdate() {
-		return lastUpdate;
+	public Date getLastPublished() {
+		return lastPublished;
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	public void setLastPublished(Date lastPublished) {
+		this.lastPublished = lastPublished;
 	}
 }

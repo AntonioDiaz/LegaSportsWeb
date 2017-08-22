@@ -38,17 +38,6 @@ public class RegisterEntities {
 
 	public void init() throws Exception {
 		registerEntities();
-		List<Sport> sports = sportsManager.querySports();
-		for (Sport sport : sports) {
-			String sportTag = "";
-			for (String[] sportsName : MuniSportsConstants.SPORTS_NAMES) {
-				if (sportsName[0].equals(sport.getName())) {
-					sportTag = sportsName[1];
-				}
-			}
-			sport.setTag(sportTag);
-			sportsManager.update(sport);
-		}
 	}
 	public void initLong() throws Exception {
 

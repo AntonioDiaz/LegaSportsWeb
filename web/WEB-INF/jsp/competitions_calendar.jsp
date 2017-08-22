@@ -333,11 +333,11 @@
 				<div class="row font_subtitle">
 					<div class="col-sm-5"><small>Fecha publicación</small></div>
 					<div>
-						<c:if test="${competition.lastUpdate eq null}">
+						<c:if test="${competition.lastPublished eq null}">
 							Sin publicar
 						</c:if>
-						<c:if test="${competition.lastUpdate ne null}">
-							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastUpdate}"></fmt:formatDate>
+						<c:if test="${competition.lastPublished ne null}">
+							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastPublished}"></fmt:formatDate>
 						</c:if>
 					</div>
 				</div>
