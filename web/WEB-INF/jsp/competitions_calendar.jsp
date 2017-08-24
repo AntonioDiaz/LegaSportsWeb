@@ -1,5 +1,9 @@
 <%@include file="taglibs.jsp" %>
+<spring:eval var="CONSTANT_PENDING" expression="T(com.adiaz.utils.MuniSportsConstants).MATCH_STATE_PENDING"></spring:eval>
+<spring:eval var="CONSTANT_PLAYED" expression="T(com.adiaz.utils.MuniSportsConstants).MATCH_STATE_PLAYED"></spring:eval>
+<spring:eval var="CONSTANT_CANCELED" expression="T(com.adiaz.utils.MuniSportsConstants).MATCH_STATE_CANCELED"></spring:eval>
 <!-- Modal -->
+
 <div id="updatePopup" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-sm" style="width: 45%">
 		<!-- Modal content-->
@@ -59,6 +63,18 @@
 							<option value=""></option>
 							<c:forEach var="court" items="${courts}">
 								<option value="${court.id}">${court.nameWithCenter}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				<div class="row modal-row-munisports">
+					<div class="col-sm-4">
+						Estado
+					</div>
+					<div class="col-sm-8">
+						<select class="form-control" id="selectState" onchange="javascript:fUpdatedState()">
+							<c:forEach var="state" items="${states}">
+								<option value="${state.value}">${state.stateDesc}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -143,6 +159,13 @@
 
 	});
 
+	function fUpdatedState(){
+		let newState = $('#selectState').val();
+		var setScoreReadonly = newState==MATCH_STATE_PENDING || newState==MATCH_STATE_CANCELED;
+		$('#inputScoreVisitor').prop("readonly", setScoreReadonly)
+		$('#inputScoreLocal').prop("readonly", setScoreReadonly)
+	}
+
 	/* if the date has wrong format mark the input as error. */
 	function fValidateDate() {
 		const pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2})$/g;
@@ -181,6 +204,7 @@
 		var scoreVisitor = matchSelected.scoreVisitor;
 		var matchDate = matchSelected.dateStr;
 		var matchCourtId = matchSelected.courtId;
+		var matchState = matchSelected.state;
 		/* init popup values */
 		$('#weekNumber').html(week);
 		//$('#scoreLocalTeam').html(local);
@@ -210,6 +234,8 @@
 		} else {
 			$('#selectTeamVisitor option[value=""]').prop("selected", "selected");
 		}
+		$('#selectState option[value="' + matchState + '"]').prop("selected", "selected");
+
 		$('#score_button_accept').prop("disabled", false);
 		$('#inputMatchDate').parent().removeClass("has-error");
 		$('#updatePopup').modal('show');
@@ -222,7 +248,8 @@
 				teamLocalId: $('#selectTeamLocal').val(),
 				teamVisitorId: $('#selectTeamVisitor').val(),
 				scoreLocal: $('#inputScoreLocal').val(),
-				scoreVisitor: $('#inputScoreVisitor').val()
+				scoreVisitor: $('#inputScoreVisitor').val(),
+				state: $('#selectState').val()
 			};
 			$.ajax({
 				url: '/server/match/' + idMatch,
@@ -234,6 +261,7 @@
 				}
 			});
 		});
+		fUpdatedState();
 	}
 
 	/*Update view and array.*/
@@ -255,9 +283,20 @@
 				matchesArray[indexArray].teamLocalName = result.teamLocalName;
 				matchesArray[indexArray].teamVisitorId = result.teamVisitorId;
 				matchesArray[indexArray].teamVisitorName = result.teamVisitorName;
+				matchesArray[indexArray].state = result.state;
 				$("#teamlocal_" + matchSelected.id).html(result.teamLocalName ==  null ? " - " : result.teamLocalName);
 				$("#teamvisitor_" + matchSelected.id).html(result.teamVisitorName ==  null ? " - " : result.teamVisitorName);
-				$("#score_" + matchSelected.id).html(result.scoreLocal + " - " + result.scoreVisitor);
+				var strScore;
+				if (matchesArray[indexArray].state==MATCH_STATE_PENDING) {
+					strScore = "(Pendiente)";
+				}
+				if (matchesArray[indexArray].state==MATCH_STATE_PLAYED) {
+					strScore = result.scoreLocal + " - " + result.scoreVisitor;
+				}
+				if (matchesArray[indexArray].state==MATCH_STATE_CANCELED) {
+					strScore = "(Cancelado)";
+				}
+				$("#score_" + matchSelected.id).html(strScore);
 				$("#date_" + matchSelected.id).html(result.dateStr == null ? " - " : result.dateStr);
 				$("#place_" + matchSelected.id).html(result.courtName==null? " - " : result.courtName);
 				/* mark fields add updated. */
@@ -288,7 +327,7 @@
 	}
 
 	$('#updatePopup').on('shown.bs.modal', function () {
-		$(this).find("#inputScoreLocal").focus();
+		$(this).find("#selectState").focus();
 	});
 
 	/*Init matchesArray*/
@@ -305,7 +344,8 @@
 			scoreVisitor: ${matchForm.scoreVisitor},
 			dateStr: "${matchForm.dateStr}",
 			courtId: "${matchForm.courtId}",
-			courtName: "${matchForm.courtName}"
+			courtName: "${matchForm.courtName}",
+			state: "${matchForm.state}"
 		}
 	</c:forEach>
 </script>
@@ -439,7 +479,15 @@
 						</td>
 						<td class="col-sm-1">
 							<div id="score_${matchForm.id}" class="${updated_score}">
-									${matchForm.scoreLocal} - ${matchForm.scoreVisitor}
+									<c:if test="${matchForm.state==CONSTANT_PENDING}">
+										(Pendiente)
+									</c:if>
+									<c:if test="${matchForm.state==CONSTANT_PLAYED}">
+										${matchForm.scoreLocal} - ${matchForm.scoreVisitor}
+									</c:if>
+									<c:if test="${matchForm.state==CONSTANT_CANCELED}">
+										(Cancelado)
+									</c:if>
 							</div>
 						</td>
 						<td class="col-sm-3">

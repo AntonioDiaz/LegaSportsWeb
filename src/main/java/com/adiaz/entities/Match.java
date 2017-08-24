@@ -54,10 +54,12 @@ public class Match {
 	@Ignore
 	private SportCenterCourt sportCenterCourt;
 
+	/** if workingCopy==false then this is the match published.	*/
 	@Index
 	private boolean workingCopy;
 
 
+	/** matchPublishedRef is a reference to the match published, this only make sense when workingCopy==false.*/
 	@Load
 	@JsonIgnore
 	private Ref<Match> matchPublishedRef;
@@ -72,6 +74,8 @@ public class Match {
 	@Ignore
 	private Team teamVisitorEntity;
 
+	/* match state: 0 pending, 1 played, 2 cancel. */
+	private Short state;
 
 	@OnLoad
 	public void getRefs() {
@@ -229,5 +233,13 @@ public class Match {
 
 	public void setTeamVisitorEntity(Team teamVisitorEntity) {
 		this.teamVisitorEntity = teamVisitorEntity;
+	}
+
+	public Short getState() {
+		return state;
+	}
+
+	public void setState(Short state) {
+		this.state = state;
 	}
 }

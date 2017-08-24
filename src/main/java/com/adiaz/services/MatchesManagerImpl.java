@@ -11,6 +11,7 @@ import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.utils.MatchFormUtils;
+import com.adiaz.utils.MuniSportsConstants;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -61,6 +62,11 @@ public class MatchesManagerImpl implements MatchesManager {
 	public boolean update(MatchForm matchForm) throws Exception {
 		Match match = queryMatchesById(matchForm.getId());
 		matchFormUtils.formToEntity(match, matchForm);
+		if (match.getState()== MuniSportsConstants.MATCH_STATE_CANCELED
+				|| match.getState()==MuniSportsConstants.MATCH_STATE_PENDING) {
+			match.setScoreLocal(0);
+			match.setScoreVisitor(0);
+		}
 		return matchesDAO.update(match);
 	}
 
@@ -76,6 +82,7 @@ public class MatchesManagerImpl implements MatchesManager {
 			published.setSportCenterCourtRef(match.getSportCenterCourtRef());
 			published.setTeamLocalRef(match.getTeamLocalRef());
 			published.setTeamVisitorRef(match.getTeamVisitorRef());
+			published.setState(match.getState());
 			//// TODO: 22/07/2017 optimize this method, could be better to send a list of entities to update 
 			matchesDAO.update(published);
 		}

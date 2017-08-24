@@ -40,7 +40,7 @@ public class MuniSportsUtils {
 				match.setWeek(week);
 				match.setTeamLocalRef(teamsMap.get(strings[2]));
 				match.setTeamVisitorRef(teamsMap.get(strings[3]));
-
+				match.setState(MuniSportsConstants.MATCH_STATE.PENDING.getValue());
 
 				match.setWorkingCopy(false);
 				if (strings.length >= 5) {

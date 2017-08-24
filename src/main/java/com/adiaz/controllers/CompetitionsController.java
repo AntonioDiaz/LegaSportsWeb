@@ -8,6 +8,7 @@ import com.adiaz.services.*;
 
 import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
+import com.adiaz.utils.MuniSportsConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -120,6 +121,7 @@ public class CompetitionsController {
 		modelAndView.addObject("matches_list", matchesList);
 		modelAndView.addObject("weeks_count", howManyWeek);
 		modelAndView.addObject("courts", courts);
+		modelAndView.addObject("states", MuniSportsConstants.MATCH_STATE.values());
 		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("publish_done", publishDone);

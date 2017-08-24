@@ -60,6 +60,7 @@ public class SportsCourtForm {
 	public void setNameCenter(String nameCenter) {
 		this.nameCenter = nameCenter;
 	}
+
 	public SportCenterCourt getCourt() {
 		SportCenterCourt sportCenterCourt = new SportCenterCourt();
 		sportCenterCourt.setId(this.getIdCourt());

@@ -1,6 +1,8 @@
 package com.adiaz.utils;
 
 
+import java.io.Serializable;
+
 public class MuniSportsConstants {
 
 	public static final String PHONE_PATTERN = "^(\\d{9})$";
@@ -25,6 +27,28 @@ public class MuniSportsConstants {
 	public static final String[] CATEGORIES_NAMES = new String[]{
 			"Benjamin", "Alevin", "Infantil", "Cadete", "Juvenil", "Absoluta", "Veterano"
 	};
+
+	public enum MATCH_STATE {
+		PENDING((short)0, "Pendiente"), PLAYED((short)1, "Jugado"), CANCELED((short)2, "Cancelado");
+		private short value;
+		private String stateDesc;
+		MATCH_STATE(short i, String stateDesc) {
+			this.value = i;
+			this.stateDesc = stateDesc;
+		}
+
+		public short getValue() {
+			return value;
+		}
+
+		public String getStateDesc() {
+			return stateDesc;
+		}
+	}
+
+	public static short MATCH_STATE_PENDING = MATCH_STATE.PENDING.getValue();
+	public static short MATCH_STATE_PLAYED = MATCH_STATE.PLAYED.getValue();
+	public static short MATCH_STATE_CANCELED = MATCH_STATE.CANCELED.getValue();
 
 
 }

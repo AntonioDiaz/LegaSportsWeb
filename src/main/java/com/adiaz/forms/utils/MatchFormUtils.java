@@ -55,6 +55,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 			Ref<Team> refVisitor = Ref.create(key);
 			match.setTeamVisitorRef(refVisitor);
 		}
+		match.setState(matchForm.getState());
 	}
 
 	@Override
@@ -93,9 +94,12 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 		}
 		if (e.getMatchPublished()!=null) {
 			Match matchPublished = e.getMatchPublished();
-			if (e.getScoreLocal()!=matchPublished.getScoreLocal() || e.getScoreVisitor()!=matchPublished.getScoreVisitor()) {
+			if (e.getScoreLocal()!=matchPublished.getScoreLocal()
+					|| e.getScoreVisitor()!=matchPublished.getScoreVisitor()
+					|| e.getState()!=matchPublished.getState()) {
 				f.setUpdatedScore(true);
 			}
+
 			if (!Objects.equals(e.getDate(), matchPublished.getDate())) {
 				f.setUpdatedDate(true);
 			}
@@ -109,6 +113,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 				f.setUpdatedTeamVisitor(true);
 			}
 		}
+		f.setState(e.getState());
 		return f;
 	}
 }

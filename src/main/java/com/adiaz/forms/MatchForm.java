@@ -20,6 +20,7 @@ public class MatchForm {
 	private boolean updatedCourt;
 	private boolean updatedTeamLocal;
 	private boolean updatedTeamVisitor;
+	private Short state;
 
 	public boolean checkIfChangesToPublish() {
 		return updatedDate || updatedCourt || updatedScore || updatedTeamLocal || updatedTeamVisitor;
@@ -152,5 +153,13 @@ public class MatchForm {
 
 	public void setUpdatedTeamVisitor(boolean updatedTeamVisitor) {
 		this.updatedTeamVisitor = updatedTeamVisitor;
+	}
+
+	public Short getState() {
+		return state;
+	}
+
+	public void setState(Short state) {
+		this.state = state;
 	}
 }

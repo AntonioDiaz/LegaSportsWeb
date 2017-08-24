@@ -1,6 +1,7 @@
 	
 <form:hidden path="idCenter"></form:hidden>
 <form:hidden path="idCourt"></form:hidden>
+<form:hidden path="nameCenter"></form:hidden>
 
 <div class="form-group">
 	<label class="control-label col-sm-2">Nombre de la pista</label> 
