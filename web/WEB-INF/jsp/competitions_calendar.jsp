@@ -50,8 +50,20 @@
 						Fecha y hora
 					</div>
 					<div class="col-sm-8">
-						<input class="form-control" id="inputMatchDate" type="text" maxlength="16" placeholder="dd/MM/yyyy hh:mm"
-							   onchange="javascript:fValidateDate()">
+						<div class='input-group date' id='inputMatchDate'>
+							<input type='text' class="form-control" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+						<script type="text/javascript">
+							$(function () {
+								$('#inputMatchDate').datetimepicker({
+									format: DATE_FORMAT,
+									locale: 'es'
+								});
+							});
+						</script>
 					</div>
 				</div>
 				<div class="row modal-row-munisports">
@@ -166,19 +178,6 @@
 		$('#inputScoreLocal').prop("readonly", setScoreReadonly)
 	}
 
-	/* if the date has wrong format mark the input as error. */
-	function fValidateDate() {
-		const pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2})$/g;
-		let newDate = $('#inputMatchDate').val();
-		let isValidDate = newDate == "" || pattern.test(newDate);
-		$('#score_button_accept').prop("disabled", !isValidDate);
-		$('#inputMatchDate').parent().removeClass("has-error");
-		if (!isValidDate) {
-			$('#inputMatchDate').parent().addClass("has-error");
-		}
-
-	}
-
 	/* show the div with the week selected, if none is selected show every week. */
 	function fUpdateWeekCalendar() {
 		if ($("#week_selection").val()) {
@@ -217,13 +216,12 @@
 		$('#inputScoreVisitor').focus(function () {
 			$(this).select();
 		});
-		$('#inputMatchDate').val(matchDate);
+		$('#inputMatchDate').data("DateTimePicker").date(moment(matchDate, DATE_FORMAT));
 		if (matchCourtId != null) {
 			$('#selectMatchCourt option[value="' + matchCourtId + '"]').prop("selected", "selected");
 		} else {
 			$('#selectMatchCourt option[value=""]').prop("selected", "selected");
 		}
-		console.log("teamLocalId " + teamLocalId)
 		if (teamLocalId!= null) {
 			$('#selectTeamLocal option[value="' + teamLocalId + '"]').prop("selected", "selected");
 		} else {
@@ -244,7 +242,7 @@
 			let newMatch = {
 				id: matchSelected.id,
 				courtId: $('#selectMatchCourt').val(),
-				dateStr: $('#inputMatchDate').val(),
+				dateStr: $('#inputMatchDate').data("DateTimePicker").date().format(DATE_FORMAT),
 				teamLocalId: $('#selectTeamLocal').val(),
 				teamVisitorId: $('#selectTeamVisitor').val(),
 				scoreLocal: $('#inputScoreLocal').val(),
