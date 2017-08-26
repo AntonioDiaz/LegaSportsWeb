@@ -33,29 +33,43 @@
 	</div>
 </div>
 <hr>
-<table class="table table-hover table-condensed">
-	<thead>
-	<tr>
-	 	<th class="col-sm-3">Posición</th>
-	 	<th class="col-sm-3">Equipo</th>
-	 	<th class="col-sm-3">Puntos</th>
-	 	<th class="col-sm-1">PJ</th>
-	 	<th class="col-sm-1">PG</th>
-	 	<th class="col-sm-1">PE</th>
-	 	<th class="col-sm-1">PP</th>
-	</tr> 	
-	</thead>
-	<c:forEach var="entry" items="${classification_list}">
-		<tbody>
-	 	<tr>
-		 	<td class="col-sm-4">${entry.position}</td>
-		 	<td class="col-sm-4">${entry.team}</td>
-		 	<td class="col-sm-4">${entry.points}</td>
-		 	<td class="col-sm-4">${entry.matchesPlayed}</td>
-		 	<td class="col-sm-4">${entry.matchesWon}</td>
-		 	<td class="col-sm-4">${entry.matchesDrawn}</td>
-		 	<td class="col-sm-4">${entry.matchesLost}</td>
-	 	</tr> 
-	 	</tbody>
-	</c:forEach>
-</table>
+<div class="row">
+	<div class="col-sm-6">
+		<table id="classificationTable" class="table table-hover table-condensed">
+			<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th style="text-align: left">Equipo</th>
+				<th title="Partidos Jugados">PJ</th>
+				<th title="Partidos Ganados">PG</th>
+				<th title="Partidos Empatados">PE</th>
+				<th title="Partidos Perdidos">PP</th>
+				<th title="Tantos a Favor">TF</th>
+				<th title="Tantos en Contra">TC</th>
+				<th title="Diferencia de tantos">DT</th>
+				<th>Puntos</th>
+			</tr>
+			</thead>
+			<c:forEach var="entry" items="${classification_list}">
+				<tbody>
+				<tr>
+					<td>${entry.position}</td>
+					<td style="white-space: nowrap; text-align: left">${entry.teamEntity.name}</td>
+					<td>${entry.matchesPlayed}</td>
+					<td>${entry.matchesWon}</td>
+					<td>${entry.matchesDrawn}</td>
+					<td>${entry.matchesLost}</td>
+					<td>${entry.goalsFor}</td>
+					<td>${entry.goalsAgainst}</td>
+					<td>${entry.goalsFor - entry.goalsAgainst}</td>
+					<td>${entry.points}</td>
+				</tr>
+				</tbody>
+			</c:forEach>
+		</table>
+	</div>
+	<div class="col-sm-6">
+
+	</div>
+
+</div>

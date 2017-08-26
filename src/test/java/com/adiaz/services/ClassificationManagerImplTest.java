@@ -28,7 +28,7 @@ public class ClassificationManagerImplTest {
     @Autowired
     ClassificationManager classificationManager;
 
-    @Before
+	@Before
     public void setUp() throws Exception {
         helper.setUp();
         ObjectifyService.register(ClassificationEntry.class);
@@ -43,7 +43,7 @@ public class ClassificationManagerImplTest {
     @Test
     public void add() throws Exception {
         ClassificationEntry c = new ClassificationEntry();
-        c.setTeam("team");
+        //c.setTeam("team");
         classificationManager.add(c);
         assertEquals(1, 1);
     }

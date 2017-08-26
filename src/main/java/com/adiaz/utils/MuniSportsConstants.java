@@ -46,9 +46,11 @@ public class MuniSportsConstants {
 		}
 	}
 
-	public static short MATCH_STATE_PENDING = MATCH_STATE.PENDING.getValue();
-	public static short MATCH_STATE_PLAYED = MATCH_STATE.PLAYED.getValue();
-	public static short MATCH_STATE_CANCELED = MATCH_STATE.CANCELED.getValue();
+	public static final short MATCH_STATE_PENDING = MATCH_STATE.PENDING.getValue();
+	public static final short MATCH_STATE_PLAYED = MATCH_STATE.PLAYED.getValue();
+	public static final short MATCH_STATE_CANCELED = MATCH_STATE.CANCELED.getValue();
 
-
+	public static final int POINTS_WON = 3;
+	public static final int POINTS_DRAWN = 1;
+	public static final int POINTS_LOST = 0;
 }

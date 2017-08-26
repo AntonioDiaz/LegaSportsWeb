@@ -77,3 +77,15 @@ input:-webkit-autofill:focus {
 .font_title{font-size: 30px}
 .font_subtitle{font-size: 20px}
 .custom-header {background: #000000; color: #ffffff;padding: 5px;}
+
+#classificationTable td {
+	text-align:center;
+	vertical-align:middle;
+	font-size: 13px;
+}
+
+#classificationTable th {
+	text-align:center;
+	vertical-align:middle;
+	font-size: 13px;
+}

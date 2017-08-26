@@ -70,6 +70,11 @@ public class MatchesManagerImpl implements MatchesManager {
 		return matchesDAO.update(match);
 	}
 
+	/**
+	 * Move all changes from the working copy to the published copy.
+	 * @param idCompetition
+	 * @throws Exception
+	 */
 	@Override
 	public void updatePublishedMatches(Long idCompetition) throws Exception {
 		List<Match> matches = queryMatchesByCompetitionWorkingCopy(idCompetition);
@@ -172,6 +177,7 @@ public class MatchesManagerImpl implements MatchesManager {
 				match.setCompetitionRef(competitionRef);
 				match.setSportCenterCourtRef(courtRef);
 				match.setWeek(i+1);
+				match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
 				addPublishedAndWorkingcopy(match);
 			}
 		}

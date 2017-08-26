@@ -38,6 +38,9 @@ public class RegisterEntities {
 
 	public void init() throws Exception {
 		registerEntities();
+		for (Competition competition : competitionsManager.queryCompetitions()) {
+			classificationManager.initClassification(competition.getId());
+		}
 	}
 	public void initLong() throws Exception {
 
@@ -83,7 +86,7 @@ public class RegisterEntities {
 				keySportBasket = key;
 			}
 		}
-		
+
 		/* load categories */
 		String[] categoriesNames = MuniSportsConstants.CATEGORIES_NAMES;
 		int order = 0;
@@ -136,8 +139,7 @@ public class RegisterEntities {
 			Long idCompetition = createCompetition(LIGA_DIVISION_HONOR, keyJuvenil, keySportBasket, keyLega, teamsRefList);
 			List<Match> matchesList = MuniSportsUtils.parseCalendar(idCompetition, Ref.create(courtKey), teamsMap);
 			matchesManager.addMatchListAndPublish(matchesList);
-			List<ClassificationEntry> classificationList = MuniSportsUtils.parseClassification(idCompetition);
-			classificationManager.add(classificationList);
+			classificationManager.initClassification(idCompetition);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

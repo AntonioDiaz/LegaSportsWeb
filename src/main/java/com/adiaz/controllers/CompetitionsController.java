@@ -163,9 +163,9 @@ public class CompetitionsController {
 			modelAndView.addObject("teams_available", teamManager.queryByCompetition(competition.getId()));
 			modelAndView.addObject("my_form", form);
 		} else {
-
 			//competitionsManager.updateAddTeams();
 			matchesManager.generateCalendar(form);
+			classificationManager.initClassification(form.getIdCompetition());
 			String viewStr = "redirect:/competitions/viewCalendar?idCompetition=" + form.getIdCompetition();
 			modelAndView.setViewName(viewStr);
 		}
@@ -207,6 +207,7 @@ public class CompetitionsController {
 		String redirectTo = "redirect:/competitions/viewCalendar?idCompetition=" +  idCompetition;
 		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
 			matchesManager.updatePublishedMatches(idCompetition);
+			classificationManager.updateClassificationByCompetition(idCompetition);
 			Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 			competition.setLastPublished(new Date());
 			competitionsManager.update(competition);

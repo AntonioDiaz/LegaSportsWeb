@@ -13,4 +13,8 @@ public interface ClassificationManager {
 	public List<ClassificationEntry> queryClassificationByCompetition(Long idCompetition);
 	public void add(List<ClassificationEntry> classificationList) throws Exception;
 
-}
+	public void updateClassificationByCompetition(Long idCompetition);
+	public void initClassification(Long idCompetition);
+
+
+	}

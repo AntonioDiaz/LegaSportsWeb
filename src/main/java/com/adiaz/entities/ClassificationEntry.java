@@ -2,10 +2,7 @@ package com.adiaz.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
+import com.googlecode.objectify.annotation.*;
 
 @Entity
 public class ClassificationEntry {
@@ -18,17 +15,40 @@ public class ClassificationEntry {
 	@JsonIgnore
 	private Ref<Competition> competitionRef;
 
+	@Ignore
+	Competition competition;
+
+	@Index
+	@Load
+	@JsonIgnore
+	private Ref<Team> teamRef;
+
+	@Ignore
+	private Team teamEntity;
+
 	@Index
 	private Integer position;	
-	
-	@Index
-	private String team;
 	
 	private Integer points;
 	private Integer matchesPlayed;
 	private Integer matchesWon;
 	private Integer matchesDrawn;
 	private Integer matchesLost;
+	private Integer goalsFor;
+	private Integer goalsAgainst;
+
+
+	private String team;
+
+	@OnLoad
+	public void getRefs() {
+		if (teamRef!=null && teamRef.isLoaded() ) {
+			teamEntity = teamRef.get();
+		}
+		if (competitionRef!=null && competitionRef.isLoaded()){
+			competition = competitionRef.get();
+		}
+	}
 
 	public Long getId() {
 		return id;
@@ -52,14 +72,6 @@ public class ClassificationEntry {
 
 	public void setPosition(Integer position) {
 		this.position = position;
-	}
-
-	public String getTeam() {
-		return team;
-	}
-
-	public void setTeam(String team) {
-		this.team = team;
 	}
 
 	public Integer getPoints() {
@@ -102,7 +114,51 @@ public class ClassificationEntry {
 		this.matchesLost = matchesLost;
 	}
 
-	
-	
-	
+	public Ref<Team> getTeamRef() {
+		return teamRef;
+	}
+
+	public void setTeamRef(Ref<Team> teamRef) {
+		this.teamRef = teamRef;
+	}
+
+	public Team getTeamEntity() {
+		return teamEntity;
+	}
+
+	public void setTeamEntity(Team teamEntity) {
+		this.teamEntity = teamEntity;
+	}
+
+	public String getTeam() {
+		return team;
+	}
+
+	public void setTeam(String team) {
+		this.team = team;
+	}
+
+	public Competition getCompetition() {
+		return competition;
+	}
+
+	public void setCompetition(Competition competition) {
+		this.competition = competition;
+	}
+
+	public Integer getGoalsFor() {
+		return goalsFor;
+	}
+
+	public void setGoalsFor(Integer goalsFor) {
+		this.goalsFor = goalsFor;
+	}
+
+	public Integer getGoalsAgainst() {
+		return goalsAgainst;
+	}
+
+	public void setGoalsAgainst(Integer goalsAgainst) {
+		this.goalsAgainst = goalsAgainst;
+	}
 }

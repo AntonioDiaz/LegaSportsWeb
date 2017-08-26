@@ -63,4 +63,14 @@ public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 	public List<ClassificationEntry> findAll() {
 		return ofy().load().type(ClassificationEntry.class).list();
 	}
+
+	@Override
+	public void remove(Iterable<ClassificationEntry> listToDelete) {
+		ofy().delete().entities(listToDelete).now();
+	}
+
+	@Override
+	public void save(Iterable<ClassificationEntry> listToUpdate) {
+		ofy().save().entities(listToUpdate).now();
+	}
 }
