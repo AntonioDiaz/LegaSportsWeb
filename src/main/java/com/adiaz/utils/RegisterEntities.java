@@ -38,9 +38,6 @@ public class RegisterEntities {
 
 	public void init() throws Exception {
 		registerEntities();
-		for (Competition competition : competitionsManager.queryCompetitions()) {
-			classificationManager.initClassification(competition.getId());
-		}
 	}
 	public void initLong() throws Exception {
 

@@ -38,7 +38,19 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	@Override
 	public Long add(Match match) throws Exception {
+		initMatchStateAndScores(match);
 		return matchesDAO.create(match).getId();
+	}
+
+	private void initMatchStateAndScores(Match match) {
+		if (match.getState()==null) {
+			match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
+		}
+		if (match.getState()== MuniSportsConstants.MATCH_STATE_CANCELED
+				|| match.getState()==MuniSportsConstants.MATCH_STATE_PENDING) {
+			match.setScoreLocal(0);
+			match.setScoreVisitor(0);
+		}
 	}
 
 	@Override
@@ -62,11 +74,12 @@ public class MatchesManagerImpl implements MatchesManager {
 	public boolean update(MatchForm matchForm) throws Exception {
 		Match match = queryMatchesById(matchForm.getId());
 		matchFormUtils.formToEntity(match, matchForm);
-		if (match.getState()== MuniSportsConstants.MATCH_STATE_CANCELED
-				|| match.getState()==MuniSportsConstants.MATCH_STATE_PENDING) {
-			match.setScoreLocal(0);
-			match.setScoreVisitor(0);
-		}
+		return update(match);
+	}
+
+	@Override
+	public boolean update(Match match) throws Exception {
+		initMatchStateAndScores(match);
 		return matchesDAO.update(match);
 	}
 

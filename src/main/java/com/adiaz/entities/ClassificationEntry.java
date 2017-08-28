@@ -16,6 +16,7 @@ public class ClassificationEntry {
 	private Ref<Competition> competitionRef;
 
 	@Ignore
+	@JsonIgnore
 	Competition competition;
 
 	@Index
@@ -24,6 +25,7 @@ public class ClassificationEntry {
 	private Ref<Team> teamRef;
 
 	@Ignore
+	@JsonIgnore
 	private Team teamEntity;
 
 	@Index
@@ -44,6 +46,7 @@ public class ClassificationEntry {
 	public void getRefs() {
 		if (teamRef!=null && teamRef.isLoaded() ) {
 			teamEntity = teamRef.get();
+			team = teamRef.get().getName();
 		}
 		if (competitionRef!=null && competitionRef.isLoaded()){
 			competition = competitionRef.get();

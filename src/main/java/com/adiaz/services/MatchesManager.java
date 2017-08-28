@@ -13,6 +13,7 @@ public interface MatchesManager {
 	public boolean remove(Match item) throws Exception;
 	public void removeAll() throws Exception;	
 	public boolean update(MatchForm matchForm) throws Exception;
+	public boolean update(Match match) throws Exception;
 	public void updatePublishedMatches(Long idCompetition) throws Exception;
 	public boolean checkUpdatesToPublish(Long idCompetition) throws Exception;
 	public List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId);
