@@ -73,10 +73,10 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		List<Match> matches = matchesDAO.findByCompetition(idCompetition);
 		for (Match match : matches) {
 			if (match.getState()== MuniSportsConstants.MATCH_STATE.PLAYED.getValue()
-					&&  match.getTeamLocalEntity()!=null
-					&&  match.getTeamVisitorEntity()!=null) {
-				Long idTeamLocal = match.getTeamLocalEntity().getId();
-				Long idTeamVisitor = match.getTeamVisitorEntity().getId();
+					&&  match.getTeamLocalRef()!=null
+					&&  match.getTeamVisitorRef()!=null) {
+				Long idTeamLocal = match.getTeamLocalRef().get().getId();
+				Long idTeamVisitor = match.getTeamVisitorRef().get().getId();
 				ClassificationEntry teamLocalEntry = teamsMap.get(idTeamLocal);
 				ClassificationEntry teamVisitorEntry = teamsMap.get(idTeamVisitor);
 				int matchesPlayedLocal = teamLocalEntry.getMatchesPlayed();
