@@ -239,10 +239,14 @@
 		$('#updatePopup').modal('show');
 		$('#score_button_accept').off('click');
 		$("#score_button_accept").click(function () {
+			var newDateStr = "";
+			if ($('#inputMatchDate').data("DateTimePicker").date()!=null) {
+				newDateStr = $('#inputMatchDate').data("DateTimePicker").date().format(DATE_FORMAT);
+			}
 			let newMatch = {
 				id: matchSelected.id,
 				courtId: $('#selectMatchCourt').val(),
-				dateStr: $('#inputMatchDate').data("DateTimePicker").date().format(DATE_FORMAT),
+				dateStr: newDateStr,
 				teamLocalId: $('#selectTeamLocal').val(),
 				teamVisitorId: $('#selectTeamVisitor').val(),
 				scoreLocal: $('#inputScoreLocal').val(),
