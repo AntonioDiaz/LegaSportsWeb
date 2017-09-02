@@ -8,6 +8,7 @@ import java.util.Set;
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.SportCenterCourt;
+import com.adiaz.entities.Team;
 import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.utils.MatchFormUtils;
@@ -194,5 +195,20 @@ public class MatchesManagerImpl implements MatchesManager {
 				addPublishedAndWorkingcopy(match);
 			}
 		}
+	}
+
+	@Override
+	public List<Ref<Team>> teamsAffectedByChanges(Long idCompetition) {
+		Set<Ref<Team>> teamsSet = new HashSet<>();
+		List<MatchForm> matchesForm = queryMatchesFormWorkingCopy(idCompetition);
+		for (MatchForm matchForm : matchesForm) {
+			if (matchForm.checkIfChangesToPublish()) {
+				Key<Team> teamLocalKey = Key.create(Team.class, matchForm.getTeamLocalId());
+				Key<Team> teamVisitorKey = Key.create(Team.class, matchForm.getTeamVisitorId());
+				teamsSet.add(Ref.create(teamLocalKey));
+				teamsSet.add(Ref.create(teamVisitorKey));
+			}
+		}
+		return new ArrayList<>(teamsSet);
 	}
 }

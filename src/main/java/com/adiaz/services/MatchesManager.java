@@ -3,8 +3,10 @@ package com.adiaz.services;
 import java.util.List;
 
 import com.adiaz.entities.Match;
+import com.adiaz.entities.Team;
 import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.MatchForm;
+import com.googlecode.objectify.Ref;
 
 public interface MatchesManager {
 
@@ -24,4 +26,6 @@ public interface MatchesManager {
 	public Match queryMatchesById(Long id);
 	public Integer howManyWeek(List<MatchForm> matchFormList);
 	public void generateCalendar(GenerateCalendarForm form) throws Exception;
+
+	public List<Ref<Team>> teamsAffectedByChanges(Long idCompetition);
 }

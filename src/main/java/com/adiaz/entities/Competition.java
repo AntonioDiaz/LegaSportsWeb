@@ -52,6 +52,10 @@ public class Competition {
 	@JsonIgnore
 	private List<Ref<Team>> teams = new ArrayList<Ref<Team>>();
 
+	@Load
+	@JsonIgnore
+	private List<Ref<Team>> teamsAffectedByPublish = new ArrayList<Ref<Team>>();
+
 	@Index
 	private Date lastPublished;
 
@@ -71,6 +75,10 @@ public class Competition {
 
 	public List<Team> getTeamsDeref() {
 		return Deref.deref(teams);
+	}
+
+	public List<Team> getTeamsAffectedByLastUpdateDeref() {
+		return Deref.deref(teamsAffectedByPublish);
 	}
 
 	public Long getId() {
@@ -151,5 +159,13 @@ public class Competition {
 
 	public void setLastPublished(Date lastPublished) {
 		this.lastPublished = lastPublished;
+	}
+
+	public List<Ref<Team>> getTeamsAffectedByPublish() {
+		return teamsAffectedByPublish;
+	}
+
+	public void setTeamsAffectedByPublish(List<Ref<Team>> teamsAffectedByPublish) {
+		this.teamsAffectedByPublish = teamsAffectedByPublish;
 	}
 }

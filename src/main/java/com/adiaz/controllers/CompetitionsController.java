@@ -9,6 +9,7 @@ import com.adiaz.services.*;
 import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
 import com.adiaz.utils.MuniSportsConstants;
+import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -206,10 +207,12 @@ public class CompetitionsController {
 	public String publishCalendar(@RequestParam(value = "idCompetition") Long idCompetition) throws Exception {
 		String redirectTo = "redirect:/competitions/viewCalendar?idCompetition=" +  idCompetition;
 		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
+			List<Ref<Team>> teamsAffectedByChanges =  matchesManager.teamsAffectedByChanges(idCompetition);
 			matchesManager.updatePublishedMatches(idCompetition);
 			classificationManager.updateClassificationByCompetition(idCompetition);
 			Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 			competition.setLastPublished(new Date());
+			competition.setTeamsAffectedByPublish(teamsAffectedByChanges);
 			competitionsManager.update(competition);
 			redirectTo += "&publish_done=true";
 		} else {
