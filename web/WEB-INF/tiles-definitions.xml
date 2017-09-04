@@ -22,6 +22,18 @@
 		<put-attribute name="page_title" value="Lista de categorias" />
 		<put-attribute name="body" value="/WEB-INF/jsp/categories_list.jsp" />
 	</definition>
+	<definition name="categories_add" extends="homeTemplate">
+		<put-attribute name="page_title" value="Crear categoria" />
+		<put-attribute name="body" value="/WEB-INF/jsp/categories_add.jsp" />
+	</definition>
+	<definition name="categories_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Ver categoria" />
+		<put-attribute name="body" value="/WEB-INF/jsp/categories_view.jsp" />
+	</definition>
+	<definition name="categories_update" extends="homeTemplate">
+		<put-attribute name="page_title" value="Modificar categoria" />
+		<put-attribute name="body" value="/WEB-INF/jsp/categories_update.jsp" />
+	</definition>
 	<definition name="competitions_list" extends="homeTemplate">
 		<put-attribute name="page_title" value="Lista de competiciones" />
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_list.jsp" />

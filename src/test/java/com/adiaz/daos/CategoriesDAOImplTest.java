@@ -1,8 +1,11 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.Category;
+import com.adiaz.entities.Town;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,21 +24,25 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CategoriesDAOImplTest {
 
-    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
     @Autowired
     private CategoriesDAO categoriesDAO;
+    @Autowired
+    private TownDAO townDAO;
 
     public static final String CATEGORY_CADETE = "Cadete";
     public static final String CATEGORY_JUVENIL = "Juvenil";
     public static final Integer CATEGORY_ORDER_2 = 2;
     private static final Integer CATEGORY_ORDER_3 = 3;
 
+    private Ref<Town> refTownLeganes;
 
     @org.junit.Before
     public void setUp() throws Exception {
         helper.setUp();
         ObjectifyService.register(Category.class);
+        ObjectifyService.register(Town.class);
     }
 
     public void teadDown() throws Exception {
@@ -61,8 +68,6 @@ public class CategoriesDAOImplTest {
         Assert.assertEquals(CATEGORY_ORDER_2, category.getOrder());
     }
 
-
-
     @org.junit.Test
     public void update() throws Exception {
         createCategory();
@@ -75,7 +80,6 @@ public class CategoriesDAOImplTest {
         Assert.assertEquals(CATEGORY_JUVENIL, category.getName());
         Assert.assertEquals(CATEGORY_ORDER_3, category.getOrder());
     }
-
 
     @org.junit.Test
     public void remove() throws Exception {

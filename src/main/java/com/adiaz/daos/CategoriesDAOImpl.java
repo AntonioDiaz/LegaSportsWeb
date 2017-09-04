@@ -1,14 +1,13 @@
 package com.adiaz.daos;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.adiaz.entities.Category;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 
 @Repository
@@ -55,4 +54,5 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 	public Category findCategoryById(Long id) {
 		return ofy().load().type(Category.class).id(id).now();
 	}
+
 }

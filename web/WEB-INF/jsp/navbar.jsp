@@ -16,7 +16,12 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="/sports/list">Deportes</a></li>
-				<li><a href="/categories/list">Categorías</a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Categorias <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/categories/list">Lista categorias</a></li>
+						<li><a href="/categories/add">Nueva categoria</a></li>
+					</ul>
+				</li>
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Centros <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/sportCenter/list">Lista centros</a></li>

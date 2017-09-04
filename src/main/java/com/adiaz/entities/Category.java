@@ -2,9 +2,9 @@ package com.adiaz.entities;
 
 import java.io.Serializable;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.*;
 
 @Entity
 public class Category implements Serializable {
@@ -18,7 +18,7 @@ public class Category implements Serializable {
 	private String name;
 	
 	@Index
-	private Integer order;	
+	private Integer order;
 
 	public Long getId() {
 		return id;
@@ -43,4 +43,5 @@ public class Category implements Serializable {
 	public void setOrder(Integer order) {
 		this.order = order;
 	}
+
 }

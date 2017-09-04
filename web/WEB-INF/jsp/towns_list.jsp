@@ -4,13 +4,13 @@
 <script>
 	$(document).ready(function() {
 		<c:if test="${add_done==true}">
-		showDialogAlert("El municipio ha sido creado.");
+			showDialogAlert("El municipio ha sido creado.");
 		</c:if>
 		<c:if test="${remove_done==true}">
-		showDialogAlert("El municipio ha sido eliminado.");
+			showDialogAlert("El municipio ha sido eliminado.");
 		</c:if>
 		<c:if test="${update_done==true}">
-		showDialogAlert("El municipio ha sido actualizado.");
+			showDialogAlert("El municipio ha sido actualizado.");
 		</c:if>
 	});
 

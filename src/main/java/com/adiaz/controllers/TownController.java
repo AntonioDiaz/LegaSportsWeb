@@ -9,12 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by toni on 14/07/2017.
  */
 @Controller
+@SessionAttributes({"towns"})
 @RequestMapping("/towns")
 public class TownController {
 
@@ -31,10 +33,11 @@ public class TownController {
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
 			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone) {
 		ModelAndView modelAndView = new ModelAndView("towns_list");
-		modelAndView.addObject("towns", townManager.queryAll());
 		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("add_done", addDone);
+		/* It is necessary to update the towns list in session.*/
+		modelAndView.addObject("towns", townManager.queryAll());
 		return modelAndView;
 	}
 
@@ -94,5 +97,4 @@ public class TownController {
 		modelAndView.addObject("my_form", townForm);
 		return modelAndView;
 	}
-
 }
