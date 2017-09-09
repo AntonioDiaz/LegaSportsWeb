@@ -138,7 +138,7 @@ public class RESTController {
 		CompetitionDetails competitionDetails = new CompetitionDetails();
 		competitionDetails.matches = matches;
 		competitionDetails.classification = classificationEntries;
-		competitionDetails.setLastPublished(competition.getLastPublished().getTime());
+			competitionDetails.setLastPublished(competition.getLastPublished().getTime());
 		return competitionDetails;
 	}
 

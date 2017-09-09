@@ -16,5 +16,6 @@ public interface TownManager {
 	public List<Town> queryAll();
 	public List<Town> queryActives();
 	public TownForm queryById(Long id);
+	public List<Town> queryByName(String name);
 	public void removeAll() throws Exception;
 }

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import com.adiaz.entities.*;
 import com.adiaz.entities.Competition;
+import com.adiaz.forms.MatchForm;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
@@ -41,7 +42,6 @@ public class MuniSportsUtils {
 				match.setTeamLocalRef(teamsMap.get(strings[2]));
 				match.setTeamVisitorRef(teamsMap.get(strings[3]));
 				match.setState(MuniSportsConstants.MATCH_STATE.PENDING.getValue());
-
 				match.setWorkingCopy(false);
 				if (strings.length >= 5) {
 					match.setSportCenterCourtRef(sportCourtRef);
@@ -76,43 +76,32 @@ public class MuniSportsUtils {
 		return teamsNames;
 	}
 
+	public static List<MatchForm> parseCalendarGetMatches() {
+		String lines = parseLinesTextFile("static_calendar.txt");
+		List<MatchForm> matchesList = new ArrayList<>();
+		String[] split = lines.split("\\r\\n");
+		int week = 0;
+		for (int i = 0; i < split.length; i++) {
+			String line = split[i];
+			if (line.startsWith("Jornada")) {
+				week++;
+			} else {
+				String[] strings = line.split("\\t");
+				MatchForm match = new MatchForm();
+				match.setWeek(week);
+				match.setTeamLocalName(strings[2]);
+				match.setTeamVisitorName(strings[3]);
+				match.setDateStr(strings[0] + " " + strings[1]);
+				matchesList.add(match);
+			}
+		}
+		return matchesList;
+	}
+
+
 	public static List<Match> parseCalendar(Long idCompetition, Ref<SportCenterCourt> sportCourtRef, Map<String, Ref<Team>> teamsMap) {
 		String lines = parseLinesTextFile("static_calendar.txt");
 		return  parseCalendar(lines, idCompetition, sportCourtRef, teamsMap);
-	}
-	
-	public static List<ClassificationEntry> parseClassification(String lines, Long competitionId) {
-		List<ClassificationEntry> classificationList = new ArrayList<ClassificationEntry>();
-		String[] split = lines.split("\\r\\n");
-		for (int i = 0; i < split.length; i++) {
-			ClassificationEntry classificationEntry = new ClassificationEntry();
-			String[] strings = split[i].split("\\t");
-			//1	AD CEPA SPORT	22	18	1	3	85	24	0	0	0	55	0
-			classificationEntry.setPosition(Integer.valueOf(strings[0]));
-			classificationEntry.setTeam(strings[1]);
-			classificationEntry.setPoints(Integer.valueOf(strings[11]));
-			classificationEntry.setMatchesPlayed(Integer.valueOf(strings[2]));
-			classificationEntry.setMatchesWon(Integer.valueOf(strings[3]));
-			classificationEntry.setMatchesDrawn(Integer.valueOf(strings[4]));
-			classificationEntry.setMatchesLost(Integer.valueOf(strings[5]));
-			Key<Competition> competitionKey = Key.create(Competition.class, competitionId);
-			classificationEntry.setCompetitionRef(Ref.create(competitionKey));
-			classificationList.add(classificationEntry);
-		}
-		return classificationList;
-	}
-	public static List<ClassificationEntry> parseClassification(Long competitionId) {
-		String lines = parseLinesTextFile("static_classification.txt");
-		return  parseClassification(lines, competitionId);
-	}
-	
-	public static void main(String[] args) {
-		ObjectifyService.register(Sport.class);
-		ObjectifyService.register(Category.class);
-		ObjectifyService.register(Competition.class);
-		ObjectifyService.register(Match.class);
-		System.out.println("parse calendar....");
-		System.out.println(MuniSportsUtils.parseClassification(1L).size());
 	}
 
 	public static String sha256Encode(String text) throws Exception {

@@ -41,6 +41,11 @@ public class SportsDAOImpl implements SportsDAO {
 		return true;
 	}
 
+	public boolean remove(List<Sport> sportsList) throws Exception {
+		ofy().delete().entity(sportsList).now();
+		return true;
+	}
+
 	@Override
 	public List<Sport> findAllSports() {
 		Query<Sport> query = ofy().load().type(Sport.class);

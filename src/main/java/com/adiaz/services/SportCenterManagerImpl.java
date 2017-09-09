@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.utils.SportCenterFormUtils;
+import com.googlecode.objectify.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class SportCenterManagerImpl implements SportCenterManager {
 	public void addSportCenter(SportCenterForm sportCenterForm) throws Exception {
 		SportCenter sportCenter = sportCenterFormUtils.formToEntity(sportCenterForm);
 		sportsCenterDAO.create(sportCenter);
+	}
+
+	@Override
+	public Key<SportCenter> addSportCenter(SportCenter sportCenter) throws Exception {
+		return sportsCenterDAO.create(sportCenter);
 	}
 
 	@Override

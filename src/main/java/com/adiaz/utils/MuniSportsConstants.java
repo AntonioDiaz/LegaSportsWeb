@@ -24,9 +24,36 @@ public class MuniSportsConstants {
 
 	public static final String BASKET = SPORTS_NAMES[3][0];
 
+	public static final String FEMENINO = "Femenino";
+	public static final String MASCULINO = "Masculino";
+	public static final String MIXTO = "Mixto";
+
+	public static final String BENJAMIN = "Benjamín";
+	public static final String ALEVIN = "Alevín";
+	public static final String INFANTIL = "Infantíl";
+	public static final String CADETE = "Cadete";
+	public static final String JUVENIL = "Juvenil";
+	public static final String ABSOLUTA = "Absoluta";
+	public static final String VETERANO = "Veterano";
+
 	public static final String[] CATEGORIES_NAMES = new String[]{
-			"Benjamin", "Alevin", "Infantil", "Cadete", "Juvenil", "Absoluta", "Veterano"
+			BENJAMIN + " " + FEMENINO,
+			BENJAMIN + " " + MASCULINO,
+			BENJAMIN + " " + MIXTO,
+			ALEVIN + " " + FEMENINO,
+			ALEVIN + " " + MASCULINO,
+			ALEVIN + " " + MIXTO,
+			INFANTIL + " " + FEMENINO,
+			INFANTIL + " " + MASCULINO,
+			INFANTIL + " " + MIXTO,
+			CADETE + " " + FEMENINO,
+			CADETE + " " + MASCULINO,
+			JUVENIL,
+			ABSOLUTA,
+			VETERANO
 	};
+	public static final String TOWN_LEGANES = "Leganés";
+	public static final String TOWN_FUENLABRADA = "Fuenlabrada";
 
 	public enum MATCH_STATE {
 		PENDING((short)0, "Pendiente"), PLAYED((short)1, "Jugado"), CANCELED((short)2, "Cancelado");

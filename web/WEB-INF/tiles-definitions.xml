@@ -154,4 +154,8 @@
 		<put-attribute name="page_title" value="Ver detalles equipo" />
 		<put-attribute name="body" value="/WEB-INF/jsp/team_view.jsp" />
 	</definition>
+	<definition name="init_competition" extends="homeTemplate">
+		<put-attribute name="page_title" value="Inicializa competición" />
+		<put-attribute name="body" value="/WEB-INF/jsp/init_competition.jsp" />
+	</definition>
 </tiles-definitions>

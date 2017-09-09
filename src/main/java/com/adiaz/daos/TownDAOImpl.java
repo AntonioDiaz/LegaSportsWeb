@@ -46,4 +46,9 @@ public class TownDAOImpl implements TownDAO {
 	public Town findById(Long id) {
 		return ofy().load().type(Town.class).id(id).now();
 	}
+
+	@Override
+	public List<Town> findByName(String name) {
+		return ofy().load().type(Town.class).filter("name", name).list();
+	}
 }

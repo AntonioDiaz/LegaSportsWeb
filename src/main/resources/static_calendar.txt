@@ -1,20 +1,20 @@
 Jornada 1
-05/11/2016	09:00	ARROYO CULEBRO	LOPE DE VEGA	Carlos Sastre P1	 
-05/11/2016	10:00	GARCIA LORCA	VAZQUEZ MONTALBAN	Carlos Sastre P1	 
-05/11/2016	11:00	LEGAMAR A	ANGEL GONZALEZ NEGRO	Carlos Sastre P1	 
+05/11/2016	09:00	Arroyo Culebro	Lope de Vega	Carlos Sastre P1	 
+05/11/2016	10:00	Garcia Lorca	Vazquez Montalban	Carlos Sastre P1	 
+05/11/2016	11:00	Legamar A	A. Gonzalez Negro	Carlos Sastre P1	 
 Jornada 2
-12/11/2016	10:00	ANGEL GONZALEZ NEGRO	VAZQUEZ MONTALBAN	Carlos Sastre P1	 
-12/11/2016	11:00	LOPE DE VEGA	GARCIA LORCA	Carlos Sastre P1	 
-12/11/2016	13:00	LEGAMAR A	ARROYO CULEBRO	Carlos Sastre P1	 
+12/11/2016	10:00	A. Gonzalez Negro	Vazquez Montalban	Carlos Sastre P1	 
+12/11/2016	11:00	Lope de Vega	Garcia Lorca	Carlos Sastre P1	 
+12/11/2016	13:00	Legamar A	Arroyo Culebro	Carlos Sastre P1	 
 Jornada 3
-19/11/2016	09:00	ARROYO CULEBRO	ANGEL GONZALEZ NEGRO	Carlos Sastre P1	 
-19/11/2016	10:00	GARCIA LORCA	LEGAMAR A	Carlos Sastre P1	 
-19/11/2016	11:00	VAZQUEZ MONTALBAN	LOPE DE VEGA	Carlos Sastre P1	 
+19/11/2016	09:00	Arroyo Culebro	A. Gonzalez Negro	Carlos Sastre P1	 
+19/11/2016	10:00	Garcia Lorca	Legamar A	Carlos Sastre P1	 
+19/11/2016	11:00	Vazquez Montalban	Lope de Vega	Carlos Sastre P1	 
 Jornada 4
-26/11/2016	10:00	ARROYO CULEBRO	GARCIA LORCA	Carlos Sastre P1	 
-26/11/2016	11:00	ANGEL GONZALEZ NEGRO	LOPE DE VEGA	Carlos Sastre P1	 
-26/11/2016	12:00	LEGAMAR A	VAZQUEZ MONTALBAN	Carlos Sastre P1	 
+26/11/2016	10:00	Arroyo Culebro	Garcia Lorca	Carlos Sastre P1	 
+26/11/2016	11:00	A. Gonzalez Negro	Lope de Vega	Carlos Sastre P1	 
+26/11/2016	12:00	Legamar A	Vazquez Montalban	Carlos Sastre P1	 
 Jornada 5
-03/12/2016	10:00	LOPE DE VEGA	LEGAMAR A	Carlos Sastre P1	 
-03/12/2016	11:00	GARCIA LORCA	ANGEL GONZALEZ NEGRO	Carlos Sastre P1	 
-03/12/2016	12:00	VAZQUEZ MONTALBAN	ARROYO CULEBRO	Carlos Sastre P1	 
+03/12/2016	10:00	Lope de Vega	Legamar A	Carlos Sastre P1	 
+03/12/2016	11:00	Garcia Lorca	A. Gonzalez Negro	Carlos Sastre P1	 
+03/12/2016	12:00	Vazquez Montalban	Arroyo Culebro	Carlos Sastre P1	 

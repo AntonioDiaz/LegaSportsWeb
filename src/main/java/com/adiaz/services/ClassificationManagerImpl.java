@@ -67,6 +67,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 			classificationEntry.setMatchesWon(0);
 			classificationEntry.setGoalsFor(0);
 			classificationEntry.setGoalsAgainst(0);
+			classificationEntry.getRefs();
 			teamsMap.put(classificationEntry.getTeamEntity().getId(), classificationEntry);
 		}
 		/*loop over the matches*/

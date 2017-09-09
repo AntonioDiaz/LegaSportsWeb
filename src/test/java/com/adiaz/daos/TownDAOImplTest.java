@@ -109,6 +109,14 @@ public class TownDAOImplTest {
 		Assert.assertEquals(null, townDAO.findById(221l));
 	}
 
+	@Test
+	public void findByName_existing() throws Exception {
+		createTown(LEGANES);
+		createTown(FUENLABRADA);
+		Assert.assertEquals(1, townDAO.findByName(LEGANES).size());
+		Assert.assertEquals(LEGANES, townDAO.findByName(LEGANES).get(0).getName());
+	}
+
 	private Key<Town> createTown(String name) throws Exception {
 		Town town = new Town();
 		town.setName(name);

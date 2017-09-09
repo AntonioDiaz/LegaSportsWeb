@@ -51,6 +51,11 @@ public class TownManagerImpl implements TownManager {
 		return townFormUtils.entityToForm(townDAO.findById(id));
 	}
 
+	@Override
+	public List<Town> queryByName(String name) {
+		return townDAO.findByName(name);
+	}
+
 
 	// TODO: 25/07/2017 remove this!!!
 	@Override
