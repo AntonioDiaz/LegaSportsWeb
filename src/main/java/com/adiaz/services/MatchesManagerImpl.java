@@ -203,10 +203,14 @@ public class MatchesManagerImpl implements MatchesManager {
 		List<MatchForm> matchesForm = queryMatchesFormWorkingCopy(idCompetition);
 		for (MatchForm matchForm : matchesForm) {
 			if (matchForm.checkIfChangesToPublish()) {
-				Key<Team> teamLocalKey = Key.create(Team.class, matchForm.getTeamLocalId());
-				Key<Team> teamVisitorKey = Key.create(Team.class, matchForm.getTeamVisitorId());
-				teamsSet.add(Ref.create(teamLocalKey));
-				teamsSet.add(Ref.create(teamVisitorKey));
+				if (matchForm.getTeamLocalId()!=null) {
+					Key<Team> teamLocalKey = Key.create(Team.class, matchForm.getTeamLocalId());
+					teamsSet.add(Ref.create(teamLocalKey));
+				}
+				if (matchForm.getTeamVisitorId()!=null) {
+					Key<Team> teamVisitorKey = Key.create(Team.class, matchForm.getTeamVisitorId());
+					teamsSet.add(Ref.create(teamVisitorKey));
+				}
 			}
 		}
 		return new ArrayList<>(teamsSet);

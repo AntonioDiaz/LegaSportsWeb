@@ -33,16 +33,17 @@ public class RegisterEntities {
 	@Autowired TownManager townManager;
 	@Autowired ClubManager clubManager;
 
-	public void initSort() throws Exception {
+	public void init() throws Exception {
 		registerEntities();
 
 	}
 
-	public void init() throws Exception {
+	public void initLarge() throws Exception {
 		registerEntities();
 
 		/* clean DB. */
-/*		logger.debug("DB clean");
+		/*
+		logger.debug("DB clean");
 		List<Key<Object>> entities = ofy().load().keys().list();
 		try {
 			ofy().delete().keys(entities).now();
@@ -50,7 +51,8 @@ public class RegisterEntities {
 			e.printStackTrace();
 		} finally {
 			ofy().clear();
-		}*/
+		}
+		*/
 		logger.debug("finished clear");
 		createTowns();
 		createSports();
@@ -67,16 +69,6 @@ public class RegisterEntities {
 		logger.debug("crea la pista");
 		createUsers(refLega);
 		createClub(refLega);
-/*
-		Ref<SportCenterCourt> refCourt = Ref.create(sportCenterCourtManager.querySportCourt().get(0));
-		String categoriesName = MuniSportsConstants.CATEGORIES_NAMES[0];
-		createCompetitionByCategory(matchesList, teamsList, townIdLega, refCourt, categoriesName);
-		categoriesName = MuniSportsConstants.CATEGORIES_NAMES[1];
-		createCompetitionByCategory(matchesList, teamsList, townIdLega, refCourt, categoriesName);
-		categoriesName = MuniSportsConstants.CATEGORIES_NAMES[2];
-		createCompetitionByCategory(matchesList, teamsList, townIdLega, refCourt, categoriesName);
-*/
-
 		logger.debug("finished init...");
 	}
 

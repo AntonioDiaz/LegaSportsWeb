@@ -3,17 +3,15 @@
 <script>
 
 	$(document).ready(function() {
-		$(document).ready(function() {
-			<c:if test="${add_done==true}">
-				showDialogAlert("Equipo creado");
-			</c:if>
-			<c:if test="${update_done==true}">
-				showDialogAlert("Equipo actualizado");
-			</c:if>
-			<c:if test="${delete_done==true}">
-				showDialogAlert("Equipo eliminado");
-			</c:if>
-		});
+		<c:if test="${add_done==true}">
+			showDialogAlert("Equipo creado");
+		</c:if>
+		<c:if test="${update_done==true}">
+			showDialogAlert("Equipo actualizado");
+		</c:if>
+		<c:if test="${delete_done==true}">
+			showDialogAlert("Equipo eliminado");
+		</c:if>
 	});
 
 	function fUpdate(id) {

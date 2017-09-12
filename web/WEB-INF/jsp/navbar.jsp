@@ -43,13 +43,14 @@
 							<li><a href="/club/add">Nuevo club</a></li>
 						</ul>
 					</li>
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuarios<span class="caret"></span></a>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="/users/list">Lista usuarios</a></li>
 							<li><a href="/users/add">Nuevo usuario</a></li>
 							<li><a href="/towns/list">Lista municipios</a></li>
 							<li><a href="/towns/add">Nuevo municipio</a></li>
-							<li><a href="/init/competition">Init competition</a></li>
+							<li><a href="/admin/initCompetition">Init competition</a></li>
+							<li><a href="/admin/issues">Consulta errores</a></li>
 						</ul>
 					</li>
 				</sec:authorize>

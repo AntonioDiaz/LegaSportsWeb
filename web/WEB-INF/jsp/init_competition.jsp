@@ -7,7 +7,7 @@
 		});
 	});
 </script>
-<form:form method="post" action="doCompetition" commandName="my_form" name="my_form" cssClass="form-horizontal">
+<form:form method="post" action="doInitCompetition" commandName="my_form" name="my_form" cssClass="form-horizontal">
 	<div class="form-group">
 		<label class="control-label col-sm-2">Municipio</label>
 		<div class="col-sm-6">

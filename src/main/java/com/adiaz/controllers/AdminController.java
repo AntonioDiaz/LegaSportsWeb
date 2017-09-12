@@ -25,10 +25,10 @@ import java.util.*;
  */
 
 @Controller
-@RequestMapping("/init")
-public class CompetitionInitController {
+@RequestMapping("/admin")
+public class AdminController {
 
-	private static final Logger logger = Logger.getLogger(CompetitionInitController.class);
+	private static final Logger logger = Logger.getLogger(AdminController.class);
 	@Autowired SportCenterCourtManager sportCenterCourtManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
@@ -39,14 +39,14 @@ public class CompetitionInitController {
 	@Autowired CompetitionInitFormValidator competitionInitFormValidator;
 
 
-	@RequestMapping("/competition")
+	@RequestMapping("/initCompetition")
 	public ModelAndView competition(){
 		ModelAndView modelAndView = new ModelAndView("init_competition");
 		modelAndView.addObject("my_form", new CompetitionsForm());
 		return modelAndView;
 	}
 
-	@RequestMapping("/doCompetition")
+	@RequestMapping("/doInitCompetition")
 	public ModelAndView doInit(@ModelAttribute("my_form") CompetitionsForm competitionsForm, BindingResult bindingResult){
 		ModelAndView modelAndView = new ModelAndView();
 		this.competitionInitFormValidator.validate(competitionsForm, bindingResult);
@@ -60,11 +60,17 @@ public class CompetitionInitController {
 				if (courts.size()>0) {
 					createCompetition(competitionsForm, Ref.create(courts.get(0)));
 				}
-				modelAndView.setViewName("redirect:/init/competition");
+				modelAndView.setViewName("redirect:/admin/initCompetition");
 			} catch (Exception e) {
 				logger.error(e);
 			}
 		}
+		return modelAndView;
+	}
+
+	@RequestMapping("/issues")
+	public ModelAndView issues(){
+		ModelAndView modelAndView = new ModelAndView("query_issues");
 		return modelAndView;
 	}
 
@@ -77,26 +83,22 @@ public class CompetitionInitController {
 		Long idCompetition = createCompetitionEntity(f.getName(), f.getIdTown(), f.getIdCategory(), f.getIdSport());
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		createMatches(matchesList, competition, refCourt);
-		logger.debug("create matches.......");
 		createClassification(competition);
 	}
 
 	private void createClassification(Competition competition) throws Exception {
 		classificationManager.initClassification(competition.getId());
-		logger.debug("init classification");
 		classificationManager.updateClassificationByCompetition(competition.getId());
 		competition.setLastPublished(new Date());
 		competitionsManager.update(competition);
 	}
 
 	private void createMatches(List<MatchForm> matchesFormList, Competition competition, Ref<SportCenterCourt> refCourt) throws Exception {
-		logger.debug("creating competition");
 		Ref<Competition> competitionRef = Ref.create(competition);
 		Map<String, Ref<Team>> teamsMap = new HashMap<>();
 		for (Ref<Team> teamRef : competition.getTeams()) {
 			teamsMap.put(teamRef.get().getName(), teamRef);
 		}
-		logger.debug("teamsMap" + teamsMap);
 		List<Match> matchesList = new ArrayList<>();
 		for (MatchForm matchForm : matchesFormList) {
 			Ref<Team> teamRefLocal = teamsMap.get(matchForm.getTeamLocalName());
@@ -114,7 +116,6 @@ public class CompetitionInitController {
 			match.setWeek(matchForm.getWeek());
 			matchesList.add(match);
 		}
-		logger.debug("matchesList ..." + matchesList.size());
 		matchesList.get(0).setState(MuniSportsConstants.MATCH_STATE_PLAYED);
 		matchesList.get(0).setScoreLocal(1);
 		matchesList.get(0).setScoreVisitor(1);
@@ -135,7 +136,6 @@ public class CompetitionInitController {
 		teamFilterForm.setIdSport(idSport);
 		teamFilterForm.setIdTown(townIdLega);
 		List<Team> teams = teamManager.queryByFilter(teamFilterForm);
-		logger.debug("teams.size() " + teams.size());
 		Long teamsArray[] = new Long[teams.size()];
 		for (int i=0; i<teams.size(); i++) {
 			teamsArray[i] = teams.get(i).getId();
@@ -147,7 +147,6 @@ public class CompetitionInitController {
 		competitionsForm.setIdTown(townIdLega);
 		competitionsForm.setTeams(teamsArray);
 		Long idCompetition = competitionsManager.add(competitionsForm);
-		logger.debug("new competition " + idCompetition);
 		return idCompetition;
 	}
 
@@ -164,5 +163,4 @@ public class CompetitionInitController {
 		}
 		return teamsMap;
 	}
-
 }
