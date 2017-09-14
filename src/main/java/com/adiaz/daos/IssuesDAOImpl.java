@@ -2,7 +2,6 @@ package com.adiaz.daos;
 
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Issue;
-import com.adiaz.entities.Match;
 import com.adiaz.entities.Town;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -18,7 +17,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
  */
 
 @Repository
-public class IssueDAOImpl implements IssueDAO {
+public class IssuesDAOImpl implements IssuesDAO {
 
 	@Override
 	public Key<Issue> create(Issue item) throws Exception {

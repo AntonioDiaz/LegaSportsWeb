@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext-testing.xml")
 @WebAppConfiguration("file:web")
-public class IssueDAOImplTest {
+public class IssuesDAOImplTest {
 
 	public static final String MY_CLIENT_INSTANCE_A = "MY_CLIENT_INSTANCE_A";
 	private static final String MY_CLIENT_INSTANCE_B = "MY_CLIENT_INSTANCE_B";
@@ -34,10 +34,7 @@ public class IssueDAOImplTest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
 	@Autowired
-	IssueDAO issueDAO;
-
-	@Autowired
-	MatchesDAO matchesDAO;
+	IssuesDAO issuesDAO;
 
 	@Autowired
 	CompetitionsDAO competitionsDAO;
@@ -79,7 +76,7 @@ public class IssueDAOImplTest {
 	@Test
 	public void create() throws Exception {
 		createIssue();
-		Issue issueSaved = issueDAO.findAll().get(0);
+		Issue issueSaved = issuesDAO.findAll().get(0);
 		assertEquals(MY_CLIENT_INSTANCE_A, issueSaved.getClientInstanceId());
 		assertEquals(competitionRef, issueSaved.getCompetitionRef());
 	}
@@ -87,22 +84,22 @@ public class IssueDAOImplTest {
 	@Test
 	public void update() throws Exception {
 		createIssue();
-		Issue issueSaved = issueDAO.findAll().get(0);
+		Issue issueSaved = issuesDAO.findAll().get(0);
 		assertEquals(MY_CLIENT_INSTANCE_A, issueSaved.getClientInstanceId());
 		issueSaved.setClientInstanceId(MY_CLIENT_INSTANCE_B);
-		issueDAO.update(issueSaved);
+		issuesDAO.update(issueSaved);
 		assertEquals(MY_CLIENT_INSTANCE_B, issueSaved.getClientInstanceId());
-		assertEquals(1, issueDAO.findAll().size());
+		assertEquals(1, issuesDAO.findAll().size());
 	}
 
 	@Test
 	public void remove() throws Exception {
 		Long issueId = createIssue();
-		assertEquals(1, issueDAO.findAll().size());
+		assertEquals(1, issuesDAO.findAll().size());
 		Issue issue = new Issue();
 		issue.setId(issueId);
-		issueDAO.remove(issue);
-		assertEquals(0, issueDAO.findAll().size());
+		issuesDAO.remove(issue);
+		assertEquals(0, issuesDAO.findAll().size());
 	}
 
 	@Test
@@ -110,12 +107,12 @@ public class IssueDAOImplTest {
 		createIssue();
 		createIssue();
 		Long issueId = createIssue();
-		List<Issue> byCompetition = issueDAO.findByCompetition(competitionRef.getKey().getId());
+		List<Issue> byCompetition = issuesDAO.findByCompetition(competitionRef.getKey().getId());
 		assertEquals(3, byCompetition.size());
-		Issue issue = issueDAO.findById(issueId);
+		Issue issue = issuesDAO.findById(issueId);
 		issue.setCompetitionRef(null);
-		issueDAO.update(issue);
-		byCompetition = issueDAO.findByCompetition(competitionRef.getKey().getId());
+		issuesDAO.update(issue);
+		byCompetition = issuesDAO.findByCompetition(competitionRef.getKey().getId());
 		assertEquals(2, byCompetition.size());
 
 	}
@@ -126,13 +123,13 @@ public class IssueDAOImplTest {
 		createIssue();
 		createIssue();
 		Long idIssue = createIssue();
-		//List<Issue> byTown = issueDAO.findByTown(refTownLeganes.getKey().getId());
-		List<Issue> byTown = issueDAO.findAll();
-		assertEquals(4, issueDAO.findByTown(refTownLeganes.get().getId()).size());
-		Issue issue = issueDAO.findById(idIssue);
+		//List<Issue> byTown = issuesDAO.findByTown(refTownLeganes.getKey().getId());
+		List<Issue> byTown = issuesDAO.findAll();
+		assertEquals(4, issuesDAO.findByTown(refTownLeganes.get().getId()).size());
+		Issue issue = issuesDAO.findById(idIssue);
 		issue.setTownRef(null);
-		issueDAO.update(issue);
-		assertEquals(3, issueDAO.findByTown(refTownLeganes.get().getId()).size());
+		issuesDAO.update(issue);
+		assertEquals(3, issuesDAO.findByTown(refTownLeganes.get().getId()).size());
 
 	}
 
@@ -141,7 +138,7 @@ public class IssueDAOImplTest {
 		createIssue();
 		createIssue();
 		createIssue();
-		List<Issue> issues = issueDAO.findAll();
+		List<Issue> issues = issuesDAO.findAll();
 		assertEquals(3, issues.size());
 
 	}
@@ -150,7 +147,7 @@ public class IssueDAOImplTest {
 	public void findById() throws Exception {
 		createIssue();
 		Long idIssue = createIssue();
-		Issue issue = issueDAO.findById(idIssue);
+		Issue issue = issuesDAO.findById(idIssue);
 		assertNotNull(issue);
 		assertEquals(idIssue, issue.getId());
 
@@ -161,7 +158,7 @@ public class IssueDAOImplTest {
 		issue.setClientInstanceId(MY_CLIENT_INSTANCE_A);
 		issue.setCompetitionRef(competitionRef);
 		issue.setTownRef(refTownLeganes);
-		Key<Issue> issueKey = issueDAO.create(issue);
+		Key<Issue> issueKey = issuesDAO.create(issue);
 		return issueKey.getId();
 	}
 
