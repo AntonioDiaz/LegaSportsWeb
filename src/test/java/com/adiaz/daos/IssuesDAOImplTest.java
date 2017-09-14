@@ -15,6 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -77,7 +80,7 @@ public class IssuesDAOImplTest {
 	public void create() throws Exception {
 		createIssue();
 		Issue issueSaved = issuesDAO.findAll().get(0);
-		assertEquals(MY_CLIENT_INSTANCE_A, issueSaved.getClientInstanceId());
+		assertEquals(MY_CLIENT_INSTANCE_A, issueSaved.getClientId());
 		assertEquals(competitionRef, issueSaved.getCompetitionRef());
 	}
 
@@ -85,10 +88,10 @@ public class IssuesDAOImplTest {
 	public void update() throws Exception {
 		createIssue();
 		Issue issueSaved = issuesDAO.findAll().get(0);
-		assertEquals(MY_CLIENT_INSTANCE_A, issueSaved.getClientInstanceId());
-		issueSaved.setClientInstanceId(MY_CLIENT_INSTANCE_B);
+		assertEquals(MY_CLIENT_INSTANCE_A, issueSaved.getClientId());
+		issueSaved.setClientId(MY_CLIENT_INSTANCE_B);
 		issuesDAO.update(issueSaved);
-		assertEquals(MY_CLIENT_INSTANCE_B, issueSaved.getClientInstanceId());
+		assertEquals(MY_CLIENT_INSTANCE_B, issueSaved.getClientId());
 		assertEquals(1, issuesDAO.findAll().size());
 	}
 
@@ -150,16 +153,40 @@ public class IssuesDAOImplTest {
 		Issue issue = issuesDAO.findById(idIssue);
 		assertNotNull(issue);
 		assertEquals(idIssue, issue.getId());
+	}
+
+	@Test
+	public void findByClientIdInPeriod() throws Exception {
+		createIssue();
+		createIssue();
+		Calendar calendar = new GregorianCalendar();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		Date dateFrom = calendar.getTime();
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		Date dateTo = calendar.getTime();
+		List<Issue> byClientIdInPeriod = issuesDAO.findByClientIdInPeriod(MY_CLIENT_INSTANCE_A, dateFrom, dateTo);
+		assertEquals(2, byClientIdInPeriod.size());
+		dateFrom = calendar.getTime();
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		dateTo = calendar.getTime();
+		byClientIdInPeriod = issuesDAO.findByClientIdInPeriod(MY_CLIENT_INSTANCE_A, dateFrom, dateTo);
+		assertEquals(0, byClientIdInPeriod.size());
 
 	}
 
 	private Long createIssue() throws Exception {
 		Issue issue = new Issue();
-		issue.setClientInstanceId(MY_CLIENT_INSTANCE_A);
+		issue.setClientId(MY_CLIENT_INSTANCE_A);
 		issue.setCompetitionRef(competitionRef);
 		issue.setTownRef(refTownLeganes);
+		issue.setDateSent(new Date());
 		Key<Issue> issueKey = issuesDAO.create(issue);
 		return issueKey.getId();
 	}
+
+
 
 }

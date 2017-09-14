@@ -8,6 +8,7 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.cmd.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -69,6 +70,20 @@ public class IssuesDAOImpl implements IssuesDAO {
 			issues = query
 					.filter("townRef", Ref.create(key))
 					.order("dateSent").list();
+		}
+		return issues;
+	}
+
+	@Override
+	public List<Issue> findByClientIdInPeriod(String clientId, Date dateFrom, Date dateTo) {
+		List<Issue> issues = null;
+		Query<Issue> query = ofy().load().type(Issue.class);
+		if (clientId!=null && dateFrom!=null && dateTo!=null) {
+			issues = query
+					.filter("clientId", clientId)
+					.filter("dateSent >", dateFrom)
+					.filter("dateSent <", dateTo)
+					.list();
 		}
 		return issues;
 	}
