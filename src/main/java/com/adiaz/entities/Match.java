@@ -96,6 +96,12 @@ public class Match {
 		}
 	}
 
+	public String getFullName(){
+		String localTeamStr = teamLocalEntity!=null?teamLocalEntity.getName():"_";
+		String visitorTeamStr = teamVisitorEntity!=null?teamVisitorEntity.getName():"_";
+		return String.format("Jornada %1$s (%2$s - %3$s)", week, localTeamStr, visitorTeamStr);
+	}
+
 	public Long getId() {
 		return id;
 	}

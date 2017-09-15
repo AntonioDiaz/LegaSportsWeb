@@ -68,12 +68,6 @@ public class AdminController {
 		return modelAndView;
 	}
 
-	@RequestMapping("/issues")
-	public ModelAndView issues(){
-		ModelAndView modelAndView = new ModelAndView("query_issues");
-		return modelAndView;
-	}
-
 	private void createCompetition(CompetitionsForm f,
 								   Ref<SportCenterCourt> refCourt) throws Exception {
 		Set<String> teamsSet = MuniSportsUtils.parseCalendarGetTeams();

@@ -162,6 +162,7 @@ public class RegisterEntities {
 		ObjectifyService.register(Town.class);
 		ObjectifyService.register(Club.class);
 		ObjectifyService.register(Team.class);
+		ObjectifyService.register(Issue.class);
 	}
 
 	private User initUser(String name, String password, boolean isAdmin) {

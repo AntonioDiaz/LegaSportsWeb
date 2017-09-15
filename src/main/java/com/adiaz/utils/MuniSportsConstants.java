@@ -54,6 +54,8 @@ public class MuniSportsConstants {
 	};
 	public static final String TOWN_LEGANES = "Leganés";
 	public static final String TOWN_FUENLABRADA = "Fuenlabrada";
+	public static final int MAX_ISSUES_PER_CLIENT_AND_DAY = 10;
+	public static final int MAX_ISSUES_PER_DAY = 100;
 
 	public enum MATCH_STATE {
 		PENDING((short)0, "Pendiente"), PLAYED((short)1, "Jugado"), CANCELED((short)2, "Cancelado");

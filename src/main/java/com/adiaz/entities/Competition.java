@@ -73,6 +73,16 @@ public class Competition {
 		}
 	}
 
+	/**
+	 * generate competition name with the format: name (sport - category)
+	 * @return
+	 */
+	public String getFullName(){
+		String sportName = sportEntity!=null?sportEntity.getName():"";
+		String categoryName = categoryEntity!=null?categoryEntity.getName():"";
+		return String.format("%1$s (%2$s - %3$s)", name, sportName, categoryName);
+	}
+
 	public List<Team> getTeamsDeref() {
 		return Deref.deref(teams);
 	}

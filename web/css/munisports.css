@@ -89,3 +89,10 @@ input:-webkit-autofill:focus {
 	vertical-align:middle;
 	font-size: 13px;
 }
+
+#issuesTable td {
+	padding: 8px;
+	white-space: nowrap; overflow: hidden; text-overflow:ellipsis;
+}
+
+.hideextra { white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }

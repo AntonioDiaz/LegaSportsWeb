@@ -44,7 +44,9 @@ public class Issue {
 
 	boolean read;
 	private String description;
-	private String clientInstanceId;
+
+	@Index
+	private String clientId;
 
 	@Index
 	private Date dateSent;
@@ -126,12 +128,12 @@ public class Issue {
 		this.town = town;
 	}
 
-	public String getClientInstanceId() {
-		return clientInstanceId;
+	public String getClientId() {
+		return clientId;
 	}
 
-	public void setClientInstanceId(String clientInstanceId) {
-		this.clientInstanceId = clientInstanceId;
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 
 	public Date getDateSent() {

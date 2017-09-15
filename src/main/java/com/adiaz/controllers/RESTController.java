@@ -1,13 +1,16 @@
 package com.adiaz.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.adiaz.entities.*;
+import com.adiaz.forms.IssuesForm;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.utils.MatchFormUtils;
 import com.adiaz.services.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,8 @@ public class RESTController {
 	TeamManager teamManager;
 	@Autowired
 	MatchFormUtils matchFormUtils;
+	@Autowired
+	IssuesManager issuesManager;
 
 	@Autowired
 	TownManager townManager;
@@ -187,6 +192,34 @@ public class RESTController {
 		}
 	}
 
+	@RequestMapping(value = "/issues", method = RequestMethod.POST)
+	public ResponseEntity<Long> createIssue(@RequestBody IssuesForm issuesForm) {
+		Long issueId = -1L;
+		if (!issuesManager.reachMaxIssuesPerDay()) {
+			if (issuesForm!=null
+					&& StringUtils.isNotBlank(issuesForm.getClientId())
+					&& issuesManager.allowUserToReportIssue(issuesForm.getClientId())){
+				try {
+					if (issuesManager.isValidIssue(issuesForm)) {
+						Competition competition = competitionsManager.queryCompetitionsByIdEntity(issuesForm.getCompetitionId());
+						issuesForm.setTownId(competition.getTownEntity().getId());
+						issuesForm.setDateSent(new Date());
+						issueId = issuesManager.addIssue(issuesForm);
+					}
+				} catch (Exception e) {
+					logger.error("error creating issue", e);
+				}
+			}
+		}
+		ResponseEntity<Long> response;
+		if (issueId==-1) {
+			response = new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		} else {
+			response = new ResponseEntity<>(issueId, HttpStatus.OK);
+		}
+		return response;
+	}
+
 	@RequestMapping(value = "/courts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<SportCenterCourt> courts(
 			@RequestParam(value = "idTown") Long idTown,
@@ -207,5 +240,12 @@ public class RESTController {
 	public List<Town> towns(){
 		return townManager.queryActives();
 	}
+
+
+	@RequestMapping (value = "/competitionsInTown/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Competition> competitionsInTown(@PathVariable("id") Long idTown){
+		return competitionsManager.queryCompetitionsByTown(idTown, false);
+	}
+
 
 }

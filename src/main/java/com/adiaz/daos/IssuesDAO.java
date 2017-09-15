@@ -15,6 +15,7 @@ public interface IssuesDAO extends GenericDAO<Issue> {
 	List<Issue> findByCompetition(Long competitionId);
 	List<Issue> findByTown(Long townId);
 	List<Issue> findByClientIdInPeriod(String clientId, Date dateFrom, Date dateTo);
+	List<Issue> findInPeriod(Date dateFrom, Date dateTo);
 	List<Issue> findAll();
 	Issue findById(Long id);
 

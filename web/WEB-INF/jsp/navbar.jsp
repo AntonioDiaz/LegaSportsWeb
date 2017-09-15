@@ -49,8 +49,8 @@
 							<li><a href="/users/add">Nuevo usuario</a></li>
 							<li><a href="/towns/list">Lista municipios</a></li>
 							<li><a href="/towns/add">Nuevo municipio</a></li>
-							<li><a href="/admin/initCompetition">Init competition</a></li>
-							<li><a href="/admin/issues">Consulta errores</a></li>
+							<li><a href="/admin/initCompetition">Inicializa competición</a></li>
+							<li><a href="/issues/list">Consulta notificaciones</a></li>
 						</ul>
 					</li>
 				</sec:authorize>

@@ -89,6 +89,19 @@ public class IssuesDAOImpl implements IssuesDAO {
 	}
 
 	@Override
+	public List<Issue> findInPeriod(Date dateFrom, Date dateTo) {
+		List<Issue> issues = null;
+		Query<Issue> query = ofy().load().type(Issue.class);
+		if (dateFrom!=null && dateTo!=null) {
+			issues = query
+				.filter("dateSent >", dateFrom)
+				.filter("dateSent <", dateTo)
+				.list();
+		}
+		return issues;
+	}
+
+	@Override
 	public List<Issue> findAll() {
 		 return ofy().load().type(Issue.class).list();
 	}

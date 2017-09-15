@@ -12,10 +12,6 @@
 		window.location.href = "/competitions/viewCalendar?idCompetition=" + idCompetition;
 	}
 
-	function fViewClassification (idCompetition) {
-		window.location.href = "/competitions/viewClassification?idCompetition=" + idCompetition;
-	}
-
 </script>
 <form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
 	<div class="row">
@@ -48,7 +44,7 @@
 		</div>
 		<div class="col-sm-1">&nbsp;</div>
 		<div class="col-sm-2">
-			<button id="btnBack" type="submit" class="btn btn-default btn-block">buscar</button>
+			<button type="submit" class="btn btn-default btn-block">buscar</button>
 		</div>
 	</div>
 </form:form>
