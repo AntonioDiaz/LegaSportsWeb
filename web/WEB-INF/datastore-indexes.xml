@@ -55,5 +55,14 @@
         <property name="name" direction="asc"/>
     </datastore-index>
 
+    <datastore-index kind="Issue" ancestor="false" source="manual">
+        <property name="competitionRef" direction="asc"/>
+        <property name="dateSent" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Issue" ancestor="false" source="manual">
+        <property name="townRef" direction="asc"/>
+        <property name="dateSent" direction="asc"/>
+    </datastore-index>
+
 
 </datastore-indexes>
