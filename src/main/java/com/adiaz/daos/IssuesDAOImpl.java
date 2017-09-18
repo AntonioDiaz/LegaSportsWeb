@@ -56,7 +56,7 @@ public class IssuesDAOImpl implements IssuesDAO {
 			Key<Competition> key = Key.create(Competition.class, competitionId);
 			issues = query
 					.filter("competitionRef", Ref.create(key))
-					.order("dateSent").list();
+					.order("-dateSent").list();
 		}
 		return issues;
 	}
@@ -69,7 +69,7 @@ public class IssuesDAOImpl implements IssuesDAO {
 			Key<Town> key = Key.create(Town.class, townId);
 			issues = query
 					.filter("townRef", Ref.create(key))
-					.order("dateSent").list();
+					.order("-dateSent").list();
 		}
 		return issues;
 	}

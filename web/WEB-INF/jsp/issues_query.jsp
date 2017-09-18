@@ -30,8 +30,20 @@
 		}
 	}
 
+	function fViewDetails(idIssue) {
+		window.location.href = "/issues/view?idIssue=" + idIssue;
+	}
+	
+	function fValidateForm() {
+		var townId = $('#townId').val();
+		if (townId=="") {
+			showDialogAlert("Indique el municipio para filtrar los resultados.");
+			return false;
+		}
+	}
+
 </script>
-<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
+<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline" onsubmit="return fValidateForm()">
 	<div class="row">
 		<div class="col-sm-3">
 			<div class="form-group">
@@ -56,14 +68,14 @@
 	</div>
 </form:form>
 <hr>
-<table class="table table-hover">
+<table class="table table-hover" id="issuesTable">
 	<thead>
 	<tr>
 		<th class="col-md-2">Municipio</th>
 		<th class="col-md-3">Competición</th>
-		<th class="col-md-2">Fecha</th>
-		<th class="col-md-2">Usuario</th>
 		<th class="col-md-3">Partido</th>
+		<th class="col-md-1">Fecha</th>
+		<th class="col-md-1">&nbsp;</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -81,34 +93,27 @@
 		</c:if>
 		<c:forEach var="issue" items="${issues}">
 			<tr>
-				<td colspan="10" style="padding: 0px;">
-					<table id="issuesTable" width="100%" style="">
-						<tr>
-							<td class="col-sm-2">${issue.town.name}</td>
-							<td class="col-sm-3" title="${issue.competition.fullName}">
-								<div style="width: 250px;" class="hideextra">${issue.competition.fullName}</div>
-							</td>
-							<td class="col-sm-2">
-								<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${issue.dateSent}"></fmt:formatDate>
-							</td>
-							<td class="col-sm-2">${issue.clientId}</td>
-							<td class="col-sm-3">
-								<c:if test="${issue.match == null}">
-									-
-								</c:if>
-								<c:if test="${issue.match != null}">
-									<div style="width: 250px;" class="hideextra">${issue.match.fullName}</div>
-								</c:if>
-
-							</td>
-						</tr>
-						<tr>
-							<td class="col-sm-10" colspan="9"><em>${issue.description}</em></td>
-						</tr>
-					</table>
+				<td class="col-sm-2">${issue.town.name}</td>
+				<td class="col-sm-3" title="${issue.competition.fullName}">
+					<div style="width: 300px;" class="hideextra">${issue.competition.fullName}</div>
+				</td>
+				<td class="col-sm-3" title="${issue.matchDescription}">
+					<c:if test="${issue.match == null}">
+						-
+					</c:if>
+					<c:if test="${issue.match != null}">
+						<div style="width: 300px;" class="hideextra">${issue.matchDescription}</div>
+					</c:if>
+				</td>
+				<td class="col-sm-1">
+					<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${issue.dateSent}"></fmt:formatDate>
+				</td>
+				<td class="col-sm-1" align="right">
+					<button type="button" class="btn btn-default" onclick="fViewDetails('${issue.id}')" title="ver detalles">
+						<span class="glyphicon glyphicon-eye-open"></span>
+					</button>
 				</td>
 			</tr>
-
 		</c:forEach>
 	</tbody>
 </table>

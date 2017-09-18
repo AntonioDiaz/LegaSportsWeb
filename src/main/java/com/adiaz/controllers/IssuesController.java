@@ -7,8 +7,7 @@ import com.adiaz.services.IssuesManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -18,6 +17,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/issues")
+@SessionAttributes({"form_filter"})
 public class IssuesController {
 
 	private static final Logger logger = Logger.getLogger(IssuesController.class);
@@ -28,14 +28,13 @@ public class IssuesController {
 
 	@RequestMapping("/list")
 	public ModelAndView list(){
-		ModelAndView modelAndView = new ModelAndView("query_issues");
+		ModelAndView modelAndView = new ModelAndView("issues_query");
 		modelAndView.addObject("form_filter", new IssuesForm());
 		return modelAndView;
 	}
 
 	@RequestMapping("/doFilter")
 	public ModelAndView doFilter(@ModelAttribute("form_filter")IssuesForm issuesForm){
-		ModelAndView modelAndView = new ModelAndView("query_issues");
 		List<Issue> issues;
 		if (issuesForm.getCompetitionId()!=null) {
 			issues = issuesManager.queryIssuesByCompetition(issuesForm.getCompetitionId());
@@ -44,8 +43,16 @@ public class IssuesController {
 		} else {
 			issues = issuesManager.queryIssues();
 		}
+		ModelAndView modelAndView = new ModelAndView("issues_query");
+		modelAndView.addObject("form_filter", issuesForm);
 		modelAndView.addObject("issues", issues);
 		return modelAndView;
 	}
 
+	@RequestMapping("/view")
+	public ModelAndView viewDetails(@RequestParam Long idIssue) {
+		ModelAndView modelAndView = new ModelAndView("issues_view");
+		modelAndView.addObject("issue", issuesManager.queryIssueById(idIssue));
+		return modelAndView;
+	}
 }

@@ -42,6 +42,8 @@ public class Issue {
 	@JsonIgnore
 	private Match match;
 
+	private String matchDescription;
+
 	boolean read;
 	private String description;
 
@@ -150,5 +152,13 @@ public class Issue {
 
 	public void setRead(boolean read) {
 		this.read = read;
+	}
+
+	public String getMatchDescription() {
+		return matchDescription;
+	}
+
+	public void setMatchDescription(String matchDescription) {
+		this.matchDescription = matchDescription;
 	}
 }

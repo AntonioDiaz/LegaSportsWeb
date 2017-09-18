@@ -1,11 +1,12 @@
 package com.adiaz.forms;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by toni on 14/09/2017.
  */
-public class IssuesForm {
+public class IssuesForm implements Serializable {
 
 	private String clientId;
 	private Long competitionId;

@@ -1,7 +1,11 @@
 package com.adiaz.entities;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.adiaz.utils.MatchUtils;
+import com.adiaz.utils.MuniSportsConstants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
@@ -97,9 +101,27 @@ public class Match {
 	}
 
 	public String getFullName(){
-		String localTeamStr = teamLocalEntity!=null?teamLocalEntity.getName():"_";
-		String visitorTeamStr = teamVisitorEntity!=null?teamVisitorEntity.getName():"_";
-		return String.format("Jornada %1$s (%2$s - %3$s)", week, localTeamStr, visitorTeamStr);
+		String localTeamStr = this.getTeamLocalEntity()!=null?this.getTeamLocalEntity().getName():"_";
+		String visitorTeamStr = this.getTeamVisitorEntity()!=null?this.getTeamVisitorEntity().getName():"_";
+		return String.format("Week %1$s (%2$s - %3$s)", this.getWeek(), localTeamStr, visitorTeamStr);
+	}
+
+	public String getFullDescription(){
+		String matchDesc = this.getFullName();
+		matchDesc  += "  Date: ";
+		if (this.getDate()!=null) {
+			DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
+			matchDesc += dateFormat.format(this.getDate());
+		} else {
+			matchDesc += "_";
+		}
+		matchDesc += "  Centro: ";
+		if (this.getSportCenterCourt()!=null) {
+			matchDesc += this.getSportCenterCourt().getNameWithCenter();
+		} else {
+			matchDesc += "_";
+		}
+		return matchDesc;
 	}
 
 	public Long getId() {
@@ -248,4 +270,8 @@ public class Match {
 	public void setState(Short state) {
 		this.state = state;
 	}
+
+
+
+
 }

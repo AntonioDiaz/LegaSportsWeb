@@ -6,6 +6,7 @@ import com.adiaz.entities.Competition;
 import com.adiaz.entities.Issue;
 import com.adiaz.forms.IssuesForm;
 import com.adiaz.forms.utils.IssuesFormUtils;
+import com.adiaz.utils.MatchUtils;
 import com.adiaz.utils.MuniSportsConstants;
 import com.adiaz.utils.MuniSportsUtils;
 import com.googlecode.objectify.Key;
@@ -58,6 +59,10 @@ public class IssuesManagerImpl implements IssuesManager {
 	@Override
 	public Long addIssue(IssuesForm issuesForm) throws Exception {
 		Issue issue = issuesFormUtils.formToEntity(issuesForm);
+		issue.getRefs();
+		if (issue.getMatch()!=null) {
+			issue.setMatchDescription(issue.getMatch().getFullDescription());
+		}
 		Key<Issue> issueKey = issuesDAO.create(issue);
 		return issueKey.getId();
 	}

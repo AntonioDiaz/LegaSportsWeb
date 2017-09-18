@@ -39,7 +39,6 @@ public class IssuesFormUtils implements GenericFormUtils<IssuesForm, Issue> {
 			Key<Town> townKey = Key.create(Town.class, form.getTownId());
 			entity.setTownRef(Ref.create(townKey));
 		}
-
 	}
 
 	@Override
