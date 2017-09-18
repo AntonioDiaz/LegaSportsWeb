@@ -10,8 +10,6 @@ public class MuniSportsConstants {
 	public static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
 	public static final String USERNAME_PATTERN = "[a-zA-Z|\\.|ñ|Ñ]{4,20}";
 
-	public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
-
 	public static final String[][] SPORTS_NAMES = new String[][]{
 			{"Futbol 11", "FUTBOL_11"},
 			{"Futbol 7", "FUTBOL_7"},

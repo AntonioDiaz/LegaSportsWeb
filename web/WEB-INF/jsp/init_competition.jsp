@@ -1,6 +1,13 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="taglibs.jsp"%>
 <script>
 	$(document).ready(function() {
+		<c:if test="${error_courts==true}">
+			showDialogAlert("Antes tiene que crear un centro deportivo y una pista.");
+		</c:if>
+		<c:if test="${competition_created==true}">
+			showDialogAlert("Se ha creado la competición.");
+		</c:if>
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
 			window.location.href = "/";
@@ -36,7 +43,7 @@
 				<form:options items="${sports}" itemLabel="name" itemValue="id" />
 			</form:select>
 		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCategory" cssClass="text-danger" /></label>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idSport" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Nombre</label>

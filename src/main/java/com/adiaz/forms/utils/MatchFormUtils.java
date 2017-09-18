@@ -5,6 +5,7 @@ import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.MuniSportsUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.commons.lang3.StringUtils;
@@ -28,15 +29,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 	public void formToEntity(Match match, MatchForm matchForm) {
 		match.setScoreLocal(matchForm.getScoreLocal());
 		match.setScoreVisitor(matchForm.getScoreVisitor());
-		match.setDate(null);
-		if (StringUtils.isNotBlank(matchForm.getDateStr())) {
-			DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
-			try {
-				match.setDate(dateFormat.parse(matchForm.getDateStr()));
-			} catch (ParseException e) {
-				logger.error("error on parse form to entity " + matchForm, e);
-			}
-		}
+		match.setDate(MuniSportsUtils.parseStringToDate(matchForm.getDateStr()));
 		match.setSportCenterCourtRef(null);
 		if (matchForm.getCourtId()!=null) {
 			Key<SportCenterCourt> key = Key.create(SportCenterCourt.class, matchForm.getCourtId());
@@ -74,10 +67,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 		MatchForm f = new MatchForm();
 		f.setId(e.getId());
 		f.setWeek(e.getWeek());
-		DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
-		if (e.getDate()!=null) {
-			f.setDateStr(dateFormat.format(e.getDate()));
-		}
+		f.setDateStr(MuniSportsUtils.parseDateToString(e.getDate()));
 		f.setScoreLocal(e.getScoreLocal());
 		f.setScoreVisitor(e.getScoreVisitor());
 		if (e.getTeamLocalEntity()!=null) {

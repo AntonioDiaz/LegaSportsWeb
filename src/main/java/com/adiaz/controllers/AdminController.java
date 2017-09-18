@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.DateFormat;
@@ -40,9 +41,13 @@ public class AdminController {
 
 
 	@RequestMapping("/initCompetition")
-	public ModelAndView competition(){
+	public ModelAndView competition(
+			@RequestParam (required = false, defaultValue = "false") boolean competitionCreated,
+			@RequestParam (required = false, defaultValue = "false") boolean errorCourts){
 		ModelAndView modelAndView = new ModelAndView("init_competition");
 		modelAndView.addObject("my_form", new CompetitionsForm());
+		modelAndView.addObject("error_courts", errorCourts);
+		modelAndView.addObject("competition_created", competitionCreated);
 		return modelAndView;
 	}
 
@@ -57,12 +62,18 @@ public class AdminController {
 			try {
 				List<SportCenterCourt> courts = sportCenterCourtManager.querySportCourtsByTownAndSport(
 						competitionsForm.getIdTown(), competitionsForm.getIdSport());
-				if (courts.size()>0) {
+				boolean errorCourts = courts.size()<=0;
+				boolean competitionCreated = false;
+				if (!errorCourts) {
 					createCompetition(competitionsForm, Ref.create(courts.get(0)));
+					competitionCreated = true;
 				}
-				modelAndView.setViewName("redirect:/admin/initCompetition");
+				String addressTarget = "redirect:/admin/initCompetition";
+				addressTarget += "?errorCourts=" + errorCourts;
+				addressTarget += "&competitionCreated=" + competitionCreated;
+				modelAndView.setViewName(addressTarget);
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(), e);
 			}
 		}
 		return modelAndView;
@@ -97,14 +108,13 @@ public class AdminController {
 		for (MatchForm matchForm : matchesFormList) {
 			Ref<Team> teamRefLocal = teamsMap.get(matchForm.getTeamLocalName());
 			Ref<Team> teamRefVisitor = teamsMap.get(matchForm.getTeamVisitorName());
-			DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
 			Match match = new Match();
 			match.setScoreLocal(matchForm.getScoreLocal());
 			match.setScoreVisitor(matchForm.getScoreVisitor());
 			match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
 			match.setTeamLocalRef(teamRefLocal);
 			match.setTeamVisitorRef(teamRefVisitor);
-			match.setDate(dateFormat.parse(matchForm.getDateStr()));
+			match.setDate(MuniSportsUtils.parseStringToDate(matchForm.getDateStr()));
 			match.setSportCenterCourtRef(refCourt);
 			match.setCompetitionRef(competitionRef);
 			match.setWeek(matchForm.getWeek());

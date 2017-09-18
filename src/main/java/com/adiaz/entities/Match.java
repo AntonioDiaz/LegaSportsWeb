@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.adiaz.utils.MatchUtils;
 import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.MuniSportsUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
@@ -100,18 +101,19 @@ public class Match {
 		}
 	}
 
+	@JsonIgnore
 	public String getFullName(){
 		String localTeamStr = this.getTeamLocalEntity()!=null?this.getTeamLocalEntity().getName():"_";
 		String visitorTeamStr = this.getTeamVisitorEntity()!=null?this.getTeamVisitorEntity().getName():"_";
 		return String.format("Week %1$s (%2$s - %3$s)", this.getWeek(), localTeamStr, visitorTeamStr);
 	}
 
+	@JsonIgnore
 	public String getFullDescription(){
 		String matchDesc = this.getFullName();
 		matchDesc  += "  Date: ";
 		if (this.getDate()!=null) {
-			DateFormat dateFormat = new SimpleDateFormat(MuniSportsConstants.DATE_FORMAT);
-			matchDesc += dateFormat.format(this.getDate());
+			matchDesc += MuniSportsUtils.parseDateToString(this.getDate());
 		} else {
 			matchDesc += "_";
 		}

@@ -26,41 +26,8 @@ import org.springframework.validation.Errors;
 public class MuniSportsUtils {
 
 	private static final Logger logger = Logger.getLogger(MuniSportsUtils.class.getName());
-
-	public static List<Match> parseCalendar(String lines, long idCompetition, Ref<SportCenterCourt> sportCourtRef,Map<String, Ref<Team>> teamsMap) {
-		List<Match> matchesList = new ArrayList<>();
-		String[] split = lines.split("\\r\\n");
-		int week = 0;
-		for (int i = 0; i < split.length; i++) {
-			String line = split[i];
-			if (line.startsWith("Jornada")) {
-				week++;
-			} else {
-				String[] strings = line.split("\\t");
-				Match match = new Match();
-				match.setWeek(week);
-				match.setTeamLocalRef(teamsMap.get(strings[2]));
-				match.setTeamVisitorRef(teamsMap.get(strings[3]));
-				match.setState(MuniSportsConstants.MATCH_STATE.PENDING.getValue());
-				match.setWorkingCopy(false);
-				if (strings.length >= 5) {
-					match.setSportCenterCourtRef(sportCourtRef);
-				}
-				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				Date myDate;
-				try {
-					myDate = dateFormat.parse(strings[0] + " " + strings[1]);
-					match.setDate(myDate);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				Key<Competition> competitionKey = Key.create(Competition.class, idCompetition);
-				match.setCompetitionRef(Ref.create(competitionKey));
-				matchesList.add(match);
-			}
-		}
-		return matchesList;
-	}
+	public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
+	public static final String DATE_ZONE_MADRID = "Europe/Madrid";
 
 	public static Set<String> parseCalendarGetTeams() {
 		Set<String> teamsNames = new HashSet<>();
@@ -96,12 +63,6 @@ public class MuniSportsUtils {
 			}
 		}
 		return matchesList;
-	}
-
-
-	public static List<Match> parseCalendar(Long idCompetition, Ref<SportCenterCourt> sportCourtRef, Map<String, Ref<Team>> teamsMap) {
-		String lines = parseLinesTextFile("static_calendar.txt");
-		return  parseCalendar(lines, idCompetition, sportCourtRef, teamsMap);
 	}
 
 	public static String sha256Encode(String text) throws Exception {
@@ -183,4 +144,27 @@ public class MuniSportsUtils {
 		return calendar.getTime();
 	}
 
+	public static final String parseDateToString(Date date) {
+		String dateStr = null;
+		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_ZONE_MADRID));
+		if (date!=null) {
+			dateStr = dateFormat.format(date);
+		}
+		return dateStr;
+	}
+
+	public static final Date parseStringToDate(String dateStr){
+		Date date = null;
+		if (StringUtils.isNotBlank(dateStr)) {
+			DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+			dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_ZONE_MADRID));
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				logger.error("error on parse form to entity " + dateStr, e);
+			}
+		}
+		return date;
+	}
 }
