@@ -61,10 +61,11 @@ public class CompetitionsFormUtils implements GenericFormUtils<CompetitionsForm,
 		if (entity.getTownEntity()!=null) {
 			competitionsForm.setIdTown(entity.getTownEntity().getId());
 		}
+		List<Team> teamsList = entity.getTeamsDeref();
 		if (entity.getTeams()!=null){
-			Long teamsIds[] = new Long[entity.getTeams().size()];
-			for (int i = 0; i < entity.getTeams().size(); i++) {
-				teamsIds[i] = entity.getTeamsDeref().get(i).getId();
+			Long teamsIds[] = new Long[teamsList.size()];
+			for (int i = 0; i < teamsList.size(); i++) {
+				teamsIds[i] = teamsList.get(i).getId();
 			}
 			competitionsForm.setTeams(teamsIds);
 		}

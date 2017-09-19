@@ -12,6 +12,7 @@ public class TownForm {
 	private String address;
 	private String contactPerson;
 	private boolean isActive;
+	private Long[] sports;
 
 	public String getName() {
 		return name;
@@ -67,5 +68,13 @@ public class TownForm {
 
 	public void setActive(boolean active) {
 		isActive = active;
+	}
+
+	public Long[] getSports() {
+		return sports;
+	}
+
+	public void setSports(Long[] sports) {
+		this.sports = sports;
 	}
 }

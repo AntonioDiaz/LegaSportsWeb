@@ -1,11 +1,16 @@
 package com.adiaz.entities;
 
+import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by toni on 14/07/2017.
@@ -33,6 +38,10 @@ public class Town implements Serializable {
 
 	@JsonIgnore
 	private boolean isActive;
+
+	@Load
+	@JsonIgnore
+	private List<Ref<Sport>> sports = new ArrayList<Ref<Sport>>();
 
 	public Long getId() {
 		return id;
@@ -89,4 +98,17 @@ public class Town implements Serializable {
 	public void setActive(boolean active) {
 		isActive = active;
 	}
+
+	public List<Ref<Sport>> getSports() {
+		return sports;
+	}
+
+	public void setSports(List<Ref<Sport>> sports) {
+		this.sports = sports;
+	}
+
+	public List<Sport> getSportsDeref() {
+		return Deref.deref(sports);
+	}
+
 }
