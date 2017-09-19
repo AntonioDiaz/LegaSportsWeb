@@ -10,7 +10,7 @@ public interface CategoriesManager {
 
 	void add(Category item) throws Exception;
 	boolean remove(Category item) throws Exception;
-	void remove(Long id) throws Exception;
+	boolean remove(Long id) throws Exception;
 	boolean update(Category item) throws Exception;
 	boolean update(CategoriesForm categoriesForm) throws Exception;
 	List<Category> queryCategories();

@@ -5,19 +5,18 @@
 			event.preventDefault();
 			window.location.href = "/sports/list";
 		});
+
 	});
 </script>
-<form:form method="post" action="doAdd" commandName="my_form" name="my_form" cssClass="form-horizontal">
-
+<form:form method="post" action="doUpdate" commandName="my_form" name="my_form" cssClass="form-horizontal">
 	<%@ include file="/WEB-INF/jsp/sports_form.jsp"%>
-
 	<div class="form-group" id="div_botones">
 		<label class="control-label col-sm-4">&nbsp;</label>
 		<div class="col-sm-2">
 			<button id="btnBack" type="button" class="btn btn-default btn-block">cancelar</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="submit" class="btn btn-primary btn-block">crear deporte</button>
+			<button type="submit" class="btn btn-primary btn-block">actualizar deporte</button>
 		</div>
 		<div class="col-sm-4">&nbsp;</div>
 	</div>

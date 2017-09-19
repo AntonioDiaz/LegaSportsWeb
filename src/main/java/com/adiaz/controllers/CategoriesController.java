@@ -42,7 +42,7 @@ public class CategoriesController {
 	}
 
 	@RequestMapping("/view")
-	public ModelAndView view(@RequestParam(value = "idCategory") Long idCategory){
+	public ModelAndView view(@RequestParam Long idCategory){
 		ModelAndView modelAndView = new ModelAndView("categories_view");
 		CategoriesForm categoriesForm = categoriesManager.queryCategoriesFormById(idCategory);
 		modelAndView.addObject("my_form", categoriesForm);
@@ -50,7 +50,7 @@ public class CategoriesController {
 	}
 
 	@RequestMapping("/update")
-	public ModelAndView update(@RequestParam(value = "idCategory") Long idCategory){
+	public ModelAndView update(@RequestParam Long idCategory){
 		ModelAndView modelAndView = new ModelAndView("categories_update");
 		CategoriesForm categoriesForm = categoriesManager.queryCategoriesFormById(idCategory);
 		modelAndView.addObject("my_form", categoriesForm);

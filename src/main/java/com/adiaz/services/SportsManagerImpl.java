@@ -36,6 +36,13 @@ public class SportsManagerImpl implements SportsManager {
 	}
 
 	@Override
+	public boolean remove(Long id) throws Exception {
+		Sport sport = new Sport();
+		sport.setId(id);
+		return sportsDAO.remove(sport);
+	}
+
+	@Override
 	public boolean update(Sport sport) throws Exception {
 		return sportsDAO.update(sport);
 	}

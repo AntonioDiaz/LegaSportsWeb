@@ -34,8 +34,16 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/sports_list.jsp" />
 	</definition>
 	<definition name="sports_add" extends="homeTemplate">
-		<put-attribute name="page_title" value="Lista de deportes" />
+		<put-attribute name="page_title" value="Crear deporte" />
 		<put-attribute name="body" value="/WEB-INF/jsp/sports_add.jsp" />
+	</definition>
+	<definition name="sports_view" extends="homeTemplate">
+		<put-attribute name="page_title" value="Crear deporte" />
+		<put-attribute name="body" value="/WEB-INF/jsp/sports_view.jsp" />
+	</definition>
+	<definition name="sports_update" extends="homeTemplate">
+		<put-attribute name="page_title" value="Modificar deporte" />
+		<put-attribute name="body" value="/WEB-INF/jsp/sports_update.jsp" />
 	</definition>
 	<definition name="categories_list" extends="homeTemplate">
 		<put-attribute name="page_title" value="Lista de categorias" />

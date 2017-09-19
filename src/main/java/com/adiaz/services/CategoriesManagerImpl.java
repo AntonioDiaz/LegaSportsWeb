@@ -30,10 +30,10 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	}
 
 	@Override
-	public void remove(Long id) throws Exception {
+	public boolean remove(Long id) throws Exception {
 		Category category = new Category();
 		category.setId(id);
-		categoriesDAO.remove(category);
+		return categoriesDAO.remove(category);
 	}
 
 	@Override
