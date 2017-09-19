@@ -166,4 +166,10 @@
 		<put-attribute name="page_title" value="Ver incidencia" />
 		<put-attribute name="body" value="/WEB-INF/jsp/issues_view.jsp" />
 	</definition>
+	<definition name="error_page" extends="homeTemplate">
+		<put-attribute name="page_title" value="No se ha podido completar la operación" />
+		<put-attribute name="body" value="/WEB-INF/jsp/error_body.jsp" />
+	</definition>
+	<definition name="error_view_page" template="/WEB-INF/jsp/error_view_page.jsp">
+	</definition>
 </tiles-definitions>
