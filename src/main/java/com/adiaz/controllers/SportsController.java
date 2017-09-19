@@ -18,6 +18,13 @@ public class SportsController {
 	@RequestMapping("/list")
 	public ModelAndView getSportsList() {
 		ModelAndView modelAndView = new ModelAndView("sports_list");
+		throw new NullPointerException();
+		//return modelAndView;
+	}
+
+	@RequestMapping("/add")
+	public ModelAndView add() {
+		ModelAndView modelAndView = new ModelAndView("sports_add");
 		return modelAndView;
-	}	
+	}
 }

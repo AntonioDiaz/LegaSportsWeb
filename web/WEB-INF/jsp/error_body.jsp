@@ -6,7 +6,7 @@
 <h3>Se ha producido un error, contacte con el administrador del sistema.</h3>
 <br>
 <button class="btn btn-default" data-toggle="collapse" data-target="#demo">Ver detalles</button>
-
+<br><br>
 <div id="demo" class="collapse">
 	Failed URL: ${url}
 	<br>
