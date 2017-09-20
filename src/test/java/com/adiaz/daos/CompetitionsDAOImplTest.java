@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -198,11 +199,22 @@ public class CompetitionsDAOImplTest {
 		competitionsDAO.update(competition);
 		assertEquals(1, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), true).size());
 	}
-		@Test
+
+	@Test
 	public void findCompetitionsById() throws Exception {
 		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
 		Competition competition = Ref.create(key).getValue();
 		assertEquals(competition, competitionsDAO.findCompetitionsById(key.getId()));
+	}
+
+	@Test
+	public void findCompetitionsByCategory() throws Exception {
+		List<Competition> competitionsByCategory = competitionsDAO.findCompetitionsByCategory(refCategoryCadete.get().getId());
+		assertEquals(0, competitionsByCategory.size());
+		createCompetition(COPA_LIGA);
+		createCompetition(COPA_PRIMAVERA);
+		competitionsByCategory = competitionsDAO.findCompetitionsByCategory(refCategoryCadete.get().getId());
+		assertEquals(2, competitionsByCategory.size());
 	}
 
 	private Key<Competition> createCompetition(

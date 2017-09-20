@@ -30,14 +30,16 @@ public class CategoriesController {
 	public ModelAndView list(
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
-			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone) {
+			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone,
+			@RequestParam(value = "remove_undone", defaultValue = "false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("categories_list");
 		/* It is necessary to update the categories list in session.*/
 		List<Category> categoryList = categoriesManager.queryCategories();
 		modelAndView.addObject("categories", categoryList);
 		modelAndView.addObject("add_done", addDone);
-		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("remove_undone", removeUndone);
 		return modelAndView;
 	}
 
@@ -101,8 +103,11 @@ public class CategoriesController {
 
 	@RequestMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) throws Exception {
-		// TODO: 25/07/2017 validate category has not in a competition.
-		categoriesManager.remove(id);
-		return "redirect:/categories/list?remove_done=true";
+		if (categoriesManager.isElegibleForDelete(id)) {
+			categoriesManager.remove(id);
+			return "redirect:/categories/list?remove_done=true";
+		} else {
+			return "redirect:/categories/list?remove_undone=true";
+		}
 	}
 }

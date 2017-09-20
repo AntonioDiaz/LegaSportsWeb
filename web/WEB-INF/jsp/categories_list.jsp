@@ -11,6 +11,9 @@
 		<c:if test="${update_done==true}">
 			showDialogAlert("La categoria ha sido actualizada.");
 		</c:if>
+		<c:if test="${remove_undone==true}">
+			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
+		</c:if>
 	});
 
 	function fUpdate(id) {

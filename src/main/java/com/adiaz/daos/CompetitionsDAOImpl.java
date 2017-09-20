@@ -50,6 +50,11 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 
 	@Override
+	public List<Competition> findCompetitionsByCategory(Long idCategory) {
+		return findCompetitions(null, idCategory, null);
+	}
+
+	@Override
 	public List<Competition> findCompetitions(Long idTown, boolean onlyPublished) {
 		Query<Competition> query = ofy().load().type(Competition.class);
 		Key<Town> key = Key.create(Town.class, idTown);

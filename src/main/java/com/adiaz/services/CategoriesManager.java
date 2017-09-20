@@ -7,7 +7,6 @@ import com.adiaz.forms.CategoriesFilterForm;
 import com.adiaz.forms.CategoriesForm;
 
 public interface CategoriesManager {
-
 	void add(Category item) throws Exception;
 	boolean remove(Category item) throws Exception;
 	boolean remove(Long id) throws Exception;
@@ -19,4 +18,5 @@ public interface CategoriesManager {
 	Category queryCategoriesByName(String string);
 	void removeAll() throws Exception;
 	void add(CategoriesForm categoriesForm) throws Exception;
+	boolean isElegibleForDelete(Long idCategory);
 }

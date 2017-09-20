@@ -2,6 +2,8 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.daos.CompetitionsDAO;
+import com.adiaz.daos.TeamDAO;
 import com.adiaz.forms.CategoriesFilterForm;
 import com.adiaz.forms.CategoriesForm;
 import com.adiaz.forms.utils.CategoriesFormUtils;
@@ -18,7 +20,12 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	CategoriesDAO categoriesDAO;
 	@Autowired
 	CategoriesFormUtils categoriesFormUtils;
-	
+	@Autowired
+	TeamDAO teamDAO;
+	@Autowired
+	CompetitionsDAO competitionsDAO;
+
+
 	@Override
 	public void add(Category item) throws Exception {
 		categoriesDAO.create(item);
@@ -26,14 +33,22 @@ public class CategoriesManagerImpl implements CategoriesManager {
 
 	@Override
 	public boolean remove(Category item) throws Exception {
-		return categoriesDAO.remove(item);
+		if (this.isElegibleForDelete(item.getId())) {
+			return categoriesDAO.remove(item);
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean remove(Long id) throws Exception {
-		Category category = new Category();
-		category.setId(id);
-		return categoriesDAO.remove(category);
+		if (this.isElegibleForDelete(id)) {
+			Category category = new Category();
+			category.setId(id);
+			return categoriesDAO.remove(category);
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -92,5 +107,10 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	public void add(CategoriesForm categoriesForm) throws Exception {
 		Category category = categoriesFormUtils.formToEntity(categoriesForm);
 		categoriesDAO.create(category);
+	}
+
+	@Override
+	public boolean isElegibleForDelete(Long idCategory) {
+		return teamDAO.findByCategory(idCategory).isEmpty() && competitionsDAO.findCompetitionsByCategory(idCategory).isEmpty();
 	}
 }

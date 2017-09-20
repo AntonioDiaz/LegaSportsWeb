@@ -17,9 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by toni on 25/07/2017.
@@ -38,6 +36,7 @@ public class TeamDAOImplTest {
 	public static final String FUENLABRADA = "FUENLABRADA";
 	public static final String BALONCESTO = "Baloncesto";
 	public static final String SOCCER = "SOCCER";
+
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
 	private Ref<Club> refCdLeganes;
@@ -74,11 +73,11 @@ public class TeamDAOImplTest {
 		ObjectifyService.register(Sport.class);
 		Town town = new Town();
 		town.setName(LEGANES);
-		refLeganes = Ref.create (townDAO.create(town));
+		refLeganes = Ref.create(townDAO.create(town));
 
 		town = new Town();
 		town.setName(FUENLABRADA);
-		refFuenlabrada= Ref.create (townDAO.create(town));
+		refFuenlabrada = Ref.create(townDAO.create(town));
 
 
 		Club club = new Club();
@@ -97,15 +96,15 @@ public class TeamDAOImplTest {
 		categoryKey = categoriesDAO.create(category);
 		refJuvenil = Ref.create(categoryKey);
 
-		Sport sport	= new Sport();
+		Sport sport = new Sport();
 		sport.setName(BALONCESTO);
 		Key<Sport> sportKey = sportsDAO.create(sport);
 		basketRef = Ref.create(sportKey);
 
-		sport	= new Sport();
+		sport = new Sport();
 		sport.setName(SOCCER);
 		soccerRef = Ref.create(sportsDAO.create(sport));
-		
+
 	}
 
 	@After
@@ -155,7 +154,7 @@ public class TeamDAOImplTest {
 	public void findById() throws Exception {
 		Key<Team> key = createTeam(CD_LEGANES_CADETE, refCdLeganes, refCadete, refLeganes, basketRef);
 		Team team = teamDAO.findById(key.getId());
-		assertEquals(key.getId(), (long)team.getId());
+		assertEquals(key.getId(), (long) team.getId());
 		assertNull(teamDAO.findById(666l));
 	}
 
@@ -229,5 +228,16 @@ public class TeamDAOImplTest {
 		List<Team> teamsBasket = teamDAO.findBySport(basketRef.get().getId());
 		assertEquals(2, teamsSoccer.size());
 		assertEquals(1, teamsBasket.size());
+	}
+
+	@Test
+	public void findbycategory() throws Exception {
+		List<Team> byCategory = teamDAO.findByCategory(refJuvenil.get().getId());
+		assertTrue(byCategory.isEmpty());
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refCadete, refLeganes, soccerRef);
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refJuvenil, refLeganes, soccerRef);
+		createTeam(CD_LEGANES_JUVENIL, refCdLeganes, refJuvenil, refFuenlabrada, basketRef);
+		assertEquals(1, teamDAO.findByCategory(refCadete.get().getId()).size());
+		assertEquals(2, teamDAO.findByCategory(refJuvenil.get().getId()).size());
 	}
 }
