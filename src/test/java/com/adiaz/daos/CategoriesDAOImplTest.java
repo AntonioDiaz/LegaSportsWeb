@@ -2,20 +2,20 @@ package com.adiaz.daos;
 
 import com.adiaz.entities.Category;
 import com.adiaz.entities.Town;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.googlecode.objectify.ObjectifyService;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /** Created by toni on 10/07/2017. */
 
@@ -59,13 +59,13 @@ public class CategoriesDAOImplTest {
 
     @org.junit.Test
     public void create() throws Exception {
-        Assert.assertEquals(0, categoriesDAO.findAllCategories().size());
+        assertEquals(0, categoriesDAO.findAllCategories().size());
         createCategory();
         List<Category> categories = categoriesDAO.findAllCategories();
-        Assert.assertEquals(1, categories.size());
+        assertEquals(1, categories.size());
         Category category = categories.get(0);
-        Assert.assertEquals(CATEGORY_CADETE, category.getName());
-        Assert.assertEquals(CATEGORY_ORDER_2, category.getOrder());
+        assertEquals(CATEGORY_CADETE, category.getName());
+        assertEquals(CATEGORY_ORDER_2, category.getOrder());
     }
 
     @org.junit.Test
@@ -77,16 +77,16 @@ public class CategoriesDAOImplTest {
         category.setOrder(CATEGORY_ORDER_3);
         categoriesDAO.update(category);
         category = categoriesDAO.findCategoryById(category.getId());
-        Assert.assertEquals(CATEGORY_JUVENIL, category.getName());
-        Assert.assertEquals(CATEGORY_ORDER_3, category.getOrder());
+        assertEquals(CATEGORY_JUVENIL, category.getName());
+        assertEquals(CATEGORY_ORDER_3, category.getOrder());
     }
 
     @org.junit.Test
     public void remove() throws Exception {
        createCategory();
-       Assert.assertEquals(1, categoriesDAO.findAllCategories().size());
+       assertEquals(1, categoriesDAO.findAllCategories().size());
        categoriesDAO.remove(categoriesDAO.findAllCategories().get(0));
-       Assert.assertEquals(0, categoriesDAO.findAllCategories().size());
+       assertEquals(0, categoriesDAO.findAllCategories().size());
 
     }
 
@@ -94,16 +94,16 @@ public class CategoriesDAOImplTest {
     public void findAllCategories() throws Exception {
         createCategory();
         createCategory();
-        Assert.assertEquals(2, categoriesDAO.findAllCategories().size());
+        assertEquals(2, categoriesDAO.findAllCategories().size());
     }
 
     @org.junit.Test
     public void findCategoryById() throws Exception {
         Key<Category> key = createCategory();
         Category category = categoriesDAO.findCategoryById(key.getId());
-        Assert.assertEquals(key.getId(), (long) category.getId());
-        Assert.assertEquals(CATEGORY_CADETE, category.getName());
-        Assert.assertEquals(CATEGORY_ORDER_2, category.getOrder());
+        assertEquals(key.getId(), (long) category.getId());
+        assertEquals(CATEGORY_CADETE, category.getName());
+        assertEquals(CATEGORY_ORDER_2, category.getOrder());
     }
 
 }

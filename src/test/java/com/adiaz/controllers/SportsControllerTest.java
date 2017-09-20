@@ -41,9 +41,9 @@ public class SportsControllerTest {
     @Test
     public void givenWac_whenServletContext_thenItProvidesSportsController() {
         ServletContext servletContext = wac.getServletContext();
-        Assert.assertNotNull(servletContext);
-        Assert.assertTrue(servletContext instanceof MockServletContext);
-        Assert.assertNotNull(wac.getBean("sportsController"));
+        assertNotNull(servletContext);
+        assertTrue(servletContext instanceof MockServletContext);
+        assertNotNull(wac.getBean("sportsController"));
     }
 
     @Test

@@ -17,6 +17,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by toni on 11/07/2017.
  */
@@ -61,12 +63,12 @@ public class UsersDAOImplTest {
 
 	@Test
 	public void create() throws Exception {
-		Assert.assertEquals(0, usersDAO.findAllUsers().size());
+		assertEquals(0, usersDAO.findAllUsers().size());
 		createUserCall(USERNAME_PEPITO);
-		Assert.assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAllUsers().size());
 		User user = usersDAO.findUser(USERNAME_PEPITO);
-		Assert.assertEquals(USERNAME_PEPITO, user.getUsername());
-		Assert.assertEquals(LEGANES, user.getTownRef().get().getName());
+		assertEquals(USERNAME_PEPITO, user.getUsername());
+		assertEquals(LEGANES, user.getTownRef().get().getName());
 	}
 
 	@Test
@@ -76,26 +78,26 @@ public class UsersDAOImplTest {
 		long townId = townRef.getKey().getId();
 		usersDAO.create(user, townId);
 		user = usersDAO.findUser(USERNAME_PEPITO);
-		Assert.assertEquals(USERNAME_PEPITO, user.getUsername());
-		Assert.assertEquals(LEGANES, user.getTownRef().get().getName());
+		assertEquals(USERNAME_PEPITO, user.getUsername());
+		assertEquals(LEGANES, user.getTownRef().get().getName());
 	}
 
 	@Test
 	public void createExistingUser() throws Exception {
 		createUserCall(USERNAME_PEPITO);
 		createUserCall(USERNAME_PEPITO);
-		Assert.assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAllUsers().size());
 	}
 
 	@Test
 	public void update() throws Exception {
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
-		Assert.assertEquals(PASSWORD, user.getPassword01());
+		assertEquals(PASSWORD, user.getPassword01());
 		user.setPassword01(PASSWORD_UPDATED);
 		usersDAO.update(user);
 		user = usersDAO.findUser(user.getUsername());
-		Assert.assertEquals(PASSWORD_UPDATED, user.getPassword01());
+		assertEquals(PASSWORD_UPDATED, user.getPassword01());
 	}
 
 
@@ -105,35 +107,35 @@ public class UsersDAOImplTest {
 		/* create user: with the id USERNAME_PEPITO */
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
-		Assert.assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAllUsers().size());
 		user.setUsername(USERNAME_MARGARITO);
 		usersDAO.update(user);
-		Assert.assertEquals(1, usersDAO.findAllUsers().size());
-		Assert.assertEquals(null, usersDAO.findUser(USERNAME_MARGARITO));
-		Assert.assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
+		assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(null, usersDAO.findUser(USERNAME_MARGARITO));
+		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
 	}
 
 	@Test
 	public void remove() throws Exception {
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
-		Assert.assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
+		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
 		usersDAO.remove(user);
-		Assert.assertEquals(null, usersDAO.findUser(USERNAME_PEPITO));
+		assertEquals(null, usersDAO.findUser(USERNAME_PEPITO));
 	}
 
 	@Test
 	public void findAllUsers() throws Exception {
 		createUserCall(USERNAME_PEPITO);
 		createUserCall(USERNAME_MARGARITO);
-		Assert.assertEquals(2, usersDAO.findAllUsers().size());
+		assertEquals(2, usersDAO.findAllUsers().size());
 	}
 
 	@Test
 	public void findUser() throws Exception {
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
-		Assert.assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
+		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
 	}
 
 	private Key<User> createUserCall(String userName) throws Exception {

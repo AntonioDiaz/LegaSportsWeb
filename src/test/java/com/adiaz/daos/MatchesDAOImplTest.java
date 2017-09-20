@@ -18,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by toni on 11/07/2017.
  */
@@ -74,7 +76,7 @@ public class MatchesDAOImplTest {
 	@Test
 	public void create() throws Exception {
 		createMatch();
-		Assert.assertEquals(1, matchesDAO.findAll().size());
+		assertEquals(1, matchesDAO.findAll().size());
 	}
 
 	@Test
@@ -83,8 +85,8 @@ public class MatchesDAOImplTest {
 		Match match = Ref.create(key).getValue();
 		match.setTeamLocalRef(leganesRef);
 		matchesDAO.update(match);
-		Assert.assertEquals(leganesRef, matchesDAO.findById(match.getId()).getTeamLocalRef());
-		Assert.assertEquals(LEGANES, matchesDAO.findById(match.getId()).getTeamLocalRef().get().getName());
+		assertEquals(leganesRef, matchesDAO.findById(match.getId()).getTeamLocalRef());
+		assertEquals(LEGANES, matchesDAO.findById(match.getId()).getTeamLocalRef().get().getName());
 
 	}
 
@@ -93,28 +95,28 @@ public class MatchesDAOImplTest {
 		Key<Match> key = createMatch();
 		Match match = Ref.create(key).getValue();
 		matchesDAO.remove(match);
-		Assert.assertEquals(0, matchesDAO.findAll().size());
+		assertEquals(0, matchesDAO.findAll().size());
 	}
 
 	@Test
 	public void findByCompetition() throws Exception {
 		createMatch();
 		createMatch();
-		Assert.assertEquals(2, matchesDAO.findByCompetition(competitionRef.getKey().getId()).size());
+		assertEquals(2, matchesDAO.findByCompetition(competitionRef.getKey().getId()).size());
 	}
 
 	@Test
 	public void findAll() throws Exception {
 		createMatch();
 		createMatch();
-		Assert.assertEquals(2, matchesDAO.findAll().size());
+		assertEquals(2, matchesDAO.findAll().size());
 	}
 
 	@Test
 	public void findById() throws Exception {
 		Key<Match> key = createMatch();
 		Match match = Ref.create(key).getValue();
-		Assert.assertEquals(match.getId(), matchesDAO.findById(match.getId()).getId());
+		assertEquals(match.getId(), matchesDAO.findById(match.getId()).getId());
 	}
 
 	private Key<Match> createMatch() throws Exception {

@@ -21,6 +21,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /** Created by toni on 11/07/2017. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext-testing.xml")
@@ -86,13 +88,13 @@ public class ClassificationEntriesDAOImplTest {
 		createClassificationEntry(teamRefAtleti, copaPrimaveraRef);
 		List<ClassificationEntry> classificationList = classificationEntriesDAO.findAll();
 
-		Assert.assertEquals(1, classificationList.size());
+		assertEquals(1, classificationList.size());
 		ClassificationEntry classificationEntry = classificationList.get(0);
 		classificationEntry.getRefs();
 		String name = classificationEntry.getTeamEntity().getName();
-		Assert.assertEquals(ATLETICO_MADRID, name);
+		assertEquals(ATLETICO_MADRID, name);
 		String competitionName = classificationEntry.getCompetition().getName();
-		Assert.assertEquals(COPA_DE_PRIMAVERA, competitionName);
+		assertEquals(COPA_DE_PRIMAVERA, competitionName);
 	}
 
     @Test
@@ -102,7 +104,7 @@ public class ClassificationEntriesDAOImplTest {
         c.setTeamRef(teamRefAtleti);
         classificationEntriesDAO.update(c);
 		ClassificationEntry classificationEntry = classificationEntriesDAO.findById(key.getId());
-		Assert.assertEquals(teamRefAtleti, classificationEntry.getTeamRef());
+		assertEquals(teamRefAtleti, classificationEntry.getTeamRef());
     }
 
     @Test
@@ -110,7 +112,7 @@ public class ClassificationEntriesDAOImplTest {
         Key<ClassificationEntry> key = createClassificationEntry(teamRefAtleti, copaPrimaveraRef);
         ClassificationEntry c = Ref.create(key).getValue();
         classificationEntriesDAO.remove(c);
-        Assert.assertEquals(0, classificationEntriesDAO.findAll().size());
+        assertEquals(0, classificationEntriesDAO.findAll().size());
     }
 
     @Test
@@ -118,16 +120,16 @@ public class ClassificationEntriesDAOImplTest {
 		createClassificationEntry(teamRefAtleti, copaPrimaveraRef);
 		createClassificationEntry(teamRefAtleti, copaLigaRef);
 		createClassificationEntry(teamRefLeganes, copaLigaRef);
-		Assert.assertEquals(3, classificationEntriesDAO.findAll().size());
+		assertEquals(3, classificationEntriesDAO.findAll().size());
 
 		long copaLigaId = copaLigaRef.getKey().getId();
 
 		List<ClassificationEntry> list = classificationEntriesDAO.findByCompetitionId(copaLigaId);
-		Assert.assertEquals(2, list.size());
+		assertEquals(2, list.size());
 		classificationEntriesDAO.remove(list);
-        Assert.assertEquals(1, classificationEntriesDAO.findAll().size());
+        assertEquals(1, classificationEntriesDAO.findAll().size());
 		list = classificationEntriesDAO.findByCompetitionId(copaLigaId);
-		Assert.assertEquals(0, list.size());
+		assertEquals(0, list.size());
     }
 
     @Test
@@ -137,17 +139,17 @@ public class ClassificationEntriesDAOImplTest {
 		createClassificationEntry(teamRefLeganes, copaLigaRef);
 		long copaPrimaveraId = copaPrimaveraRef.getKey().getId();
 		List<ClassificationEntry> classificationEntryList = classificationEntriesDAO.findByCompetitionId(copaPrimaveraId);
-		Assert.assertEquals(1, classificationEntryList.size());
+		assertEquals(1, classificationEntryList.size());
 		long copaLigaId = copaLigaRef.getKey().getId();
 		classificationEntryList = classificationEntriesDAO.findByCompetitionId(copaLigaId);
-		Assert.assertEquals(2, classificationEntryList.size());
+		assertEquals(2, classificationEntryList.size());
     }
 
     @Test
     public void findAll() throws Exception {
         createClassificationEntry(teamRefAtleti, copaPrimaveraRef);
         createClassificationEntry(teamRefLeganes, copaPrimaveraRef);
-        Assert.assertEquals(2, classificationEntriesDAO.findAll().size());
+        assertEquals(2, classificationEntriesDAO.findAll().size());
     }
 
 	@Test
@@ -156,19 +158,19 @@ public class ClassificationEntriesDAOImplTest {
 		createClassificationEntry(teamRefAtleti, copaPrimaveraRef);
 		createClassificationEntry(teamRefLeganes, copaPrimaveraRef);
 		List<ClassificationEntry> entries = classificationEntriesDAO.findByCompetitionId(copaPrimaveraRef.get().getId());
-		Assert.assertEquals(2, entries.size());
+		assertEquals(2, entries.size());
 		for (int i = 0; i < entries.size(); i++) {
-			Assert.assertEquals(0, entries.get(i).getMatchesPlayed().intValue());
+			assertEquals(0, entries.get(i).getMatchesPlayed().intValue());
 			entries.get(i).setMatchesPlayed(1);
 		}
 		classificationEntriesDAO.save(entries);
 		entries = classificationEntriesDAO.findByCompetitionId(copaPrimaveraRef.get().getId());
-		Assert.assertEquals(2, entries.size());
+		assertEquals(2, entries.size());
 		for (int i = 0; i < entries.size(); i++) {
-			Assert.assertEquals(1, entries.get(i).getMatchesPlayed().intValue());
+			assertEquals(1, entries.get(i).getMatchesPlayed().intValue());
 		}
 		entries = classificationEntriesDAO.findAll();
-		Assert.assertEquals(3, entries.size());
+		assertEquals(3, entries.size());
 	}
 
 	@Test
@@ -176,7 +178,7 @@ public class ClassificationEntriesDAOImplTest {
     	List<ClassificationEntry> entries = new ArrayList<>();
 		List<ClassificationEntry> all = classificationEntriesDAO.findAll();
 
-		Assert.assertEquals(0, all.size());
+		assertEquals(0, all.size());
 		ClassificationEntry leganesEntry = new ClassificationEntry();
 		leganesEntry.setTeamRef(teamRefLeganes);
 		leganesEntry.setCompetitionRef(copaLigaRef);
@@ -187,10 +189,10 @@ public class ClassificationEntriesDAOImplTest {
 		atletiEntry.setCompetitionRef(copaLigaRef);
 		atletiEntry.setMatchesPlayed(0);
 		entries.add(atletiEntry);
-		Assert.assertEquals(2, entries.size());
+		assertEquals(2, entries.size());
 		classificationEntriesDAO.save(entries);
 		all = classificationEntriesDAO.findAll();
-		Assert.assertEquals(2, all.size());
+		assertEquals(2, all.size());
 	}
 
 	private Key<ClassificationEntry> createClassificationEntry(Ref<Team> refTeam, Ref<Competition> competitionRef) throws Exception {

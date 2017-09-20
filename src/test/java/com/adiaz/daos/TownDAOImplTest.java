@@ -59,7 +59,7 @@ public class TownDAOImplTest {
 		refSportBasket = Ref.create(basketKey);
 
 		Sport football = new Sport();
-		basket.setName(FOOTBALL);
+		football.setName(FOOTBALL);
 		Key<Sport> footballKey = sportsDAO.create(football);
 		refSportFootball = Ref.create(footballKey);
 
@@ -75,11 +75,11 @@ public class TownDAOImplTest {
 		Key<Town> key = createTown(LEGANES);
 		Town town = townDAO.findById(key.getId());
 		List<Sport> sportsDeref = town.getSportsDeref();
-		Assert.assertEquals(key.getId(), (long) town.getId());
-		Assert.assertTrue(town.isActive());
-		Assert.assertEquals(1, sportsDeref.size());
+		assertEquals(key.getId(), (long) town.getId());
+		assertTrue(town.isActive());
+		assertEquals(1, sportsDeref.size());
 		Sport sport = sportsDeref.get(0);
-		Assert.assertEquals(BASKET, sport.getName());
+		assertEquals(BASKET, sport.getName());
 	}
 
 	@Test
@@ -88,16 +88,16 @@ public class TownDAOImplTest {
 		Town town = Ref.create(key).getValue();
 		town.setName(FUENLABRADA);
 		townDAO.update(town);
-		Assert.assertEquals(FUENLABRADA, townDAO.findById(town.getId()).getName());
+		assertEquals(FUENLABRADA, townDAO.findById(town.getId()).getName());
 	}
 	@Test
 	public void update_deactivate() throws Exception {
 		Key<Town> key = createTown(LEGANES);
 		Town town = Ref.create(key).getValue();
-		Assert.assertTrue(townDAO.findById(town.getId()).isActive());
+		assertTrue(townDAO.findById(town.getId()).isActive());
 		town.setActive(false);
 		townDAO.update(town);
-		Assert.assertFalse(townDAO.findById(town.getId()).isActive());
+		assertFalse(townDAO.findById(town.getId()).isActive());
 	}
 
 	@Test
@@ -106,43 +106,43 @@ public class TownDAOImplTest {
 		Town town = new Town();
 		town.setId(key.getId());
 		townDAO.remove(town);
-		Assert.assertEquals(0, townDAO.findAll().size());
+		assertEquals(0, townDAO.findAll().size());
 	}
 
 	@Test
 	public void findAll() throws Exception {
-		Assert.assertEquals(0, townDAO.findAll().size());
+		assertEquals(0, townDAO.findAll().size());
 		createTown(LEGANES);
 		createTown(LEGANES);
-		Assert.assertEquals(2, townDAO.findAll().size());
+		assertEquals(2, townDAO.findAll().size());
 	}
 
 	@Test
 	public void findAll_AlphabeticalOrder() throws Exception {
 		createTown(LEGANES);
 		createTown(FUENLABRADA);
-		Assert.assertEquals(FUENLABRADA, townDAO.findAll().get(0).getName());
-		Assert.assertEquals(LEGANES, townDAO.findAll().get(1).getName());
+		assertEquals(FUENLABRADA, townDAO.findAll().get(0).getName());
+		assertEquals(LEGANES, townDAO.findAll().get(1).getName());
 	}
 
 
 	@Test
 	public void findById_existing() throws Exception {
 		Key<Town> key = createTown(LEGANES);
-		Assert.assertEquals(key.getId(), (long)townDAO.findById(key.getId()).getId());
+		assertEquals(key.getId(), (long)townDAO.findById(key.getId()).getId());
 	}
 
 	@Test
 	public void findById_nonExisting() throws Exception {
-		Assert.assertEquals(null, townDAO.findById(221l));
+		assertEquals(null, townDAO.findById(221l));
 	}
 
 	@Test
 	public void findByName_existing() throws Exception {
 		createTown(LEGANES);
 		createTown(FUENLABRADA);
-		Assert.assertEquals(1, townDAO.findByName(LEGANES).size());
-		Assert.assertEquals(LEGANES, townDAO.findByName(LEGANES).get(0).getName());
+		assertEquals(1, townDAO.findByName(LEGANES).size());
+		assertEquals(LEGANES, townDAO.findByName(LEGANES).get(0).getName());
 	}
 
 	@Test
@@ -150,9 +150,9 @@ public class TownDAOImplTest {
 		createTown(LEGANES);
 		createTown(FUENLABRADA);
 		List<Town> townsList = townDAO.findBySport(refSportBasket.get().getId());
-		Assert.assertEquals(2, townsList.size());
+		assertEquals(2, townsList.size());
 		townsList = townDAO.findBySport(refSportFootball.get().getId());
-		Assert.assertEquals(0, townsList.size());
+		assertEquals(0, townsList.size());
 	}
 
 	private Key<Town> createTown(String name) throws Exception {

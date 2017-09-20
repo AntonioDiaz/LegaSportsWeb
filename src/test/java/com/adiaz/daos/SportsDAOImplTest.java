@@ -15,6 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /** Created by toni on 11/07/2017. */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,12 +46,12 @@ public class SportsDAOImplTest {
 
     @Test
     public void create() throws Exception {
-        Assert.assertEquals(0, sportsDAO.findAllSports().size());
+        assertEquals(0, sportsDAO.findAllSports().size());
         Key<Sport> key = createSport();
-        Assert.assertEquals(1, sportsDAO.findAllSports().size());
+        assertEquals(1, sportsDAO.findAllSports().size());
         Sport sport = sportsDAO.findSportById(key.getId());
-        Assert.assertEquals(key.getId(), (long)sport.getId());
-        Assert.assertEquals(SPORT_BALONCESTO, sport.getName());
+        assertEquals(key.getId(), (long)sport.getId());
+        assertEquals(SPORT_BALONCESTO, sport.getName());
     }
 
     @Test
@@ -58,7 +61,7 @@ public class SportsDAOImplTest {
         sport.setName(SPORT_FUTBOL);
         sportsDAO.update(sport);
         sport = sportsDAO.findSportById(key.getId());
-        Assert.assertEquals(SPORT_FUTBOL, sport.getName());
+        assertEquals(SPORT_FUTBOL, sport.getName());
     }
 
     @Test
@@ -67,20 +70,20 @@ public class SportsDAOImplTest {
         Sport sport = sportsDAO.findSportById(key.getId());
         sportsDAO.remove(sport);
         sport = sportsDAO.findSportById(key.getId());
-        Assert.assertTrue(sport==null);
+        assertTrue(sport==null);
     }
 
     @Test
     public void findAllSports() throws Exception {
         createSport();
         createSport();
-        Assert.assertEquals(2, sportsDAO.findAllSports().size());
+        assertEquals(2, sportsDAO.findAllSports().size());
     }
 
     @Test
     public void findSportById() throws Exception {
         Key<Sport> key = createSport();
-        Assert.assertEquals(key.getId(), (long)sportsDAO.findSportById(key.getId()).getId());
+        assertEquals(key.getId(), (long)sportsDAO.findSportById(key.getId()).getId());
     }
 
     private Key<Sport> createSport() throws Exception {
