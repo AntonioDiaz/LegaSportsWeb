@@ -51,7 +51,7 @@ public class ClubDAOImpl implements ClubDAO {
 	}
 
 	@Override
-	public List<Club> findByTownId(Long townId) {
+	public List<Club> findByTown(Long townId) {
 		Query<Club> query = ofy().load().type(Club.class);
 		if (townId!=null) {
 			Key<Town> key = Key.create(Town.class, townId);

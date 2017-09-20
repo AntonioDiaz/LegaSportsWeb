@@ -49,7 +49,7 @@ public class SportCenterCourtDAOImpl implements SportCenterCourtDAO {
 	}
 
 	@Override
-	public List<SportCenterCourt> findAllSportCourt() {
+	public List<SportCenterCourt> findAll() {
 		return ofy().load().type(SportCenterCourt.class).list();
 
 	}

@@ -10,5 +10,5 @@ import java.util.List;
 public interface ClubDAO extends GenericDAO<Club> {
 	Club findById(Long id);
 	List<Club> findAll();
-	List<Club> findByTownId(Long townId);
+	List<Club> findByTown(Long townId);
 }

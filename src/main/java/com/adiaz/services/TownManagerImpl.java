@@ -1,7 +1,6 @@
 package com.adiaz.services;
 
 import com.adiaz.daos.*;
-import com.adiaz.entities.Club;
 import com.adiaz.entities.Town;
 import com.adiaz.forms.TownForm;
 import com.adiaz.forms.utils.TownFormUtils;
@@ -99,7 +98,7 @@ public class TownManagerImpl implements TownManager {
 		return teamDAO.findByTown(idTown).isEmpty()
 				&& sportCenterDAO.findByTown(idTown).isEmpty()
 				&& usersDAO.findByTown(idTown).isEmpty()
-				&& clubDAO.findByTownId(idTown).isEmpty()
+				&& clubDAO.findByTown(idTown).isEmpty()
 				&& competitionsDAO.findByTown(idTown).isEmpty();
 	}
 }

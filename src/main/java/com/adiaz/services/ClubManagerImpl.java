@@ -32,7 +32,7 @@ public class ClubManagerImpl implements ClubManager {
 
 	@Override
 	public List<Club> queryByTownId(Long townId) {
-		return clubDAO.findByTownId(townId);
+		return clubDAO.findByTown(townId);
 	}
 
 	@Override

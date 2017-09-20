@@ -108,8 +108,8 @@ public class ClubDAOImplTest {
 		createClub(CD_LEGANES, leganesRef);
 		createClub(CD_FUENLABRADA, fuenlaRef);
 		assertEquals(3, clubDAO.findAll().size());
-		assertEquals(2, clubDAO.findByTownId(leganesRef.key().getId()).size());
-		assertEquals(1, clubDAO.findByTownId(fuenlaRef.key().getId()).size());
+		assertEquals(2, clubDAO.findByTown(leganesRef.key().getId()).size());
+		assertEquals(1, clubDAO.findByTown(fuenlaRef.key().getId()).size());
 	}
 
 	private Key<Club> createClub(String name, Ref<Town> refTown) throws Exception {

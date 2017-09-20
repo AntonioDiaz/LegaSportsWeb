@@ -9,7 +9,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -124,11 +123,11 @@ public class ClassificationEntriesDAOImplTest {
 
 		long copaLigaId = copaLigaRef.getKey().getId();
 
-		List<ClassificationEntry> list = classificationEntriesDAO.findByCompetitionId(copaLigaId);
+		List<ClassificationEntry> list = classificationEntriesDAO.findByCompetition(copaLigaId);
 		assertEquals(2, list.size());
 		classificationEntriesDAO.remove(list);
         assertEquals(1, classificationEntriesDAO.findAll().size());
-		list = classificationEntriesDAO.findByCompetitionId(copaLigaId);
+		list = classificationEntriesDAO.findByCompetition(copaLigaId);
 		assertEquals(0, list.size());
     }
 
@@ -138,10 +137,10 @@ public class ClassificationEntriesDAOImplTest {
 		createClassificationEntry(teamRefAtleti, copaLigaRef);
 		createClassificationEntry(teamRefLeganes, copaLigaRef);
 		long copaPrimaveraId = copaPrimaveraRef.getKey().getId();
-		List<ClassificationEntry> classificationEntryList = classificationEntriesDAO.findByCompetitionId(copaPrimaveraId);
+		List<ClassificationEntry> classificationEntryList = classificationEntriesDAO.findByCompetition(copaPrimaveraId);
 		assertEquals(1, classificationEntryList.size());
 		long copaLigaId = copaLigaRef.getKey().getId();
-		classificationEntryList = classificationEntriesDAO.findByCompetitionId(copaLigaId);
+		classificationEntryList = classificationEntriesDAO.findByCompetition(copaLigaId);
 		assertEquals(2, classificationEntryList.size());
     }
 
@@ -157,14 +156,14 @@ public class ClassificationEntriesDAOImplTest {
 		createClassificationEntry(teamRefAtleti, copaLigaRef);
 		createClassificationEntry(teamRefAtleti, copaPrimaveraRef);
 		createClassificationEntry(teamRefLeganes, copaPrimaveraRef);
-		List<ClassificationEntry> entries = classificationEntriesDAO.findByCompetitionId(copaPrimaveraRef.get().getId());
+		List<ClassificationEntry> entries = classificationEntriesDAO.findByCompetition(copaPrimaveraRef.get().getId());
 		assertEquals(2, entries.size());
 		for (int i = 0; i < entries.size(); i++) {
 			assertEquals(0, entries.get(i).getMatchesPlayed().intValue());
 			entries.get(i).setMatchesPlayed(1);
 		}
 		classificationEntriesDAO.save(entries);
-		entries = classificationEntriesDAO.findByCompetitionId(copaPrimaveraRef.get().getId());
+		entries = classificationEntriesDAO.findByCompetition(copaPrimaveraRef.get().getId());
 		assertEquals(2, entries.size());
 		for (int i = 0; i < entries.size(); i++) {
 			assertEquals(1, entries.get(i).getMatchesPlayed().intValue());

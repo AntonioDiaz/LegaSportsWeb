@@ -29,12 +29,12 @@ public class SportsManagerImpl implements SportsManager {
 
 	@Override
 	public List<Sport> querySports() {
-		return sportsDAO.findAllSports();
+		return sportsDAO.findAll();
 	}
 
 	@Override
 	public Sport querySportsById(Long id) {
-		return sportsDAO.findSportById(id);
+		return sportsDAO.findById(id);
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class SportsManagerImpl implements SportsManager {
 	@Override
 	public Sport querySportsByName(String sportName) {
 		Sport sport = null;
-		List<Sport> allSports = sportsDAO.findAllSports();
+		List<Sport> allSports = sportsDAO.findAll();
 		for (Sport sportTemp : allSports) {
 			if (sportName.equalsIgnoreCase(sportTemp.getName())) {
 				sport = sportTemp;
@@ -81,7 +81,7 @@ public class SportsManagerImpl implements SportsManager {
 
 	@Override
 	public void removeAll() throws Exception {
-		List<Sport> sports = sportsDAO.findAllSports();
+		List<Sport> sports = sportsDAO.findAll();
 		for (Sport sport : sports) {
 			sportsDAO.remove(sport);
 		}

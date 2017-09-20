@@ -43,7 +43,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 
 	@Override
 	public List<ClassificationEntry> queryClassificationByCompetition(Long idCompetition) {
-		return classificationEntriesDAO.findByCompetitionId(idCompetition);
+		return classificationEntriesDAO.findByCompetition(idCompetition);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 
 	@Override
 	public void updateClassificationByCompetition(Long idCompetition) {
-		List<ClassificationEntry> classificationList = classificationEntriesDAO.findByCompetitionId(idCompetition);
+		List<ClassificationEntry> classificationList = classificationEntriesDAO.findByCompetition(idCompetition);
 		Map<Long, ClassificationEntry> teamsMap = new HashMap<>();
 		for (ClassificationEntry classificationEntry : classificationList) {
 			classificationEntry.setPosition(0);
@@ -156,7 +156,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	public void initClassification(Long idCompetition) {
 		Competition competition = competitionsDAO.findById(idCompetition);
 		/* remove previous entries for this competition. */
-		List<ClassificationEntry> classificationEntries = classificationEntriesDAO.findByCompetitionId(idCompetition);
+		List<ClassificationEntry> classificationEntries = classificationEntriesDAO.findByCompetition(idCompetition);
 		classificationEntriesDAO.remove(classificationEntries);
 		/* create new entries. */
 		List<ClassificationEntry> classificationEntryList = new ArrayList<>();

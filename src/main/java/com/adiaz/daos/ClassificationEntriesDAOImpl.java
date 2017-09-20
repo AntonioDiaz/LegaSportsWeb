@@ -44,7 +44,7 @@ public class ClassificationEntriesDAOImpl implements ClassificationEntriesDAO {
 	}
 
 	@Override
-	public List<ClassificationEntry> findByCompetitionId(Long idCompetition) {
+	public List<ClassificationEntry> findByCompetition(Long idCompetition) {
 		Query<ClassificationEntry> query = ofy().load().type(ClassificationEntry.class);
 		List<ClassificationEntry> list = null;
 		if (idCompetition!=null) {			

@@ -10,7 +10,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -103,9 +102,9 @@ public class SportCenterCourtDAOImplTest {
 
 	@Test
 	public void create() throws Exception {
-		assertEquals(0, sportCenterCourtDAO.findAllSportCourt().size());
+		assertEquals(0, sportCenterCourtDAO.findAll().size());
 		Key<SportCenterCourt> key = createSportCourt();
-		assertEquals(1, sportCenterCourtDAO.findAllSportCourt().size());
+		assertEquals(1, sportCenterCourtDAO.findAll().size());
 		SportCenterCourt sportCenterCourt = sportCenterCourtDAO.findBySportCenter(key.getId());
 		assertEquals(centerRefLaCantera, sportCenterCourt.getSportCenterRef());
 		assertEquals(LA_CANTERA, centerRefLaCantera.getValue().getName());
@@ -116,9 +115,9 @@ public class SportCenterCourtDAOImplTest {
 
 	@Test
 	public void createReturnRef() throws Exception {
-		assertEquals(0, sportCenterCourtDAO.findAllSportCourt().size());
+		assertEquals(0, sportCenterCourtDAO.findAll().size());
 		Ref<SportCenterCourt> sportCourtReturnRef = createSportCourtReturnRef();
-		assertEquals(1, sportCenterCourtDAO.findAllSportCourt().size());
+		assertEquals(1, sportCenterCourtDAO.findAll().size());
 		assertEquals(SPORTCOURT_NAME_1, sportCourtReturnRef.getValue().getName());
 	}
 
@@ -163,7 +162,7 @@ public class SportCenterCourtDAOImplTest {
 	public void findAllSportCourt() throws Exception {
 		createSportCourt();
 		createSportCourt();
-		assertEquals(2, sportCenterCourtDAO.findAllSportCourt().size());
+		assertEquals(2, sportCenterCourtDAO.findAll().size());
 	}
 
 	@Test

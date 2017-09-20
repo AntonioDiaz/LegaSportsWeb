@@ -10,7 +10,7 @@ import com.googlecode.objectify.Ref;
 
 public interface SportCenterCourtDAO extends GenericDAO<SportCenterCourt> {
 	Ref<SportCenterCourt> createReturnRef(SportCenterCourt item) throws Exception;
-	List<SportCenterCourt> findAllSportCourt();
+	List<SportCenterCourt> findAll();
 	SportCenterCourt findBySportCenter(Long idCourt);
 	List<SportCenterCourt> findBySportCenter(Ref<SportCenter> sportCenterRef);
 	List<SportCenterCourt> findBySport(Long idSport);

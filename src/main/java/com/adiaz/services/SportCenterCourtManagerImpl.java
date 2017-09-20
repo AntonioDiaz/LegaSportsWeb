@@ -44,12 +44,12 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 
 	@Override
 	public List<SportCenterCourt> querySportCourt() {
-		return sportCenterCourtDAO.findAllSportCourt();
+		return sportCenterCourtDAO.findAll();
 	}
 
 	@Override
 	public void removeAll() throws Exception {
-		List<SportCenterCourt> courts = sportCenterCourtDAO.findAllSportCourt();
+		List<SportCenterCourt> courts = sportCenterCourtDAO.findAll();
 		for (SportCenterCourt court : courts) {
 			sportCenterCourtDAO.remove(court);
 		}
@@ -81,7 +81,7 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 
 	@Override
 	public List<SportCenterCourt> querySportCourtsByTownAndSport(Long idTown, Long idSport) {
-		Sport sport = sportsDAO.findSportById(idSport);
+		Sport sport = sportsDAO.findById(idSport);
 		List<SportCenterCourt> courts = new ArrayList<>();
 		/*first find sportCenters of this town. */
 		List<SportCenter> sportCenters = sportCenterDAO.findByTown(idTown);
