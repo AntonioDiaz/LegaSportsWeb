@@ -50,11 +50,12 @@ public class Competition {
 
 	@Load
 	@JsonIgnore
-	private List<Ref<Team>> teams = new ArrayList<Ref<Team>>();
+	@Index
+	private List<Ref<Team>> teams = new ArrayList<>();
 
 	@Load
 	@JsonIgnore
-	private List<Ref<Team>> teamsAffectedByPublish = new ArrayList<Ref<Team>>();
+	private List<Ref<Team>> teamsAffectedByPublish = new ArrayList<>();
 
 	@Index
 	private Date lastPublished;

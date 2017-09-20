@@ -1,9 +1,6 @@
 package com.adiaz.daos;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.Competition;
-import com.adiaz.entities.Sport;
-import com.adiaz.entities.Town;
+import com.adiaz.entities.*;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -18,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +33,9 @@ public class CompetitionsDAOImplTest {
 	private static final String COPA_LIGA = "COPA_LIGA";
 	public static final String LEGANES = "Leganes";
 	public static final String FUENLABRADA = "Fuenlabrada";
+	public static final String ATLETI = "Atleti";
+	public static final String CHURRIGUERA = "Churriguera";
+	public static final String LEGAMAR = "Legamar";
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
 	@Autowired
@@ -45,12 +46,17 @@ public class CompetitionsDAOImplTest {
 	SportsDAO sportsDAO;
 	@Autowired
 	TownDAO townDAO;
+	@Autowired
+	TeamDAO teamDAO;
 
 	private Ref<Category> refCategoryCadete;
 	private Ref<Sport> refSportBasket;
 	private Ref<Sport> refSportFutbol;
 	private Ref<Town> refTownLeganes;
 	private Ref<Town> refTownFuenlabrada;
+	private Ref<Team> refAtleti;
+	private Ref<Team> refLegamar;
+	private Ref<Team> refChurriguera;
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,6 +65,7 @@ public class CompetitionsDAOImplTest {
 		ObjectifyService.register(Category.class);
 		ObjectifyService.register(Sport.class);
 		ObjectifyService.register(Town.class);
+		ObjectifyService.register(Team.class);
 		/*category */
 		Category category = new Category();
 		category.setName("Cadete");
@@ -84,6 +91,17 @@ public class CompetitionsDAOImplTest {
 		town.setName(FUENLABRADA);
 		townKey = townDAO.create(town);
 		refTownFuenlabrada = Ref.create(townKey);
+		/*team: Atleti*/
+		Team team = new Team();
+		team.setName(ATLETI);
+		refAtleti = Ref.create(teamDAO.create(team));
+		/*team: Churriguera*/
+		team.setName(CHURRIGUERA);
+		refChurriguera= Ref.create(teamDAO.create(team));
+		/*team: Legamar*/
+		team.setName(LEGAMAR);
+		refLegamar = Ref.create(teamDAO.create(team));
+
 	}
 
 	@After
@@ -224,6 +242,15 @@ public class CompetitionsDAOImplTest {
 		assertEquals(2, competitionsDAO.findByTown(refTownLeganes.get().getId()).size());
 	}
 
+	@Test
+	public void findCompetitionsByTeam() throws Exception {
+		assertEquals(0, competitionsDAO.findByTeam(refAtleti.get().getId()).size());
+		createCompetition(COPA_LIGA);
+		createCompetition(COPA_PRIMAVERA);
+		assertEquals(2, competitionsDAO.findByTown(refTownLeganes.get().getId()).size());
+	}
+
+
 	private Key<Competition> createCompetition(
 			String competitionName, Ref<Sport> refSport, Ref<Category> refCategory, Ref<Town> refTown) throws Exception {
 		Competition competition = new Competition();
@@ -231,6 +258,11 @@ public class CompetitionsDAOImplTest {
 		competition.setSportRef(refSport);
 		competition.setCategoryRef(refCategory);
 		competition.setTownRef(refTown);
+		List<Ref<Team>> teamsRef = new ArrayList<>();
+		teamsRef.add(refAtleti);
+		teamsRef.add(refLegamar);
+		teamsRef.add(refChurriguera);
+		competition.setTeams(teamsRef);
 		return competitionsDAO.create(competition);
 	}
 

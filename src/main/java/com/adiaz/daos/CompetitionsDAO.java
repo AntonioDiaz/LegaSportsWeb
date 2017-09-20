@@ -12,5 +12,6 @@ public interface CompetitionsDAO extends GenericDAO<Competition> {
 	List<Competition> find(Long sportId, Long idCategory, Long idTown);
 	List<Competition> find(Long idTown, boolean onlyPublished);
 	List<Competition> findByTown(Long idTown);
+	List<Competition> findByTeam(Long idTeam);
 	Competition findById(Long idCompetition);
 }

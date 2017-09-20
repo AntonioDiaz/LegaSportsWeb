@@ -4,12 +4,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
-import com.adiaz.entities.Competition;
-import com.adiaz.entities.Town;
+import com.adiaz.entities.*;
+import com.googlecode.objectify.Ref;
 import org.springframework.stereotype.Repository;
 
-import com.adiaz.entities.Category;
-import com.adiaz.entities.Sport;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -68,6 +66,12 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	@Override
 	public List<Competition> findByTown(Long idTown) {
 		return find(null, null, idTown);
+	}
+
+	@Override
+	public List<Competition> findByTeam(Long idTeam) {
+		Ref<Team> teamRef = Ref.create(Key.create(Team.class, idTeam));
+		return ofy().load().type(Competition.class).filter("teams", teamRef).list();
 	}
 
 	@Override
