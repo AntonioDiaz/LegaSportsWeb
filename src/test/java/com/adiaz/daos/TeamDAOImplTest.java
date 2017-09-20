@@ -219,4 +219,15 @@ public class TeamDAOImplTest {
 		team.setSportRef(refSport);
 		return teamDAO.create(team);
 	}
+
+	@Test
+	public void findbysport() throws Exception {
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refCadete, refLeganes, soccerRef);
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refJuvenil, refLeganes, soccerRef);
+		createTeam(CD_LEGANES_JUVENIL, refCdLeganes, refJuvenil, refFuenlabrada, basketRef);
+		List<Team> teamsSoccer = teamDAO.findBySport(soccerRef.get().getId());
+		List<Team> teamsBasket = teamDAO.findBySport(basketRef.get().getId());
+		assertEquals(2, teamsSoccer.size());
+		assertEquals(1, teamsBasket.size());
+	}
 }

@@ -72,6 +72,11 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
+	public List<Team> findBySport(Long idSport) {
+		return find(null, null, idSport, null);
+	}
+
+	@Override
 	public List<Team> find(Long townId, Long categoryId, Long sportId) {
 		return  find(townId, categoryId, sportId, null);
 	}
