@@ -2,7 +2,7 @@
 <script>
 	$(document).ready(function() {
 		$('#btnBack').on('click', function(event) {
-			window.location.href = "/sportCenter/listCourts?idSportCenter="+ ${my_form.idCenter};
+			window.location.href = "/courts/list?idSportCenter="+ ${my_form.idCenter};
 		});
 		
 		
@@ -12,7 +12,7 @@
 	${my_form.nameCenter} - Actualizar pista 
 </h2>
 <hr>
-<form:form method="post" action="doUpdateCourt" commandName="my_form" name="my_form" cssClass="form-horizontal">
+<form:form method="post" action="doUpdate" commandName="my_form" name="my_form" cssClass="form-horizontal">
 	<%@ include file="/WEB-INF/jsp/courts_form.jsp"%>
 	<div class="form-group">
 		<label class="control-label col-sm-4">&nbsp;</label>

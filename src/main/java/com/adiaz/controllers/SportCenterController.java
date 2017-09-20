@@ -29,10 +29,8 @@ public class SportCenterController {
 	private static final Logger logger = Logger.getLogger(SportCenterController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
-	@Autowired SportCenterCourtManager sportCenterCourtManager;
 	@Autowired SportCenterFormValidator sportCenterFormValidator;
-	@Autowired SportCourtFormValidator sportCourtFormValidator;
-	
+
 	@RequestMapping("/list")
 	public ModelAndView centerList(
 			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
@@ -150,100 +148,7 @@ public class SportCenterController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/listCourts")
-	public ModelAndView listCourts(@RequestParam Long idSportCenter,
-			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
-			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
-			@RequestParam(value="remove_undone", defaultValue="false") boolean removeUndone) {
-		ModelAndView modelAndView = new ModelAndView("courts_list");
-		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(idSportCenter);
-		modelAndView.addObject("sportCenter", sportCenterForm);
-		modelAndView.addObject("courts", sportCenterCourtManager.querySportCourts(idSportCenter));
-		modelAndView.addObject("update_done", updateDone);
-		modelAndView.addObject("add_done", addDone);
-		modelAndView.addObject("remove_done", removeDone);
-		modelAndView.addObject("remove_undone", removeUndone);
-		return modelAndView;
-	}
-	
-	@RequestMapping("/addCourt")
-	public ModelAndView addCourt(@RequestParam Long idCenter) {
-		ModelAndView modelAndView = new ModelAndView("courts_add");
-		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(idCenter);
-		SportsCourtForm sportsCourtForm = new SportsCourtForm();
-		sportsCourtForm.setIdCenter(idCenter);
-		sportsCourtForm.setNameCenter(sportCenterForm.getName());
-		modelAndView.addObject("my_form", sportsCourtForm);
-		return modelAndView;
-	}
-	
-	@RequestMapping("/doAddCourt")
-	public ModelAndView doAddCourt(@ModelAttribute("my_form") SportsCourtForm sportsCourtForm, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		sportCourtFormValidator.validate(sportsCourtForm, bindingResult);
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("my_form", sportsCourtForm);
-			modelAndView.setViewName("courts_add");
-		} else {
-			try {
-				sportCenterCourtManager.addSportCourt(sportsCourtForm);
-			} catch (Exception e) {
-				logger.error(e);
-			}
-			String viewName = "redirect:/sportCenter/listCourts";
-			viewName += "?add_done=true";
-			viewName += "&idSportCenter=" + sportsCourtForm.getIdCenter();
-			modelAndView.setViewName(viewName);
-		}
-		return modelAndView;
-	}
 
-	@RequestMapping("/doDeleteCourt")
-	public ModelAndView doDeleteCourt(@RequestParam Long idCourt, @RequestParam Long idCenter) throws Exception {
-		ModelAndView modelAndView = new ModelAndView();
-		String viewName = null;
-		viewName = "redirect:/sportCenter/listCourts";
-		if (sportCenterCourtManager.isElegibleForDelete(idCourt)) {
-			sportCenterCourtManager.removeSportCourt(idCourt);
-			viewName += "?remove_done=true";
-		} else {
-			viewName += "?remove_undone=true";
-		}
-		viewName += "&idSportCenter=" + idCenter;
-		modelAndView.setViewName(viewName);
-		return modelAndView;
-	}
-	
-	@RequestMapping("/updateCourt")
-	public ModelAndView updateCourt(@RequestParam Long idCourt) {
-		ModelAndView modelAndView = new ModelAndView("courts_update");
-		SportCenterCourt court = sportCenterCourtManager.querySportCourt(idCourt);
-		SportsCourtForm sportsCourtForm = new SportsCourtForm(court);
-		modelAndView.addObject("my_form", sportsCourtForm);
-		return modelAndView;
-	}
-	
-	@RequestMapping("/doUpdateCourt")
-	public ModelAndView doUpdateCourt(@ModelAttribute("my_form") SportsCourtForm sportsCourtForm, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		sportCourtFormValidator.validate(sportsCourtForm, bindingResult);
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("my_form", sportsCourtForm);
-			modelAndView.setViewName("courts_update");
-		} else {
-			try {
-				sportCenterCourtManager.updateSportCourt(sportsCourtForm);
-			} catch (Exception e) {
-				logger.error(e);
-			}
-			String viewName = "redirect:/sportCenter/listCourts";
-			viewName += "?update_done=true";
-			viewName += "&idSportCenter=" + sportsCourtForm.getIdCenter();
-			modelAndView.setViewName(viewName);
-		}
-		return modelAndView;
-	}
 
 	@RequestMapping("/view")
 	public ModelAndView viewCenter(@RequestParam Long id) {

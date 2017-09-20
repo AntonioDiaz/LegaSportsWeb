@@ -26,7 +26,7 @@
 	}
 	
 	function fViewCourts(centerId) {
-		window.location.href = "/sportCenter/listCourts?idSportCenter=" + centerId;
+		window.location.href = "/courts/list?idSportCenter=" + centerId;
 	}
 	
 	function fDelete(centerId) {
