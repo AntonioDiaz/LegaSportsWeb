@@ -59,9 +59,9 @@ public class CategoriesDAOImplTest {
 
     @org.junit.Test
     public void create() throws Exception {
-        assertEquals(0, categoriesDAO.findAllCategories().size());
+        assertEquals(0, categoriesDAO.findAll().size());
         createCategory();
-        List<Category> categories = categoriesDAO.findAllCategories();
+        List<Category> categories = categoriesDAO.findAll();
         assertEquals(1, categories.size());
         Category category = categories.get(0);
         assertEquals(CATEGORY_CADETE, category.getName());
@@ -71,12 +71,12 @@ public class CategoriesDAOImplTest {
     @org.junit.Test
     public void update() throws Exception {
         createCategory();
-        List<Category> categories = categoriesDAO.findAllCategories();
+        List<Category> categories = categoriesDAO.findAll();
         Category category = categories.get(0);
         category.setName(CATEGORY_JUVENIL);
         category.setOrder(CATEGORY_ORDER_3);
         categoriesDAO.update(category);
-        category = categoriesDAO.findCategoryById(category.getId());
+        category = categoriesDAO.findById(category.getId());
         assertEquals(CATEGORY_JUVENIL, category.getName());
         assertEquals(CATEGORY_ORDER_3, category.getOrder());
     }
@@ -84,9 +84,9 @@ public class CategoriesDAOImplTest {
     @org.junit.Test
     public void remove() throws Exception {
        createCategory();
-       assertEquals(1, categoriesDAO.findAllCategories().size());
-       categoriesDAO.remove(categoriesDAO.findAllCategories().get(0));
-       assertEquals(0, categoriesDAO.findAllCategories().size());
+       assertEquals(1, categoriesDAO.findAll().size());
+       categoriesDAO.remove(categoriesDAO.findAll().get(0));
+       assertEquals(0, categoriesDAO.findAll().size());
 
     }
 
@@ -94,13 +94,13 @@ public class CategoriesDAOImplTest {
     public void findAllCategories() throws Exception {
         createCategory();
         createCategory();
-        assertEquals(2, categoriesDAO.findAllCategories().size());
+        assertEquals(2, categoriesDAO.findAll().size());
     }
 
     @org.junit.Test
     public void findCategoryById() throws Exception {
         Key<Category> key = createCategory();
-        Category category = categoriesDAO.findCategoryById(key.getId());
+        Category category = categoriesDAO.findById(key.getId());
         assertEquals(key.getId(), (long) category.getId());
         assertEquals(CATEGORY_CADETE, category.getName());
         assertEquals(CATEGORY_ORDER_2, category.getOrder());

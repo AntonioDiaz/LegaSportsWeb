@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.TeamDAO;
-import com.adiaz.forms.CategoriesFilterForm;
 import com.adiaz.forms.CategoriesForm;
 import com.adiaz.forms.utils.CategoriesFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,18 +64,18 @@ public class CategoriesManagerImpl implements CategoriesManager {
 
 	@Override
 	public List<Category> queryCategories() {
-		return categoriesDAO.findAllCategories();
+		return categoriesDAO.findAll();
 	}
 
 	@Override
 	public Category queryCategoriesById(long id) {
-		return categoriesDAO.findCategoryById(id);
+		return categoriesDAO.findById(id);
 	}
 
 	@Override
 	public CategoriesForm queryCategoriesFormById(long id) {
 		CategoriesForm categoriesForm = null;
-		Category categoryById = categoriesDAO.findCategoryById(id);
+		Category categoryById = categoriesDAO.findById(id);
 		if (categoryById!=null) {
 			categoriesForm = categoriesFormUtils.entityToForm(categoryById);
 		}
@@ -97,7 +96,7 @@ public class CategoriesManagerImpl implements CategoriesManager {
 
 	@Override
 	public void removeAll() throws Exception {
-		List<Category> categories = categoriesDAO.findAllCategories();
+		List<Category> categories = categoriesDAO.findAll();
 		for (Category category : categories) {
 			categoriesDAO.remove(category);
 		}		

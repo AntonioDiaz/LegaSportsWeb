@@ -45,13 +45,13 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 	}
 
 	@Override
-	public List<Category> findAllCategories() {
+	public List<Category> findAll() {
 		Query<Category> query = ofy().load().type(Category.class);
 		return query.order("order").list();	
 	}
 	
 	@Override
-	public Category findCategoryById(Long id) {
+	public Category findById(Long id) {
 		return ofy().load().type(Category.class).id(id).now();
 	}
 
