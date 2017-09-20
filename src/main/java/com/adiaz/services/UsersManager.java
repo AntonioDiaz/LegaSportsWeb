@@ -5,13 +5,11 @@ import java.util.List;
 import com.adiaz.entities.User;
 
 public interface UsersManager {
-
-	public List<User> queryAllUsers();
-	public User queryUserByName(String userName);
-	public void addUser(User user) throws Exception;
-	public void addUser(User user, Long townId) throws Exception;
-	public boolean removeUser(String userName) throws Exception;
-	public boolean updateUser(User user) throws Exception;
-	public void removeAll() throws Exception;
-	
+	List<User> queryAllUsers();
+	User queryUserByName(String userName);
+	void addUser(User user) throws Exception;
+	void addUser(User user, Long townId) throws Exception;
+	boolean removeUser(String userName) throws Exception;
+	boolean updateUser(User user) throws Exception;
+	void removeAll() throws Exception;
 }

@@ -6,8 +6,8 @@ import com.adiaz.entities.SportCenter;
 
 
 public interface SportCenterDAO extends GenericDAO<SportCenter> {
-	public List<SportCenter> findAllSportsCenters();
-	public SportCenter findSportsCenterById(Long id);
-	public List<SportCenter> findSportsCenterByTown(Long idTown);
-	public boolean remove(Long id) throws Exception;
+	List<SportCenter> findAllSportsCenters();
+	SportCenter findSportsCenterById(Long id);
+	List<SportCenter> findSportsCenterByTown(Long idTown);
+	boolean remove(Long id) throws Exception;
 }

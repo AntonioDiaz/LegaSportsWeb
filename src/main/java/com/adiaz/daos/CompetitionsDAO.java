@@ -6,9 +6,9 @@ import com.adiaz.entities.Competition;
 import com.adiaz.entities.Sport;
 
 public interface CompetitionsDAO extends GenericDAO<Competition> {
-	public List<Competition> findCompetitions();
-	public List<Competition> findCompetitionsBySport(Long idSport);
-	public List<Competition> findCompetitions(Long sportId, Long idCategory, Long idTown);
-	public List<Competition> findCompetitions(Long idTown, boolean onlyPublished);
-	public Competition findCompetitionsById(Long idCompetition);
+	List<Competition> findCompetitions();
+	List<Competition> findCompetitionsBySport(Long idSport);
+	List<Competition> findCompetitions(Long sportId, Long idCategory, Long idTown);
+	List<Competition> findCompetitions(Long idTown, boolean onlyPublished);
+	Competition findCompetitionsById(Long idCompetition);
 }

@@ -9,17 +9,17 @@ import com.adiaz.forms.CompetitionsForm;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface CompetitionsManager {
-	public Long add(Competition item) throws Exception;
-	public Long add(CompetitionsForm competitionsForm) throws Exception;
-	public boolean remove(Competition item) throws Exception;
-	public boolean update(Competition competition) throws Exception;
-	public boolean update(Long idCompetition, CompetitionsForm competitionsForm) throws Exception;
-	public List<Competition> queryCompetitions();
-	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown);
-	public List<Competition> queryCompetitionsByTown(long idTown, boolean onlyPublished);
-	public List<Competition> queryCompetitions(CompetitionsFilterForm competitionsFilterForm);
-	public CompetitionsForm queryCompetitionsById(long id);
-	public Competition queryCompetitionsByIdEntity(long id);
-	public List<Competition> queryCompetitionsBySport(Long idSport);
-	public void removeAll() throws Exception;
+	Long add(Competition item) throws Exception;
+	Long add(CompetitionsForm competitionsForm) throws Exception;
+	boolean remove(Competition item) throws Exception;
+	boolean update(Competition competition) throws Exception;
+	boolean update(Long idCompetition, CompetitionsForm competitionsForm) throws Exception;
+	List<Competition> queryCompetitions();
+	List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown);
+	List<Competition> queryCompetitionsByTown(long idTown, boolean onlyPublished);
+	List<Competition> queryCompetitions(CompetitionsFilterForm competitionsFilterForm);
+	CompetitionsForm queryCompetitionsById(long id);
+	Competition queryCompetitionsByIdEntity(long id);
+	List<Competition> queryCompetitionsBySport(Long idSport);
+	void removeAll() throws Exception;
 }

@@ -9,10 +9,9 @@ import com.adiaz.entities.Town;
 import com.googlecode.objectify.Ref;
 
 public interface SportCenterCourtDAO extends GenericDAO<SportCenterCourt> {
-	
-	public Ref<SportCenterCourt> createReturnRef(SportCenterCourt item) throws Exception;
-	public List<SportCenterCourt> findAllSportCourt();
-	public SportCenterCourt findBySportCenter(Long idCourt);
-	public List<SportCenterCourt> findBySportCenter(Ref<SportCenter> sportCenterRef);
-	public List<SportCenterCourt> findBySport(Long idSport);
+	Ref<SportCenterCourt> createReturnRef(SportCenterCourt item) throws Exception;
+	List<SportCenterCourt> findAllSportCourt();
+	SportCenterCourt findBySportCenter(Long idCourt);
+	List<SportCenterCourt> findBySportCenter(Ref<SportCenter> sportCenterRef);
+	List<SportCenterCourt> findBySport(Long idSport);
 }

@@ -6,9 +6,9 @@ import com.adiaz.entities.ClassificationEntry;
 import com.adiaz.entities.Competition;
 
 public interface ClassificationEntriesDAO extends GenericDAO<ClassificationEntry> {
-	public List<ClassificationEntry> findByCompetitionId(Long idCompetition);
-	public ClassificationEntry findById(Long id);
-	public List<ClassificationEntry> findAll();
-	public void remove(Iterable<ClassificationEntry> listToDelete);
-	public void save(Iterable<ClassificationEntry> listToUpdate);
+	List<ClassificationEntry> findByCompetitionId(Long idCompetition);
+	ClassificationEntry findById(Long id);
+	List<ClassificationEntry> findAll();
+	void remove(Iterable<ClassificationEntry> listToDelete);
+	void save(Iterable<ClassificationEntry> listToUpdate);
 }

@@ -8,16 +8,14 @@ import com.adiaz.forms.SportsCourtForm;
 import com.googlecode.objectify.Ref;
 
 public interface SportCenterCourtManager {
-
-	public Ref<SportCenterCourt> addSportCourt(SportCenterCourt sportCenterCourt) throws Exception;
-	public Ref<SportCenterCourt> addSportCourt(SportsCourtForm sportCourtForm) throws Exception;
-	public boolean updateSportCourt(SportCenterCourt sportCenterCourt) throws Exception;
-	public boolean removeSportCourt(Long idCourt) throws Exception;
-	public List<SportCenterCourt> querySportCourt();
-	public SportCenterCourt querySportCourt(Long idCourt);
-	public void removeAll() throws Exception;
-	public List<SportCenterCourt> querySportCourts(Long idSportCenter);
-	public List<SportCenterCourt> querySportCourtsByTownAndSport(Long idTown, Long idSport);
-	public void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception;
-
+	Ref<SportCenterCourt> addSportCourt(SportCenterCourt sportCenterCourt) throws Exception;
+	Ref<SportCenterCourt> addSportCourt(SportsCourtForm sportCourtForm) throws Exception;
+	boolean updateSportCourt(SportCenterCourt sportCenterCourt) throws Exception;
+	boolean removeSportCourt(Long idCourt) throws Exception;
+	List<SportCenterCourt> querySportCourt();
+	SportCenterCourt querySportCourt(Long idCourt);
+	void removeAll() throws Exception;
+	List<SportCenterCourt> querySportCourts(Long idSportCenter);
+	List<SportCenterCourt> querySportCourtsByTownAndSport(Long idTown, Long idSport);
+	void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception;
 }

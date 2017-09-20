@@ -9,13 +9,12 @@ import java.util.List;
  * Created by toni on 14/07/2017.
  */
 public interface TownManager {
-
-	public Long add(TownForm townForm) throws Exception;
-	public boolean remove(Long id) throws Exception;
-	public boolean update(Long id, TownForm townForm) throws Exception;
-	public List<Town> queryAll();
-	public List<Town> queryActives();
-	public TownForm queryById(Long id);
-	public List<Town> queryByName(String name);
-	public void removeAll() throws Exception;
+	Long add(TownForm townForm) throws Exception;
+	boolean remove(Long id) throws Exception;
+	boolean update(Long id, TownForm townForm) throws Exception;
+	List<Town> queryAll();
+	List<Town> queryActives();
+	TownForm queryById(Long id);
+	List<Town> queryByName(String name);
+	void removeAll() throws Exception;
 }

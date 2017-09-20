@@ -12,12 +12,11 @@ import java.util.List;
  * Created by toni on 25/07/2017.
  */
 public interface TeamManager {
-	public Long add(TeamForm teamForm) throws Exception;
-	public boolean remove(Long id) throws Exception;
-	public void removeAll() throws Exception;
-	public boolean update(TeamForm teamForm) throws Exception;
-	public TeamForm queryById(Long id);
-	public List<Team> queryByFilter(TeamFilterForm teamFilterForm);
-	public List<Team> queryByCompetition(Long idCompetition);
-
+	Long add(TeamForm teamForm) throws Exception;
+	boolean remove(Long id) throws Exception;
+	void removeAll() throws Exception;
+	boolean update(TeamForm teamForm) throws Exception;
+	TeamForm queryById(Long id);
+	List<Team> queryByFilter(TeamFilterForm teamFilterForm);
+	List<Team> queryByCompetition(Long idCompetition);
 }

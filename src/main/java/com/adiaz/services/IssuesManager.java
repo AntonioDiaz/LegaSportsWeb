@@ -9,7 +9,6 @@ import java.util.List;
  * Created by toni on 14/09/2017.
  */
 public interface IssuesManager {
-
 	List<Issue> queryIssues();
 	List<Issue> queryIssuesByTown(Long idTown);
 	List<Issue> queryIssuesByCompetition(Long idCompetition);
@@ -18,6 +17,5 @@ public interface IssuesManager {
 	boolean markIssueAsRead(Long idIssue, boolean newReadState) throws Exception;
 	boolean reachMaxIssuesPerDay();
 	boolean allowUserToReportIssue(String clientId);
-
 	boolean isValidIssue(IssuesForm issuesForm);
 }

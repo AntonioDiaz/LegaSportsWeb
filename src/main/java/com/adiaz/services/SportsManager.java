@@ -13,7 +13,6 @@ public interface SportsManager {
 	boolean remove(Sport sport) throws Exception;
 	boolean remove(Long id) throws Exception;
 	boolean update(Sport sport) throws Exception;
-
 	// TODO: 24/07/2017 delete all removeAll methods :)
 	void removeAll() throws Exception;
 	boolean isElegibleForDelete(Long idSport);

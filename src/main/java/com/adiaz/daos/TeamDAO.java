@@ -9,9 +9,9 @@ import java.util.List;
  * Created by toni on 25/07/2017.
  */
 public interface TeamDAO extends GenericDAO<Team>{
-	public List<Team> findAll();
-	public Team findById(Long id);
-	public List<Team> find(Long idTown, Long idCategory, Long idSport);
-	public List<Team> find(Long townId, Long categoryId, Long sportId, String name);
-	public List<Team> findBySport(Long idSport);
+	List<Team> findAll();
+	Team findById(Long id);
+	List<Team> find(Long idTown, Long idCategory, Long idSport);
+	List<Team> find(Long townId, Long categoryId, Long sportId, String name);
+	List<Team> findBySport(Long idSport);
 }
