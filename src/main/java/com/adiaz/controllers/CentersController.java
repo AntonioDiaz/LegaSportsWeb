@@ -1,13 +1,9 @@
 package com.adiaz.controllers;
 
 import com.adiaz.entities.SportCenter;
-import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.validators.SportCenterFormValidator;
-import com.adiaz.forms.validators.SportCourtFormValidator;
-import com.adiaz.forms.SportsCourtForm;
 import com.adiaz.services.SportCenterManager;
-import com.adiaz.services.SportCenterCourtManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,11 +18,10 @@ import java.util.List;
 import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
 @Controller
-@RequestMapping (value="/sportCenter")
-// TODO: 20/09/2017 separate Center and Court controllers
-public class SportCenterController {
+@RequestMapping (value="/centers")
+public class CentersController {
 
-	private static final Logger logger = Logger.getLogger(SportCenterController.class);
+	private static final Logger logger = Logger.getLogger(CentersController.class);
 	
 	@Autowired SportCenterManager sportsCenterManager;
 	@Autowired SportCenterFormValidator sportCenterFormValidator;
@@ -83,7 +78,7 @@ public class SportCenterController {
 				// TODO: 17/07/2017 add error page.
 				logger.error(e.getMessage(), e);
 			}
-			String viewName = "redirect:/sportCenter/list";
+			String viewName = "redirect:/centers/list";
 			viewName += "?add_done=true";
 			modelAndView.setViewName(viewName);
 		}
@@ -119,7 +114,7 @@ public class SportCenterController {
 			} catch (Exception e) {
 				logger.error(e);
 			}
-			String viewName = "redirect:/sportCenter/list";
+			String viewName = "redirect:/centers/list";
 			viewName += "?update_done=true";
 			modelAndView.setViewName(viewName);
 		}
@@ -136,7 +131,7 @@ public class SportCenterController {
 			validDelete = center.getIdTown()==getActiveUser().getTownEntity().getId();
 		}
 		if (validDelete) {
-			String viewName = "redirect:/sportCenter/list";
+			String viewName = "redirect:/centers/list";
 			if (sportsCenterManager.isElegibleForDelete(id)) {
 				sportsCenterManager.removeSportCenter(id);
 				viewName += "?remove_done=true";

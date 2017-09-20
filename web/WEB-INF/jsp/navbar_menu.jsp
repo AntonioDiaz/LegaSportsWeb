@@ -16,8 +16,8 @@
 		</li>
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Centros <span class="caret"></span></a>
 			<ul class="dropdown-menu">
-				<li><a href="/sportCenter/list">Lista centros</a></li>
-				<li><a href="/sportCenter/add">Nuevo centro</a></li>
+				<li><a href="/centers/list">Lista centros</a></li>
+				<li><a href="/centers/add">Nuevo centro</a></li>
 			</ul>
 		</li>
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Competiciones <span class="caret"></span></a>

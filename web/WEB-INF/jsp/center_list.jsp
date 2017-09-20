@@ -18,11 +18,11 @@
 	});
 	
 	function fUpdate(centerId) {
-		window.location.href = "/sportCenter/update?id=" + centerId;
+		window.location.href = "/centers/update?id=" + centerId;
 	}
 
 	function fView(centerId) {
-		window.location.href = "/sportCenter/view?id=" + centerId;
+		window.location.href = "/centers/view?id=" + centerId;
 	}
 	
 	function fViewCourts(centerId) {
@@ -33,7 +33,7 @@
 		var bodyTxt = "Se va a borrar el centro, ¿desea continuar?";
 		showDialogConfirm(bodyTxt, 
 			function(){ 
-				window.location.href = "/sportCenter/doDelete?id=" + centerId;
+				window.location.href = "/centers/doDelete?id=" + centerId;
 			}
 		);
 	}
