@@ -217,6 +217,14 @@ public class CompetitionsDAOImplTest {
 		assertEquals(2, competitionsByCategory.size());
 	}
 
+	@Test
+	public void findCompetitionsByTown() throws Exception {
+		assertEquals(0, competitionsDAO.findByTown(refTownLeganes.get().getId()).size());
+		createCompetition(COPA_LIGA);
+		createCompetition(COPA_PRIMAVERA);
+		assertEquals(2, competitionsDAO.findByTown(refTownLeganes.get().getId()).size());
+	}
+
 	private Key<Competition> createCompetition(
 			String competitionName, Ref<Sport> refSport, Ref<Category> refCategory, Ref<Town> refTown) throws Exception {
 		Competition competition = new Competition();
