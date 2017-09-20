@@ -56,7 +56,9 @@ public class TownFormUtils implements GenericFormUtils<TownForm, Town> {
 		if (sportsList!=null){
 			Long sportsIds[] = new Long[sportsList.size()];
 			for (int i = 0; i < sportsList.size(); i++) {
-				sportsIds[i] = sportsList.get(i).getId();
+				if (sportsList.get(i)!=null) {
+					sportsIds[i] = sportsList.get(i).getId();
+				}
 			}
 			form.setSports(sportsIds);
 		}
