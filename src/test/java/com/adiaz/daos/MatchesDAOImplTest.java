@@ -2,6 +2,7 @@ package com.adiaz.daos;
 
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
+import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.entities.Team;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -32,6 +33,7 @@ public class MatchesDAOImplTest {
 	private static final String ATLETICO_MADRID = "ATLETICO_MADRID";
 	public static final String LEGANES = "LEGANES";
 	public static final String COPA_PRIMAVERA = "COPA PRIMAVERA";
+	public static final String PISTA_01 = "PISTA 01";
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
 	@Autowired
@@ -43,9 +45,13 @@ public class MatchesDAOImplTest {
 	@Autowired
 	TeamDAO teamDAO;
 
+	@Autowired
+	SportCenterCourtDAO sportCenterCourtDAO;
+
 	private Ref<Competition> competitionRef;
 	private Ref<Team> atleticoRef;
 	private Ref<Team> leganesRef;
+	private Ref<SportCenterCourt> courtRef;
 
 	@Before
 	public void setUp() throws Exception {
@@ -53,6 +59,7 @@ public class MatchesDAOImplTest {
 		ObjectifyService.register(Match.class);
 		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(Team.class);
+		ObjectifyService.register(SportCenterCourt.class);
 
 		Team team = new Team();
 		team.setName(ATLETICO_MADRID);
@@ -66,6 +73,10 @@ public class MatchesDAOImplTest {
 		competition.setName(COPA_PRIMAVERA);
 		Key<Competition> key = competitionsDAO.create(competition);
 		competitionRef = Ref.create(key);
+
+		SportCenterCourt court = new SportCenterCourt();
+		court.setName(PISTA_01);
+		courtRef = sportCenterCourtDAO.createReturnRef(court);
 	}
 
 	@After
@@ -119,11 +130,20 @@ public class MatchesDAOImplTest {
 		assertEquals(match.getId(), matchesDAO.findById(match.getId()).getId());
 	}
 
+	@Test
+	public void findByCourt() throws Exception {
+		assertEquals(0, matchesDAO.findByCourt(courtRef.get().getId()).size());
+		createMatch();
+		createMatch();
+		assertEquals(2, matchesDAO.findByCourt(courtRef.get().getId()).size());
+	}
+
 	private Key<Match> createMatch() throws Exception {
 		Match match = new Match();
 		match.setTeamLocalRef(atleticoRef);
 		match.setCompetitionRef(competitionRef);
 		match.setWorkingCopy(false);
+		match.setSportCenterCourtRef(courtRef);
 		return matchesDAO.create(match);
 	}
 

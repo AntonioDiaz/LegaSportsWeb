@@ -5,6 +5,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.List;
 
 import com.adiaz.entities.Competition;
+import com.adiaz.entities.SportCenterCourt;
 import org.springframework.stereotype.Repository;
 
 import com.adiaz.entities.Match;
@@ -46,6 +47,12 @@ public class MatchesDAOImpl implements MatchesDAO {
 	@Override
 	public List<Match> findByCompetition(Long competitionId) {
 		return findByCompetition(competitionId, false);
+	}
+
+	@Override
+	public List<Match> findByCourt(Long idCourt) {
+		Ref<SportCenterCourt> ref = Ref.create(Key.create(SportCenterCourt.class, idCourt));
+		return ofy().load().type(Match.class).filter("sportCenterCourtRef", ref).list();
 	}
 
 	@Override

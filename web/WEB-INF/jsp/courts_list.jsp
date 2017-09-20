@@ -10,6 +10,10 @@
 		<c:if test="${add_done==true}">
 			showDialogAlert("Pista creada.");
 		</c:if>
+		<c:if test="${remove_undone==true}">
+			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
+		</c:if>
+
 	});
 
 	function fAddCourt(idCenter) {

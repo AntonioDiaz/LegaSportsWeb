@@ -23,6 +23,7 @@ import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
 
 @Controller
 @RequestMapping (value="/sportCenter")
+// TODO: 20/09/2017 separate Center and Court controllers
 public class SportCenterController {
 
 	private static final Logger logger = Logger.getLogger(SportCenterController.class);
@@ -153,14 +154,16 @@ public class SportCenterController {
 	public ModelAndView listCourts(@RequestParam Long idSportCenter,
 			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
 			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
+			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
+			@RequestParam(value="remove_undone", defaultValue="false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("courts_list");
 		SportCenterForm sportCenterForm = sportsCenterManager.querySportCentersById(idSportCenter);
 		modelAndView.addObject("sportCenter", sportCenterForm);
 		modelAndView.addObject("courts", sportCenterCourtManager.querySportCourts(idSportCenter));
-		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("add_done", addDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("remove_undone", removeUndone);
 		return modelAndView;
 	}
 	
@@ -199,9 +202,14 @@ public class SportCenterController {
 	@RequestMapping("/doDeleteCourt")
 	public ModelAndView doDeleteCourt(@RequestParam Long idCourt, @RequestParam Long idCenter) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
-		sportCenterCourtManager.removeSportCourt(idCourt);
-		String viewName = "redirect:/sportCenter/listCourts";
-		viewName += "?remove_done=true";
+		String viewName = null;
+		viewName = "redirect:/sportCenter/listCourts";
+		if (sportCenterCourtManager.isElegibleForDelete(idCourt)) {
+			sportCenterCourtManager.removeSportCourt(idCourt);
+			viewName += "?remove_done=true";
+		} else {
+			viewName += "?remove_undone=true";
+		}
 		viewName += "&idSportCenter=" + idCenter;
 		modelAndView.setViewName(viewName);
 		return modelAndView;

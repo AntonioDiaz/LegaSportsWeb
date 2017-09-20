@@ -3,6 +3,7 @@ package com.adiaz.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.adiaz.daos.MatchesDAO;
 import com.adiaz.daos.SportCenterDAO;
 import com.adiaz.daos.SportsDAO;
 import com.adiaz.entities.Sport;
@@ -25,6 +26,8 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 	SportCenterDAO sportCenterDAO;
 	@Autowired
 	SportsDAO sportsDAO;
+	@Autowired
+	MatchesDAO matchesDAO;
 
 	@Override
 	public Ref<SportCenterCourt> addSportCourt(SportCenterCourt sportCenterCourt) throws Exception {
@@ -77,6 +80,11 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 	public void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception {
 		SportCenterCourt sportCenterCourt = sportsCourtForm.getCourt();
 		sportCenterCourtDAO.update(sportCenterCourt);
+	}
+
+	@Override
+	public boolean isElegibleForDelete(Long idSportCenterCourt) {
+		return matchesDAO.findByCourt(idSportCenterCourt).isEmpty();
 	}
 
 	@Override

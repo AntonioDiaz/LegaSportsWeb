@@ -18,4 +18,5 @@ public interface SportCenterCourtManager {
 	List<SportCenterCourt> querySportCourts(Long idSportCenter);
 	List<SportCenterCourt> querySportCourtsByTownAndSport(Long idTown, Long idSport);
 	void updateSportCourt(SportsCourtForm sportsCourtForm) throws Exception;
+	boolean isElegibleForDelete(Long idSportCenterCourt);
 }

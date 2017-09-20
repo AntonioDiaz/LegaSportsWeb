@@ -38,6 +38,7 @@ public class Match {
 
 	@Load
 	@JsonIgnore
+	@Index
 	private Ref<SportCenterCourt> sportCenterCourtRef;
 
 	private int scoreLocal;
