@@ -41,7 +41,8 @@ public class Town implements Serializable {
 
 	@Load
 	@JsonIgnore
-	private List<Ref<Sport>> sports = new ArrayList<Ref<Sport>>();
+	@Index
+	private List<Ref<Sport>> sports = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -98,6 +99,7 @@ public class Town implements Serializable {
 	public void setActive(boolean active) {
 		isActive = active;
 	}
+
 
 	public List<Ref<Sport>> getSports() {
 		return sports;
