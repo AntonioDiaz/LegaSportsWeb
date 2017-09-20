@@ -45,15 +45,8 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 	}
 	
 	@Override
-	public List<Competition> findCompetitionsBySport(Sport sport) {
-		Query<Competition> query = ofy().load().type(Competition.class);
-		List<Competition> list = null;
-		if (sport !=null) {
-			Key<Sport> key = Key.create(Sport.class, sport.getId());
-			query.ancestor(key);
-			list  = query.list();
-		}
-		return list;
+	public List<Competition> findCompetitionsBySport(Long idSport) {
+		return  findCompetitions(idSport, null, null);
 	}
 
 	@Override

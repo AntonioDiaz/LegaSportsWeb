@@ -20,6 +20,6 @@ public interface CompetitionsManager {
 	public List<Competition> queryCompetitions(CompetitionsFilterForm competitionsFilterForm);
 	public CompetitionsForm queryCompetitionsById(long id);
 	public Competition queryCompetitionsByIdEntity(long id);
-	public List<Competition> queryCompetitionsBySport(Sport sport);
+	public List<Competition> queryCompetitionsBySport(Long idSport);
 	public void removeAll() throws Exception;
 }

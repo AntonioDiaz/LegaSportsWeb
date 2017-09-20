@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.MatchesDAO;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Ref;
 
 @Service ("competitionsManager")
 public class CompetitionsManagerImpl implements CompetitionsManager {
@@ -55,8 +53,8 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	}
 
 	@Override
-	public List<Competition> queryCompetitionsBySport(Sport sport) {
-		return competitionsDAO.findCompetitionsBySport(sport);
+	public List<Competition> queryCompetitionsBySport(Long idSport) {
+		return competitionsDAO.findCompetitionsBySport(idSport);
 	}
 
 	// TODO: 14/07/2017 remove this??
