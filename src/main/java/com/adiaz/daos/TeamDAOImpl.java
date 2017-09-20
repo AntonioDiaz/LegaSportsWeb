@@ -85,4 +85,9 @@ public class TeamDAOImpl implements TeamDAO {
 	public List<Team> findByCategory(Long idCategory) {
 		return find(null, idCategory, null, null);
 	}
+
+	@Override
+	public List<Team> findByTown(Long idTown) {
+		return find(idTown, null, null, null);
+	}
 }

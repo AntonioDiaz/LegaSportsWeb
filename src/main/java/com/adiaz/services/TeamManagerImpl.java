@@ -74,4 +74,9 @@ public class TeamManagerImpl implements TeamManager {
 		Long idSport = competition.getSportEntity().getId();
 		return teamDAO.find(idTown, idCategory, idSport);
 	}
+
+	@Override
+	public List<Team> queryByTown(Long idTown) {
+		return teamDAO.findBySport(idTown);
+	}
 }

@@ -15,4 +15,5 @@ public interface TeamDAO extends GenericDAO<Team>{
 	List<Team> find(Long townId, Long categoryId, Long sportId, String name);
 	List<Team> findBySport(Long idSport);
 	List<Team> findByCategory(Long idCategory);
+	List<Team> findByTown(Long idTown);
 }

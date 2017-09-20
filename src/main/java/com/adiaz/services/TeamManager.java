@@ -19,4 +19,5 @@ public interface TeamManager {
 	TeamForm queryById(Long id);
 	List<Team> queryByFilter(TeamFilterForm teamFilterForm);
 	List<Team> queryByCompetition(Long idCompetition);
+	List<Team> queryByTown(Long idTown);
 }
