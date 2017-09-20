@@ -246,8 +246,9 @@ public class CompetitionsDAOImplTest {
 	public void findCompetitionsByTeam() throws Exception {
 		assertEquals(0, competitionsDAO.findByTeam(refAtleti.get().getId()).size());
 		createCompetition(COPA_LIGA);
+		assertEquals(1, competitionsDAO.findByTeam(refAtleti.get().getId()).size());
 		createCompetition(COPA_PRIMAVERA);
-		assertEquals(2, competitionsDAO.findByTown(refTownLeganes.get().getId()).size());
+		assertEquals(2, competitionsDAO.findByTeam(refAtleti.get().getId()).size());
 	}
 
 
