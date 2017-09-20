@@ -2,9 +2,11 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.daos.SportCenterCourtDAO;
 import com.adiaz.forms.SportCenterForm;
 import com.adiaz.forms.utils.SportCenterFormUtils;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.adiaz.entities.SportCenter;
 public class SportCenterManagerImpl implements SportCenterManager {
 
 	@Autowired SportCenterDAO sportsCenterDAO;
+	@Autowired SportCenterCourtDAO sportCenterCourtDAO;
 	@Autowired SportCenterFormUtils sportCenterFormUtils;
 	
 	@Override
@@ -55,6 +58,12 @@ public class SportCenterManagerImpl implements SportCenterManager {
 	}
 
 	@Override
+	public boolean isElegibleForDelete(Long idSportCenter) {
+		Ref<SportCenter> sportCenterRef = Ref.create(Key.create(SportCenter.class, idSportCenter));
+		return sportCenterCourtDAO.findBySportCenter(sportCenterRef).isEmpty();
+	}
+
+	@Override
 	public SportCenterForm querySportCentersById(Long id) {
 		SportCenter sportCenter = sportsCenterDAO.findById(id);
 		return sportCenterFormUtils.entityToForm(sportCenter);
@@ -62,23 +71,10 @@ public class SportCenterManagerImpl implements SportCenterManager {
 
 	@Override
 	public boolean removeSportCenter(Long id) throws Exception {
-		return sportsCenterDAO.remove(id);
+		boolean removeDone = false;
+		if (isElegibleForDelete(id)) {
+			removeDone = sportsCenterDAO.remove(id);
+		}
+		return removeDone;
 	}
-	
-//	@Override
-//	public boolean addCourtToCenter(SportsCourtForm sportsCourtForm) throws Exception{
-//		SportCenterCourt sportCourt = new SportCenterCourt();
-//		sportCourt.setName(sportsCourtForm.getName());		
-//		for (Long idSport : sportsCourtForm.getCourtsSports()) {
-//			Key<Sport> newSport = Key.create(Sport.class, idSport);
-//			sportCourt.getSports().add(Ref.create(newSport));
-//		}
-//		
-//		//TODO: check if already exists an court with the same name.
-//		Key<SportCenterCourt> newCourt = sportsCourtDAO.create(sportCourt);
-//		SportCenter sportCenter = sportsCenterDAO.findById(sportsCourtForm.getIdCenter());
-//		sportCenter.getCourts().add(Ref.create(newCourt));
-//		sportsCenterDAO.update(sportCenter);
-//		return true;
-//	}
 }

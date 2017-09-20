@@ -36,7 +36,8 @@ public class SportCenterController {
 	public ModelAndView centerList(
 			@RequestParam(value="update_done", defaultValue="false") boolean updateDone,
 			@RequestParam(value="add_done", defaultValue="false") boolean addDone,
-			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone) {
+			@RequestParam(value="remove_done", defaultValue="false") boolean removeDone,
+			@RequestParam(value="remove_undone", defaultValue="false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("center_list");
 		List<SportCenter> centers;
 		if (getActiveUser().isAdmin()) {
@@ -45,9 +46,10 @@ public class SportCenterController {
 			centers = sportsCenterManager.querySportCenters(getActiveUser().getTownEntity().getId());
 		}
 		modelAndView.addObject("centers", centers);
-		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("add_done", addDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("remove_undone", removeUndone);
 		return modelAndView;
 	}
 	
@@ -126,24 +128,24 @@ public class SportCenterController {
 	}
 
 	@RequestMapping("/doDelete")
-	public ModelAndView doDelete(@RequestParam Long id) {
+	public ModelAndView doDelete(@RequestParam Long id) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
-		try {
-			/* in case malicious behavior */
-			boolean validDelete = true;
-			if (!getActiveUser().isAdmin()) {
-				SportCenterForm center = sportsCenterManager.querySportCentersById(id);
-				validDelete = center.getIdTown()==getActiveUser().getTownEntity().getId();
-			}
-			if (validDelete) {
-				sportsCenterManager.removeSportCenter(id);
-			}
-		} catch (Exception e) {
-			logger.error(e);
+		/* in case of malicious behavior */
+		boolean validDelete = true;
+		if (!getActiveUser().isAdmin()) {
+			SportCenterForm center = sportsCenterManager.querySportCentersById(id);
+			validDelete = center.getIdTown()==getActiveUser().getTownEntity().getId();
 		}
-		String viewName = "redirect:/sportCenter/list";
-		viewName += "?remove_done=true";
-		modelAndView.setViewName(viewName);
+		if (validDelete) {
+			String viewName = "redirect:/sportCenter/list";
+			if (sportsCenterManager.isElegibleForDelete(id)) {
+				sportsCenterManager.removeSportCenter(id);
+				viewName += "?remove_done=true";
+			} else {
+				viewName += "?remove_undone=true";
+			}
+			modelAndView.setViewName(viewName);
+		}
 		return modelAndView;
 	}
 	
@@ -195,13 +197,9 @@ public class SportCenterController {
 	}
 
 	@RequestMapping("/doDeleteCourt")
-	public ModelAndView doDeleteCourt(@RequestParam Long idCourt, @RequestParam Long idCenter) {
+	public ModelAndView doDeleteCourt(@RequestParam Long idCourt, @RequestParam Long idCenter) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
-		try {
-			sportCenterCourtManager.removeSportCourt(idCourt);
-		} catch (Exception e) {
-			logger.error(e);
-		}
+		sportCenterCourtManager.removeSportCourt(idCourt);
 		String viewName = "redirect:/sportCenter/listCourts";
 		viewName += "?remove_done=true";
 		viewName += "&idSportCenter=" + idCenter;

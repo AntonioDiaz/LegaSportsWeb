@@ -15,4 +15,5 @@ public interface SportCenterManager {
 	List<SportCenter> querySportCenters(Long idTown);
 	SportCenterForm querySportCentersById(Long id);
 	void removeAll() throws Exception;
+	boolean isElegibleForDelete(Long idSportCenter);
 }

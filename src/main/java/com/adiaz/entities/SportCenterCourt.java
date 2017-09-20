@@ -10,6 +10,7 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
 
+// TODO: 20/09/2017 rename SportCenterCourt to Court.
 @Entity
 public class SportCenterCourt implements Serializable {
 
