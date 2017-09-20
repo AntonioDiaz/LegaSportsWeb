@@ -1,5 +1,6 @@
 package com.adiaz.utils;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalDefaultExceptionHandler {
 	public static final String DEFAULT_ERROR_VIEW = "error_page";
 
+	private static final Logger logger = Logger.getLogger(GlobalDefaultExceptionHandler.class);
+
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView	defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+		logger.error(e.getMessage(), e);
 		// If the exception is annotated with @ResponseStatus rethrow it and let
 		// the framework handle it - like the OrderNotFoundException example
 		// at the start of this post.
