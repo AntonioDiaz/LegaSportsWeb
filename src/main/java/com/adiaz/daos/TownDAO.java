@@ -11,4 +11,5 @@ public interface TownDAO extends GenericDAO<Town> {
 	public List<Town> findAll();
 	public Town findById(Long id);
 	public List<Town> findByName(String name);
+	public List<Town> findBySport(Long idSport);
 }

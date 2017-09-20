@@ -1,5 +1,6 @@
 package com.adiaz.daos;
 
+import com.adiaz.entities.Sport;
 import com.adiaz.entities.Town;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -17,6 +18,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -30,16 +34,36 @@ public class TownDAOImplTest {
 
 	public static final String LEGANES = "Leganes";
 	public static final String FUENLABRADA = "Fuenlabrada";
+	public static final String BASKET = "Basket";
+	public static final String FOOTBALL = "football";
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+	private Ref<Sport> refSportBasket;
+	private Ref<Sport> refSportFootball;
+
+	@Autowired
+	TownDAO townDAO;
+	@Autowired
+	SportsDAO sportsDAO;
 
 	@Before
 	public void setUp() throws Exception {
 		helper.setUp();
 		ObjectifyService.register(Town.class);
-	}
+		ObjectifyService.register(Sport.class);
 
-	@Autowired
-	TownDAO townDAO;
+		/*basket: basket */
+		Sport basket = new Sport();
+		basket.setName(BASKET);
+		Key<Sport> basketKey = sportsDAO.create(basket);
+		refSportBasket = Ref.create(basketKey);
+
+		Sport football = new Sport();
+		basket.setName(FOOTBALL);
+		Key<Sport> footballKey = sportsDAO.create(football);
+		refSportFootball = Ref.create(footballKey);
+
+	}
 
 	@After
 	public void tearDown() throws Exception {
@@ -50,8 +74,12 @@ public class TownDAOImplTest {
 	public void create() throws Exception {
 		Key<Town> key = createTown(LEGANES);
 		Town town = townDAO.findById(key.getId());
+		List<Sport> sportsDeref = town.getSportsDeref();
 		Assert.assertEquals(key.getId(), (long) town.getId());
 		Assert.assertTrue(town.isActive());
+		Assert.assertEquals(1, sportsDeref.size());
+		Sport sport = sportsDeref.get(0);
+		Assert.assertEquals(BASKET, sport.getName());
 	}
 
 	@Test
@@ -117,10 +145,24 @@ public class TownDAOImplTest {
 		Assert.assertEquals(LEGANES, townDAO.findByName(LEGANES).get(0).getName());
 	}
 
+	@Test
+	public void findBySport() throws Exception {
+		createTown(LEGANES);
+		createTown(FUENLABRADA);
+		List<Town> townsList = townDAO.findBySport(refSportBasket.get().getId());
+		Assert.assertEquals(2, townsList.size());
+		townsList = townDAO.findBySport(refSportFootball.get().getId());
+		Assert.assertEquals(0, townsList.size());
+	}
+
 	private Key<Town> createTown(String name) throws Exception {
+		List<Ref<Sport>> sportsList = new ArrayList<>();
+		sportsList.add(refSportBasket);
 		Town town = new Town();
 		town.setName(name);
 		town.setActive(true);
+		town.setSports(sportsList);
 		return townDAO.create(town);
 	}
+
 }

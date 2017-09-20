@@ -1,7 +1,9 @@
 package com.adiaz.daos;
 
+import com.adiaz.entities.Sport;
 import com.adiaz.entities.Town;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,5 +52,11 @@ public class TownDAOImpl implements TownDAO {
 	@Override
 	public List<Town> findByName(String name) {
 		return ofy().load().type(Town.class).filter("name", name).list();
+	}
+
+	@Override
+	public List<Town> findBySport(Long idSport) {
+		Ref<Sport> sportRef = Ref.create(Key.create(Sport.class, idSport));
+		return ofy().load().type(Town.class).filter("sports", sportRef).list();
 	}
 }
