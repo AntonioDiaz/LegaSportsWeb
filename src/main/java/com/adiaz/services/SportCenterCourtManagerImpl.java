@@ -84,7 +84,7 @@ public class SportCenterCourtManagerImpl implements SportCenterCourtManager {
 		Sport sport = sportsDAO.findSportById(idSport);
 		List<SportCenterCourt> courts = new ArrayList<>();
 		/*first find sportCenters of this town. */
-		List<SportCenter> sportCenters = sportCenterDAO.findSportsCenterByTown(idTown);
+		List<SportCenter> sportCenters = sportCenterDAO.findByTown(idTown);
 		/*second select courts in which it is possible to play the sport. */
 		for (SportCenter sportCenter : sportCenters) {
 			List<SportCenterCourt> c = sportCenterCourtDAO.findBySportCenter(Ref.create(sportCenter));

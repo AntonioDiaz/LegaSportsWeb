@@ -37,18 +37,18 @@ public class SportCenterManagerImpl implements SportCenterManager {
 
 	@Override
 	public List<SportCenter> querySportCenters() {
-		return sportsCenterDAO.findAllSportsCenters();
+		return sportsCenterDAO.findAll();
 	}
 
 	@Override
 	public List<SportCenter> querySportCenters(Long idTown) {
-		return sportsCenterDAO.findSportsCenterByTown(idTown);
+		return sportsCenterDAO.findByTown(idTown);
 	}
 
 
 	@Override
 	public void removeAll() throws Exception {
-		List<SportCenter> centers = sportsCenterDAO.findAllSportsCenters();
+		List<SportCenter> centers = sportsCenterDAO.findAll();
 		for (SportCenter center : centers) {
 			sportsCenterDAO.remove(center);
 		}
@@ -56,7 +56,7 @@ public class SportCenterManagerImpl implements SportCenterManager {
 
 	@Override
 	public SportCenterForm querySportCentersById(Long id) {
-		SportCenter sportCenter = sportsCenterDAO.findSportsCenterById(id);
+		SportCenter sportCenter = sportsCenterDAO.findById(id);
 		return sportCenterFormUtils.entityToForm(sportCenter);
 	}
 
@@ -76,7 +76,7 @@ public class SportCenterManagerImpl implements SportCenterManager {
 //		
 //		//TODO: check if already exists an court with the same name.
 //		Key<SportCenterCourt> newCourt = sportsCourtDAO.create(sportCourt);
-//		SportCenter sportCenter = sportsCenterDAO.findSportsCenterById(sportsCourtForm.getIdCenter());
+//		SportCenter sportCenter = sportsCenterDAO.findById(sportsCourtForm.getIdCenter());
 //		sportCenter.getCourts().add(Ref.create(newCourt));
 //		sportsCenterDAO.update(sportCenter);
 //		return true;

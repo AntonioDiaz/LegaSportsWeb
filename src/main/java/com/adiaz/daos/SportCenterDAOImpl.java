@@ -48,18 +48,18 @@ public class SportCenterDAOImpl implements SportCenterDAO {
 	}
 
 	@Override
-	public List<SportCenter> findAllSportsCenters() {
+	public List<SportCenter> findAll() {
 		return ofy().load().type(SportCenter.class).list();
 	}
 
 	@Override
-	public SportCenter findSportsCenterById(Long id) {
+	public SportCenter findById(Long id) {
 		return ofy().load().type(SportCenter.class).id(id).now();
 	}
 
 
 	@Override
-	public List<SportCenter> findSportsCenterByTown(Long idTown) {
+	public List<SportCenter> findByTown(Long idTown) {
 		Key<Town> key = Key.create(Town.class, idTown);
 		Ref<Town> townRef = Ref.create(key);
 		Query<SportCenter> query = ofy().load().type(SportCenter.class).filter("townRef", townRef);

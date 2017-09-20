@@ -9,7 +9,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,10 +65,10 @@ public class SportCenterDAOImplTest {
 
 	@Test
 	public void create() throws Exception {
-		assertEquals(0, sportCenterDAO.findAllSportsCenters().size());
+		assertEquals(0, sportCenterDAO.findAll().size());
 		Key<SportCenter> key = createSportCenter();
-		assertEquals(1, sportCenterDAO.findAllSportsCenters().size());
-		SportCenter sportCenter = sportCenterDAO.findSportsCenterById(key.getId());
+		assertEquals(1, sportCenterDAO.findAll().size());
+		SportCenter sportCenter = sportCenterDAO.findById(key.getId());
 		assertEquals(key.getId(), (long) sportCenter.getId());
 		assertEquals(SPORTCENTER_NAME_1, sportCenter.getName());
 		assertEquals(SPORTCENTER_ADDRESS_1, sportCenter.getAddress());
@@ -79,11 +78,11 @@ public class SportCenterDAOImplTest {
 	@Test
 	public void update() throws Exception {
 		Key<SportCenter> key = createSportCenter();
-		SportCenter sportCenter = sportCenterDAO.findSportsCenterById(key.getId());
+		SportCenter sportCenter = sportCenterDAO.findById(key.getId());
 		sportCenter.setName(SPORTCENTER_NAME_2);
 		sportCenter.setAddress(SPORTCENTER_ADDRESS_2);
 		sportCenterDAO.update(sportCenter);
-		sportCenter = sportCenterDAO.findSportsCenterById(key.getId());
+		sportCenter = sportCenterDAO.findById(key.getId());
 		assertEquals(key.getId(), (long) sportCenter.getId());
 		assertEquals(SPORTCENTER_NAME_2, sportCenter.getName());
 		assertEquals(SPORTCENTER_ADDRESS_2, sportCenter.getAddress());
@@ -93,30 +92,30 @@ public class SportCenterDAOImplTest {
 	@Test
 	public void removeByItem() throws Exception {
 		Key<SportCenter> key = createSportCenter();
-		SportCenter sportCenter = sportCenterDAO.findSportsCenterById(key.getId());
+		SportCenter sportCenter = sportCenterDAO.findById(key.getId());
 		sportCenterDAO.remove(sportCenter.getId());
-		assertTrue(sportCenterDAO.findSportsCenterById(sportCenter.getId()) == null);
+		assertTrue(sportCenterDAO.findById(sportCenter.getId()) == null);
 	}
 
 	@Test
 	public void removeById() throws Exception {
 		Key<SportCenter> key = createSportCenter();
-		SportCenter sportCenter = sportCenterDAO.findSportsCenterById(key.getId());
+		SportCenter sportCenter = sportCenterDAO.findById(key.getId());
 		sportCenterDAO.remove(sportCenter.getId());
-		assertTrue(sportCenterDAO.findSportsCenterById(sportCenter.getId()) == null);
+		assertTrue(sportCenterDAO.findById(sportCenter.getId()) == null);
 	}
 
 	@Test
 	public void findAllSportsCenters() throws Exception {
 		createSportCenter();
 		createSportCenter();
-		assertEquals(2, sportCenterDAO.findAllSportsCenters().size());
+		assertEquals(2, sportCenterDAO.findAll().size());
 	}
 
 	@Test
 	public void findSportsCenterById() throws Exception {
 		Key<SportCenter> key = createSportCenter();
-		SportCenter sportCenter = sportCenterDAO.findSportsCenterById(key.getId());
+		SportCenter sportCenter = sportCenterDAO.findById(key.getId());
 		assertEquals(key.getId(), (long) sportCenter.getId());
 	}
 
@@ -124,7 +123,7 @@ public class SportCenterDAOImplTest {
 	public void findSportsCenterByTown() throws Exception {
 		createSportCenter();
 		createSportCenter();
-		List<SportCenter> centers = sportCenterDAO.findSportsCenterByTown(townRef.get().getId());
+		List<SportCenter> centers = sportCenterDAO.findByTown(townRef.get().getId());
 		System.out.println(townRef.get().getId());
 		assertEquals(2, centers.size());
 	}
