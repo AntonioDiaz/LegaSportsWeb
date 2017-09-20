@@ -189,6 +189,15 @@ public class SportCenterCourtDAOImplTest {
 	}
 */
 
+	@Test
+	public void findSportCourtBySport() throws Exception {
+		createSportCourt();
+		createSportCourt();
+		List<SportCenterCourt> courtList = sportCenterCourtDAO.findBySport(sportRefBasket.get().getId());
+		Assert.assertEquals(2, courtList.size());
+
+	}
+
 
 	private Key<SportCenterCourt> createSportCourt() throws Exception {
 		SportCenterCourt sportCenterCourt = new SportCenterCourt();

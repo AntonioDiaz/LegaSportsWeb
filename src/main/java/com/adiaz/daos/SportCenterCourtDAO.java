@@ -14,4 +14,5 @@ public interface SportCenterCourtDAO extends GenericDAO<SportCenterCourt> {
 	public List<SportCenterCourt> findAllSportCourt();
 	public SportCenterCourt findBySportCenter(Long idCourt);
 	public List<SportCenterCourt> findBySportCenter(Ref<SportCenter> sportCenterRef);
+	public List<SportCenterCourt> findBySport(Long idSport);
 }

@@ -20,6 +20,7 @@ public class SportCenterCourt implements Serializable {
 	
 	@Load
 	@JsonIgnore
+	@Index
 	private List<Ref<Sport>> sports = new ArrayList<Ref<Sport>>();
 
 	@Load

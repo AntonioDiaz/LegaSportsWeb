@@ -16,7 +16,6 @@ import com.googlecode.objectify.Ref;
 
 @Repository
 public class SportCenterCourtDAOImpl implements SportCenterCourtDAO {
-
 	
 	@Override
 	public Key<SportCenterCourt> create(SportCenterCourt item) throws Exception {
@@ -63,5 +62,11 @@ public class SportCenterCourtDAOImpl implements SportCenterCourtDAO {
 	@Override
 	public List<SportCenterCourt> findBySportCenter(Ref<SportCenter> sportCenterRef) {
 		return ofy().load().type(SportCenterCourt.class).filter("sportCenterRef", sportCenterRef).list();
+	}
+
+	@Override
+	public List<SportCenterCourt> findBySport(Long idSport) {
+		Ref<Sport> sportRef = Ref.create(Key.create(Sport.class, idSport));
+		return ofy().load().type(SportCenterCourt.class).filter("sports", sportRef).list();
 	}
 }
