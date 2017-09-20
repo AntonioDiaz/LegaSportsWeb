@@ -8,7 +8,6 @@ import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
 import com.adiaz.entities.Team;
 import com.adiaz.utils.MuniSportsConstants;
-import com.adiaz.utils.RegisterEntities;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,7 +154,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 
 	@Override
 	public void initClassification(Long idCompetition) {
-		Competition competition = competitionsDAO.findCompetitionsById(idCompetition);
+		Competition competition = competitionsDAO.findById(idCompetition);
 		/* remove previous entries for this competition. */
 		List<ClassificationEntry> classificationEntries = classificationEntriesDAO.findByCompetitionId(idCompetition);
 		classificationEntriesDAO.remove(classificationEntries);

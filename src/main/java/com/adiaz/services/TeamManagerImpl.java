@@ -68,7 +68,7 @@ public class TeamManagerImpl implements TeamManager {
 
 	@Override
 	public List<Team> queryByCompetition(Long idCompetition) {
-		Competition competition = competitionsDAO.findCompetitionsById(idCompetition);
+		Competition competition = competitionsDAO.findById(idCompetition);
 		Long idTown = competition.getTownEntity().getId();
 		Long idCategory = competition.getCategoryEntity().getId();
 		Long idSport = competition.getSportEntity().getId();

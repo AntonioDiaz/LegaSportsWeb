@@ -49,24 +49,24 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	
 	@Override
 	public List<Competition> queryCompetitions() {
-		return competitionsDAO.findCompetitions();
+		return competitionsDAO.findAll();
 	}
 
 	@Override
 	public List<Competition> queryCompetitionsBySport(Long idSport) {
-		return competitionsDAO.findCompetitionsBySport(idSport);
+		return competitionsDAO.findBySport(idSport);
 	}
 
 	// TODO: 14/07/2017 remove this??
 	@Override
 	public CompetitionsForm queryCompetitionsById(long id) {
-		Competition competition = competitionsDAO.findCompetitionsById(id);
+		Competition competition = competitionsDAO.findById(id);
 		return competitionsFormUtils.entityToForm(competition);
 	}
 
 	@Override
 	public Competition queryCompetitionsByIdEntity(long id) {
-		return competitionsDAO.findCompetitionsById(id);
+		return competitionsDAO.findById(id);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public List<Competition> queryCompetitionsByTown(long idTown, boolean onlyPublished) {
-		List<Competition> competitions = competitionsDAO.findCompetitions(idTown, onlyPublished);
+		List<Competition> competitions = competitionsDAO.find(idTown, onlyPublished);
 		Collections.sort(competitions, new Comparator<Competition>() {
 			@Override
 			public int compare(Competition o1, Competition o2) {
@@ -89,7 +89,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public List<Competition> queryCompetitions(Long idSport, Long idCategory, Long idTown) {
-		List<Competition> competitions = competitionsDAO.findCompetitions(idSport, idCategory, idTown);
+		List<Competition> competitions = competitionsDAO.find(idSport, idCategory, idTown);
 		Collections.sort(competitions, new Comparator<Competition>() {
 			@Override
 			public int compare(Competition o1, Competition o2) {
@@ -107,7 +107,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public void removeAll() throws Exception {
-		List<Competition> competitions = competitionsDAO.findCompetitions();
+		List<Competition> competitions = competitionsDAO.findAll();
 		for (Competition competition : competitions) {
 			competitionsDAO.remove(competition);
 		}

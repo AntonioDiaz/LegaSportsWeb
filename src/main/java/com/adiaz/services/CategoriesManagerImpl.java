@@ -110,6 +110,6 @@ public class CategoriesManagerImpl implements CategoriesManager {
 
 	@Override
 	public boolean isElegibleForDelete(Long idCategory) {
-		return teamDAO.findByCategory(idCategory).isEmpty() && competitionsDAO.findCompetitionsByCategory(idCategory).isEmpty();
+		return teamDAO.findByCategory(idCategory).isEmpty() && competitionsDAO.findByCategory(idCategory).isEmpty();
 	}
 }

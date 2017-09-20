@@ -10,7 +10,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -96,7 +95,7 @@ public class CompetitionsDAOImplTest {
 	public void create() throws Exception {
 		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
 		Competition competition = Ref.create(key).getValue();
-		assertEquals(competition, competitionsDAO.findCompetitionsById(competition.getId()));
+		assertEquals(competition, competitionsDAO.findById(competition.getId()));
 	}
 
 	@Test
@@ -105,7 +104,7 @@ public class CompetitionsDAOImplTest {
 		Competition competition = Ref.create(key).getValue();
 		competition.setName(COPA_LIGA);
 		competitionsDAO.update(competition);
-		competition = competitionsDAO.findCompetitionsById(competition.getId());
+		competition = competitionsDAO.findById(competition.getId());
 		assertEquals(COPA_LIGA, competition.getName());
 	}
 
@@ -115,7 +114,7 @@ public class CompetitionsDAOImplTest {
 		Competition competition = Ref.create(key).getValue();
 		competition.setSportRef(refSportFutbol);
 		competitionsDAO.update(competition);
-		competition = competitionsDAO.findCompetitionsById(competition.getId());
+		competition = competitionsDAO.findById(competition.getId());
 		assertEquals(refSportFutbol, competition.getSportRef());
 		competition.getRefs();
 		assertEquals("Futbol", competition.getSportEntity().getName());
@@ -124,12 +123,12 @@ public class CompetitionsDAOImplTest {
 	@Test
 	public void update_town() throws Exception {
 		Key<Competition> key = createCompetition(refTownLeganes);
-		Competition competition = competitionsDAO.findCompetitionsById(key.getId());
+		Competition competition = competitionsDAO.findById(key.getId());
 		assertEquals(key.getId(), (long)competition.getId());
 		assertEquals(LEGANES, competition.getTownRef().get().getName());
 		competition.setTownRef(refTownFuenlabrada);
 		competitionsDAO.update(competition);
-		competition = competitionsDAO.findCompetitionsById(key.getId());
+		competition = competitionsDAO.findById(key.getId());
 		assertEquals(FUENLABRADA, competition.getTownRef().get().getName());
 	}
 
@@ -138,14 +137,14 @@ public class CompetitionsDAOImplTest {
 		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
 		Competition competition = Ref.create(key).getValue();
 		competitionsDAO.remove(competition);
-		assertEquals(0, competitionsDAO.findCompetitions().size());
+		assertEquals(0, competitionsDAO.findAll().size());
 	}
 
 	@Test
 	public void findCompetitions() throws Exception {
 		createCompetition(COPA_PRIMAVERA);
 		createCompetition(COPA_LIGA);
-		assertEquals(2, competitionsDAO.findCompetitions().size());
+		assertEquals(2, competitionsDAO.findAll().size());
 	}
 
 	@Test
@@ -153,7 +152,7 @@ public class CompetitionsDAOImplTest {
 		createCompetition(COPA_PRIMAVERA, refSportFutbol);
 		createCompetition(COPA_LIGA, refSportFutbol);
 		createCompetition(COPA_LIGA, refSportBasket);
-		assertEquals(2, competitionsDAO.findCompetitionsBySport(refSportFutbol.getValue().getId()).size());
+		assertEquals(2, competitionsDAO.findBySport(refSportFutbol.getValue().getId()).size());
 	}
 
 	@Test
@@ -162,7 +161,7 @@ public class CompetitionsDAOImplTest {
 		createCompetition(COPA_LIGA);
 		long idCategory = refCategoryCadete.getKey().getId();
 		long idSport = refSportBasket.getKey().getId();
-		assertEquals(2, competitionsDAO.findCompetitions(idSport, idCategory, null).size());
+		assertEquals(2, competitionsDAO.find(idSport, idCategory, null).size());
 	}
 
 	@Test
@@ -172,7 +171,7 @@ public class CompetitionsDAOImplTest {
 		createCompetition(COPA_LIGA, refSportFutbol);
 		long idCategory = refCategoryCadete.getKey().getId();
 		long idSport = refSportBasket.getKey().getId();
-		assertEquals(1, competitionsDAO.findCompetitions(idSport, idCategory, null).size());
+		assertEquals(1, competitionsDAO.find(idSport, idCategory, null).size());
 	}
 
 	@Test
@@ -183,37 +182,37 @@ public class CompetitionsDAOImplTest {
 		Long idFuenla = refTownFuenlabrada.get().getId();
 		Long idLeganes = refTownLeganes.get().getId();
 		Long idFutbol = refSportFutbol.get().getId();
-		assertEquals(1, competitionsDAO.findCompetitions(null, null, idFuenla).size());
-		assertEquals(2, competitionsDAO.findCompetitions(null, null, idLeganes).size());
-		assertEquals(0, competitionsDAO.findCompetitions(idFutbol, null, idFuenla).size());
+		assertEquals(1, competitionsDAO.find(null, null, idFuenla).size());
+		assertEquals(2, competitionsDAO.find(null, null, idLeganes).size());
+		assertEquals(0, competitionsDAO.find(idFutbol, null, idFuenla).size());
 	}
 
 	@Test
 	public void findCompetitionsBySportAndCategory_filterPublised() throws Exception {
 		Key<Competition> key = createCompetition(refTownLeganes);
-		assertEquals(1, competitionsDAO.findCompetitions(null, null, null).size());
-		assertEquals(0, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), true).size());
-		assertEquals(1, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), false).size());
+		assertEquals(1, competitionsDAO.find(null, null, null).size());
+		assertEquals(0, competitionsDAO.find(refTownLeganes.getKey().getId(), true).size());
+		assertEquals(1, competitionsDAO.find(refTownLeganes.getKey().getId(), false).size());
 		Competition competition = Ref.create(key).getValue();
 		competition.setLastPublished(new Date());
 		competitionsDAO.update(competition);
-		assertEquals(1, competitionsDAO.findCompetitions(refTownLeganes.getKey().getId(), true).size());
+		assertEquals(1, competitionsDAO.find(refTownLeganes.getKey().getId(), true).size());
 	}
 
 	@Test
 	public void findCompetitionsById() throws Exception {
 		Key<Competition> key = createCompetition(COPA_PRIMAVERA);
 		Competition competition = Ref.create(key).getValue();
-		assertEquals(competition, competitionsDAO.findCompetitionsById(key.getId()));
+		assertEquals(competition, competitionsDAO.findById(key.getId()));
 	}
 
 	@Test
 	public void findCompetitionsByCategory() throws Exception {
-		List<Competition> competitionsByCategory = competitionsDAO.findCompetitionsByCategory(refCategoryCadete.get().getId());
+		List<Competition> competitionsByCategory = competitionsDAO.findByCategory(refCategoryCadete.get().getId());
 		assertEquals(0, competitionsByCategory.size());
 		createCompetition(COPA_LIGA);
 		createCompetition(COPA_PRIMAVERA);
-		competitionsByCategory = competitionsDAO.findCompetitionsByCategory(refCategoryCadete.get().getId());
+		competitionsByCategory = competitionsDAO.findByCategory(refCategoryCadete.get().getId());
 		assertEquals(2, competitionsByCategory.size());
 	}
 

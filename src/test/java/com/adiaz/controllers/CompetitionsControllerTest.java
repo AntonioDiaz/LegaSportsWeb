@@ -50,7 +50,7 @@ public class CompetitionsControllerTest {
 	@Before
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		//when(this.competitionsDAO.findCompetitions()).thenReturn(new ArrayList<Competition>());
+		//when(this.competitionsDAO.find()).thenReturn(new ArrayList<Competition>());
 		when(this.competitionsManager.queryCompetitions()).thenReturn(new ArrayList<Competition>());
 		System.out.println("Competitions: " + competitionsManager.queryCompetitions());
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();

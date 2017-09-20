@@ -175,7 +175,7 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	@Override
 	public void generateCalendar(GenerateCalendarForm form) throws Exception {
-		Competition competition = competitionsDAO.findCompetitionsById(form.getIdCompetition());
+		Competition competition = competitionsDAO.findById(form.getIdCompetition());
 		Ref<Competition> competitionRef = Ref.create(competition);
 		SportCenterCourt court = sportCenterCourtManager.querySportCourt(form.getIdCourt());
 		Ref<SportCenterCourt> courtRef = Ref.create(court);

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.adiaz.daos.*;
 import com.adiaz.entities.Sport;
-import com.adiaz.entities.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,7 +96,7 @@ public class SportsManagerImpl implements SportsManager {
 	public boolean isElegibleForDelete(Long idSport) {
 	 	return townDAO.findBySport(idSport).isEmpty()
 				&& sportCenterCourtDAO.findBySport(idSport).isEmpty()
-				&& competitionsDAO.findCompetitionsBySport(idSport).isEmpty()
+				&& competitionsDAO.findBySport(idSport).isEmpty()
 				&& teamDAO.findBySport(idSport).isEmpty();
 	}
 }
