@@ -16,7 +16,7 @@ public class UsersManagerImpl implements UsersManager {
 	
 	@Override
 	public List<User> queryAllUsers() {
-		return usersDAO.findAllUsers();
+		return usersDAO.findAll();
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class UsersManagerImpl implements UsersManager {
 
 	@Override
 	public void removeAll() throws Exception {
-		List<User> users = usersDAO.findAllUsers();
+		List<User> users = usersDAO.findAll();
 		for (User user : users) {
 			usersDAO.remove(user);
 		}

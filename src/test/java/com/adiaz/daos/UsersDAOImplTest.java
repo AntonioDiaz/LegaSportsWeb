@@ -8,7 +8,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,9 +62,9 @@ public class UsersDAOImplTest {
 
 	@Test
 	public void create() throws Exception {
-		assertEquals(0, usersDAO.findAllUsers().size());
+		assertEquals(0, usersDAO.findAll().size());
 		createUserCall(USERNAME_PEPITO);
-		assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAll().size());
 		User user = usersDAO.findUser(USERNAME_PEPITO);
 		assertEquals(USERNAME_PEPITO, user.getUsername());
 		assertEquals(LEGANES, user.getTownRef().get().getName());
@@ -86,7 +85,7 @@ public class UsersDAOImplTest {
 	public void createExistingUser() throws Exception {
 		createUserCall(USERNAME_PEPITO);
 		createUserCall(USERNAME_PEPITO);
-		assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAll().size());
 	}
 
 	@Test
@@ -107,10 +106,10 @@ public class UsersDAOImplTest {
 		/* create user: with the id USERNAME_PEPITO */
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
-		assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAll().size());
 		user.setUsername(USERNAME_MARGARITO);
 		usersDAO.update(user);
-		assertEquals(1, usersDAO.findAllUsers().size());
+		assertEquals(1, usersDAO.findAll().size());
 		assertEquals(null, usersDAO.findUser(USERNAME_MARGARITO));
 		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
 	}
@@ -128,7 +127,7 @@ public class UsersDAOImplTest {
 	public void findAllUsers() throws Exception {
 		createUserCall(USERNAME_PEPITO);
 		createUserCall(USERNAME_MARGARITO);
-		assertEquals(2, usersDAO.findAllUsers().size());
+		assertEquals(2, usersDAO.findAll().size());
 	}
 
 	@Test

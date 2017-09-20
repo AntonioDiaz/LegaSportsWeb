@@ -39,7 +39,7 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public List<User> findAllUsers() {
+	public List<User> findAll() {
 		return ofy().load().type(User.class).list();
 	}
 

@@ -7,7 +7,7 @@ import com.googlecode.objectify.Key;
 
 public interface UsersDAO extends GenericDAO<User> {
 	Key<User> create(User user, Long townId) throws Exception;
-	List<User> findAllUsers();
+	List<User> findAll();
 	List<User> findByTown(Long idTown);
 	User findUser(String userName);
 }
