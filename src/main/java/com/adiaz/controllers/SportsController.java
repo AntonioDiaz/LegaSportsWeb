@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adiaz.services.SportCenterManager;
@@ -19,6 +20,7 @@ import com.adiaz.services.SportCenterManager;
 import java.util.List;
 
 @Controller
+@SessionAttributes({"sports"})
 @RequestMapping("/sports")
 public class SportsController {
 	//private static final Logger logger = Logger.getLogger(SportsController.class);
@@ -33,13 +35,15 @@ public class SportsController {
 	public ModelAndView getSportsList(
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
-			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone) {
+			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone,
+			@RequestParam(value = "remove_undone", defaultValue = "false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("sports_list");
 		List<Sport> sports = sportsManager.querySports();
 		modelAndView.addObject("sports", sports);
 		modelAndView.addObject("add_done", addDone);
-		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("remove_undone", removeUndone);
 		return modelAndView;
 	}
 
@@ -99,9 +103,10 @@ public class SportsController {
 
 	@RequestMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) throws Exception {
-		// TODO: 25/07/2017 validate SPORT has not in a competition.
-		sportsManager.remove(id);
-		return "redirect:/sports/list?remove_done=true";
+		if (sportsManager.remove(id)) {
+			return "redirect:/sports/list?remove_done=true";
+		} else {
+			return "redirect:/sports/list?remove_undone=true";
+		}
 	}
-
 }

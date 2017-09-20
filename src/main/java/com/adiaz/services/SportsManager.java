@@ -16,4 +16,5 @@ public interface SportsManager {
 
 	// TODO: 24/07/2017 delete all removeAll methods :)
 	void removeAll() throws Exception;
+	boolean isElegibleForDelete(Long idSport);
 }

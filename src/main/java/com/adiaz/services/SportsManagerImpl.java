@@ -2,11 +2,12 @@ package com.adiaz.services;
 
 import java.util.List;
 
+import com.adiaz.daos.*;
 import com.adiaz.entities.Sport;
+import com.adiaz.entities.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.adiaz.daos.SportsDAO;
 import com.googlecode.objectify.Key;
 
 @Service ("sportsManager")
@@ -14,7 +15,19 @@ public class SportsManagerImpl implements SportsManager {
 
 	@Autowired
 	SportsDAO sportsDAO;
-	
+
+	@Autowired
+	TownDAO townDAO;
+
+	@Autowired
+	SportCenterCourtDAO sportCenterCourtDAO;
+
+	@Autowired
+	CompetitionsDAO competitionsDAO;
+
+	@Autowired
+	TeamDAO teamDAO;
+
 	@Override
 	public List<Sport> querySports() {
 		return sportsDAO.findAllSports();
@@ -32,14 +45,22 @@ public class SportsManagerImpl implements SportsManager {
 
 	@Override
 	public boolean remove(Sport sport) throws Exception {
-		return sportsDAO.remove(sport);
+		if (isElegibleForDelete(sport.getId())) {
+			return sportsDAO.remove(sport);
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean remove(Long id) throws Exception {
-		Sport sport = new Sport();
-		sport.setId(id);
-		return sportsDAO.remove(sport);
+		if (isElegibleForDelete(id)) {
+			Sport sport = new Sport();
+			sport.setId(id);
+			return sportsDAO.remove(sport);
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -65,5 +86,18 @@ public class SportsManagerImpl implements SportsManager {
 		for (Sport sport : sports) {
 			sportsDAO.remove(sport);
 		}
+	}
+
+	/**
+	 * Check if is possible to delete this sport without break references.
+	 * @param idSport
+	 * @return
+	 */
+	@Override
+	public boolean isElegibleForDelete(Long idSport) {
+	 	return townDAO.findBySport(idSport).isEmpty()
+				&& sportCenterCourtDAO.findBySport(idSport).isEmpty()
+				&& competitionsDAO.findCompetitionsBySport(idSport).isEmpty()
+				&& teamDAO.findBySport(idSport).isEmpty();
 	}
 }
