@@ -38,7 +38,7 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/sports_add.jsp" />
 	</definition>
 	<definition name="sports_view" extends="homeTemplate">
-		<put-attribute name="page_title" value="Crear deporte" />
+		<put-attribute name="page_title" value="Ver deporte" />
 		<put-attribute name="body" value="/WEB-INF/jsp/sports_view.jsp" />
 	</definition>
 	<definition name="sports_update" extends="homeTemplate">
