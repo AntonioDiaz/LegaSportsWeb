@@ -44,6 +44,13 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
+	public List<User> findByTown(Long idTown) {
+		Key<Town> key = Key.create(Town.class, idTown);
+		Ref<Town> townRef = Ref.create(key);
+		return ofy().load().type(User.class).filter("townRef", townRef).list();
+	}
+
+	@Override
 	public User findUser(String userName) {
 		Key<User> key = Key.create(User.class, userName);
 		return ofy().load().key(key).now();
@@ -56,4 +63,5 @@ public class UsersDAOImpl implements UsersDAO {
 		user.setTownRef(townRef);
 		return this.create(user);
 	}
+
 }

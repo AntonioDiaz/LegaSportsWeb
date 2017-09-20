@@ -132,6 +132,14 @@ public class UsersDAOImplTest {
 	}
 
 	@Test
+	public void findByTown() throws Exception {
+		assertEquals(0, usersDAO.findByTown(townRef.get().getId()).size());
+		createUserCall(USERNAME_PEPITO);
+		createUserCall(USERNAME_MARGARITO);
+		assertEquals(2, usersDAO.findByTown(townRef.get().getId()).size());
+	}
+
+	@Test
 	public void findUser() throws Exception {
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
@@ -145,5 +153,4 @@ public class UsersDAOImplTest {
 		user.setTownRef(townRef);
 		return usersDAO.create(user);
 	}
-
 }

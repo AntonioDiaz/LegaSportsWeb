@@ -36,6 +36,7 @@ public class User implements UserDetails {
 	private boolean accountNonExpired;
 
 	@Load
+	@Index
 	private Ref<Town> townRef;
 
 	@Ignore
