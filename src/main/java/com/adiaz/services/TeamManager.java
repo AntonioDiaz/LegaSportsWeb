@@ -20,4 +20,5 @@ public interface TeamManager {
 	List<Team> queryByFilter(TeamFilterForm teamFilterForm);
 	List<Team> queryByCompetition(Long idCompetition);
 	List<Team> queryByTown(Long idTown);
+	boolean isElegibleForDelete(Long idTeam);
 }

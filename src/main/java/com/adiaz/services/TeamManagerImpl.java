@@ -7,6 +7,7 @@ import com.adiaz.entities.Team;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
 import com.adiaz.forms.utils.TeamFormUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,11 +34,16 @@ public class TeamManagerImpl implements TeamManager {
 
 	@Override
 	public boolean remove(Long id) throws Exception {
-		Team team = new Team();
-		team.setId(id);
-		return teamDAO.remove(team);
+		boolean deleteDone = false;
+		if (isElegibleForDelete(id)) {
+			Team team = new Team();
+			team.setId(id);
+			deleteDone = teamDAO.remove(team);
+		}
+		return deleteDone;
 	}
 
+	// TODO: 20/09/2017 delete this
 	@Override
 	public void removeAll() throws Exception {
 		for (Team team : teamDAO.findAll()) {
@@ -78,5 +84,10 @@ public class TeamManagerImpl implements TeamManager {
 	@Override
 	public List<Team> queryByTown(Long idTown) {
 		return teamDAO.findBySport(idTown);
+	}
+
+	@Override
+	public boolean isElegibleForDelete(Long idTeam) {
+		return competitionsDAO.findByTeam(idTeam).isEmpty();
 	}
 }

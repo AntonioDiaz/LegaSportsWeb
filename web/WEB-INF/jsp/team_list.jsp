@@ -12,6 +12,9 @@
 		<c:if test="${delete_done==true}">
 			showDialogAlert("Equipo eliminado");
 		</c:if>
+		<c:if test="${delete_undone==true}">
+			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
+		</c:if>
 	});
 
 	function fUpdate(id) {
