@@ -12,6 +12,9 @@
 		<c:if test="${update_done==true}">
 			showDialogAlert("El municipio ha sido actualizado.");
 		</c:if>
+		<c:if test="${remove_undone==true}">
+			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
+		</c:if>
 	});
 
 	function fDelete(id, name) {

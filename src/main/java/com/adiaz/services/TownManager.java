@@ -17,4 +17,5 @@ public interface TownManager {
 	TownForm queryById(Long id);
 	List<Town> queryByName(String name);
 	void removeAll() throws Exception;
+	boolean isElegibleForDelete(Long idTown);
 }

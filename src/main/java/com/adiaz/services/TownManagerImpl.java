@@ -1,6 +1,7 @@
 package com.adiaz.services;
 
-import com.adiaz.daos.TownDAO;
+import com.adiaz.daos.*;
+import com.adiaz.entities.Club;
 import com.adiaz.entities.Town;
 import com.adiaz.forms.TownForm;
 import com.adiaz.forms.utils.TownFormUtils;
@@ -20,6 +21,17 @@ public class TownManagerImpl implements TownManager {
 	TownDAO townDAO;
 	@Autowired
 	TownFormUtils townFormUtils;
+	@Autowired
+	TeamDAO teamDAO;
+	@Autowired
+	SportCenterDAO sportCenterDAO;
+	@Autowired
+	UsersDAO usersDAO;
+	@Autowired
+	ClubDAO clubDAO;
+	@Autowired
+	CompetitionsDAO competitionsDAO;
+
 
 	@Override
 	public Long add(TownForm townForm) throws Exception {
@@ -29,9 +41,13 @@ public class TownManagerImpl implements TownManager {
 
 	@Override
 	public boolean remove(Long id) throws Exception {
-		Town town = new Town();
-		town.setId(id);
-		return townDAO.remove(town);
+		boolean removeDone = false;
+		if (isElegibleForDelete(id)) {
+			Town town = new Town();
+			town.setId(id);
+			townDAO.remove(town);
+		}
+		return removeDone;
 	}
 
 	@Override
@@ -76,5 +92,14 @@ public class TownManagerImpl implements TownManager {
 			}
 		}
 		return townsActives;
+	}
+
+	@Override
+	public boolean isElegibleForDelete(Long idTown) {
+		return teamDAO.findByTown(idTown).isEmpty()
+				&& sportCenterDAO.findByTown(idTown).isEmpty()
+				&& usersDAO.findByTown(idTown).isEmpty()
+				&& clubDAO.findByTownId(idTown).isEmpty()
+				&& competitionsDAO.findByTown(idTown).isEmpty();
 	}
 }

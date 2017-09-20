@@ -31,11 +31,13 @@ public class TownController {
 	public ModelAndView list(
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
-			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone) {
+			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone,
+			@RequestParam(value = "remove_undone", defaultValue = "false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("towns_list");
-		modelAndView.addObject("remove_done", removeDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("add_done", addDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("remove_undone", removeUndone);
 		/* It is necessary to update the towns list in session.*/
 		modelAndView.addObject("towns", townManager.queryAll());
 		return modelAndView;
@@ -64,8 +66,12 @@ public class TownController {
 
 	@RequestMapping("/delete")
 	public String doDelete(@RequestParam(value = "idTown") Long id) throws Exception {
-		townManager.remove(id);
-		return "redirect:/towns/list?remove_done=true";
+		if (townManager.isElegibleForDelete(id)) {
+			townManager.remove(id);
+			return "redirect:/towns/list?remove_done=true";
+		} else {
+			return "redirect:/towns/list?remove_undone=true";
+		}
 	}
 
 	@RequestMapping("/update")
