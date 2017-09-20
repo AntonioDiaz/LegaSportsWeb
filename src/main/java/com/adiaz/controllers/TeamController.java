@@ -56,7 +56,8 @@ public class TeamController {
 			@ModelAttribute("form_filter") TeamFilterForm filterForm,
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
-			@RequestParam(value = "delete_done", defaultValue = "false") boolean deleteDone){
+			@RequestParam(value = "delete_done", defaultValue = "false") boolean deleteDone,
+			@RequestParam(value = "delete_undone", defaultValue = "false") boolean deleteUndone){
 		ModelAndView modelAndView = new ModelAndView("team_list");
 		modelAndView.addObject("form_filter", filterForm);
 		List<Team> teams = teamManager.queryByFilter(filterForm);
@@ -64,6 +65,7 @@ public class TeamController {
 		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("delete_done", deleteDone);
+		modelAndView.addObject("delete_undone", deleteUndone);
 		return modelAndView;
 	}
 
@@ -120,8 +122,12 @@ public class TeamController {
 	@RequestMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) throws Exception {
 		// TODO: 25/07/2017 validate user is admin or the town of the town is the same than the user.
-		teamManager.remove(id);
-		return "redirect:/team/doFilter?delete_done=true";
+		if (teamManager.isElegibleForDelete(id)) {
+			teamManager.remove(id);
+			return "redirect:/team/doFilter?delete_done=true";
+		} else {
+			return "redirect:/team/doFilter?delete_undone=true";
+		}
 	}
 
 	@RequestMapping("/view")
