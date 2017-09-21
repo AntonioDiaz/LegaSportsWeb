@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 
 @Entity
-public class SportCenter implements Serializable {
+public class Center implements Serializable {
 
 	@Id
 	private Long id;

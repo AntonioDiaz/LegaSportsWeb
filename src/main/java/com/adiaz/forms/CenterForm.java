@@ -3,7 +3,7 @@ package com.adiaz.forms;
 /**
  * Created by toni on 17/07/2017.
  */
-public class SportCenterForm {
+public class CenterForm {
 	private Long id;
 	private String name;
 	private String address;

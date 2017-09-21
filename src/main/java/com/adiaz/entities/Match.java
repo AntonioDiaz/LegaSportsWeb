@@ -1,13 +1,10 @@
 package com.adiaz.entities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.adiaz.utils.MatchUtils;
-import com.adiaz.utils.MuniSportsConstants;
 import com.adiaz.utils.MuniSportsUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -39,7 +36,7 @@ public class Match {
 	@Load
 	@JsonIgnore
 	@Index
-	private Ref<SportCenterCourt> sportCenterCourtRef;
+	private Ref<Court> courtRef;
 
 	private int scoreLocal;
 	
@@ -58,7 +55,8 @@ public class Match {
 	private Competition competition;
 
 	@Ignore
-	private SportCenterCourt sportCenterCourt;
+	@JsonProperty ("sportCenterCourt")
+	private Court court;
 
 	/** if workingCopy==false then this is the match published.	*/
 	@Index
@@ -94,8 +92,8 @@ public class Match {
 		if (teamVisitorRef!=null && teamVisitorRef.isLoaded()) {
 			teamVisitorEntity = teamVisitorRef.get();
 		}
-		if (sportCenterCourtRef !=null && sportCenterCourtRef.isLoaded()) {
-			sportCenterCourt = sportCenterCourtRef.get();
+		if (courtRef !=null && courtRef.isLoaded()) {
+			court = courtRef.get();
 		}
 		if (matchPublishedRef!=null && matchPublishedRef.isLoaded() && matchPublishedRef.get()!=null) {
 			matchPublished = matchPublishedRef.get();
@@ -119,8 +117,8 @@ public class Match {
 			matchDesc += "_";
 		}
 		matchDesc += "  Centro: ";
-		if (this.getSportCenterCourt()!=null) {
-			matchDesc += this.getSportCenterCourt().getNameWithCenter();
+		if (this.getCourt()!=null) {
+			matchDesc += this.getCourt().getNameWithCenter();
 		} else {
 			matchDesc += "_";
 		}
@@ -194,20 +192,20 @@ public class Match {
 	}
 
 
-	public Ref<SportCenterCourt> getSportCenterCourtRef() {
-		return sportCenterCourtRef;
+	public Ref<Court> getCourtRef() {
+		return courtRef;
 	}
 
-	public void setSportCenterCourtRef(Ref<SportCenterCourt> sportCenterCourtRef) {
-		this.sportCenterCourtRef = sportCenterCourtRef;
+	public void setCourtRef(Ref<Court> courtRef) {
+		this.courtRef = courtRef;
 	}
 
-	public SportCenterCourt getSportCenterCourt() {
-		return sportCenterCourt;
+	public Court getCourt() {
+		return court;
 	}
 
-	public void setSportCenterCourt(SportCenterCourt sportCenterCourt) {
-		this.sportCenterCourt = sportCenterCourt;
+	public void setCourt(Court court) {
+		this.court = court;
 	}
 
 	public boolean isWorkingCopy() {

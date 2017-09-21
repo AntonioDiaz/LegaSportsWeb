@@ -13,7 +13,10 @@
 		<c:if test="${remove_undone==true}">
 			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
 		</c:if>
-
+		$('#btnBack').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/centers/list";
+		});
 	});
 
 	function fAddCourt(idCenter) {
@@ -34,13 +37,27 @@
 	}
 	
 </script>
-<h2 class="munisport-title">
-	${sportCenter.name} 
-</h2>
-<hr>
-<div align="right">
-<button type="button" class="btn btn-default" onclick="fAddCourt('${sportCenter.id}')" style="width: 200px;">&nbsp;Añadir pista&nbsp;</button>
+<div class="row" style="position: relative">
+	<div class="col-sm-8">
+		<div class="font_title">
+			Centro deportivo: ${centerSession.name} (${centerSession.townEntity.name})
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="row">
+			<div class="col-sm-6">&nbsp;</div>
+			<div class="col-sm-6">
+				<button type="button" class="btn btn-default btn-block" id="btnBack">
+					volver
+				</button>
+				<button type="button" class="btn btn-default btn-block" onclick="fAddCourt('${centerSession.id}')" >
+					nueva pista
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
+<hr>
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -63,7 +80,7 @@
 					<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${court.id}')">Modificar</button>
 				</td>
 				<td style="vertical-align: middle;">
-					<button type="button" class="btn btn-default btn-block" onclick="fDelete('${court.id}', '${sportCenter.id}')">Eliminar</button>
+					<button type="button" class="btn btn-default btn-block" onclick="fDelete('${court.id}', '${center.id}')">Eliminar</button>
 				</td>
 			</tr>
 		</c:forEach>

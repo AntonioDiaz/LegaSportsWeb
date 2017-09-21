@@ -2,14 +2,14 @@
 <script>
 	$(document).ready(function() {
 		$('#btnBack').on('click', function(event) {
-			window.location.href = "/courts/list?idSportCenter="+ ${my_form.idCenter};
+			window.location.href = "/courts/list";
 		});
 		
 		
 	});
 </script>
 <h2 class="munisport-title">
-	${my_form.nameCenter} - Nueva pista 
+	Nueva pista: ${centerSession.name} (${centerSession.townEntity.name})
 </h2>
 <hr>
 <form:form method="post" action="doAdd" commandName="my_form" name="my_form" cssClass="form-horizontal">

@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,7 +28,8 @@ import java.util.*;
 public class AdminController {
 
 	private static final Logger logger = Logger.getLogger(AdminController.class);
-	@Autowired SportCenterCourtManager sportCenterCourtManager;
+	@Autowired
+	CourtManager courtManager;
 	@Autowired MatchesManager matchesManager;
 	@Autowired ClassificationManager classificationManager;
 	@Autowired SportsManager sportsManager;
@@ -60,7 +59,7 @@ public class AdminController {
 			modelAndView.setViewName("init_competition");
 		} else {
 			try {
-				List<SportCenterCourt> courts = sportCenterCourtManager.querySportCourtsByTownAndSport(
+				List<Court> courts = courtManager.querySportCourtsByTownAndSport(
 						competitionsForm.getIdTown(), competitionsForm.getIdSport());
 				boolean errorCourts = courts.size()<=0;
 				boolean competitionCreated = false;
@@ -80,7 +79,7 @@ public class AdminController {
 	}
 
 	private void createCompetition(CompetitionsForm f,
-								   Ref<SportCenterCourt> refCourt) throws Exception {
+								   Ref<Court> refCourt) throws Exception {
 		Set<String> teamsSet = MuniSportsUtils.parseCalendarGetTeams();
 		List<MatchForm> matchesList = MuniSportsUtils.parseCalendarGetMatches();
 		List<String> teamsList = new ArrayList<>(teamsSet);
@@ -98,7 +97,7 @@ public class AdminController {
 		competitionsManager.update(competition);
 	}
 
-	private void createMatches(List<MatchForm> matchesFormList, Competition competition, Ref<SportCenterCourt> refCourt) throws Exception {
+	private void createMatches(List<MatchForm> matchesFormList, Competition competition, Ref<Court> refCourt) throws Exception {
 		Ref<Competition> competitionRef = Ref.create(competition);
 		Map<String, Ref<Team>> teamsMap = new HashMap<>();
 		for (Ref<Team> teamRef : competition.getTeams()) {
@@ -115,7 +114,7 @@ public class AdminController {
 			match.setTeamLocalRef(teamRefLocal);
 			match.setTeamVisitorRef(teamRefVisitor);
 			match.setDate(MuniSportsUtils.parseStringToDate(matchForm.getDateStr()));
-			match.setSportCenterCourtRef(refCourt);
+			match.setCourtRef(refCourt);
 			match.setCompetitionRef(competitionRef);
 			match.setWeek(matchForm.getWeek());
 			matchesList.add(match);

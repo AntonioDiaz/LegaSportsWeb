@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.entities.Competition;
-import com.adiaz.entities.SportCenterCourt;
+import com.adiaz.entities.Court;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.MatchForm;
@@ -33,7 +33,7 @@ public class MatchesManagerImpl implements MatchesManager {
 	@Autowired
 	CompetitionsDAO competitionsDAO;
 	@Autowired
-	SportCenterCourtManager sportCenterCourtManager;
+	CourtManager courtManager;
 	@Autowired
 	MatchFormUtils matchFormUtils;
 
@@ -98,7 +98,7 @@ public class MatchesManagerImpl implements MatchesManager {
 			published.setScoreLocal(match.getScoreLocal());
 			published.setScoreVisitor(match.getScoreVisitor());
 			published.setDate(match.getDate());
-			published.setSportCenterCourtRef(match.getSportCenterCourtRef());
+			published.setCourtRef(match.getCourtRef());
 			published.setTeamLocalRef(match.getTeamLocalRef());
 			published.setTeamVisitorRef(match.getTeamVisitorRef());
 			published.setState(match.getState());
@@ -177,8 +177,8 @@ public class MatchesManagerImpl implements MatchesManager {
 	public void generateCalendar(GenerateCalendarForm form) throws Exception {
 		Competition competition = competitionsDAO.findById(form.getIdCompetition());
 		Ref<Competition> competitionRef = Ref.create(competition);
-		SportCenterCourt court = sportCenterCourtManager.querySportCourt(form.getIdCourt());
-		Ref<SportCenterCourt> courtRef = Ref.create(court);
+		Court court = courtManager.querySportCourt(form.getIdCourt());
+		Ref<Court> courtRef = Ref.create(court);
 		int numTeams = competition.getTeams().size();
 		int weeks = numTeams * 2 - 2;
 		if (numTeams%2==1) {
@@ -189,7 +189,7 @@ public class MatchesManagerImpl implements MatchesManager {
 			for (int j = 0; j < matchesEachWeek; j++) {
 				Match match = new Match();
 				match.setCompetitionRef(competitionRef);
-				match.setSportCenterCourtRef(courtRef);
+				match.setCourtRef(courtRef);
 				match.setWeek(i+1);
 				match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
 				addPublishedAndWorkingcopy(match);

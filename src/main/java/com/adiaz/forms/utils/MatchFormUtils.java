@@ -1,20 +1,15 @@
 package com.adiaz.forms.utils;
 
+import com.adiaz.entities.Court;
 import com.adiaz.entities.Match;
-import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.MatchForm;
-import com.adiaz.utils.MuniSportsConstants;
 import com.adiaz.utils.MuniSportsUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 /**
@@ -30,11 +25,11 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 		match.setScoreLocal(matchForm.getScoreLocal());
 		match.setScoreVisitor(matchForm.getScoreVisitor());
 		match.setDate(MuniSportsUtils.parseStringToDate(matchForm.getDateStr()));
-		match.setSportCenterCourtRef(null);
+		match.setCourtRef(null);
 		if (matchForm.getCourtId()!=null) {
-			Key<SportCenterCourt> key = Key.create(SportCenterCourt.class, matchForm.getCourtId());
-			Ref<SportCenterCourt> sportCenterCourtRef = Ref.create(key);
-			match.setSportCenterCourtRef(sportCenterCourtRef);
+			Key<Court> key = Key.create(Court.class, matchForm.getCourtId());
+			Ref<Court> courtRef = Ref.create(key);
+			match.setCourtRef(courtRef);
 		}
 		match.setTeamLocalRef(null);
 		if (matchForm.getTeamLocalId()!=null) {
@@ -78,9 +73,9 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 			f.setTeamVisitorId(e.getTeamVisitorEntity().getId());
 			f.setTeamVisitorName(e.getTeamVisitorEntity().getName());
 		}
-		if (e.getSportCenterCourt()!=null) {
-			f.setCourtId(e.getSportCenterCourt().getId());
-			f.setCourtName(e.getSportCenterCourt().getNameWithCenter());
+		if (e.getCourt()!=null) {
+			f.setCourtId(e.getCourt().getId());
+			f.setCourtName(e.getCourt().getNameWithCenter());
 		}
 		if (e.getMatchPublished()!=null) {
 			Match matchPublished = e.getMatchPublished();
@@ -93,7 +88,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 			if (!Objects.equals(e.getDate(), matchPublished.getDate())) {
 				f.setUpdatedDate(true);
 			}
-			if (!Objects.equals(e.getSportCenterCourt(), matchPublished.getSportCenterCourt())) {
+			if (!Objects.equals(e.getCourt(), matchPublished.getCourt())) {
 				f.setUpdatedCourt(true);
 			}
 			if (!Objects.equals(e.getTeamLocalEntity(), matchPublished.getTeamLocalEntity())) {

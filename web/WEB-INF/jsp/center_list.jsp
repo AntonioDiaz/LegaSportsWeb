@@ -26,7 +26,7 @@
 	}
 	
 	function fViewCourts(centerId) {
-		window.location.href = "/courts/list?idSportCenter=" + centerId;
+		window.location.href = "/courts/initlist?idCenter=" + centerId;
 	}
 	
 	function fDelete(centerId) {
@@ -53,23 +53,23 @@
 				<td colspan="3">No hay centros registrados.</td>
 			</tr>
 		</c:if>
-		<c:forEach var="sportCenter" items="${centers}">
+		<c:forEach var="center" items="${centers}">
 			<tr>
-				<td style="vertical-align: middle;">${sportCenter.name}</td>
-				<td style="vertical-align: middle;">${sportCenter.townEntity.name}</td>
+				<td style="vertical-align: middle;">${center.name}</td>
+				<td style="vertical-align: middle;">${center.townEntity.name}</td>
 				<td>
 					<div class="row">
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-default btn-block" onclick="fViewCourts('${sportCenter.id}')">Pistas</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fViewCourts('${center.id}')">Pistas</button>
 						</div>
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-default btn-block" onclick="fView('${sportCenter.id}')">Ver info</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fView('${center.id}')">Ver info</button>
 						</div>
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${sportCenter.id}')">Modificar</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fUpdate('${center.id}')">Modificar</button>
 						</div>
 						<div class="col-sm-3">
-							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${sportCenter.id}')">Eliminar</button>
+							<button type="button" class="btn btn-default btn-block" onclick="fDelete('${center.id}')">Eliminar</button>
 						</div>
 					</div>
 				</td>

@@ -6,13 +6,14 @@ import java.util.List;
 
 import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
 
-// TODO: 20/09/2017 rename SportCenterCourt to Court.
+// TODO: 20/09/2017 rename Court to Court.
 @Entity
-public class SportCenterCourt implements Serializable {
+public class Court implements Serializable {
 
 	@Id
 	private Long id;
@@ -27,15 +28,16 @@ public class SportCenterCourt implements Serializable {
 	@Load
 	@Index
 	@JsonIgnore
-	private Ref<SportCenter> sportCenterRef;
+	private Ref<Center> centerRef;
 
 	@Ignore
-	private SportCenter sportCenter;
+	@JsonProperty("sportCenter")
+	private Center center;
 
 	@OnLoad
 	public void getRefs() {
-		if (sportCenterRef!=null && sportCenterRef.isLoaded()) {
-			sportCenter = sportCenterRef.get();
+		if (centerRef !=null && centerRef.isLoaded()) {
+			center = centerRef.get();
 		}
 	}
 
@@ -46,8 +48,8 @@ public class SportCenterCourt implements Serializable {
 
 	public String getNameWithCenter() {
 		String longName = "";
-		if (sportCenter!=null) {
-			longName += sportCenter.getName() + " - ";
+		if (center !=null) {
+			longName += center.getName() + " - ";
 		}
 		longName += name;
 		return longName;
@@ -83,21 +85,21 @@ public class SportCenterCourt implements Serializable {
 	}
 
 
-	public Ref<SportCenter> getSportCenterRef() {
-		return sportCenterRef;
+	public Ref<Center> getCenterRef() {
+		return centerRef;
 	}
 
 
-	public void setSportCenterRef(Ref<SportCenter> sportCenterRef) {
-		this.sportCenterRef = sportCenterRef;
+	public void setCenterRef(Ref<Center> centerRef) {
+		this.centerRef = centerRef;
 	}
 
-	public SportCenter getSportCenter() {
-		return sportCenter;
+	public Center getCenter() {
+		return center;
 	}
 
-	public void setSportCenter(SportCenter sportCenter) {
-		this.sportCenter = sportCenter;
+	public void setCenter(Center center) {
+		this.center = center;
 	}
 
 

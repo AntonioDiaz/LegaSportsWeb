@@ -23,7 +23,7 @@ public class TownManagerImpl implements TownManager {
 	@Autowired
 	TeamDAO teamDAO;
 	@Autowired
-	SportCenterDAO sportCenterDAO;
+	CenterDAO centerDAO;
 	@Autowired
 	UsersDAO usersDAO;
 	@Autowired
@@ -96,7 +96,7 @@ public class TownManagerImpl implements TownManager {
 	@Override
 	public boolean isElegibleForDelete(Long idTown) {
 		return teamDAO.findByTown(idTown).isEmpty()
-				&& sportCenterDAO.findByTown(idTown).isEmpty()
+				&& centerDAO.findByTown(idTown).isEmpty()
 				&& usersDAO.findByTown(idTown).isEmpty()
 				&& clubDAO.findByTown(idTown).isEmpty()
 				&& competitionsDAO.findByTown(idTown).isEmpty();

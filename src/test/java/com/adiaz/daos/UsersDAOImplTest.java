@@ -1,3 +1,4 @@
+
 package com.adiaz.daos;
 
 import com.adiaz.entities.Town;
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class UsersDAOImplTest {
 
 	private static final String USERNAME_PEPITO = "PEPITO";
-	private static final String USERNAME_MARGARITO = "USERNAME_MARGARIGO";
+	private static final String USERNAME_TOMAS = "TOMAS";
 	private static final String PASSWORD = "PASSWORD";
 	private static final String PASSWORD_UPDATED = "PASSWORD_UPDATED";
 	public static final String LEGANES = "LEGANES";
@@ -90,29 +91,19 @@ public class UsersDAOImplTest {
 
 	@Test
 	public void update() throws Exception {
+		assertEquals(0, usersDAO.findAll().size());
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
+		assertEquals(1, usersDAO.findAll().size());
 		assertEquals(PASSWORD, user.getPassword01());
 		user.setPassword01(PASSWORD_UPDATED);
 		usersDAO.update(user);
 		user = usersDAO.findUser(user.getUsername());
 		assertEquals(PASSWORD_UPDATED, user.getPassword01());
+		assertEquals(1, usersDAO.findAll().size());
 	}
 
 
-
-	@Test
-	public void updateTryUsername() throws Exception {
-		/* create user: with the id USERNAME_PEPITO */
-		Key<User> key = createUserCall(USERNAME_PEPITO);
-		User user = Ref.create(key).getValue();
-		assertEquals(1, usersDAO.findAll().size());
-		user.setUsername(USERNAME_MARGARITO);
-		usersDAO.update(user);
-		assertEquals(1, usersDAO.findAll().size());
-		assertEquals(null, usersDAO.findUser(USERNAME_MARGARITO));
-		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
-	}
 
 	@Test
 	public void remove() throws Exception {
@@ -126,7 +117,7 @@ public class UsersDAOImplTest {
 	@Test
 	public void findAllUsers() throws Exception {
 		createUserCall(USERNAME_PEPITO);
-		createUserCall(USERNAME_MARGARITO);
+		createUserCall(USERNAME_TOMAS);
 		assertEquals(2, usersDAO.findAll().size());
 	}
 
@@ -134,7 +125,7 @@ public class UsersDAOImplTest {
 	public void findByTown() throws Exception {
 		assertEquals(0, usersDAO.findByTown(townRef.get().getId()).size());
 		createUserCall(USERNAME_PEPITO);
-		createUserCall(USERNAME_MARGARITO);
+		createUserCall(USERNAME_TOMAS);
 		assertEquals(2, usersDAO.findByTown(townRef.get().getId()).size());
 	}
 
@@ -142,6 +133,25 @@ public class UsersDAOImplTest {
 	public void findUser() throws Exception {
 		Key<User> key = createUserCall(USERNAME_PEPITO);
 		User user = Ref.create(key).getValue();
+		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
+	}
+
+	@Test
+	public void updateTryUsername() throws Exception {
+		/* create user: with the id USERNAME_PEPITO */
+		Key<User> key = createUserCall(USERNAME_PEPITO);
+		User user = Ref.create(key).getValue();
+		assertEquals(1, usersDAO.findAll().size());
+		for (User user1 : usersDAO.findAll()) {
+			System.out.println("antes username: " + user1.getUsername());
+		}
+		user.setUsername(USERNAME_TOMAS);
+		usersDAO.update(user);
+		for (User user1 : usersDAO.findAll()) {
+			System.out.println("despues username: " + user1.getUsername());
+		}
+		assertEquals(1, usersDAO.findAll().size());
+		assertEquals(null, usersDAO.findUser(USERNAME_TOMAS));
 		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
 	}
 

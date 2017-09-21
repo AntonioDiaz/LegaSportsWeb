@@ -1,12 +1,12 @@
 package com.adiaz.forms;
 
+import com.adiaz.entities.Court;
 import com.adiaz.entities.Sport;
-import com.adiaz.entities.SportCenter;
-import com.adiaz.entities.SportCenterCourt;
+import com.adiaz.entities.Center;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
-public class SportsCourtForm {
+public class CourtForm {
 
 	private Long idCourt;
 	private Long idCenter;
@@ -14,11 +14,11 @@ public class SportsCourtForm {
 	private String name;
 	private Long[] courtsSports;
 	
-	public SportsCourtForm(SportCenterCourt court) {
+	public CourtForm(Court court) {
 		super();
 		this.setIdCourt(court.getId());
-		this.setIdCenter(court.getSportCenterRef().get().getId());
-		this.setNameCenter(court.getSportCenterRef().get().getName());
+		this.setIdCenter(court.getCenterRef().get().getId());
+		this.setNameCenter(court.getCenterRef().get().getName());
 		this.setName(court.getName());
 		Long [] sportsIds = new Long[court.getSportsDeref().size()];
 		for (int i = 0; i < sportsIds.length; i++) {
@@ -26,7 +26,7 @@ public class SportsCourtForm {
 		}
 		this.setCourtsSports(sportsIds);
 	}
-	public SportsCourtForm() {
+	public CourtForm() {
 		super();
 	}
 	
@@ -61,16 +61,16 @@ public class SportsCourtForm {
 		this.nameCenter = nameCenter;
 	}
 
-	public SportCenterCourt getCourt() {
-		SportCenterCourt sportCenterCourt = new SportCenterCourt();
-		sportCenterCourt.setId(this.getIdCourt());
-		sportCenterCourt.setName(this.getName());
+	public Court getCourt() {
+		Court court = new Court();
+		court.setId(this.getIdCourt());
+		court.setName(this.getName());
 		for (Long idSport : this.getCourtsSports()) {
 			Key<Sport> newSport = Key.create(Sport.class, idSport);
-			sportCenterCourt.getSports().add(Ref.create(newSport));
+			court.getSports().add(Ref.create(newSport));
 		}		
-		Key<SportCenter> refCenter = Key.create(SportCenter.class, this.getIdCenter());
-		sportCenterCourt.setSportCenterRef(Ref.create(refCenter));
-		return sportCenterCourt;
+		Key<Center> refCenter = Key.create(Center.class, this.getIdCenter());
+		court.setCenterRef(Ref.create(refCenter));
+		return court;
 	}
 }

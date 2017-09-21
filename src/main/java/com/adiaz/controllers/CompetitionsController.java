@@ -34,7 +34,8 @@ public class CompetitionsController {
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
 	@Autowired GenerateCalendarFormValidator generateCalendarFormValidator;
-	@Autowired SportCenterCourtManager sportCenterCourtManager;
+	@Autowired
+	CourtManager courtManager;
 	@Autowired TeamManager teamManager;
 
 	@RequestMapping("/list")
@@ -116,7 +117,7 @@ public class CompetitionsController {
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		List<MatchForm> matchesList = matchesManager.queryMatchesFormWorkingCopy(idCompetition);
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
-		List<SportCenterCourt> courts = sportCenterCourtManager.querySportCourtsByTownAndSport(
+		List<Court> courts = courtManager.querySportCourtsByTownAndSport(
 				competition.getTownEntity().getId(), competition.getSportEntity().getId());
 		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("matches_list", matchesList);

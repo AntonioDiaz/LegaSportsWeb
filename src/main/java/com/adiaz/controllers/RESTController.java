@@ -2,7 +2,6 @@ package com.adiaz.controllers;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.adiaz.entities.*;
 import com.adiaz.forms.IssuesForm;
@@ -36,7 +35,7 @@ public class RESTController {
 	@Autowired
 	ClassificationManager classificationManager;
 	@Autowired
-	SportCenterCourtManager sportCenterCourtManager;
+	CourtManager courtManager;
 	@Autowired
 	TeamManager teamManager;
 	@Autowired
@@ -223,10 +222,10 @@ public class RESTController {
 	}
 
 	@RequestMapping(value = "/courts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<SportCenterCourt> courts(
+	public List<Court> courts(
 			@RequestParam(value = "idTown") Long idTown,
 			@RequestParam(value = "idSport") Long idSport) {
-		return sportCenterCourtManager.querySportCourtsByTownAndSport(idTown, idSport);
+		return courtManager.querySportCourtsByTownAndSport(idTown, idSport);
 	}
 
 	@RequestMapping(value = "/teams", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

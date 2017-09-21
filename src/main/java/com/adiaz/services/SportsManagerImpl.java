@@ -19,7 +19,7 @@ public class SportsManagerImpl implements SportsManager {
 	TownDAO townDAO;
 
 	@Autowired
-	SportCenterCourtDAO sportCenterCourtDAO;
+	CourtDAO courtDAO;
 
 	@Autowired
 	CompetitionsDAO competitionsDAO;
@@ -95,7 +95,7 @@ public class SportsManagerImpl implements SportsManager {
 	@Override
 	public boolean isElegibleForDelete(Long idSport) {
 	 	return townDAO.findBySport(idSport).isEmpty()
-				&& sportCenterCourtDAO.findBySport(idSport).isEmpty()
+				&& courtDAO.findBySport(idSport).isEmpty()
 				&& competitionsDAO.findBySport(idSport).isEmpty()
 				&& teamDAO.findBySport(idSport).isEmpty();
 	}

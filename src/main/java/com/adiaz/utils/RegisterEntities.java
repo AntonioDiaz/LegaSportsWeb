@@ -2,10 +2,6 @@ package com.adiaz.utils;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.adiaz.entities.*;
 import com.adiaz.forms.*;
 import com.adiaz.services.*;
@@ -18,7 +14,9 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/init")
@@ -26,16 +24,71 @@ public class RegisterEntities {
 
 	private static final Logger logger = Logger.getLogger(RegisterEntities.class.getName());
 	public static final String LIGA_REGULAR = "Liga Regular";
+	public static final String LEGANES = "Leganés";
+	public static final String FUENLABRADA = "Fuenlabrada";
 
 	@Autowired SportsManager sportsManager;
 	@Autowired UsersManager usersManager;
-	@Autowired SportCenterManager sportCenterManager;
+	@Autowired CenterManager centerManager;
 	@Autowired TownManager townManager;
 	@Autowired ClubManager clubManager;
+	@Autowired CourtManager courtManager;
+	@Autowired MatchesManager matchesManager;
 
 	public void init() throws Exception {
 		registerEntities();
+/*		courtManager.removeAll();
+		centerManager.removeAll();
 
+		logger.debug("create centers and courts");
+		List<Ref<Sport>> sportRefsList = new ArrayList<>();
+		for (Sport sport : sportsManager.querySports()) {
+			sportRefsList.add(Ref.create(sport));
+		}
+
+		Town fuenlabrada = townManager.queryByName(FUENLABRADA).get(0);
+		Center fernandoMartin = new Center();
+		fernandoMartin.setTownRef(Ref.create(fuenlabrada));
+		fernandoMartin.setName("Fernando Martin");
+		fernandoMartin.setAddress("Calle de Grecia, 2, 28943 Fuenlabrada, Madrid");
+		Key<Center> centerFuenlaKey = centerManager.addCenter(fernandoMartin);
+		Court courtFuenla = new Court();
+		courtFuenla.setName("Pista 01");
+		courtFuenla.setSports(sportRefsList);
+		courtFuenla.setCenterRef(Ref.create(centerFuenlaKey));
+		Ref<Court> courtFuenlaRef = courtManager.addSportCourt(courtFuenla);
+
+
+
+		Town leganes = townManager.queryByName(LEGANES).get(0);
+		Center pabellonEuropa = new Center();
+		pabellonEuropa.setTownRef(Ref.create(leganes));
+		pabellonEuropa.setName("Pabellón Europa");
+		pabellonEuropa.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
+		Key<Center> centerLegaKey = centerManager.addCenter(pabellonEuropa);
+		Court courtLega = new Court();
+		courtLega.setName("Pista 01");
+		courtLega.setSports(sportRefsList);
+		courtLega.setCenterRef(Ref.create(centerLegaKey));
+		Ref<Court> courtLegaRef = courtManager.addSportCourt(courtLega);
+
+
+		for (Match match : matchesManager.queryMatches()) {
+			System.out.println(match);
+			try {
+				if (match.getCompetition().getTownEntity().getName().equals(FUENLABRADA)) {
+					match.setCourtRef(courtFuenlaRef);
+					matchesManager.update(match);
+				} else {
+					if (match.getCompetition().getTownEntity().getName().equals(LEGANES)) {
+						match.setCourtRef(courtLegaRef);
+						matchesManager.update(match);
+					}
+				}
+			} catch (Exception e) {
+				logger.error("match " + match.getId(), e);
+			}
+		}*/
 	}
 
 	public void initLarge() throws Exception {
@@ -62,9 +115,9 @@ public class RegisterEntities {
 		logger.debug("crea el municipio de leganes");
 		Ref<Town> refLega = Ref.create(townLeganes);
 
-		Key<SportCenter> sportsCentersKey = createSportsCenters(refLega);
+		Key<Center> sportsCentersKey = createSportsCenters(refLega);
 		logger.debug("crea el centro deportivo");
-		Ref<SportCenter> refCenter = Ref.create(sportsCentersKey);
+		Ref<Center> refCenter = Ref.create(sportsCentersKey);
 		creteSportCourt(refCenter);
 		logger.debug("crea la pista");
 		createUsers(refLega);
@@ -100,22 +153,22 @@ public class RegisterEntities {
 		}
 	}
 
-	private void creteSportCourt(Ref<SportCenter> refCenter) {
-		SportCenterCourt court = new SportCenterCourt();
+	private void creteSportCourt(Ref<Center> refCenter) {
+		Court court = new Court();
 		court.setName("Pista A");
-		court.setSportCenterRef(refCenter);
+		court.setCenterRef(refCenter);
 		for (Sport sport : sportsManager.querySports()) {
 			court.getSports().add(Ref.create(sport));
 		}
-		Key<SportCenterCourt> courtKey = ofy().save().entity(court).now();
+		Key<Court> courtKey = ofy().save().entity(court).now();
 	}
 
-	private Key<SportCenter> createSportsCenters(Ref<Town> refTown) throws Exception {
-		SportCenter sportsCenter = new SportCenter();
+	private Key<Center> createSportsCenters(Ref<Town> refTown) throws Exception {
+		Center sportsCenter = new Center();
 		sportsCenter.setName("Pabellon Europa");
 		sportsCenter.setAddress("Av. de Alemania, 2, 28916 Leganés, Madrid");
 		sportsCenter.setTownRef(refTown);
-		return sportCenterManager.addSportCenter(sportsCenter);
+		return centerManager.addCenter(sportsCenter);
 	}
 
 	private void createTowns() throws Exception {
@@ -157,8 +210,8 @@ public class RegisterEntities {
 		ObjectifyService.register(Match.class);
 		ObjectifyService.register(ClassificationEntry.class);
 		ObjectifyService.register(User.class);
-		ObjectifyService.register(SportCenter.class);
-		ObjectifyService.register(SportCenterCourt.class);
+		ObjectifyService.register(Center.class);
+		ObjectifyService.register(Court.class);
 		ObjectifyService.register(Town.class);
 		ObjectifyService.register(Club.class);
 		ObjectifyService.register(Team.class);

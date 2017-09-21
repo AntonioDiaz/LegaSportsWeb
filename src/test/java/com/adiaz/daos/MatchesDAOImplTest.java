@@ -1,8 +1,8 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.Competition;
+import com.adiaz.entities.Court;
 import com.adiaz.entities.Match;
-import com.adiaz.entities.SportCenterCourt;
 import com.adiaz.entities.Team;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -10,7 +10,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,12 +45,12 @@ public class MatchesDAOImplTest {
 	TeamDAO teamDAO;
 
 	@Autowired
-	SportCenterCourtDAO sportCenterCourtDAO;
+	CourtDAO courtDAO;
 
 	private Ref<Competition> competitionRef;
 	private Ref<Team> atleticoRef;
 	private Ref<Team> leganesRef;
-	private Ref<SportCenterCourt> courtRef;
+	private Ref<Court> courtRef;
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,7 +58,7 @@ public class MatchesDAOImplTest {
 		ObjectifyService.register(Match.class);
 		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(Team.class);
-		ObjectifyService.register(SportCenterCourt.class);
+		ObjectifyService.register(Court.class);
 
 		Team team = new Team();
 		team.setName(ATLETICO_MADRID);
@@ -74,9 +73,9 @@ public class MatchesDAOImplTest {
 		Key<Competition> key = competitionsDAO.create(competition);
 		competitionRef = Ref.create(key);
 
-		SportCenterCourt court = new SportCenterCourt();
+		Court court = new Court();
 		court.setName(PISTA_01);
-		courtRef = sportCenterCourtDAO.createReturnRef(court);
+		courtRef = courtDAO.createReturnRef(court);
 	}
 
 	@After
@@ -143,7 +142,7 @@ public class MatchesDAOImplTest {
 		match.setTeamLocalRef(atleticoRef);
 		match.setCompetitionRef(competitionRef);
 		match.setWorkingCopy(false);
-		match.setSportCenterCourtRef(courtRef);
+		match.setCourtRef(courtRef);
 		return matchesDAO.create(match);
 	}
 

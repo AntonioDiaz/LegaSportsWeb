@@ -1,18 +1,17 @@
 package com.adiaz.forms.validators;
 
+import com.adiaz.entities.Center;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.adiaz.entities.SportCenter;
-
 @Component
-public class SportCenterFormValidator implements Validator {
+public class CenterFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> arg0) {
-		return SportCenter.class.isAssignableFrom(arg0);
+		return Center.class.isAssignableFrom(arg0);
 	}
 
 	@Override

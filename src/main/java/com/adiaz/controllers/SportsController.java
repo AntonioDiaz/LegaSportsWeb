@@ -2,20 +2,16 @@
 package com.adiaz.controllers;
 
 import com.adiaz.entities.Sport;
-import com.adiaz.forms.CategoriesForm;
 import com.adiaz.forms.validators.SportsFormValidator;
 import com.adiaz.services.SportsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.adiaz.services.SportCenterManager;
 
 import java.util.List;
 
