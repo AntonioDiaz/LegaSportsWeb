@@ -11,19 +11,21 @@
 	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-2">Deportes</label> 
+	<label class="control-label col-sm-2">Deportes</label>
 	<div class="col-sm-6">
-		<c:forEach items="${sports}" var="mySport">
-			<div class="row" style="margin-bottom: 10px">
-				<div class="col-sm-1" >
-					<div style="width: 30px; margin: 0 auto;">
-						<form:checkbox path="courtsSports" value="${mySport.id}" title="${mySport.name}"
-							class="xlarge form-control" style="height:30px; margin: 0px;"></form:checkbox>
-					</div>
-				</div>
-				<label class="col-sm-11" style="margin-top: 5px;">${mySport.name}</label>
-			</div>
-		</c:forEach>
+		<form:select path="courtsSports" class="form-control">
+			<form:options items="${sports}" itemLabel="name" itemValue="id"/>
+		</form:select>
 	</div>
 	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="courtsSports" cssClass="text-danger" /></label>
 </div>
+<link rel="stylesheet" href="/css/multi-select.css">
+<script src="/js/jquery.multi-select.js"></script>
+<script type="text/javascript">
+	$('#courtsSports').multiSelect({
+		selectableHeader: "<div class='custom-header'>Disponibles</div>",
+		selectionHeader: "<div class='custom-header'>Seleccionados</div>"
+	});
+</script>
+
+

@@ -97,7 +97,9 @@ public class TeamController {
 	@RequestMapping("/update")
 	public ModelAndView update(@RequestParam Long id){
 		ModelAndView modelAndView = new ModelAndView("team_update");
+		boolean elegibleForDelete = teamManager.isElegibleForDelete(id);
 		modelAndView.addObject("my_form", teamManager.queryById(id));
+		modelAndView.addObject("elegibleForDelete", elegibleForDelete);
 		return modelAndView;
 	}
 

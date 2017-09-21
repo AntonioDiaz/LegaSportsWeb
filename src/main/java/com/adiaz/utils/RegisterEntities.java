@@ -37,7 +37,11 @@ public class RegisterEntities {
 
 	public void init() throws Exception {
 		registerEntities();
-/*		courtManager.removeAll();
+	}
+
+	public void initCenters() throws Exception {
+		registerEntities();
+		courtManager.removeAll();
 		centerManager.removeAll();
 
 		logger.debug("create centers and courts");
@@ -88,7 +92,7 @@ public class RegisterEntities {
 			} catch (Exception e) {
 				logger.error("match " + match.getId(), e);
 			}
-		}*/
+		}
 	}
 
 	public void initLarge() throws Exception {

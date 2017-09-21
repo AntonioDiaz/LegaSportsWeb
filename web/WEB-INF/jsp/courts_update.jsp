@@ -4,8 +4,6 @@
 		$('#btnBack').on('click', function(event) {
 			window.location.href = "/courts/list";
 		});
-		
-		
 	});
 </script>
 <h2 class="munisport-title">
