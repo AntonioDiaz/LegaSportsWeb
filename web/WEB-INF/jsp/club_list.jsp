@@ -9,8 +9,11 @@
 		<c:if test="${update_done==true}">
 			showDialogAlert("Club actualizado");
 		</c:if>
-		<c:if test="${delete_done==true}">
+		<c:if test="${remove_done==true}">
 			showDialogAlert("Club eliminado");
+		</c:if>
+		<c:if test="${remove_undone==true}">
+			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
 		</c:if>
 	});
 

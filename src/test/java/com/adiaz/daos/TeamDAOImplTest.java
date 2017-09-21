@@ -242,6 +242,15 @@ public class TeamDAOImplTest {
 	}
 
 	@Test
+	public void findbyclub() throws Exception {
+		assertEquals(0, teamDAO.findByClub(refCdLeganes.get().getId()).size());
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refCadete, refLeganes, soccerRef);
+		assertEquals(1, teamDAO.findByClub(refCdLeganes.get().getId()).size());
+		createTeam(CD_LEGANES_CADETE, refCdLeganes, refJuvenil, refLeganes, soccerRef);
+		assertEquals(2, teamDAO.findByClub(refCdLeganes.get().getId()).size());
+	}
+
+	@Test
 	public void findByTown() throws Exception {
 		List<Team> byCategory = teamDAO.findByTown(refLeganes.get().getId());
 		assertTrue(byCategory.isEmpty());

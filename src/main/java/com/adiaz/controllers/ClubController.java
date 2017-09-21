@@ -33,12 +33,14 @@ public class ClubController {
 	public ModelAndView list(
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
-			@RequestParam(value = "delete_done", defaultValue = "false") boolean deleteDone) {
+			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone,
+			@RequestParam(value = "remove_undone", defaultValue = "false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("club_list");
 		modelAndView.addObject("clubList", clubManager.queryAll());
 		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("update_done", updateDone);
-		modelAndView.addObject("delete_done", deleteDone);
+		modelAndView.addObject("remove_done", removeDone);
+		modelAndView.addObject("remove_undone", removeUndone);
 		return modelAndView;
 	}
 
@@ -106,8 +108,12 @@ public class ClubController {
 
 	@RequestMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) throws Exception {
-		// TODO: 25/07/2017 validate user is admin or the town of the town is the same than the user. 
-		clubManager.remove(id);
-		return "redirect:/club/list?delete_done=true";
+		// TODO: 25/07/2017 validate user is admin or the town of the town is the same than the user.
+		if (clubManager.isElegibleForDelete(id)) {
+			clubManager.remove(id);
+			return "redirect:/club/list?remove_done=true";
+		} else {
+			return "redirect:/club/list?remove_undone=true";
+		}
 	}
 }

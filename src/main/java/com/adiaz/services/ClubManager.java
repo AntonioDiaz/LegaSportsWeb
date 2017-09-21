@@ -16,4 +16,5 @@ public interface ClubManager {
 	boolean update (ClubForm clubForm) throws Exception;
 	boolean remove(Long id) throws Exception;
 	void removaAll() throws Exception;
+	boolean isElegibleForDelete(Long idClub);
 }

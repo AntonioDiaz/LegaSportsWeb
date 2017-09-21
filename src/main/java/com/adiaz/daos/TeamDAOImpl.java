@@ -90,4 +90,11 @@ public class TeamDAOImpl implements TeamDAO {
 	public List<Team> findByTown(Long idTown) {
 		return find(idTown, null, null, null);
 	}
+
+	@Override
+	public List<Team> findByClub(Long idClub) {
+		Key<Club> clubKey = Key.create(Club.class, idClub);
+		Ref<Club> clubRef = Ref.create(clubKey);
+		return ofy().load().type(Team.class).filter("clubRef", clubRef).list();
+	}
 }

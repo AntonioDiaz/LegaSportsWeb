@@ -1,6 +1,7 @@
 package com.adiaz.services;
 
 import com.adiaz.daos.ClubDAO;
+import com.adiaz.daos.TeamDAO;
 import com.adiaz.entities.Club;
 import com.adiaz.forms.ClubForm;
 import com.adiaz.forms.utils.ClubFormUtils;
@@ -21,6 +22,9 @@ public class ClubManagerImpl implements ClubManager {
 
 	@Autowired
 	ClubDAO clubDAO;
+
+	@Autowired
+	TeamDAO teamDAO;
 
 	@Autowired
 	ClubFormUtils clubFormUtils;
@@ -57,9 +61,13 @@ public class ClubManagerImpl implements ClubManager {
 
 	@Override
 	public boolean remove(Long id) throws Exception {
-		Club club = new Club();
-		club.setId(id);
-		return clubDAO.remove(club);
+		boolean removeDone = false;
+		if (isElegibleForDelete(id)) {
+			Club club = new Club();
+			club.setId(id);
+			removeDone = clubDAO.remove(club);
+		}
+		return removeDone;
 	}
 
 	@Override
@@ -67,5 +75,10 @@ public class ClubManagerImpl implements ClubManager {
 		for (Club club : clubDAO.findAll()) {
 			clubDAO.remove(club);
 		}
+	}
+
+	@Override
+	public boolean isElegibleForDelete(Long idClub) {
+		return teamDAO.findByClub(idClub).isEmpty();
 	}
 }
