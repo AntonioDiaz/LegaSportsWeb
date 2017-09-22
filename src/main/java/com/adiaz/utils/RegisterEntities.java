@@ -1,22 +1,21 @@
 package com.adiaz.utils;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
 import com.adiaz.entities.*;
-import com.adiaz.forms.*;
+import com.adiaz.forms.ClubForm;
+import com.adiaz.forms.TownForm;
 import com.adiaz.services.*;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.adiaz.entities.User;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 @Controller
 @RequestMapping("/init")

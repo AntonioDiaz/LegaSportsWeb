@@ -145,7 +145,7 @@ public class UsersDAOImplTest {
 		for (User user1 : usersDAO.findAll()) {
 			System.out.println("antes username: " + user1.getUsername());
 		}
-		user.setUsername(USERNAME_TOMAS);
+		user.setPassword(USERNAME_TOMAS);
 		usersDAO.update(user);
 		for (User user1 : usersDAO.findAll()) {
 			System.out.println("despues username: " + user1.getUsername());

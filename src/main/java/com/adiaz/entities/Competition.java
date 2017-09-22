@@ -1,5 +1,6 @@
 package com.adiaz.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,15 +8,11 @@ import java.util.List;
 import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
-import com.googlecode.objectify.annotation.OnLoad;
+import com.googlecode.objectify.annotation.*;
 
 @Entity
-public class Competition {
+@Cache
+public class Competition implements Serializable {
 
 	@Id
 	private Long id;

@@ -1,8 +1,5 @@
 package com.adiaz.controllers;
 
-import java.util.Date;
-import java.util.List;
-
 import com.adiaz.entities.*;
 import com.adiaz.forms.IssuesForm;
 import com.adiaz.forms.MatchForm;
@@ -11,14 +8,14 @@ import com.adiaz.forms.utils.MatchFormUtils;
 import com.adiaz.services.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.adiaz.entities.Sport;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("server")
@@ -65,9 +62,9 @@ public class RESTController {
 		ResponseEntity<Sport> response;
 		Sport sport = sportsManager.querySportsByName(name);
 		if (sport == null) {
-			response = new ResponseEntity<Sport>(HttpStatus.NOT_FOUND);
+			response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			response = new ResponseEntity<Sport>(sport, HttpStatus.OK);
+			response = new ResponseEntity<>(sport, HttpStatus.OK);
 		}
 		return response;
 	}

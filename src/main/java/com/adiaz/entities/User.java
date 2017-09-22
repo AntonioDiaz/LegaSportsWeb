@@ -1,14 +1,14 @@
 package com.adiaz.entities;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class User implements UserDetails {

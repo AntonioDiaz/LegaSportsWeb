@@ -7,6 +7,7 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
 @Entity
+@Cache
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;

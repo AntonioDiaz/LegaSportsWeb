@@ -6,11 +6,14 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 import org.apache.log4j.Logger;
 
+import java.io.Serializable;
+
 /**
  * Created by toni on 25/07/2017.
  */
 @Entity
-public class Team {
+@Cache
+public class Team  implements Serializable {
 
 	private static final Logger logger = Logger.getLogger(Team.class);
 

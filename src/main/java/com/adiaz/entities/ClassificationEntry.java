@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
+import java.io.Serializable;
+
 @Entity
-public class ClassificationEntry {
+@Cache
+public class ClassificationEntry  implements Serializable {
 
 	@Id
 	private Long id;

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 
 @Entity
+@Cache
 public class Center implements Serializable {
 
 	@Id

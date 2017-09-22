@@ -13,6 +13,7 @@ import com.googlecode.objectify.annotation.*;
 
 // TODO: 20/09/2017 rename Court to Court.
 @Entity
+@Cache
 public class Court implements Serializable {
 
 	@Id

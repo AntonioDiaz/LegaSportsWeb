@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by toni on 14/09/2017.
  */
 @Entity
-public class Issue {
+@Cache
+public class Issue  implements Serializable {
 
 	@Id
 	private Long id;

@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 
+import java.io.Serializable;
+
 /**
  * Created by toni on 24/07/2017.
  */
 @Entity
-public class Club {
+@Cache
+public class Club  implements Serializable {
 	@Id
 	private Long id;
 

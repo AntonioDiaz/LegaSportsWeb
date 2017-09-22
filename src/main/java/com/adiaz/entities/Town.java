@@ -3,10 +3,7 @@ package com.adiaz.entities;
 import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
+import com.googlecode.objectify.annotation.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import java.util.List;
  * Created by toni on 14/07/2017.
  */
 @Entity
+@Cache
 public class Town implements Serializable {
 
 	@Id

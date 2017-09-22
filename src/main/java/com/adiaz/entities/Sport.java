@@ -2,11 +2,13 @@ package com.adiaz.entities;
 
 import java.io.Serializable;
 
+import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
+@Cache
 public class Sport implements Serializable {
 
 	//	private static final Logger log = Logger.getLogger(Sport.class.getName());
