@@ -34,7 +34,7 @@
 		);
 	}
 </script>
-<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
+<form:form method="post" action="doFilter" commandName="team_form_filter" cssClass="form-inline">
 	<div class="row">
 		<div class="col-sm-3">
 			<div class="form-group">

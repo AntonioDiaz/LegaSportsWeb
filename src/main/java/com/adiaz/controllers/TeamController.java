@@ -25,7 +25,6 @@ import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
  */
 @Controller
 @RequestMapping("/team")
-@SessionAttributes ("form_filter")
 public class TeamController {
 
 	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(TeamController.class);
@@ -44,22 +43,27 @@ public class TeamController {
 		return clubManager.queryAll();
 	}
 
+	@ModelAttribute("team_form_filter")
+	public TeamFilterForm getFilter() {
+		return new TeamFilterForm();
+	}
+
+
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		ModelAndView modelAndView = new ModelAndView("team_list");
-		modelAndView.addObject("form_filter", new TeamFilterForm());
+		modelAndView.addObject("team_form_filter", new TeamFilterForm());
 		return modelAndView;
 	}
 
 	@RequestMapping("/doFilter")
 	public ModelAndView doFilter(
-			@ModelAttribute("form_filter") TeamFilterForm filterForm,
+			@ModelAttribute("team_form_filter") TeamFilterForm filterForm,
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
 			@RequestParam(value = "delete_done", defaultValue = "false") boolean deleteDone,
 			@RequestParam(value = "delete_undone", defaultValue = "false") boolean deleteUndone){
 		ModelAndView modelAndView = new ModelAndView("team_list");
-		modelAndView.addObject("form_filter", filterForm);
 		List<Team> teams = teamManager.queryByFilter(filterForm);
 		modelAndView.addObject("teamList", teams);
 		modelAndView.addObject("add_done", addDone);
