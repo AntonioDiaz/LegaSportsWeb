@@ -136,25 +136,6 @@ public class UsersDAOImplTest {
 		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
 	}
 
-	@Test
-	public void updateTryUsername() throws Exception {
-		/* create user: with the id USERNAME_PEPITO */
-		Key<User> key = createUserCall(USERNAME_PEPITO);
-		User user = Ref.create(key).getValue();
-		assertEquals(1, usersDAO.findAll().size());
-		for (User user1 : usersDAO.findAll()) {
-			System.out.println("antes username: " + user1.getUsername());
-		}
-		user.setPassword(USERNAME_TOMAS);
-		usersDAO.update(user);
-		for (User user1 : usersDAO.findAll()) {
-			System.out.println("despues username: " + user1.getUsername());
-		}
-		assertEquals(1, usersDAO.findAll().size());
-		assertEquals(null, usersDAO.findUser(USERNAME_TOMAS));
-		assertEquals(user, usersDAO.findUser(USERNAME_PEPITO));
-	}
-
 	private Key<User> createUserCall(String userName) throws Exception {
 		User user = new User();
 		user.setUsername(userName);
