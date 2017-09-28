@@ -19,8 +19,8 @@
 							<spam id="weekNumber"></spam>
 							:
 						</spam>
-						${competition.name}
-						<small>(${competition.sportEntity.name} - ${competition.categoryEntity.name})</small>
+						${competition_session.name}
+						<small>(${competition_session.sportEntity.name} - ${competition_session.categoryEntity.name})</small>
 					</u>
 				</div>
 				<div class="row modal-row-localsports">
@@ -28,7 +28,7 @@
 					<div class="col-sm-8">
 						<select class="form-control" id="selectTeamLocal">
 							<option value=""></option>
-							<c:forEach var="team" items="${competition.teamsDeref}">
+							<c:forEach var="team" items="${competition_session.teamsDeref}">
 								<option value="${team.id}">${team.name}</option>
 							</c:forEach>
 						</select>
@@ -39,7 +39,7 @@
 					<div class="col-sm-8">
 						<select class="form-control" id="selectTeamVisitor">
 							<option value=""></option>
-							<c:forEach var="team" items="${competition.teamsDeref}">
+							<c:forEach var="team" items="${competition_session.teamsDeref}">
 								<option value="${team.id}">${team.name}</option>
 							</c:forEach>
 						</select>
@@ -141,26 +141,26 @@
 		});
 		$('#btnPublish').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/publishCalendar?idCompetition=${competition.id}";
+			window.location.href = "/competitions/publishCalendar";
 		});
 		$('#btnGenerate').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/loadCalendar?idCompetition=${competition.id}";
+			window.location.href = "/competitions/loadCalendar";
 		});
 		$('#btnUpdate').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/update?idCompetition=${competition.id}";
+			window.location.href = "/competitions/update";
 		});
 		$('#btnViewClassification').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/viewClassification?idCompetition=${competition.id}";
+			window.location.href = "/competitions/viewClassification";
 		});
 		$('#btnDelete').on('click', function(event) {
 			event.preventDefault();
 			var bodyTxt = "¿Se va a borrar la competición y todos sus partidos desea continuar?";
 			showDialogConfirm(bodyTxt,
 				function(){
-					window.location.href = "/competitions/doRemove?idCompetition=${competition.id}";
+					window.location.href = "/competitions/doRemove";
 				}
 			);
 		});
@@ -354,32 +354,32 @@
 <div class="row" style="position: relative">
 	<div class="col-sm-8">
 		<div class="font_title">
-			<div><u>${competition.name}</u></div>
+			<div><u>${competition_session.name}</u></div>
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
 				<div class="row font_subtitle">
 					<div class="col-sm-4"><small>Deporte</small></div>
-					<div>${competition.sportEntity.name}</div>
+					<div>${competition_session.sportEntity.name}</div>
 				</div>
 				<div class="row font_subtitle">
 					<div class="col-sm-4"><small>Categoria</small></div>
-					<div>${competition.categoryEntity.name}</div>
+					<div>${competition_session.categoryEntity.name}</div>
 				</div>
 			</div>
 			<div class="col-sm-7">
 				<div class="row font_subtitle">
 					<div class="col-sm-5"><small>Municipio</small></div>
-					<div>${competition.townEntity.name}</div>
+					<div>${competition_session.townEntity.name}</div>
 				</div>
 				<div class="row font_subtitle">
 					<div class="col-sm-5"><small>Fecha publicación</small></div>
 					<div>
-						<c:if test="${competition.lastPublished eq null}">
+						<c:if test="${competition_session.lastPublished eq null}">
 							Sin publicar
 						</c:if>
-						<c:if test="${competition.lastPublished ne null}">
-							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastPublished}"></fmt:formatDate>
+						<c:if test="${competition_session.lastPublished ne null}">
+							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition_session.lastPublished}"></fmt:formatDate>
 						</c:if>
 					</div>
 				</div>

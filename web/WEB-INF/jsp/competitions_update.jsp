@@ -3,7 +3,7 @@
 	$(document).ready(function() {
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/viewCalendar?idCompetition=${my_form.id}";
+			window.location.href = "/competitions/viewCalendar";
 		});
 	});
 </script>

@@ -26,7 +26,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping ("/competitions")
-@SessionAttributes ({"form_filter", "courts"})
+@SessionAttributes ({"form_filter", "courts", "competition_session"})
 public class CompetitionsController {
 	private static final Logger logger = Logger.getLogger(CompetitionsController.class);
 	@Autowired CompetitionsManager competitionsManager;
@@ -89,13 +89,12 @@ public class CompetitionsController {
 	}
 	
 	@RequestMapping("/doRemove")
-	public String doRemoveCompetition(@RequestParam(value = "idCompetition") Long idCompetition) {
-		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+	public String doRemoveCompetition(@ModelAttribute("competition_session") Competition competition) {
 		try {
 			/* in case malicious behavior */
 			boolean validDelete = true;
 			if (!getActiveUser().isAdmin()) {
-				CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
+				CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(competition.getId());
 				validDelete = competitionsForm.getIdTown()==getActiveUser().getTownEntity().getId();
 			}
 			if (validDelete) {
@@ -106,20 +105,27 @@ public class CompetitionsController {
 		}
 		return "redirect:/competitions/list?remove_done=true";
 	}
-	
-	@RequestMapping ("/viewCalendar")
-	public ModelAndView viewCalendar(@RequestParam(value = "idCompetition") Long idCompetition,
-									 @RequestParam(value="add_done", defaultValue="false") boolean addDone,
-									 @RequestParam(value="update_done", defaultValue="false") boolean updateDone,
-									 @RequestParam(value="publish_done", defaultValue="false") boolean publishDone,
-									 @RequestParam(value="publish_none", defaultValue="false") boolean publishNone) {
-		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
+
+	@RequestMapping ("/view")
+	public ModelAndView view(@RequestParam(value = "idCompetition") Long idCompetition) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/competitions/viewCalendar");
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		List<MatchForm> matchesList = matchesManager.queryMatchesFormWorkingCopy(idCompetition);
+		modelAndView.addObject("competition_session", competition);
+		return modelAndView;
+	}
+
+	@RequestMapping ("/viewCalendar")
+	public ModelAndView viewCalendar(
+			@ModelAttribute("competition_session") Competition competition,
+			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
+			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
+			@RequestParam(value = "publish_done", defaultValue = "false") boolean publishDone,
+			@RequestParam(value = "publish_none", defaultValue = "false") boolean publishNone) {
+		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
+		List<MatchForm> matchesList = matchesManager.queryMatchesFormWorkingCopy(competition.getId());
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
 		List<Court> courts = courtManager.querySportCourtsByTownAndSport(
 				competition.getTownEntity().getId(), competition.getSportEntity().getId());
-		modelAndView.addObject("competition", competition);
 		modelAndView.addObject("matches_list", matchesList);
 		modelAndView.addObject("weeks_count", howManyWeek);
 		modelAndView.addObject("courts", courts);
@@ -132,24 +138,22 @@ public class CompetitionsController {
 	}
 	
 	@RequestMapping ("/viewClassification")
-	public ModelAndView viewClassification(@RequestParam(value = "idCompetition") Long idCompetition) {
+	public ModelAndView viewClassification(@ModelAttribute("competition_session") Competition competition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
-		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
-		List<ClassificationEntry> classificationList = classificationManager.queryClassificationByCompetition(idCompetition);
-		modelAndView.addObject("competition", competition);
+		List<ClassificationEntry> classificationList = classificationManager.queryClassificationByCompetition(competition.getId());
 		modelAndView.addObject("classification_list", classificationList);
 		return modelAndView;
 	}	
 	
 	@RequestMapping ("/loadCalendar")
-	public ModelAndView loadCalendar(@RequestParam(value = "idCompetition") Long idCompetition) {
+	public ModelAndView loadCalendar(@ModelAttribute("competition_session") Competition competition) {
+		Long id = competition.getId();
 		ModelAndView modelAndView = new ModelAndView("competitions_load_calendar");
-		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
 		modelAndView.addObject("competition", competition);
 		GenerateCalendarForm form = new GenerateCalendarForm();
-		form.setIdCompetition(idCompetition);
+		form.setIdCompetition(id);
 		modelAndView.addObject("my_form", form);
-		List<Team> teams = teamManager.queryByCompetition(idCompetition);
+		List<Team> teams = teamManager.queryByCompetition(id);
 		modelAndView.addObject("teams_available", teams);
 		return modelAndView;
 	}
@@ -168,16 +172,16 @@ public class CompetitionsController {
 			//competitionsManager.updateAddTeams();
 			matchesManager.generateCalendar(form);
 			classificationManager.initClassification(form.getIdCompetition());
-			String viewStr = "redirect:/competitions/viewCalendar?idCompetition=" + form.getIdCompetition();
+			String viewStr = "redirect:/competitions/viewCalendar";
 			modelAndView.setViewName(viewStr);
 		}
 		return modelAndView;
 	}
 
 	@RequestMapping ("/update")
-	public ModelAndView update(@RequestParam(value = "idCompetition") Long idCompetition) {
+	public ModelAndView update(@ModelAttribute("competition_session") Competition competition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_update");
-		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(idCompetition);
+		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(competition.getId());
 		modelAndView.addObject("my_form", competitionsForm);
 		return modelAndView;
 	}
@@ -192,11 +196,10 @@ public class CompetitionsController {
 		} else {
 			try {
 				competitionsManager.update(competitionsForm.getId(), competitionsForm);
-				String viewNameStr =
-						"redirect:/competitions/viewCalendar?" +
-						"idCompetition=" + competitionsForm.getId() +
-						"&update_done=true";
+				String viewNameStr = "redirect:/competitions/viewCalendar?update_done=true";
 				modelAndView.setViewName(viewNameStr);
+				Competition competition = competitionsManager.queryCompetitionsByIdEntity(competitionsForm.getId());
+				modelAndView.addObject("competition_session", competition);
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -205,20 +208,20 @@ public class CompetitionsController {
 	}
 
 	@RequestMapping("/publishCalendar")
-	public String publishCalendar(@RequestParam(value = "idCompetition") Long idCompetition) throws Exception {
-		String redirectTo = "redirect:/competitions/viewCalendar?idCompetition=" +  idCompetition;
-		if (matchesManager.checkUpdatesToPublish(idCompetition)) {
-			List<Ref<Team>> teamsAffectedByChanges =  matchesManager.teamsAffectedByChanges(idCompetition);
-			matchesManager.updatePublishedMatches(idCompetition);
-			classificationManager.updateClassificationByCompetition(idCompetition);
-			Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+	public String publishCalendar(@ModelAttribute("competition_session") Competition competition) throws Exception {
+		Long id = competition.getId();
+		String redirectTo;
+		if (matchesManager.checkUpdatesToPublish(id)) {
+			List<Ref<Team>> teamsAffectedByChanges =  matchesManager.teamsAffectedByChanges(id);
+			matchesManager.updatePublishedMatches(id);
+			classificationManager.updateClassificationByCompetition(id);
 			competition.setLastPublished(new Date());
 			competition.setTeamsAffectedByPublish(teamsAffectedByChanges);
 			competitionsManager.update(competition);
-			redirectTo += "&publish_done=true";
+			redirectTo = "publish_done=true";
 		} else {
-			redirectTo += "&publish_none=true";
+			redirectTo = "publish_none=true";
 		}
-		return redirectTo;
+		return "redirect:/competitions/viewCalendar?" + redirectTo;
 	}
 }

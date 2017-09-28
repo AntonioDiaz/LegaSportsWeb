@@ -3,7 +3,7 @@
 	$(document).ready(function() {
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
-			window.location.href = "/competitions/viewCalendar?idCompetition=${competition.id}";
+			window.location.href = "/competitions/viewCalendar";
 		});
 	});
 	
@@ -11,19 +11,19 @@
 <div class="row" style="position: relative">
 	<div class="col-sm-10">
 		<div class="font_title">
-			<div><u>${competition.name}</u></div>
+			<div><u>${competition_session.name}</u></div>
 		</div>
 		<div class="row font_subtitle">
 			<div class="col-sm-2"><small>Deporte</small></div>
-			<div>${competition.sportEntity.name}</div>
+			<div>${competition_session.sportEntity.name}</div>
 		</div>
 		<div class="row font_subtitle">
 			<div class="col-sm-2"><small>Categoria</small></div>
-			<div>${competition.categoryEntity.name}</div>
+			<div>${competition_session.categoryEntity.name}</div>
 		</div>
 		<div class="row font_subtitle">
 			<div class="col-sm-2"><small>Municipio</small></div>
-			<div>${competition.townEntity.name}</div>
+			<div>${competition_session.townEntity.name}</div>
 		</div>
 	</div>
 	<div class="col-sm-2" style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;">

@@ -9,7 +9,7 @@
 	});
 
 	function fViewCalendar (idCompetition) {
-		window.location.href = "/competitions/viewCalendar?idCompetition=" + idCompetition;
+		window.location.href = "/competitions/view?idCompetition=" + idCompetition;
 	}
 
 </script>
