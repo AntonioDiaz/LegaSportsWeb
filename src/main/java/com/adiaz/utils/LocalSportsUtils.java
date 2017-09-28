@@ -13,19 +13,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.adiaz.entities.*;
-import com.adiaz.entities.Competition;
 import com.adiaz.forms.MatchForm;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Ref;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
-public class MuniSportsUtils {
+public class LocalSportsUtils {
 
-	private static final Logger logger = Logger.getLogger(MuniSportsUtils.class.getName());
+	private static final Logger logger = Logger.getLogger(LocalSportsUtils.class.getName());
 	public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
 	public static final String DATE_ZONE_MADRID = "Europe/Madrid";
 
@@ -110,7 +106,7 @@ public class MuniSportsUtils {
 
 	private static String parseLinesTextFile(String fileName) {
 		String calendarTxt = "";
-		ClassLoader classLoader = MuniSportsUtils.class.getClassLoader();
+		ClassLoader classLoader = LocalSportsUtils.class.getClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));

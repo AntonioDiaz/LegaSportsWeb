@@ -3,7 +3,7 @@ package com.adiaz.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.adiaz.utils.MuniSportsUtils;
+import com.adiaz.utils.LocalSportsUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.objectify.Ref;
@@ -109,7 +109,7 @@ public class Match implements Serializable {
 		String matchDesc = this.getFullName();
 		matchDesc  += "  Date: ";
 		if (this.getDate()!=null) {
-			matchDesc += MuniSportsUtils.parseDateToString(this.getDate());
+			matchDesc += LocalSportsUtils.parseDateToString(this.getDate());
 		} else {
 			matchDesc += "_";
 		}

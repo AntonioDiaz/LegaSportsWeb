@@ -114,7 +114,7 @@ public class RegisterEntities {
 		createSports();
 		createCategories();
 
-		Town townLeganes = townManager.queryByName(MuniSportsConstants.TOWN_LEGANES).get(0);
+		Town townLeganes = townManager.queryByName(LocalSportsConstants.TOWN_LEGANES).get(0);
 		logger.debug("crea el municipio de leganes");
 		Ref<Town> refLega = Ref.create(townLeganes);
 
@@ -176,18 +176,18 @@ public class RegisterEntities {
 
 	private void createTowns() throws Exception {
 		TownForm townForm = new TownForm();
-		townForm.setName(MuniSportsConstants.TOWN_LEGANES);
+		townForm.setName(LocalSportsConstants.TOWN_LEGANES);
 		townForm.setActive(true);
 		townManager.add(townForm);
 
 		townForm = new TownForm();
-		townForm.setName(MuniSportsConstants.TOWN_FUENLABRADA);
+		townForm.setName(LocalSportsConstants.TOWN_FUENLABRADA);
 		townForm.setActive(true);
 		townManager.add(townForm);
 	}
 
 	private void createCategories() {
-		String[] categoriesNames = MuniSportsConstants.CATEGORIES_NAMES;
+		String[] categoriesNames = LocalSportsConstants.CATEGORIES_NAMES;
 		int order = 0;
 		for (String name : categoriesNames) {
 			Category category = new Category();
@@ -199,7 +199,7 @@ public class RegisterEntities {
 
 	private void createSports() {
 	/* load sports */
-		for (String[] sportsName : MuniSportsConstants.SPORTS_NAMES) {
+		for (String[] sportsName : LocalSportsConstants.SPORTS_NAMES) {
 			String sportName = sportsName[0];
 			String sportTag = sportsName[1];
 			ofy().save().entity(new Sport(sportName, sportTag)).now();

@@ -4,7 +4,7 @@ import com.adiaz.entities.Court;
 import com.adiaz.entities.Match;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.MatchForm;
-import com.adiaz.utils.MuniSportsUtils;
+import com.adiaz.utils.LocalSportsUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -24,7 +24,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 	public void formToEntity(Match match, MatchForm matchForm) {
 		match.setScoreLocal(matchForm.getScoreLocal());
 		match.setScoreVisitor(matchForm.getScoreVisitor());
-		match.setDate(MuniSportsUtils.parseStringToDate(matchForm.getDateStr()));
+		match.setDate(LocalSportsUtils.parseStringToDate(matchForm.getDateStr()));
 		match.setCourtRef(null);
 		if (matchForm.getCourtId()!=null) {
 			Key<Court> key = Key.create(Court.class, matchForm.getCourtId());
@@ -62,7 +62,7 @@ public class MatchFormUtils implements GenericFormUtils<MatchForm, Match> {
 		MatchForm f = new MatchForm();
 		f.setId(e.getId());
 		f.setWeek(e.getWeek());
-		f.setDateStr(MuniSportsUtils.parseDateToString(e.getDate()));
+		f.setDateStr(LocalSportsUtils.parseDateToString(e.getDate()));
 		f.setScoreLocal(e.getScoreLocal());
 		f.setScoreVisitor(e.getScoreVisitor());
 		if (e.getTeamLocalEntity()!=null) {

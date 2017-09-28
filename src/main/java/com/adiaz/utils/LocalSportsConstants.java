@@ -3,7 +3,7 @@ package com.adiaz.utils;
 
 import java.io.Serializable;
 
-public class MuniSportsConstants {
+public class LocalSportsConstants {
 
 	public static final String PHONE_PATTERN = "^(\\d{9})$";
 	public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

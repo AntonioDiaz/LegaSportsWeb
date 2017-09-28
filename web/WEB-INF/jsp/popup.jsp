@@ -21,9 +21,9 @@
 	<div class="modal-dialog modal-sm" style="width: 40%">
 		<!-- Modal content-->
 		<div class="modal-content">
-			<div class="modal-header modal-header-munisports">
-				<button type="button" class="close close-munisports" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title" id="modalTitle">MuniSports 2017</h4>
+			<div class="modal-header modal-header-localsports">
+				<button type="button" class="close close-localsports" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" id="modalTitle">LocalSports Web</h4>
 			</div>
 			<div class="modal-body">
 				<div id="modalContent"></div>

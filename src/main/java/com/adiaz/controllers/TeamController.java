@@ -13,12 +13,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
+import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
 
 /**
  * Created by toni on 25/07/2017.

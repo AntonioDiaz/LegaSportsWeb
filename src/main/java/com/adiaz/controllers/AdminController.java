@@ -4,8 +4,8 @@ import com.adiaz.entities.*;
 import com.adiaz.forms.*;
 import com.adiaz.forms.validators.CompetitionInitFormValidator;
 import com.adiaz.services.*;
-import com.adiaz.utils.MuniSportsConstants;
-import com.adiaz.utils.MuniSportsUtils;
+import com.adiaz.utils.LocalSportsConstants;
+import com.adiaz.utils.LocalSportsUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -80,8 +80,8 @@ public class AdminController {
 
 	private void createCompetition(CompetitionsForm f,
 								   Ref<Court> refCourt) throws Exception {
-		Set<String> teamsSet = MuniSportsUtils.parseCalendarGetTeams();
-		List<MatchForm> matchesList = MuniSportsUtils.parseCalendarGetMatches();
+		Set<String> teamsSet = LocalSportsUtils.parseCalendarGetTeams();
+		List<MatchForm> matchesList = LocalSportsUtils.parseCalendarGetMatches();
 		List<String> teamsList = new ArrayList<>(teamsSet);
 		createTeams(teamsList, f.getIdTown(), f.getIdCategory(), f.getIdSport());
 		Long idCompetition = createCompetitionEntity(f.getName(), f.getIdTown(), f.getIdCategory(), f.getIdSport());
@@ -110,22 +110,22 @@ public class AdminController {
 			Match match = new Match();
 			match.setScoreLocal(matchForm.getScoreLocal());
 			match.setScoreVisitor(matchForm.getScoreVisitor());
-			match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
+			match.setState(LocalSportsConstants.MATCH_STATE_PENDING);
 			match.setTeamLocalRef(teamRefLocal);
 			match.setTeamVisitorRef(teamRefVisitor);
-			match.setDate(MuniSportsUtils.parseStringToDate(matchForm.getDateStr()));
+			match.setDate(LocalSportsUtils.parseStringToDate(matchForm.getDateStr()));
 			match.setCourtRef(refCourt);
 			match.setCompetitionRef(competitionRef);
 			match.setWeek(matchForm.getWeek());
 			matchesList.add(match);
 		}
-		matchesList.get(0).setState(MuniSportsConstants.MATCH_STATE_PLAYED);
+		matchesList.get(0).setState(LocalSportsConstants.MATCH_STATE_PLAYED);
 		matchesList.get(0).setScoreLocal(1);
 		matchesList.get(0).setScoreVisitor(1);
-		matchesList.get(1).setState(MuniSportsConstants.MATCH_STATE_PLAYED);
+		matchesList.get(1).setState(LocalSportsConstants.MATCH_STATE_PLAYED);
 		matchesList.get(1).setScoreLocal(2);
 		matchesList.get(1).setScoreVisitor(3);
-		matchesList.get(2).setState(MuniSportsConstants.MATCH_STATE_PLAYED);
+		matchesList.get(2).setState(LocalSportsConstants.MATCH_STATE_PLAYED);
 		matchesList.get(2).setScoreLocal(2);
 		matchesList.get(2).setScoreVisitor(1);
 		matchesManager.addMatchListAndPublish(matchesList);

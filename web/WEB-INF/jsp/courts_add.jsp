@@ -6,7 +6,7 @@
 		});
 	});
 </script>
-<h2 class="munisport-title">
+<h2 class="localsports-title">
 	Nueva pista: ${centerSession.name} (${centerSession.townEntity.name})
 </h2>
 <hr>

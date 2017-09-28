@@ -2,22 +2,17 @@ package com.adiaz.services;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.IssuesDAO;
-import com.adiaz.entities.Competition;
 import com.adiaz.entities.Issue;
 import com.adiaz.forms.IssuesForm;
 import com.adiaz.forms.utils.IssuesFormUtils;
-import com.adiaz.utils.MatchUtils;
-import com.adiaz.utils.MuniSportsConstants;
-import com.adiaz.utils.MuniSportsUtils;
+import com.adiaz.utils.LocalSportsConstants;
+import com.adiaz.utils.LocalSportsUtils;
 import com.googlecode.objectify.Key;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -80,10 +75,10 @@ public class IssuesManagerImpl implements IssuesManager {
 	 */
 	@Override
 	public boolean reachMaxIssuesPerDay() {
-		Date dateFrom = MuniSportsUtils.calculateLastMidnight();
-		Date dateTo = MuniSportsUtils.calculateNextMidnigth();
+		Date dateFrom = LocalSportsUtils.calculateLastMidnight();
+		Date dateTo = LocalSportsUtils.calculateNextMidnigth();
 		List<Issue> issues = issuesDAO.findInPeriod(dateFrom, dateTo);
-		return issues.size()>= MuniSportsConstants.MAX_ISSUES_PER_DAY;
+		return issues.size()>= LocalSportsConstants.MAX_ISSUES_PER_DAY;
 	}
 
 	/**
@@ -94,10 +89,10 @@ public class IssuesManagerImpl implements IssuesManager {
 	 */
 	@Override
 	public boolean allowUserToReportIssue(String clientId) {
-		Date dateFrom = MuniSportsUtils.calculateLastMidnight();
-		Date dateTo = MuniSportsUtils.calculateNextMidnigth();
+		Date dateFrom = LocalSportsUtils.calculateLastMidnight();
+		Date dateTo = LocalSportsUtils.calculateNextMidnigth();
 		List<Issue> issues = issuesDAO.findByClientIdInPeriod(clientId, dateFrom, dateTo);
-		return issues.size()< MuniSportsConstants.MAX_ISSUES_PER_CLIENT_AND_DAY;
+		return issues.size()< LocalSportsConstants.MAX_ISSUES_PER_CLIENT_AND_DAY;
 	}
 
 	@Override

@@ -1,19 +1,19 @@
 <%@include file="taglibs.jsp" %>
-<spring:eval var="CONSTANT_PENDING" expression="T(com.adiaz.utils.MuniSportsConstants).MATCH_STATE_PENDING"></spring:eval>
-<spring:eval var="CONSTANT_PLAYED" expression="T(com.adiaz.utils.MuniSportsConstants).MATCH_STATE_PLAYED"></spring:eval>
-<spring:eval var="CONSTANT_CANCELED" expression="T(com.adiaz.utils.MuniSportsConstants).MATCH_STATE_CANCELED"></spring:eval>
+<spring:eval var="CONSTANT_PENDING" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_PENDING"></spring:eval>
+<spring:eval var="CONSTANT_PLAYED" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_PLAYED"></spring:eval>
+<spring:eval var="CONSTANT_CANCELED" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_CANCELED"></spring:eval>
 <!-- Modal -->
 
 <div id="updatePopup" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-sm" style="width: 45%">
 		<!-- Modal content-->
 		<div class="modal-content">
-			<div class="modal-header modal-header-munisports">
-				<button type="button" class="close-munisports close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title" id="modalTitle">MuniSports 2017</h4>
+			<div class="modal-header modal-header-localsports">
+				<button type="button" class="close-localsports close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" id="modalTitle">LocalSports Web</h4>
 			</div>
-			<div class="modal-body modal-body-munisports">
-				<div class="modal-row-munisports-title">
+			<div class="modal-body modal-body-localsports">
+				<div class="modal-row-localsports-title">
 					<u>
 						<spam>Jornada
 							<spam id="weekNumber"></spam>
@@ -23,7 +23,7 @@
 						<small>(${competition.sportEntity.name} - ${competition.categoryEntity.name})</small>
 					</u>
 				</div>
-				<div class="row modal-row-munisports">
+				<div class="row modal-row-localsports">
 					<div class="col-sm-4">Equipo local</div>
 					<div class="col-sm-8">
 						<select class="form-control" id="selectTeamLocal">
@@ -34,7 +34,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row modal-row-munisports">
+				<div class="row modal-row-localsports">
 					<div class="col-sm-4">Equipo visitante</div>
 					<div class="col-sm-8">
 						<select class="form-control" id="selectTeamVisitor">
@@ -45,7 +45,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row modal-row-munisports">
+				<div class="row modal-row-localsports">
 					<div class="col-sm-4">
 						Fecha y hora
 					</div>
@@ -66,7 +66,7 @@
 						</script>
 					</div>
 				</div>
-				<div class="row modal-row-munisports">
+				<div class="row modal-row-localsports">
 					<div class="col-sm-4">
 						Polideportivo / Pista
 					</div>
@@ -79,7 +79,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row modal-row-munisports">
+				<div class="row modal-row-localsports">
 					<div class="col-sm-4">
 						Estado
 					</div>
@@ -91,7 +91,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row modal-row-munisports">
+				<div class="row modal-row-localsports">
 					<div class="col-sm-4">
 						Marcador <br> (local / visitante)
 					</div>

@@ -19,5 +19,5 @@
 <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css" />
 
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-<link rel="stylesheet" href="/css/munisports.css">
-<script src="/js/munisports.js"></script>
+<link rel="stylesheet" href="/css/localsports.css">
+<script src="/js/localsports.js"></script>

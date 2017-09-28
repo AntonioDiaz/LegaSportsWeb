@@ -7,7 +7,7 @@ import com.adiaz.daos.MatchesDAO;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Match;
 import com.adiaz.entities.Team;
-import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.LocalSportsConstants;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +72,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		/*loop over the matches*/
 		List<Match> matches = matchesDAO.findByCompetition(idCompetition);
 		for (Match match : matches) {
-			if (match.getState()== MuniSportsConstants.MATCH_STATE.PLAYED.getValue()
+			if (match.getState()== LocalSportsConstants.MATCH_STATE.PLAYED.getValue()
 					&&  match.getTeamLocalRef()!=null
 					&&  match.getTeamVisitorRef()!=null) {
 				Long idTeamLocal = match.getTeamLocalRef().get().getId();
@@ -94,18 +94,18 @@ public class ClassificationManagerImpl implements ClassificationManager {
 				if (match.getScoreLocal()==match.getScoreVisitor()) {
 					++matchesDrawnLocal;
 					++matchesDrawnVisitor;
-					pointsLocal += MuniSportsConstants.POINTS_DRAWN;
-					pointsVisitor += MuniSportsConstants.POINTS_DRAWN;
+					pointsLocal += LocalSportsConstants.POINTS_DRAWN;
+					pointsVisitor += LocalSportsConstants.POINTS_DRAWN;
 				} else if (match.getScoreLocal()>match.getScoreVisitor()) {
 					++matchesWonLocal;
 					++matchesLostVisitor;
-					pointsLocal += MuniSportsConstants.POINTS_WON;
-					pointsVisitor += MuniSportsConstants.POINTS_LOST;
+					pointsLocal += LocalSportsConstants.POINTS_WON;
+					pointsVisitor += LocalSportsConstants.POINTS_LOST;
 				} else {
 					++matchesLostLocal;
 					++matchesWonVisitor;
-					pointsLocal += MuniSportsConstants.POINTS_LOST;
-					pointsVisitor += MuniSportsConstants.POINTS_WON;
+					pointsLocal += LocalSportsConstants.POINTS_LOST;
+					pointsVisitor += LocalSportsConstants.POINTS_WON;
 				}
 				teamLocalEntry.setMatchesWon(matchesWonLocal);
 				teamLocalEntry.setMatchesDrawn(matchesDrawnLocal);

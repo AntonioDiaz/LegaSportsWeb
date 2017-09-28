@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
+import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
 
 @Controller
 @RequestMapping (value="/centers")

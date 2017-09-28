@@ -6,9 +6,9 @@ import com.adiaz.forms.validators.CompetitionsFormValidator;
 import com.adiaz.forms.validators.GenerateCalendarFormValidator;
 import com.adiaz.services.*;
 
-import static com.adiaz.utils.MuniSportsUtils.getActiveUser;
+import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
 
-import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.LocalSportsConstants;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +123,7 @@ public class CompetitionsController {
 		modelAndView.addObject("matches_list", matchesList);
 		modelAndView.addObject("weeks_count", howManyWeek);
 		modelAndView.addObject("courts", courts);
-		modelAndView.addObject("states", MuniSportsConstants.MATCH_STATE.values());
+		modelAndView.addObject("states", LocalSportsConstants.MATCH_STATE.values());
 		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("publish_done", publishDone);

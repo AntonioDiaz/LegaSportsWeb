@@ -12,7 +12,7 @@ import com.adiaz.entities.Team;
 import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.utils.MatchFormUtils;
-import com.adiaz.utils.MuniSportsConstants;
+import com.adiaz.utils.LocalSportsConstants;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -45,10 +45,10 @@ public class MatchesManagerImpl implements MatchesManager {
 
 	private void initMatchStateAndScores(Match match) {
 		if (match.getState()==null) {
-			match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
+			match.setState(LocalSportsConstants.MATCH_STATE_PENDING);
 		}
-		if (match.getState()== MuniSportsConstants.MATCH_STATE_CANCELED
-				|| match.getState()==MuniSportsConstants.MATCH_STATE_PENDING) {
+		if (match.getState()== LocalSportsConstants.MATCH_STATE_CANCELED
+				|| match.getState()== LocalSportsConstants.MATCH_STATE_PENDING) {
 			match.setScoreLocal(0);
 			match.setScoreVisitor(0);
 		}
@@ -191,7 +191,7 @@ public class MatchesManagerImpl implements MatchesManager {
 				match.setCompetitionRef(competitionRef);
 				match.setCourtRef(courtRef);
 				match.setWeek(i+1);
-				match.setState(MuniSportsConstants.MATCH_STATE_PENDING);
+				match.setState(LocalSportsConstants.MATCH_STATE_PENDING);
 				addPublishedAndWorkingcopy(match);
 			}
 		}

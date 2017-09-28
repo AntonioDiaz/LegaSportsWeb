@@ -1,7 +1,7 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.*;
-import com.adiaz.utils.MuniSportsUtils;
+import com.adiaz.utils.LocalSportsUtils;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.Key;
@@ -160,8 +160,8 @@ public class IssuesDAOImplTest {
 	public void findByClientIdInPeriod() throws Exception {
 		createIssue();
 		createIssue();
-		Date dateFrom = MuniSportsUtils.calculateLastMidnight();
-		Date dateTo = MuniSportsUtils.calculateNextMidnigth();
+		Date dateFrom = LocalSportsUtils.calculateLastMidnight();
+		Date dateTo = LocalSportsUtils.calculateNextMidnigth();
 		List<Issue> byClientIdInPeriod = issuesDAO.findByClientIdInPeriod(MY_CLIENT_INSTANCE_A, dateFrom, dateTo);
 		assertEquals(2, byClientIdInPeriod.size());
 		Calendar calendar = new GregorianCalendar();
@@ -177,8 +177,8 @@ public class IssuesDAOImplTest {
 	public void findInPeriod() throws Exception {
 		createIssue();
 		createIssue();
-		Date dateFrom = MuniSportsUtils.calculateLastMidnight();
-		Date dateTo = MuniSportsUtils.calculateNextMidnigth();
+		Date dateFrom = LocalSportsUtils.calculateLastMidnight();
+		Date dateTo = LocalSportsUtils.calculateNextMidnigth();
 		List<Issue> inPeriod = issuesDAO.findInPeriod(dateFrom, dateTo);
 		assertEquals(2, inPeriod.size());
 	}
