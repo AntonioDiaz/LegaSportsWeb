@@ -3,7 +3,6 @@ package com.adiaz.services;
 import com.adiaz.daos.SanctionsDAO;
 import com.adiaz.entities.Sanction;
 import com.adiaz.forms.SanctionForm;
-import com.googlecode.objectify.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ public class SanctionsManagerImpl implements SanctionsManager {
 
 	@Override
 	public void add(SanctionForm sanctionForm) throws Exception {
-		sanctionsDAO.create(sanctionForm.entity());
+		sanctionsDAO.create(sanctionForm.formToEntity());
 	}
 
 	@Override

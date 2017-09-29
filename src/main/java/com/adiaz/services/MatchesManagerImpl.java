@@ -1,17 +1,13 @@
 package com.adiaz.services;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.adiaz.daos.CompetitionsDAO;
+import com.adiaz.daos.MatchesDAO;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Court;
+import com.adiaz.entities.Match;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.GenerateCalendarForm;
 import com.adiaz.forms.MatchForm;
-import com.adiaz.forms.utils.MatchFormUtils;
 import com.adiaz.utils.LocalSportsConstants;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -19,8 +15,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.adiaz.daos.MatchesDAO;
-import com.adiaz.entities.Match;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service ("matchesManager")
@@ -34,8 +32,6 @@ public class MatchesManagerImpl implements MatchesManager {
 	CompetitionsDAO competitionsDAO;
 	@Autowired
 	CourtManager courtManager;
-	@Autowired
-	MatchFormUtils matchFormUtils;
 
 	@Override
 	public Long add(Match match) throws Exception {
@@ -74,7 +70,7 @@ public class MatchesManagerImpl implements MatchesManager {
 	@Override
 	public boolean update(MatchForm matchForm) throws Exception {
 		Match match = queryMatchesById(matchForm.getId());
-		matchFormUtils.formToEntity(match, matchForm);
+		match = matchForm.formToEntity(match);
 		return update(match);
 	}
 
@@ -128,7 +124,7 @@ public class MatchesManagerImpl implements MatchesManager {
 		List <MatchForm> matchFormList = new ArrayList<>();
 		List<Match> byCompetition = matchesDAO.findByCompetition(competitionId, true);
 		for (Match match : byCompetition) {
-			matchFormList.add(matchFormUtils.entityToForm(match));
+			matchFormList.add(new MatchForm(match));
 		}
 		return matchFormList;
 	}

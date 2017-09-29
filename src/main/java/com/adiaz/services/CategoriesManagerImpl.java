@@ -5,7 +5,6 @@ import java.util.List;
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.TeamDAO;
 import com.adiaz.forms.CategoriesForm;
-import com.adiaz.forms.utils.CategoriesFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,6 @@ public class CategoriesManagerImpl implements CategoriesManager {
 
 	@Autowired
 	CategoriesDAO categoriesDAO;
-	@Autowired
-	CategoriesFormUtils categoriesFormUtils;
 	@Autowired
 	TeamDAO teamDAO;
 	@Autowired
@@ -58,8 +55,7 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	@Override
 	public boolean update(CategoriesForm categoriesForm) throws Exception {
 		Category category = queryCategoriesById(categoriesForm.getId());
-		categoriesFormUtils.formToEntity(category, categoriesForm);
-		return categoriesDAO.update(category);
+		return categoriesDAO.update(categoriesForm.formToEntity(category));
 	}
 
 	@Override
@@ -77,7 +73,7 @@ public class CategoriesManagerImpl implements CategoriesManager {
 		CategoriesForm categoriesForm = null;
 		Category categoryById = categoriesDAO.findById(id);
 		if (categoryById!=null) {
-			categoriesForm = categoriesFormUtils.entityToForm(categoryById);
+			categoriesForm = new CategoriesForm(categoryById);
 		}
 		return categoriesForm;
 	}
@@ -104,7 +100,7 @@ public class CategoriesManagerImpl implements CategoriesManager {
 
 	@Override
 	public void add(CategoriesForm categoriesForm) throws Exception {
-		Category category = categoriesFormUtils.formToEntity(categoriesForm);
+		Category category = categoriesForm.formToEntity();
 		categoriesDAO.create(category);
 	}
 

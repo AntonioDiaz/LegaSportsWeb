@@ -65,7 +65,7 @@ public class CourtManagerImpl implements CourtManager {
 
 	@Override
 	public Ref<Court> addSportCourt(CourtForm courtForm) throws Exception {
-		Court court = courtForm.getCourt();
+		Court court = courtForm.formToEntity();
 		return Ref.create(courtDAO.create(court));
 	}
 
@@ -78,7 +78,7 @@ public class CourtManagerImpl implements CourtManager {
 
 	@Override
 	public void updateSportCourt(CourtForm courtForm) throws Exception {
-		Court court = courtForm.getCourt();
+		Court court = courtForm.formToEntity();
 		courtDAO.update(court);
 	}
 

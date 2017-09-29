@@ -8,7 +8,7 @@ import com.googlecode.objectify.Ref;
 import lombok.Data;
 
 @Data
-public class CourtForm {
+public class CourtForm implements GenericForm<Court>{
 
 	private Long idCourt;
 	private Long idCenter;
@@ -33,16 +33,22 @@ public class CourtForm {
 		this.setCourtsSports(sportsIds);
 	}
 
-	public Court getCourt() {
-		Court court = new Court();
-		court.setId(this.getIdCourt());
-		court.setName(this.getName());
-		for (Long idSport : this.getCourtsSports()) {
+	@Override
+	public Court formToEntity() {
+		return formToEntity(new Court());
+	}
+
+	@Override
+	public Court formToEntity(Court court) {
+		court.setId(idCourt);
+		court.setName(name);
+		for (Long idSport : courtsSports) {
 			Key<Sport> newSport = Key.create(Sport.class, idSport);
 			court.getSports().add(Ref.create(newSport));
-		}		
-		Key<Center> refCenter = Key.create(Center.class, this.getIdCenter());
+		}
+		Key<Center> refCenter = Key.create(Center.class, idCenter);
 		court.setCenterRef(Ref.create(refCenter));
 		return court;
+
 	}
 }

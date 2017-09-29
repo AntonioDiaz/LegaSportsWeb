@@ -158,7 +158,7 @@ public class LocalSportsUtils {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("error on parse form to entity " + dateStr, e);
+				logger.error("error on parse form to formToEntity " + dateStr, e);
 			}
 		}
 		return date;

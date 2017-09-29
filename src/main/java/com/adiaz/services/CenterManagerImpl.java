@@ -5,7 +5,6 @@ import java.util.List;
 import com.adiaz.daos.CourtDAO;
 import com.adiaz.entities.Center;
 import com.adiaz.forms.CenterForm;
-import com.adiaz.forms.utils.CenterFormUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,10 @@ public class CenterManagerImpl implements CenterManager {
 	CenterDAO sportsCenterDAO;
 	@Autowired
 	CourtDAO courtDAO;
-	@Autowired
-	CenterFormUtils centerFormUtils;
-	
+
 	@Override
 	public void addCenter(CenterForm centerForm) throws Exception {
-		Center center = centerFormUtils.formToEntity(centerForm);
+		Center center = centerForm.formToEntity();
 		sportsCenterDAO.create(center);
 	}
 
@@ -37,7 +34,7 @@ public class CenterManagerImpl implements CenterManager {
 
 	@Override
 	public boolean updateSportCenter(CenterForm centerForm) throws Exception {
-		Center center = centerFormUtils.formToEntity(centerForm);
+		Center center = centerForm.formToEntity();
 		return sportsCenterDAO.update(center);
 	}
 
@@ -69,7 +66,7 @@ public class CenterManagerImpl implements CenterManager {
 	@Override
 	public CenterForm queryFormById(Long id) {
 		Center center = sportsCenterDAO.findById(id);
-		return centerFormUtils.entityToForm(center);
+		return new CenterForm(center);
 	}
 
 	@Override

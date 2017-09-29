@@ -4,7 +4,6 @@ import com.adiaz.daos.ClubDAO;
 import com.adiaz.daos.TeamDAO;
 import com.adiaz.entities.Club;
 import com.adiaz.forms.ClubForm;
-import com.adiaz.forms.utils.ClubFormUtils;
 import com.googlecode.objectify.Key;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public class ClubManagerImpl implements ClubManager {
 	@Autowired
 	TeamDAO teamDAO;
 
-	@Autowired
-	ClubFormUtils clubFormUtils;
-
 	@Override
 	public List<Club> queryAll() {
 		return clubDAO.findAll();
@@ -42,20 +38,20 @@ public class ClubManagerImpl implements ClubManager {
 	@Override
 	public ClubForm queryById(Long id) {
 		Club club = clubDAO.findById(id);
-		ClubForm clubForm = clubFormUtils.entityToForm(club);
+		ClubForm clubForm = new ClubForm(club);
 		return clubForm;
 	}
 
 	@Override
 	public Long add(ClubForm clubForm) throws Exception {
-		Club club = clubFormUtils.formToEntity(clubForm);
+		Club club = clubForm.formToEntity();
 		Key<Club> clubKey = clubDAO.create(club);
 		return clubKey == null ? -1 : clubKey.getId();
 	}
 
 	@Override
 	public boolean update(ClubForm clubForm) throws Exception {
-		Club club = clubFormUtils.formToEntity(clubForm);
+		Club club = clubForm.formToEntity();
 		return clubDAO.update(club);
 	}
 

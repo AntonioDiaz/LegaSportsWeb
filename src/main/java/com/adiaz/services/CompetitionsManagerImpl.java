@@ -7,7 +7,6 @@ import java.util.List;
 import com.adiaz.entities.*;
 import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
-import com.adiaz.forms.utils.CompetitionsFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Autowired CompetitionsDAO competitionsDAO;
 	@Autowired MatchesDAO matchesDAO;
-	@Autowired CompetitionsFormUtils competitionsFormUtils;
-	
+
 	@Override
 	public Long add(Competition competition) throws Exception {
 		return competitionsDAO.create(competition).getId();
@@ -43,7 +41,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	@Override
 	public boolean update(Long idCompetition, CompetitionsForm competitionsForm) throws Exception {
 		Competition competition = queryCompetitionsByIdEntity(idCompetition);
-		competitionsFormUtils.formToEntity(competition, competitionsForm);
+		competition = competitionsForm.formToEntity(competition);
 		return competitionsDAO.update(competition);
 	}
 	
@@ -61,7 +59,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	@Override
 	public CompetitionsForm queryCompetitionsById(long id) {
 		Competition competition = competitionsDAO.findById(id);
-		return competitionsFormUtils.entityToForm(competition);
+		return new CompetitionsForm(competition);
 	}
 
 	@Override
@@ -71,7 +69,7 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public Long add(CompetitionsForm competitionsForm) throws Exception {
-		Competition competition = competitionsFormUtils.formToEntity(competitionsForm);
+		Competition competition = competitionsForm.formToEntity();
 		return add(competition);
 	}
 

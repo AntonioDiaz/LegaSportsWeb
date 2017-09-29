@@ -4,7 +4,6 @@ import com.adiaz.entities.*;
 import com.adiaz.forms.IssuesForm;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.TeamFilterForm;
-import com.adiaz.forms.utils.MatchFormUtils;
 import com.adiaz.services.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -35,8 +34,6 @@ public class RESTController {
 	CourtManager courtManager;
 	@Autowired
 	TeamManager teamManager;
-	@Autowired
-	MatchFormUtils matchFormUtils;
 	@Autowired
 	IssuesManager issuesManager;
 
@@ -169,7 +166,7 @@ public class RESTController {
 		if (match == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MatchForm matchForm = matchFormUtils.entityToForm(match);
+		MatchForm matchForm = new MatchForm(match);
 		return new ResponseEntity<>(matchForm, HttpStatus.OK);
 	}
 

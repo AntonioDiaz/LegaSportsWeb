@@ -4,7 +4,6 @@ import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.IssuesDAO;
 import com.adiaz.entities.Issue;
 import com.adiaz.forms.IssuesForm;
-import com.adiaz.forms.utils.IssuesFormUtils;
 import com.adiaz.utils.LocalSportsConstants;
 import com.adiaz.utils.LocalSportsUtils;
 import com.googlecode.objectify.Key;
@@ -28,9 +27,6 @@ public class IssuesManagerImpl implements IssuesManager {
 	@Autowired
 	CompetitionsDAO competitionsDAO;
 
-	@Autowired
-	IssuesFormUtils issuesFormUtils;
-
 	@Override
 	public List<Issue> queryIssues() {
 		return issuesDAO.findAll();
@@ -53,7 +49,7 @@ public class IssuesManagerImpl implements IssuesManager {
 
 	@Override
 	public Long addIssue(IssuesForm issuesForm) throws Exception {
-		Issue issue = issuesFormUtils.formToEntity(issuesForm);
+		Issue issue = issuesForm.formToEntity();
 		issue.getRefs();
 		if (issue.getMatch()!=null) {
 			issue.setMatchDescription(issue.getMatch().getFullDescription());

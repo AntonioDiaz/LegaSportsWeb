@@ -6,8 +6,6 @@ import com.adiaz.entities.Competition;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
-import com.adiaz.forms.utils.TeamFormUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +20,11 @@ public class TeamManagerImpl implements TeamManager {
 	@Autowired
 	TeamDAO teamDAO;
 	@Autowired
-	TeamFormUtils teamFormUtils;
-	@Autowired
 	CompetitionsDAO competitionsDAO;
 
 	@Override
 	public Long add(TeamForm teamForm) throws Exception {
-		Team team = teamFormUtils.formToEntity(teamForm);
+		Team team = teamForm.formToEntity();
 		return teamDAO.create(team).getId();
 	}
 
@@ -53,7 +49,7 @@ public class TeamManagerImpl implements TeamManager {
 
 	@Override
 	public boolean update(TeamForm teamForm) throws Exception {
-		Team team = teamFormUtils.formToEntity(teamForm);
+		Team team = teamForm.formToEntity();
 		return teamDAO.update(team);
 	}
 
@@ -62,7 +58,7 @@ public class TeamManagerImpl implements TeamManager {
 		TeamForm teamForm = null;
 		Team team = teamDAO.findById(id);
 		if (team!=null) {
-			teamForm = teamFormUtils.entityToForm(team);
+			teamForm = new TeamForm(team);
 		}
 		return teamForm;
 	}

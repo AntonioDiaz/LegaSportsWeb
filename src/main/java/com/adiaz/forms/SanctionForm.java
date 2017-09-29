@@ -3,7 +3,6 @@ package com.adiaz.forms;
 import com.adiaz.entities.Competition;
 import com.adiaz.entities.Sanction;
 import com.adiaz.entities.Team;
-import com.adiaz.forms.utils.GenericFormUtils;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import lombok.Data;
@@ -33,7 +32,7 @@ public class SanctionForm implements GenericForm<Sanction> {
 	}
 
 	@Override
-	public Sanction entity(Sanction sanction) {
+	public Sanction formToEntity(Sanction sanction) {
 		sanction.setPoints(points);
 		sanction.setDescription(description);
 		if (idTeam!=null) {
@@ -48,7 +47,7 @@ public class SanctionForm implements GenericForm<Sanction> {
 	}
 
 	@Override
-	public Sanction entity() {
-		return entity(new Sanction());
+	public Sanction formToEntity() {
+		return formToEntity(new Sanction());
 	}
 }
