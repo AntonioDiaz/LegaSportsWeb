@@ -253,7 +253,7 @@ public class CompetitionsController {
 
 	@RequestMapping ("/updateClassification")
 	public ModelAndView updateClassification(@ModelAttribute("competition_session") Competition competition) {
-		ModelAndView modelAndView = new ModelAndView("competitions_classification");
+		ModelAndView modelAndView = new ModelAndView("redirect:/competitions/viewClassification");
 		classificationManager.updateClassificationByCompetition(competition.getId());
 		return modelAndView;
 	}
