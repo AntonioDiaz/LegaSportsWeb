@@ -1,1 +1,37 @@
-"my page" 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>toma toma</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script>
+		function fLoadTowns() {
+			$.ajax({
+			  url: "https://munisports-web.appspot.com/server/towns",
+			  method: "GET",
+			  contentType: "application/json",
+			  success: function (result) {
+			  	//alert("result")
+			  }
+			});
+		}
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h1>Testing LocalSports</h1>
+		<hr>
+		<a href="javascript:fLoadTowns();">Load towns</a>
+	</div>	
+</body>
+</html>
