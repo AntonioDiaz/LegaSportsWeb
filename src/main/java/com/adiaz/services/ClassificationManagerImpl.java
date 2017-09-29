@@ -4,9 +4,8 @@ import java.util.*;
 
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.MatchesDAO;
-import com.adiaz.entities.Competition;
-import com.adiaz.entities.Match;
-import com.adiaz.entities.Team;
+import com.adiaz.daos.SanctionsDAO;
+import com.adiaz.entities.*;
 import com.adiaz.utils.LocalSportsConstants;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adiaz.daos.ClassificationEntriesDAO;
-import com.adiaz.entities.ClassificationEntry;
 
 @Service ("classificationManager")
 public class ClassificationManagerImpl implements ClassificationManager {
@@ -24,6 +22,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	@Autowired ClassificationEntriesDAO classificationEntriesDAO;
 	@Autowired MatchesDAO matchesDAO;
 	@Autowired CompetitionsDAO competitionsDAO;
+	@Autowired SanctionsDAO sanctionsDAO;
 
 	@Override
 	public void add(ClassificationEntry item) throws Exception {
@@ -58,6 +57,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		List<ClassificationEntry> classificationList = classificationEntriesDAO.findByCompetition(idCompetition);
 		Map<Long, ClassificationEntry> teamsMap = new HashMap<>();
 		for (ClassificationEntry classificationEntry : classificationList) {
+			Long idTeam = classificationEntry.getTeamEntity().getId();
 			classificationEntry.setPosition(0);
 			classificationEntry.setPoints(0);
 			classificationEntry.setMatchesPlayed(0);
@@ -67,7 +67,8 @@ public class ClassificationManagerImpl implements ClassificationManager {
 			classificationEntry.setGoalsFor(0);
 			classificationEntry.setGoalsAgainst(0);
 			classificationEntry.getRefs();
-			teamsMap.put(classificationEntry.getTeamEntity().getId(), classificationEntry);
+			classificationEntry.setSanctions(calculateTeamSanctionsPoints(idCompetition, idTeam));
+			teamsMap.put(idTeam, classificationEntry);
 		}
 		/*loop over the matches*/
 		List<Match> matches = matchesDAO.findByCompetition(idCompetition);
@@ -123,13 +124,16 @@ public class ClassificationManagerImpl implements ClassificationManager {
 				teamVisitorEntry.setPoints(pointsVisitor);
 			}
 		}
+
+
+
 		List<ClassificationEntry> values = new ArrayList<>(teamsMap.values());
 		/* sort in descendent order by, points, goals difference, goals for, and team name. */
 		Collections.sort(values, new Comparator<ClassificationEntry>() {
 			@Override
 			public int compare(ClassificationEntry entry1, ClassificationEntry entry2) {
 				if (entry1.getPoints() != entry2.getPoints()) {
-					return entry1.getPoints() - entry2.getPoints();
+					return entry1.calculateRealPoints() - entry2.calculateRealPoints();
 				} else {
 					int dif1 = entry1.getGoalsFor() - entry1.getGoalsAgainst();
 					int dif2 = entry2.getGoalsFor() - entry2.getGoalsAgainst();
@@ -186,5 +190,12 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		}
 	}
 
-
+	private Integer calculateTeamSanctionsPoints(Long idCompetition, Long idTeam) {
+		Integer totalPoints = 0;
+		List<Sanction> sanctions = sanctionsDAO.findByCompetitionIdAndTeamId(idCompetition, idTeam);
+		for (Sanction sanction : sanctions) {
+			totalPoints += sanction.getPoints();
+		}
+		return totalPoints;
+	}
 }

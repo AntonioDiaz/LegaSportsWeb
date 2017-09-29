@@ -219,6 +219,7 @@ public class RegisterEntities {
 		ObjectifyService.register(Club.class);
 		ObjectifyService.register(Team.class);
 		ObjectifyService.register(Issue.class);
+		ObjectifyService.register(Sanction.class);
 	}
 
 	private User initUser(String name, String password, boolean isAdmin) {

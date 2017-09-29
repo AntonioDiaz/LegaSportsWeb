@@ -41,6 +41,7 @@ public class ClassificationEntry  implements Serializable {
 	private Integer matchesLost;
 	private Integer goalsFor;
 	private Integer goalsAgainst;
+	private Integer sanctions;
 
 
 	private String team;
@@ -54,6 +55,10 @@ public class ClassificationEntry  implements Serializable {
 		if (competitionRef!=null && competitionRef.isLoaded()){
 			competition = competitionRef.get();
 		}
+	}
+
+	public Integer calculateRealPoints() {
+		return points - sanctions;
 	}
 
 	public Long getId() {
@@ -166,5 +171,13 @@ public class ClassificationEntry  implements Serializable {
 
 	public void setGoalsAgainst(Integer goalsAgainst) {
 		this.goalsAgainst = goalsAgainst;
+	}
+
+	public Integer getSanctions() {
+		return sanctions;
+	}
+
+	public void setSanctions(Integer sanctions) {
+		this.sanctions = sanctions;
 	}
 }

@@ -10,8 +10,8 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">
-				<img src="/images/logo.png" class="img-rounded" width="180px">
+			<a class="navbar-brand" href="/" style="padding-top: 11px;">
+				<img src="/images/logo_horizontal.png" class="img-rounded" width="180px">
 			</a>
 		</div>
 		<tiles:insertAttribute name="menu_elements" />

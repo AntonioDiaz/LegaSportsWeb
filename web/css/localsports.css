@@ -102,3 +102,9 @@ input:-webkit-autofill:focus {
 	overflow: hidden;
 	text-overflow:ellipsis;
 }
+
+.paragraph_normal {
+	margin-bottom: 5px;
+	font-size: 15px;
+	font-weight: 400;
+}

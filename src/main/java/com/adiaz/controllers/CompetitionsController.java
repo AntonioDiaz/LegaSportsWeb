@@ -4,6 +4,7 @@ import com.adiaz.entities.*;
 import com.adiaz.forms.*;
 import com.adiaz.forms.validators.CompetitionsFormValidator;
 import com.adiaz.forms.validators.GenerateCalendarFormValidator;
+import com.adiaz.forms.validators.SanctionFormValidator;
 import com.adiaz.services.*;
 
 import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
@@ -34,9 +35,10 @@ public class CompetitionsController {
 	@Autowired ClassificationManager classificationManager;
 	@Autowired CompetitionsFormValidator competitionsFormValidator;
 	@Autowired GenerateCalendarFormValidator generateCalendarFormValidator;
-	@Autowired
-	CourtManager courtManager;
+	@Autowired CourtManager courtManager;
 	@Autowired TeamManager teamManager;
+	@Autowired SanctionsManager sanctionsManager;
+	@Autowired SanctionFormValidator sanctionFormValidator;
 
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(value="remove_done", defaultValue="false") boolean removeDone){
@@ -141,7 +143,9 @@ public class CompetitionsController {
 	public ModelAndView viewClassification(@ModelAttribute("competition_session") Competition competition) {
 		ModelAndView modelAndView = new ModelAndView("competitions_classification");
 		List<ClassificationEntry> classificationList = classificationManager.queryClassificationByCompetition(competition.getId());
+		List<Sanction> sanctionsList = sanctionsManager.querySanctionsByIdCompetition(competition.getId());
 		modelAndView.addObject("classification_list", classificationList);
+		modelAndView.addObject("sanctions_list", sanctionsList);
 		return modelAndView;
 	}	
 	
@@ -224,4 +228,34 @@ public class CompetitionsController {
 		}
 		return "redirect:/competitions/viewCalendar?" + redirectTo;
 	}
+
+	@RequestMapping ("/addSanction")
+	public ModelAndView addSanction(@ModelAttribute("competition_session") Competition competition) {
+		ModelAndView modelAndView = new ModelAndView("sanction_add");
+		SanctionForm sanctionForm = new SanctionForm();
+		sanctionForm.setIdCompetition(competition.getId());
+		modelAndView.addObject("my_form", sanctionForm);
+		return modelAndView;
+	}
+
+	@RequestMapping("/doAddSanction")
+	public ModelAndView doAddSanction(@ModelAttribute("my_form") SanctionForm sanctionForm, BindingResult bindingResult) throws Exception {
+		ModelAndView modelAndView = new ModelAndView();
+		sanctionFormValidator.validate(sanctionForm, bindingResult);
+		if (bindingResult.hasErrors()) {
+			modelAndView.setViewName("sanction_add");
+		} else {
+			sanctionsManager.add(sanctionForm);
+			modelAndView.setViewName("redirect:/competitions/viewClassification");
+		}
+		return modelAndView;
+	}
+
+	@RequestMapping ("/updateClassification")
+	public ModelAndView updateClassification(@ModelAttribute("competition_session") Competition competition) {
+		ModelAndView modelAndView = new ModelAndView("competitions_classification");
+		classificationManager.updateClassificationByCompetition(competition.getId());
+		return modelAndView;
+	}
+
 }

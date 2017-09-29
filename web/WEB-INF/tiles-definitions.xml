@@ -201,4 +201,7 @@
 		<put-attribute name="page_title" value="No se ha podido completar la operacion" />
 		<put-attribute name="body" value="/WEB-INF/jsp/error_page_static.jsp" />
 	</definition>
+	<definition name="sanction_add" extends="homeTemplateNoTitle">
+		<put-attribute name="body" value="/WEB-INF/jsp/sanction_add.jsp" />
+	</definition>
 </tiles-definitions>

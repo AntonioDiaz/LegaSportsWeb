@@ -5,6 +5,14 @@
 			event.preventDefault();
 			window.location.href = "/competitions/viewCalendar";
 		});
+		$('#btnAddSanction').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/addSanction";
+		});
+		$('#btnUpdate').on('click', function(event) {
+			event.preventDefault();
+			window.location.href = "/competitions/updateClassification";
+		});
 	});
 	
 </script>
@@ -26,15 +34,22 @@
 			<div>${competition_session.townEntity.name}</div>
 		</div>
 	</div>
-	<div class="col-sm-2" style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;">
+	<div class="col-sm-2">
 		<button type="button" class="btn btn-default btn-block" id="btnBack">
 			volver
+		</button>
+		<button type="button" class="btn btn-default btn-block" id="btnAddSanction">
+			sanción
+		</button>
+		<button type="button" class="btn btn-default btn-block" id="btnUpdate">
+			actualizar
 		</button>
 	</div>
 </div>
 <hr>
+<h3>Clasificación</h3>
 <div class="row">
-	<div class="col-sm-6">
+	<div class="col-sm-7">
 		<table id="classificationTable" class="table table-hover table-condensed">
 			<thead>
 			<tr>
@@ -47,7 +62,9 @@
 				<th title="Tantos a Favor">TF</th>
 				<th title="Tantos en Contra">TC</th>
 				<th title="Diferencia de tantos">DT</th>
-				<th>Puntos</th>
+				<th title="Puntos antes sanción">PT</th>
+				<th title="Sanciones">SA</th>
+				<th title="Puntos Finales">PF</th>
 			</tr>
 			</thead>
 			<c:forEach var="entry" items="${classification_list}">
@@ -63,13 +80,24 @@
 					<td>${entry.goalsAgainst}</td>
 					<td>${entry.goalsFor - entry.goalsAgainst}</td>
 					<td>${entry.points}</td>
+					<td>${entry.sanctions}</td>
+					<td>${entry.points - entry.sanctions}</td>
 				</tr>
 				</tbody>
 			</c:forEach>
 		</table>
 	</div>
-	<div class="col-sm-6">
-
+	<div class="col-sm-5" style="padding-left: 20px;">
+		<small>
+		<div class="paragraph_normal">Sanciones</div>
+		<ul class="list-group">
+			<c:if test="${empty sanctions_list}">
+				<li class="list-group-item">No hay sanciones en esta competición.</li>
+			</c:if>
+			<c:forEach items="${sanctions_list}" var="sanction">
+				<li class="list-group-item">${sanction.team.name}: ${sanction.description} <span class="badge">${sanction.points}</span></li>
+			</c:forEach>
+		</ul>
+		</small>
 	</div>
-
 </div>
