@@ -5,7 +5,9 @@ import com.adiaz.entities.Sport;
 import com.adiaz.entities.Center;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
+import lombok.Data;
 
+@Data
 public class CourtForm {
 
 	private Long idCourt;
@@ -13,7 +15,11 @@ public class CourtForm {
 	private String nameCenter;
 	private String name;
 	private Long[] courtsSports;
-	
+
+	public CourtForm() {
+		super();
+	}
+
 	public CourtForm(Court court) {
 		super();
 		this.setIdCourt(court.getId());
@@ -25,40 +31,6 @@ public class CourtForm {
 			sportsIds[i] = court.getSportsDeref().get(i).getId();
 		}
 		this.setCourtsSports(sportsIds);
-	}
-	public CourtForm() {
-		super();
-	}
-	
-	public Long getIdCenter() {
-		return idCenter;
-	}
-	public void setIdCenter(Long idCenter) {
-		this.idCenter = idCenter;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Long[] getCourtsSports() {
-		return courtsSports;
-	}
-	public void setCourtsSports(Long[] courtsSports) {
-		this.courtsSports = courtsSports;
-	}
-	public Long getIdCourt() {
-		return idCourt;
-	}
-	public void setIdCourt(Long idCourt) {
-		this.idCourt = idCourt;
-	}
-	public String getNameCenter() {
-		return nameCenter;
-	}
-	public void setNameCenter(String nameCenter) {
-		this.nameCenter = nameCenter;
 	}
 
 	public Court getCourt() {

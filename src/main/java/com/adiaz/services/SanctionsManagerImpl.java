@@ -25,7 +25,7 @@ public class SanctionsManagerImpl implements SanctionsManager {
 
 	@Override
 	public void add(SanctionForm sanctionForm) throws Exception {
-		sanctionsDAO.create(sanctionForm.convertToEntity());
+		sanctionsDAO.create(sanctionForm.entity());
 	}
 
 	@Override
