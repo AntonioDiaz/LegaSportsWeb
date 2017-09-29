@@ -22,7 +22,7 @@
 				<div class="col-sm-6">
 					<div style="margin: 5%; border-radius: 5px; background: #f5f5f5; padding: 30px;">
 						<div style="text-align: center; width: 100%; margin-top: 20px;'">
-							<img src="images/logo.png" class="img-rounded" width="90%">
+							<img src="images/logo_vertical.png" class="img-rounded" width="300px">
 						</div>
 						<hr class="hr_color">
 						<div class="form-group">
