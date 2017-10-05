@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="true">
+
+    <datastore-index kind="Match" ancestor="false" source="manual">
+        <property name="competitionRef" direction="asc"/>
+        <property name="workingCopy" direction="asc"/>
+        <property name="week" direction="asc"/>
+        <property name="date" direction="asc"/>
+    </datastore-index>
+
+
     <datastore-index kind="Match" ancestor="false" source="manual">
         <property name="competitionRef" direction="asc"/>
         <property name="week" direction="asc"/>
@@ -59,6 +68,7 @@
         <property name="competitionRef" direction="asc"/>
         <property name="dateSent" direction="asc"/>
     </datastore-index>
+
     <datastore-index kind="Issue" ancestor="false" source="manual">
         <property name="townRef" direction="asc"/>
         <property name="dateSent" direction="asc"/>
