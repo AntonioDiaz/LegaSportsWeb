@@ -12,18 +12,35 @@
 		window.location.href = "/competitions/view?idCompetition=" + idCompetition;
 	}
 
+	function fValidateFilterForm() {
+		var idTown = $('#idTown').val();
+		var idCategory = $('#idCategory').val();
+		var idSport = $('#idSport').val();
+		if (idTown=="" && idCategory=="" && idSport=="") {
+			showDialogAlert("Es necesario indicar al menos un filtro.");
+			return false;
+		}
+		return true;
+	}
+
+
 </script>
-<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline">
+<form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline" onsubmit="return fValidateFilterForm()">
 	<div class="row">
-		<div class="col-sm-3">
-			<div class="form-group">
-				<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;</label>
-				<form:select path="idTown" class="form-control" cssStyle="width: 150px">
-					<form:option value=""></form:option>
-					<form:options items="${towns}" itemLabel="name" itemValue="id" />
-				</form:select>
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			<form:hidden path="idTown"></form:hidden>
+		</sec:authorize>
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;</label>
+					<form:select path="idTown" class="form-control" cssStyle="width: 150px">
+						<form:option value=""></form:option>
+						<form:options items="${towns}" itemLabel="name" itemValue="id" />
+					</form:select>
+				</div>
 			</div>
-		</div>
+		</sec:authorize>
 		<div class="col-sm-3">
 			<div class="form-group">
 				<label class="control-label" for="idCategory">Categoría &nbsp;&nbsp;</label>
@@ -42,6 +59,9 @@
 				</form:select>
 			</div>
 		</div>
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			<div class="col-sm-3">&nbsp;</div>
+		</sec:authorize>
 		<div class="col-sm-1">&nbsp;</div>
 		<div class="col-sm-2">
 			<button type="submit" class="btn btn-default btn-block">buscar</button>

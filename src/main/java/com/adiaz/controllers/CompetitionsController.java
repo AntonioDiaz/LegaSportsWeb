@@ -43,7 +43,11 @@ public class CompetitionsController {
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(value="remove_done", defaultValue="false") boolean removeDone){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
-		modelAndView.addObject("form_filter", new CompetitionsFilterForm());
+		CompetitionsFilterForm competitionsFilterForm = new CompetitionsFilterForm();
+		if (!getActiveUser().isAdmin()) {
+			competitionsFilterForm.setIdTown(getActiveUser().getTownEntity().getId());
+		}
+		modelAndView.addObject("form_filter", competitionsFilterForm);
 		modelAndView.addObject("remove_done", removeDone);
 		return modelAndView;
 	}
@@ -97,7 +101,7 @@ public class CompetitionsController {
 			boolean validDelete = true;
 			if (!getActiveUser().isAdmin()) {
 				CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(competition.getId());
-				validDelete = competitionsForm.getIdTown()==getActiveUser().getTownEntity().getId();
+				validDelete = competitionsForm.getIdTown().equals(getActiveUser().getTownEntity().getId());
 			}
 			if (validDelete) {
 				competitionsManager.remove(competition);
