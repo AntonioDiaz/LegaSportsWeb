@@ -38,7 +38,7 @@ public class RegisterEntities {
 		registerEntities();
 	}
 
-	public void initCenters() throws Exception {
+	public void initLarge() throws Exception {
 		registerEntities();
 		courtManager.removeAll();
 		centerManager.removeAll();
@@ -94,12 +94,9 @@ public class RegisterEntities {
 		}
 	}
 
-	public void initLarge() throws Exception {
+	public void initLarge2() throws Exception {
 		registerEntities();
-
 		/* clean DB. */
-		/*
-		logger.debug("DB clean");
 		List<Key<Object>> entities = ofy().load().keys().list();
 		try {
 			ofy().delete().keys(entities).now();
@@ -108,24 +105,18 @@ public class RegisterEntities {
 		} finally {
 			ofy().clear();
 		}
-		*/
-		logger.debug("finished clear");
 		createTowns();
 		createSports();
 		createCategories();
 
 		Town townLeganes = townManager.queryByName(LocalSportsConstants.TOWN_LEGANES).get(0);
-		logger.debug("crea el municipio de leganes");
 		Ref<Town> refLega = Ref.create(townLeganes);
 
 		Key<Center> sportsCentersKey = createSportsCenters(refLega);
-		logger.debug("crea el centro deportivo");
 		Ref<Center> refCenter = Ref.create(sportsCentersKey);
 		creteSportCourt(refCenter);
-		logger.debug("crea la pista");
 		createUsers(refLega);
 		createClub(refLega);
-		logger.debug("finished init...");
 	}
 
 
@@ -143,7 +134,7 @@ public class RegisterEntities {
 
 	private void createUsers(Ref<Town> refTown) {
 		try {
-		/* load users */
+			/* load users */
 			String name = "antonio.diaz";
 			String password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
 			usersManager.addUser(initUser(name, password, true));
