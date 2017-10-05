@@ -59,9 +59,11 @@ public class TownForm implements GenericForm<Town> {
 		town.setPhone(phone);
 		town.setActive(isActive);
 		List<Ref<Sport>> sportsRefList = new ArrayList<>();
-		for (int i = 0; i < sports.length; i++) {
-			Ref<Sport> sportRef = Ref.create(Key.create(Sport.class, sports[i]));
-			sportsRefList.add(sportRef);
+		if (sports!=null) {
+			for (int i = 0; i < sports.length; i++) {
+				Ref<Sport> sportRef = Ref.create(Key.create(Sport.class, sports[i]));
+				sportsRefList.add(sportRef);
+			}
 		}
 		town.setSports(sportsRefList);
 		return town;
