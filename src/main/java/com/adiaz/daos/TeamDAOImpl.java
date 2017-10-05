@@ -97,4 +97,9 @@ public class TeamDAOImpl implements TeamDAO {
 		Ref<Club> clubRef = Ref.create(clubKey);
 		return ofy().load().type(Team.class).filter("clubRef", clubRef).list();
 	}
+
+	@Override
+	public void create(List<Team> teamList) {
+		ofy().save().entities(teamList).now();
+	}
 }

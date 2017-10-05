@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface TeamManager {
 	Long add(TeamForm teamForm) throws Exception;
+	void add(List<Team> teamList) throws Exception;
 	boolean remove(Long id) throws Exception;
 	void removeAll() throws Exception;
 	boolean update(TeamForm teamForm) throws Exception;

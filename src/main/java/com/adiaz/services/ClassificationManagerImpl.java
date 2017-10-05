@@ -57,7 +57,6 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		List<ClassificationEntry> classificationList = classificationEntriesDAO.findByCompetition(idCompetition);
 		Map<Long, ClassificationEntry> teamsMap = new HashMap<>();
 		for (ClassificationEntry classificationEntry : classificationList) {
-			Long idTeam = classificationEntry.getTeamEntity().getId();
 			classificationEntry.setPosition(0);
 			classificationEntry.setPoints(0);
 			classificationEntry.setMatchesPlayed(0);
@@ -67,6 +66,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 			classificationEntry.setGoalsFor(0);
 			classificationEntry.setGoalsAgainst(0);
 			classificationEntry.getRefs();
+			Long idTeam = classificationEntry.getTeamEntity().getId();
 			classificationEntry.setSanctions(calculateTeamSanctionsPoints(idCompetition, idTeam));
 			teamsMap.put(idTeam, classificationEntry);
 		}
@@ -124,9 +124,6 @@ public class ClassificationManagerImpl implements ClassificationManager {
 				teamVisitorEntry.setPoints(pointsVisitor);
 			}
 		}
-
-
-
 		List<ClassificationEntry> values = new ArrayList<>(teamsMap.values());
 		/* sort in descendent order by, points, goals difference, goals for, and team name. */
 		Collections.sort(values, new Comparator<ClassificationEntry>() {

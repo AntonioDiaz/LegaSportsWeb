@@ -78,21 +78,24 @@ public class AdminController {
 		return modelAndView;
 	}
 
-	private void createCompetition(CompetitionsForm f,
-								   Ref<Court> refCourt) throws Exception {
+	private void createCompetition(CompetitionsForm f, Ref<Court> refCourt) throws Exception {
 		Set<String> teamsSet = LocalSportsUtils.parseCalendarGetTeams();
-		List<MatchForm> matchesList = LocalSportsUtils.parseCalendarGetMatches();
 		List<String> teamsList = new ArrayList<>(teamsSet);
 		createTeams(teamsList, f.getIdTown(), f.getIdCategory(), f.getIdSport());
 		Long idCompetition = createCompetitionEntity(f.getName(), f.getIdTown(), f.getIdCategory(), f.getIdSport());
 		Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+		List<MatchForm> matchesList = LocalSportsUtils.parseCalendarGetMatches();
 		createMatches(matchesList, competition, refCourt);
 		createClassification(competition);
 	}
 
 	private void createClassification(Competition competition) throws Exception {
 		classificationManager.initClassification(competition.getId());
-		classificationManager.updateClassificationByCompetition(competition.getId());
+		try {
+			classificationManager.updateClassificationByCompetition(competition.getId());
+		} catch (Exception e) {
+			logger.error("error on create classification ", e);
+		}
 		competition.setLastPublished(new Date());
 		competitionsManager.update(competition);
 	}
@@ -129,9 +132,7 @@ public class AdminController {
 		matchesList.get(2).setScoreLocal(2);
 		matchesList.get(2).setScoreVisitor(1);
 		matchesManager.addMatchListAndPublish(matchesList);
-
 	}
-
 
 	private Long createCompetitionEntity(String name, Long townIdLega, Long idCategory, Long idSport) throws Exception {
 		TeamFilterForm teamFilterForm = new TeamFilterForm();
@@ -153,17 +154,16 @@ public class AdminController {
 		return idCompetition;
 	}
 
-	private Map<String, Ref<Team>> createTeams(List<String> teamsList, Long idTown, long idCategory, long idSport) throws Exception {
-		Map<String, Ref<Team>> teamsMap = new HashMap<>();
+	private void createTeams(List<String> teamsList, Long idTown, long idCategory, long idSport) throws Exception {
+		List<Team> teams = new LinkedList<>();
 		for (String teamName : teamsList) {
 			TeamForm teamForm = new TeamForm();
 			teamForm.setName(teamName);
 			teamForm.setIdTown(idTown);
 			teamForm.setIdCategory(idCategory);
 			teamForm.setIdSport(idSport);
-			Long id = teamManager.add(teamForm);
-			teamsMap.put(teamName, Ref.create(Key.create(Team.class, id)));
+			teams.add(teamForm.formToEntity());
 		}
-		return teamsMap;
+		teamManager.add(teams);
 	}
 }

@@ -29,6 +29,11 @@ public class TeamManagerImpl implements TeamManager {
 	}
 
 	@Override
+	public void add(List<Team> teamList) throws Exception {
+		teamDAO.create(teamList);
+	}
+
+	@Override
 	public boolean remove(Long id) throws Exception {
 		boolean deleteDone = false;
 		if (isElegibleForDelete(id)) {
