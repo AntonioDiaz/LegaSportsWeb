@@ -130,7 +130,7 @@ public class CentersController {
 		boolean validDelete = true;
 		if (!getActiveUser().isAdmin()) {
 			CenterForm center = sportsCenterManager.queryFormById(id);
-			validDelete = center.getIdTown()==getActiveUser().getTownEntity().getId();
+			validDelete = center.getIdTown().equals(getActiveUser().getTownEntity().getId());
 		}
 		if (validDelete) {
 			String viewName = "redirect:/centers/list";
