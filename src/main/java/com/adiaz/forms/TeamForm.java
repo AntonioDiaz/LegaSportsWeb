@@ -30,7 +30,7 @@ public class TeamForm implements GenericForm<Team>{
 			idTown = team.getTownEntity().getId();
 		}
 		if (team.getClubEntity()!=null) {
-			idClub = team.getSportEntity().getId();
+			idClub = team.getClubEntity().getId();
 		}
 		if (team.getSportEntity()!=null) {
 			idSport = team.getSportEntity().getId();
