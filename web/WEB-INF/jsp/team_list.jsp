@@ -36,8 +36,19 @@
 			}
 		);
 	}
+
+	function fValidateFilterForm() {
+		var idTown = $('#idTown').val();
+		var idCategory = $('#idCategory').val();
+		var idSport = $('#idSport').val();
+		if (idTown=="" && idCategory=="" && idSport=="") {
+			showDialogAlert("Es necesario indicar al menos un filtro.");
+			return false;
+		}
+		return true;
+	}
 </script>
-<form:form method="post" action="doFilter" commandName="team_form_filter" cssClass="form-inline">
+<form:form method="post" action="doFilter" commandName="team_form_filter" cssClass="form-inline" onsubmit="return fValidateFilterForm()">
 	<div class="row">
 		<div class="col-sm-3">
 			<div class="form-group">
