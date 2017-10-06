@@ -2,18 +2,20 @@
 <%@include file="taglibs.jsp"%>
 <div id="navbar" class="navbar-collapse collapse">
 	<ul class="nav navbar-nav">
-		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Deportes <span class="caret"></span></a>
-			<ul class="dropdown-menu">
-				<li><a href="/sports/list">Lista deportes</a></li>
-				<li><a href="/sports/add">Nuevo deporte</a></li>
-			</ul>
-		</li>
-		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Categorias <span class="caret"></span></a>
-			<ul class="dropdown-menu">
-				<li><a href="/categories/list">Lista categorias</a></li>
-				<li><a href="/categories/add">Nueva categoria</a></li>
-			</ul>
-		</li>
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Deportes <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="/sports/list">Lista deportes</a></li>
+					<li><a href="/sports/add">Nuevo deporte</a></li>
+				</ul>
+			</li>
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Categorias <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="/categories/list">Lista categorias</a></li>
+					<li><a href="/categories/add">Nueva categoria</a></li>
+				</ul>
+			</li>
+		</sec:authorize>
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Centros <span class="caret"></span></a>
 			<ul class="dropdown-menu">
 				<li><a href="/centers/list">Lista centros</a></li>
@@ -26,15 +28,15 @@
 				<li><a href="/competitions/add">Nueva competición</a></li>
 			</ul>
 		</li>
+		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Equipos <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="/team/list">Lista equipos</a></li>
+				<li><a href="/team/add">Nuevo equipo</a></li>
+				<li><a href="/club/list">Lista clubes</a></li>
+				<li><a href="/club/add">Nuevo club</a></li>
+			</ul>
+		</li>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Equipos <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="/team/list">Lista equipos</a></li>
-					<li><a href="/team/add">Nuevo equipo</a></li>
-					<li><a href="/club/list">Lista clubes</a></li>
-					<li><a href="/club/add">Nuevo club</a></li>
-				</ul>
-			</li>
 			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="/users/list">Lista usuarios</a></li>

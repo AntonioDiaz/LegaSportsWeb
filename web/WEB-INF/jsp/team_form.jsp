@@ -1,27 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<sec:authentication property="principal" var="userSession"></sec:authentication>
 <script>
 
 	$(document).ready(function() {
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			$('#idTown option[value="'+ ${userSession.townEntity.id} +'"]').prop("selected", "selected");
+			$('#idTown').prop('disabled', true);
+		</sec:authorize>
 		fUpdateClubs();
 		$('#idClub option[value="'+ ${my_form.idClub} +'"]').prop("selected", "selected");
+
 	});
 
+	/** update clubs select depending on the town selected. */
 	function fUpdateClubs(){
 		var idTownSelected = $('#idTown').val();
 		$('#idClub').empty();
-		if (idTownSelected==null) {
-			$('#idClub').prop('disabled', true);
-		} else {
-			//in case the form is on view screen.
-			let isTownDisabled = $('#idTown').prop('disabled');
-			$('#idClub').prop('disabled', isTownDisabled);
-			$("#idClub").append('<option value=""></option>')
-			for (var i=0; i<clubsArray.length; i++) {
-				if (idTownSelected == clubsArray[i].townId) {
-					var clubId = clubsArray[i].id;
-					var clubName = clubsArray[i].name;
-					$("#idClub").append('<option value="' + clubId +'">'+ clubName +'</option>');
-				}
+		$("#idClub").append('<option value=""></option>')
+		for (var i=0; i<clubsArray.length; i++) {
+			if (idTownSelected == clubsArray[i].townId) {
+				var clubId = clubsArray[i].id;
+				var clubName = clubsArray[i].name;
+				$("#idClub").append('<option value="' + clubId +'">' + clubName + '</option>');
 			}
 		}
 	}
@@ -37,25 +37,20 @@
 
 </script>
 <form:hidden path="id"></form:hidden>
-<sec:authorize access="!hasRole('ROLE_ADMIN')">
-	<form:hidden path="idTown"></form:hidden>
-</sec:authorize>
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<div class="form-group">
-		<label class="control-label col-sm-2" >Municipio</label>
-		<div class="col-sm-6">
-			<form:select path="idTown" class="form-control" onchange="fUpdateClubs()">
-				<form:option value=""></form:option>
-				<form:options items="${towns}" itemLabel="name" itemValue="id" />
-			</form:select>
-		</div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idTown" cssClass="text-danger" /></label>
+<div class="form-group">
+	<label class="control-label col-sm-2" >Municipio</label>
+	<div class="col-sm-6">
+		<form:select path="idTown" class="form-control" onchange="fUpdateClubs()">
+			<form:option value=""></form:option>
+			<form:options items="${towns}" itemLabel="name" itemValue="id" />
+		</form:select>
 	</div>
-</sec:authorize>
+	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idTown" cssClass="text-danger" /></label>
+</div>
 <div class="form-group">
 	<label class="control-label col-sm-2">Club</label>
 	<div class="col-sm-6">
-		<form:select path="idClub" class="form-control" disabled="true"></form:select>
+		<form:select path="idClub" class="form-control"></form:select>
 	</div>
 </div>
 <div class="form-group">
@@ -76,7 +71,7 @@
 			<form:options items="${sports}" itemLabel="name" itemValue="id" />
 		</form:select>
 	</div>
-	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCategory" cssClass="text-danger" /></label>
+	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idSport" cssClass="text-danger" /></label>
 </div>
 
 <div class="form-group">

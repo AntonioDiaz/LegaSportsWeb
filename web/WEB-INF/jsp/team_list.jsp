@@ -15,6 +15,9 @@
 		<c:if test="${delete_undone==true}">
 			showDialogAlert("No se puede realizar el borrado, compruebe que no haya referencias a esta entidad desde otras.");
 		</c:if>
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			$('#idTown').prop('disabled', true);
+		</sec:authorize>
 	});
 
 	function fUpdate(id) {

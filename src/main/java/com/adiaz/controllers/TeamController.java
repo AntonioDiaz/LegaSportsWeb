@@ -26,7 +26,7 @@ import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
  */
 @Controller
 @RequestMapping("/team")
-@SessionAttributes("team_form_filter")
+@SessionAttributes({"team_form_filter", "club_list"})
 public class TeamController {
 
 	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(TeamController.class);
@@ -42,22 +42,24 @@ public class TeamController {
 
 	@ModelAttribute("club_list")
 	public List<Club> addClubList(){
-		return clubManager.queryAll();
-	}
+		List<Club> clubs;
+		if (!getActiveUser().isAdmin()) {
+			clubs = clubManager.queryByTownId(getActiveUser().getTownEntity().getId());
+		} else {
+			clubs = clubManager.queryAll();
 
-	@ModelAttribute("team_form_filter")
-	public TeamFilterForm getFilter(Model model) {
-		if (model.containsAttribute("team_form_filter")) {
-			return (TeamFilterForm) model.asMap().get("team_form_filter");
 		}
-		return new TeamFilterForm();
+		return clubs;
 	}
-
 
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		ModelAndView modelAndView = new ModelAndView("team_list");
-		modelAndView.addObject("team_form_filter", new TeamFilterForm());
+		TeamFilterForm teamFilterForm = new TeamFilterForm();
+		if (!getActiveUser().isAdmin()) {
+			teamFilterForm.setIdTown(getActiveUser().getTownEntity().getId());
+		}
+		modelAndView.addObject("team_form_filter", teamFilterForm);
 		return modelAndView;
 	}
 
@@ -144,7 +146,8 @@ public class TeamController {
 	@RequestMapping("/view")
 	public ModelAndView view(@RequestParam Long id){
 		ModelAndView modelAndView = new ModelAndView("team_view");
-		modelAndView.addObject("my_form", teamManager.queryById(id));
+		TeamForm teamForm = teamManager.queryById(id);
+		modelAndView.addObject("my_form", teamForm);
 		return modelAndView;
 	}
 

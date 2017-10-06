@@ -6,6 +6,9 @@
 		<c:if test="${remove_done==true}">
 			showDialogAlert("La competición ha sido eliminada.");
 		</c:if>
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			$('#idTown').prop('disabled', true)
+		</sec:authorize>
 	});
 
 	function fViewCalendar (idCompetition) {
@@ -27,20 +30,15 @@
 </script>
 <form:form method="post" action="doFilter" commandName="form_filter" cssClass="form-inline" onsubmit="return fValidateFilterForm()">
 	<div class="row">
-		<sec:authorize access="!hasRole('ROLE_ADMIN')">
-			<form:hidden path="idTown"></form:hidden>
-		</sec:authorize>
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;</label>
-					<form:select path="idTown" class="form-control" cssStyle="width: 150px">
-						<form:option value=""></form:option>
-						<form:options items="${towns}" itemLabel="name" itemValue="id" />
-					</form:select>
-				</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label class="control-label" for="idTown">Municipio &nbsp;&nbsp;</label>
+				<form:select path="idTown" class="form-control" cssStyle="width: 150px">
+					<form:option value=""></form:option>
+					<form:options items="${towns}" itemLabel="name" itemValue="id" />
+				</form:select>
 			</div>
-		</sec:authorize>
+		</div>
 		<div class="col-sm-3">
 			<div class="form-group">
 				<label class="control-label" for="idCategory">Categoría &nbsp;&nbsp;</label>

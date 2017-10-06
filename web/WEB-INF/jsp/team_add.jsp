@@ -6,8 +6,13 @@
 			window.location.href = "/team/list";
 		});
 	});
+
+	function fValidateForm() {
+
+	}
+
 </script>
-<form:form method="post" action="doAdd" commandName="my_form" name="my_form" cssClass="form-horizontal">
+<form:form method="post" action="doAdd" commandName="my_form" name="my_form" cssClass="form-horizontal"  onsubmit="return fValidateForm()">
 
 	<%@ include file="/WEB-INF/jsp/team_form.jsp"%>
 

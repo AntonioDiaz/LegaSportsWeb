@@ -1,5 +1,6 @@
 package com.adiaz.controllers;
 
+import com.adiaz.entities.Club;
 import com.adiaz.forms.ClubForm;
 import com.adiaz.forms.validators.ClubFormValidator;
 import com.adiaz.services.ClubManager;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
 
@@ -36,7 +39,14 @@ public class ClubController {
 			@RequestParam(value = "remove_done", defaultValue = "false") boolean removeDone,
 			@RequestParam(value = "remove_undone", defaultValue = "false") boolean removeUndone) {
 		ModelAndView modelAndView = new ModelAndView("club_list");
-		modelAndView.addObject("clubList", clubManager.queryAll());
+
+		List<Club> clubs;
+		if (!getActiveUser().isAdmin()) {
+			clubs = clubManager.queryByTownId(getActiveUser().getTownEntity().getId());
+		} else {
+			clubs = clubManager.queryAll();
+		}
+		modelAndView.addObject("clubList", clubs);
 		modelAndView.addObject("add_done", addDone);
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("remove_done", removeDone);
@@ -108,7 +118,13 @@ public class ClubController {
 
 	@RequestMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) throws Exception {
-		// TODO: 25/07/2017 validate user is admin or the town of the town is the same than the user.
+		// validate user is admin or the town of the town is the same than the user.
+		if (!getActiveUser().isAdmin()) {
+			ClubForm clubForm = clubManager.queryById(id);
+			if (getActiveUser().getTownEntity().getId()!=clubForm.getIdTown()) {
+				throw new Exception ("Invalid Operation");
+			}
+		}
 		if (clubManager.isElegibleForDelete(id)) {
 			clubManager.remove(id);
 			return "redirect:/club/list?remove_done=true";

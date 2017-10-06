@@ -53,8 +53,7 @@ public class CompetitionsController {
 	}
 
 	@RequestMapping("/doFilter")
-	public ModelAndView doFilter(
-			@ModelAttribute("form_filter") CompetitionsFilterForm competitionsFilterForm){
+	public ModelAndView doFilter(@ModelAttribute("form_filter") CompetitionsFilterForm competitionsFilterForm){
 		ModelAndView modelAndView = new ModelAndView("competitions_list");
 		modelAndView.addObject("form_filter", competitionsFilterForm);
 		List<Competition> competitions = competitionsManager.queryCompetitions(competitionsFilterForm);
