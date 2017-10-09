@@ -13,11 +13,16 @@
 			event.preventDefault();
 			window.location.href = "/competitions/updateClassification";
 		});
+		$('#btnPrint').on('click', function(event) {
+			event.preventDefault();
+			window.print();
+		});
+
 	});
 	
 </script>
-<div class="row" style="position: relative">
-	<div class="col-sm-10">
+<div id="id_classification" class="row" style="position: relative">
+	<div class="col-sm-8">
 		<div class="font_title">
 			<div><u>${competition_session.name}</u></div>
 		</div>
@@ -34,7 +39,12 @@
 			<div>${competition_session.townEntity.name}</div>
 		</div>
 	</div>
-	<div class="col-sm-2">
+	<div class="col-sm-2 no-print">
+		<button type="button" class="btn btn-default btn-block" id="btnPrint">
+			imprimir
+		</button>
+	</div>
+	<div class="col-sm-2 no-print">
 		<button type="button" class="btn btn-default btn-block" id="btnBack">
 			volver
 		</button>
