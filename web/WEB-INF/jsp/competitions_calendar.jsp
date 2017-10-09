@@ -155,6 +155,12 @@
 			event.preventDefault();
 			window.location.href = "/competitions/viewClassification";
 		});
+		$('#btnExport').on('click', function(event) {
+			export_table_to_csv("table_to_export", "calendar.csv");
+		});
+		$('#btnPrint').on('click', function(event) {
+			window.print();
+		});
 		$('#btnDelete').on('click', function(event) {
 			event.preventDefault();
 			var bodyTxt = "¿Se va a borrar la competición y todos sus partidos desea continuar?";
@@ -353,40 +359,35 @@
 </script>
 <div class="row" style="position: relative">
 	<div class="col-sm-8">
-		<div class="font_title">
-			<div><u>${competition_session.name}</u></div>
+		<div class="row font_subtitle">
+			<div class="col-sm-4 col-print-3"><small>Competición</small></div>
+			<div>${competition_session.name}</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-5">
-				<div class="row font_subtitle">
-					<div class="col-sm-4"><small>Deporte</small></div>
-					<div>${competition_session.sportEntity.name}</div>
-				</div>
-				<div class="row font_subtitle">
-					<div class="col-sm-4"><small>Categoria</small></div>
-					<div>${competition_session.categoryEntity.name}</div>
-				</div>
-			</div>
-			<div class="col-sm-7">
-				<div class="row font_subtitle">
-					<div class="col-sm-5"><small>Municipio</small></div>
-					<div>${competition_session.townEntity.name}</div>
-				</div>
-				<div class="row font_subtitle">
-					<div class="col-sm-5"><small>Fecha publicación:</small></div>
-					<div>
-						<c:if test="${competition_session.lastPublished eq null}">
-							Sin publicar
-						</c:if>
-						<c:if test="${competition_session.lastPublished ne null}">
-							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition_session.lastPublished}" timeZone="Europe/Madrid"></fmt:formatDate>
-						</c:if>
-					</div>
-				</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-4 col-print-3"><small>Deporte</small></div>
+			<div>${competition_session.sportEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-4 col-print-3"><small>Categoria</small></div>
+			<div>${competition_session.categoryEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-4 col-print-3"><small>Municipio</small></div>
+			<div>${competition_session.townEntity.name}</div>
+		</div>
+		<div class="row font_subtitle">
+			<div class="col-sm-4 col-print-3"><small>Fecha publicación</small></div>
+			<div>
+				<c:if test="${competition_session.lastPublished eq null}">
+					Sin publicar
+				</c:if>
+				<c:if test="${competition_session.lastPublished ne null}">
+					<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition_session.lastPublished}" timeZone="Europe/Madrid"></fmt:formatDate>
+				</c:if>
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-4" <%--style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;"--%>>
+	<div class="col-sm-4 no-print" <%--style="position: absolute; bottom: 0; right: 0; margin-bottom: 0;"--%>>
 		<div class="row">
 			<div class="col-sm-6">
 				<c:if test="${empty matches_list}">
@@ -402,8 +403,9 @@
 				<button type="button" class="btn btn-default btn-block" id="btnUpdate">
 					modificar
 				</button>
-				<button type="button" class="btn btn-default btn-block" id="btnDelete">
-					eliminar
+				<button type="button" class="btn btn-default btn-block" id="btnPrint">imprimir</button>
+				<button type="button" class="btn btn-default btn-block" id="btnExport">
+					exportar
 				</button>
 			</div>
 			<div class="col-sm-6">
@@ -411,6 +413,9 @@
 					volver
 				</button>
 				<button type="button" class="btn btn-default btn-block" id="btnPublish">publicar</button>
+				<button type="button" class="btn btn-default btn-block" id="btnDelete">
+					eliminar
+				</button>
 				<select id="week_selection" class="form-control" onchange="fUpdateWeekCalendar()" style="margin-top: 5px">
 					<option></option>
 					<c:forEach begin="1" end="${weeks_count}" varStatus="loop">
@@ -425,7 +430,7 @@
 <c:forEach begin="1" end="${weeks_count}" varStatus="loopForWeek">
 	<div name="week_id_${loopForWeek.index}">
 		<h4>Jornada ${loopForWeek.index}</h4>
-		<table class="table table-hover	table-condensed">
+		<table class="table table-hover	table-condensed" width="100%">
 			<c:forEach var="matchForm" items="${matches_list}" varStatus="loopForMatches">
 				<c:if test="${loopForWeek.index==matchForm.week}">
 					<c:set var="updated_date" value=""></c:set>
@@ -508,3 +513,30 @@
 		</table>
 	</div>
 </c:forEach>
+<!-- table to export -->
+<div style="display: none">
+	<table id="table_to_export">
+		<tr>
+			<td>Jornada</td>
+			<td>Estado</td>
+			<td>Fecha</td>
+			<td>Equipo Local</td>
+			<td>Equipo Visitante</td>
+			<td>Marcador Local</td>
+			<td>Marcador Visitante</td>
+			<td>Localicacion</td>
+		</tr>
+		<c:forEach var="matchForm" items="${matches_list}" varStatus="loopForMatches">
+			<tr>
+				<td>${matchForm.week}</td>
+				<td>${matchForm.state}</td>
+				<td>${matchForm.dateStr}</td>
+				<td>${matchForm.teamLocalName}</td>
+				<td>${matchForm.teamVisitorName}</td>
+				<td>${matchForm.scoreLocal}</td>
+				<td>${matchForm.scoreVisitor}</td>
+				<td>${matchForm.courtName}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>

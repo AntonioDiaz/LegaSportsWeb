@@ -27,15 +27,15 @@
 			<div><u>${competition_session.name}</u></div>
 		</div>
 		<div class="row font_subtitle">
-			<div class="col-sm-2"><small>Deporte</small></div>
+			<div class="col-sm-2 col-print-2"><small>Deporte</small></div>
 			<div>${competition_session.sportEntity.name}</div>
 		</div>
 		<div class="row font_subtitle">
-			<div class="col-sm-2"><small>Categoria</small></div>
+			<div class="col-sm-2 col-print-2"><small>Categoria</small></div>
 			<div>${competition_session.categoryEntity.name}</div>
 		</div>
 		<div class="row font_subtitle">
-			<div class="col-sm-2"><small>Municipio</small></div>
+			<div class="col-sm-2 col-print-2"><small>Municipio</small></div>
 			<div>${competition_session.townEntity.name}</div>
 		</div>
 	</div>
