@@ -39,11 +39,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Google App Engine Standard Local Server" level="application_server_libraries" />
     <orderEntry type="library" scope="PROVIDED" name="javax.servlet:servlet-api:2.5" level="project" />
-    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.54" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.google.appengine:appengine-api-stubs:1.9.54" level="project" />
-    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-labs:1.9.54" level="project" />
-    <orderEntry type="library" name="Maven: com.google.appengine:appengine-tools-sdk:1.9.54" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.google.appengine:appengine-testing:1.9.54" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.57" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.appengine:appengine-api-stubs:1.9.57" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-labs:1.9.57" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-tools-sdk:1.9.57" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-testing:1.9.57" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: javax.servlet:jsp-api:2.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.1.4.RELEASE" level="project" />

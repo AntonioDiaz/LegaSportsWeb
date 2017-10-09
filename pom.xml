@@ -19,7 +19,7 @@
         </plugins>
     </build>
     <properties>
-        <appengine.version>1.9.54</appengine.version>
+        <appengine.version>1.9.57</appengine.version>
         <spring.version>4.1.4.RELEASE</spring.version>
         <spring-security.version>3.2.7.RELEASE</spring-security.version>
         <javax.servlet.version>2.5</javax.servlet.version>

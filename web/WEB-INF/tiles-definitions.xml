@@ -146,7 +146,6 @@
 		<put-attribute name="page_title" value="Ver detalles municipio" />
 		<put-attribute name="body" value="/WEB-INF/jsp/towns_view.jsp" />
 	</definition>
-
 	<definition name="club_list" extends="homeTemplate">
 		<put-attribute name="page_title" value="Lista de clubs" />
 		<put-attribute name="body" value="/WEB-INF/jsp/club_list.jsp" />
@@ -185,9 +184,9 @@
 		<put-attribute name="page_title" value="Inicializa competición" />
 		<put-attribute name="body" value="/WEB-INF/jsp/init_competition.jsp" />
 	</definition>
-	<definition name="issues_query" extends="homeTemplate">
+	<definition name="issues_list" extends="homeTemplate">
 		<put-attribute name="page_title" value="Incidencias reportadas por usuarios" />
-		<put-attribute name="body" value="/WEB-INF/jsp/issues_query.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/issues_list.jsp" />
 	</definition>
 	<definition name="issues_view" extends="homeTemplate">
 		<put-attribute name="page_title" value="Ver incidencia" />

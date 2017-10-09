@@ -106,7 +106,7 @@
 					</c:if>
 				</td>
 				<td class="col-sm-1">
-					<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${issue.dateSent}"></fmt:formatDate>
+					<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${issue.dateSent}" timeZone="Europe/Madrid"></fmt:formatDate>
 				</td>
 				<td class="col-sm-1" align="right">
 					<button type="button" class="btn btn-default" onclick="fViewDetails('${issue.id}')" title="ver detalles">

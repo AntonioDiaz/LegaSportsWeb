@@ -373,13 +373,13 @@
 					<div>${competition_session.townEntity.name}</div>
 				</div>
 				<div class="row font_subtitle">
-					<div class="col-sm-5"><small>Fecha publicación</small></div>
+					<div class="col-sm-5"><small>Fecha publicación:</small></div>
 					<div>
 						<c:if test="${competition_session.lastPublished eq null}">
 							Sin publicar
 						</c:if>
 						<c:if test="${competition_session.lastPublished ne null}">
-							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition_session.lastPublished}"></fmt:formatDate>
+							<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition_session.lastPublished}" timeZone="Europe/Madrid"></fmt:formatDate>
 						</c:if>
 					</div>
 				</div>

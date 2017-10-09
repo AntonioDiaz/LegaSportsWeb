@@ -28,7 +28,7 @@ public class IssuesController {
 
 	@RequestMapping("/list")
 	public ModelAndView list(){
-		ModelAndView modelAndView = new ModelAndView("issues_query");
+		ModelAndView modelAndView = new ModelAndView("issues_list");
 		modelAndView.addObject("form_filter", new IssuesForm());
 		return modelAndView;
 	}
@@ -43,7 +43,7 @@ public class IssuesController {
 		} else {
 			issues = issuesManager.queryIssues();
 		}
-		ModelAndView modelAndView = new ModelAndView("issues_query");
+		ModelAndView modelAndView = new ModelAndView("issues_list");
 		modelAndView.addObject("form_filter", issuesForm);
 		modelAndView.addObject("issues", issues);
 		return modelAndView;

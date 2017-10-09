@@ -37,7 +37,9 @@
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2">Fecha</label>
-		<div class="control-label col-sm-6" style="text-align: left;">${issue.dateSent}</div>
+		<div class="control-label col-sm-6" style="text-align: left;">
+			<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${issue.dateSent}" timeZone="Europe/Madrid"></fmt:formatDate>
+		</div>
 		<div class="col-sm-4"></div>
 	</div>
 	<div class="form-group">

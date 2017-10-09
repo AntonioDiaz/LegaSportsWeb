@@ -102,7 +102,7 @@
 						Sin publicar
 					</c:if>
 					<c:if test="${competition.lastPublished ne null}">
-						<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastPublished}"></fmt:formatDate>
+						<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastPublished}" timeZone="Europe/Madrid"></fmt:formatDate>
 					</c:if>
 				</td>
 				<td align="right">

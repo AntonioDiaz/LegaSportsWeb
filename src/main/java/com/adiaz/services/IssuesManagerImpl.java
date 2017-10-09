@@ -3,6 +3,7 @@ package com.adiaz.services;
 import com.adiaz.daos.CompetitionsDAO;
 import com.adiaz.daos.IssuesDAO;
 import com.adiaz.entities.Issue;
+import com.adiaz.entities.Match;
 import com.adiaz.forms.IssuesForm;
 import com.adiaz.utils.LocalSportsConstants;
 import com.adiaz.utils.LocalSportsUtils;
@@ -51,8 +52,9 @@ public class IssuesManagerImpl implements IssuesManager {
 	public Long addIssue(IssuesForm issuesForm) throws Exception {
 		Issue issue = issuesForm.formToEntity();
 		issue.getRefs();
-		if (issue.getMatch()!=null) {
-			issue.setMatchDescription(issue.getMatch().getFullDescription());
+		if (issue.getMatchRef()!=null) {
+			Match match = issue.getMatchRef().get();
+			issue.setMatchDescription(match.getFullDescription());
 		}
 		Key<Issue> issueKey = issuesDAO.create(issue);
 		return issueKey.getId();
