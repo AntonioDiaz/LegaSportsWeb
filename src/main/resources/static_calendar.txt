@@ -1,20 +1,20 @@
 Jornada 1
-05/11/2016	09:00	Arroyo Culebro	Lope de Vega	Carlos Sastre P1	 
-05/11/2016	10:00	Garcia Lorca	Vazquez Montalban	Carlos Sastre P1	 
-05/11/2016	11:00	Legamar A	A. Gonzalez Negro	Carlos Sastre P1	 
+05/11/2017	09:00	Villalkor	Lope de Vega	Carlos Sastre P1
+05/11/2017	10:00	García Lorca	Vázquez Montalbán	Carlos Sastre P1	 
+05/11/2017	11:00	AD. Alcorcón	S. José de Valderas	Carlos Sastre P1	 
 Jornada 2
-12/11/2016	10:00	A. Gonzalez Negro	Vazquez Montalban	Carlos Sastre P1	 
-12/11/2016	11:00	Lope de Vega	Garcia Lorca	Carlos Sastre P1	 
-12/11/2016	13:00	Legamar A	Arroyo Culebro	Carlos Sastre P1	 
+12/11/2017	10:00	S. José de Valderas	Vázquez Montalbán	Carlos Sastre P1	 
+12/11/2017	11:00	Lope de Vega	García Lorca	Carlos Sastre P1	 
+12/11/2017	13:00	AD. Alcorcón	Villalkor	Carlos Sastre P1
 Jornada 3
-19/11/2016	09:00	Arroyo Culebro	A. Gonzalez Negro	Carlos Sastre P1	 
-19/11/2016	10:00	Garcia Lorca	Legamar A	Carlos Sastre P1	 
-19/11/2016	11:00	Vazquez Montalban	Lope de Vega	Carlos Sastre P1	 
+19/11/2017	09:00	Villalkor	S. José de Valderas	Carlos Sastre P1
+19/11/2017	10:00	García Lorca	AD. Alcorcón	Carlos Sastre P1	 
+19/11/2017	11:00	Vázquez Montalbán	Lope de Vega	Carlos Sastre P1	 
 Jornada 4
-26/11/2016	10:00	Arroyo Culebro	Garcia Lorca	Carlos Sastre P1	 
-26/11/2016	11:00	A. Gonzalez Negro	Lope de Vega	Carlos Sastre P1	 
-26/11/2016	12:00	Legamar A	Vazquez Montalban	Carlos Sastre P1	 
+26/11/2017	10:00	Villalkor	García Lorca	Carlos Sastre P1
+26/11/2017	11:00	S. José de Valderas	Lope de Vega	Carlos Sastre P1	 
+26/11/2017	12:00	AD. Alcorcón	Vázquez Montalbán	Carlos Sastre P1	 
 Jornada 5
-03/12/2016	10:00	Lope de Vega	Legamar A	Carlos Sastre P1	 
-03/12/2016	11:00	Garcia Lorca	A. Gonzalez Negro	Carlos Sastre P1	 
-03/12/2016	12:00	Vazquez Montalban	Arroyo Culebro	Carlos Sastre P1	 
+03/12/2017	10:00	Lope de Vega	AD. Alcorcón	Carlos Sastre P1	 
+03/12/2017	11:00	García Lorca	S. José de Valderas	Carlos Sastre P1	 
+03/12/2017	12:00	Vázquez Montalbán	Villalkor	Carlos Sastre P1
