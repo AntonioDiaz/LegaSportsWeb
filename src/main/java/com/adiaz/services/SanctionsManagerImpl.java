@@ -33,4 +33,10 @@ public class SanctionsManagerImpl implements SanctionsManager {
 		sanction.setId(id);
 		return sanctionsDAO.remove(sanction);
 	}
+
+	@Override
+	public void removeByCompetition(Long idCompetition) throws Exception {
+		List<Sanction> sanctions = sanctionsDAO.findByCompetitionId(idCompetition);
+		sanctionsDAO.remove(sanctions);
+	}
 }

@@ -17,5 +17,6 @@ public interface SanctionsManager {
 	void add(SanctionForm sanctionForm) throws Exception;
 
 	boolean remove(Long id) throws Exception;
+	void removeByCompetition (Long idCompetition) throws Exception;
 
 }

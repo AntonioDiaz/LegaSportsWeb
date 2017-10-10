@@ -67,6 +67,10 @@ public class SanctionsDAOImpl implements SanctionsDAO {
 			query = query.filter("teamRef", ref);
 		}
 		return query.list();
+	}
 
+	@Override
+	public void remove(Iterable<Sanction> sanctionsToRemove) {
+		ofy().delete().entities(sanctionsToRemove).now();
 	}
 }

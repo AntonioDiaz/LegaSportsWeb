@@ -35,6 +35,7 @@ public class SanctionsDAOImplTest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
 	@Autowired SanctionsDAO sanctionsDAO;
+	Ref<Competition> competitionRef;
 
 	@Before
 	public void setUp() throws Exception {
@@ -42,6 +43,10 @@ public class SanctionsDAOImplTest {
 		ObjectifyService.register(Sanction.class);
 		ObjectifyService.register(Competition.class);
 		ObjectifyService.register(Team.class);
+
+		Competition competition = new Competition();
+		Key<Competition> competitionKey = ofy().save().entity(competition).now();
+		competitionRef = Ref.create(competitionKey);
 	}
 
 	@After
@@ -98,18 +103,23 @@ public class SanctionsDAOImplTest {
 		assertEquals(1, list.size());
 	}
 
+	@Test
+	public void removeSanctionsList() throws Exception {
+		createEntity();
+		createEntity();
+		createEntity();
+		List<Sanction> list = sanctionsDAO.findByCompetitionId(competitionRef.get().getId());
+		assertEquals(3, list.size());
+	}
+
 	private Sanction createEntity() {
 		Team team = new Team();
 		Key<Team> teamKey = ofy().save().entity(team).now();
-		Competition competition = new Competition();
-		Key<Competition> competitionKey = ofy().save().entity(competition).now();
 		Sanction sanction = new Sanction();
 		sanction.setPoints(3);
-		sanction.setCompetitionRef(Ref.create(competitionKey));
+		sanction.setCompetitionRef(competitionRef);
 		sanction.setTeamRef(Ref.create(teamKey));
 		Key<Sanction> now = ofy().save().entity(sanction).now();
 		return Ref.create(now).get();
 	}
-
-
 }

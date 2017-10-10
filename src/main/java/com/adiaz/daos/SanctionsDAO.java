@@ -11,4 +11,5 @@ public interface SanctionsDAO extends GenericDAO<Sanction> {
 	Sanction findById(Long id);
 	List<Sanction> findByCompetitionId(Long id);
 	List<Sanction> findByCompetitionIdAndTeamId(Long idCompetition, Long idTeam);
+	void remove(Iterable<Sanction> sanctionsToRemove);
 }
