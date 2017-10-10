@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="/css/multi-select.css">
 
+<form:hidden path="id"></form:hidden>
 <script>
 
 	$(document).ready(function() {
@@ -17,17 +18,9 @@
 		$('#teams').on('change', function (event) {
 			fUpdateTeamsSelectedCount();
 		});
-		var updateTeamSelected = function() {
-			<c:forEach items="${my_form.teams}" var="team">
-				$('#teams').multiSelect('select', '${team}');
-			</c:forEach>
-			fUpdateTeamsSelectedCount();
-		};
-		fUpdateTeams(updateTeamSelected);
-		fUpdateTeamsSelectedCount();
 	});
 
-	function  fUpdateTeamsSelectedCount() {
+	function fUpdateTeamsSelectedCount() {
 		$("#spamTeamsSelected").html(" " );
 		if ($("#teams").val()!=null && $("#teams").val().length>0) {
 			let teamsSelected = $("#teams").val().length;
@@ -44,7 +37,6 @@
 				idSport: $('#idSport').val(),
 				idCategory: $('#idCategory').val()
 			};
-			console.log("filter GET ->" + JSON.stringify(filter));
 			$.ajax({
 				url: '/server/teams/',
 				type: 'GET',
@@ -62,7 +54,6 @@
 		}
 	}
 </script>
-<form:hidden path="id"></form:hidden>
 <sec:authorize access="!hasRole('ROLE_ADMIN')">
 	<form:hidden path="idTown"></form:hidden>
 </sec:authorize>

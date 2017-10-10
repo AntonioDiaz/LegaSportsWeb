@@ -26,6 +26,6 @@ public interface MatchesManager {
 	public Match queryMatchesById(Long id);
 	public Integer howManyWeek(List<MatchForm> matchFormList);
 	public void generateCalendar(GenerateCalendarForm form) throws Exception;
-
 	public List<Ref<Team>> teamsAffectedByChanges(Long idCompetition);
+	public boolean hasMatches(Long idCompetition);
 }

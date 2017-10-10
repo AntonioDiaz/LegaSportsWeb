@@ -73,10 +73,6 @@
 		<put-attribute name="page_title" value="Modificar competición" />
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_update.jsp" />
 	</definition>
-	<definition name="competitions_view" extends="homeTemplate">
-		<put-attribute name="page_title" value="Ver competición" />
-		<put-attribute name="body" value="/WEB-INF/jsp/competitions_view.jsp" />
-	</definition>
 	<definition name="competitions_calendar" extends="homeTemplateNoTitle">
 		<put-attribute name="body" value="/WEB-INF/jsp/competitions_calendar.jsp" />
 	</definition>

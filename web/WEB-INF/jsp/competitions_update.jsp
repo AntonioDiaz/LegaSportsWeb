@@ -5,7 +5,39 @@
 			event.preventDefault();
 			window.location.href = "/competitions/viewCalendar";
 		});
+		var isDisabled = true;
+		<c:if test="${is_updatable}">
+			isDisabled = false;
+		</c:if>
+		$('#idCategory').prop('disabled', isDisabled);
+		$('#idSport').prop('disabled', isDisabled);
+		$('#idTown').prop('disabled', isDisabled);
+		fLoadTeams(isDisabled);
+
+		$('#my_form').submit(function() {
+			$('#idCategory').prop('disabled', false);
+			$('#idSport').prop('disabled', false);
+			$('#idTown').prop('disabled', false);
+			$('#teams').prop("disabled", false);
+			$('#teams').multiSelect('refresh');
+		});
 	});
+
+	function fLoadTeams(disableTeams) {
+		var updateTeamSelected = function() {
+			<c:forEach items="${my_form.teams}" var="team">
+			$('#teams').multiSelect('select', '${team}');
+			</c:forEach>
+			fUpdateTeamsSelectedCount();
+			if(disableTeams) {
+				$('#teams').prop("disabled", true);
+				$('#teams').multiSelect('refresh');
+			}
+		};
+		fUpdateTeams(updateTeamSelected);
+		fUpdateTeamsSelectedCount();
+	}
+
 </script>
 <form:form method="post" action="doUpdate" commandName="my_form" cssClass="form-horizontal">
 	<%@ include file="/WEB-INF/jsp/competitions_form.jsp"%>

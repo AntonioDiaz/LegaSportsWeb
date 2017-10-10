@@ -190,6 +190,8 @@ public class CompetitionsController {
 		ModelAndView modelAndView = new ModelAndView("competitions_update");
 		CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(competition.getId());
 		modelAndView.addObject("my_form", competitionsForm);
+		boolean competitionsHasMatches = matchesManager.hasMatches(competition.getId());
+		modelAndView.addObject("is_updatable", !competitionsHasMatches);
 		return modelAndView;
 	}
 

@@ -211,4 +211,9 @@ public class MatchesManagerImpl implements MatchesManager {
 		}
 		return new ArrayList<>(teamsSet);
 	}
+
+	@Override
+	public boolean hasMatches(Long idCompetition) {
+		return !queryMatchesByCompetitionWorkingCopy(idCompetition).isEmpty();
+	}
 }
