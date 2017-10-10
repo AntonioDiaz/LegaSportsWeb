@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.adiaz.daos.ClassificationEntriesDAO;
 import com.adiaz.entities.*;
 import com.adiaz.forms.CompetitionsFilterForm;
 import com.adiaz.forms.CompetitionsForm;
@@ -17,7 +18,9 @@ import com.adiaz.daos.MatchesDAO;
 public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Autowired CompetitionsDAO competitionsDAO;
-	@Autowired MatchesDAO matchesDAO;
+	@Autowired MatchesManager matchesManager;
+	@Autowired ClassificationManager classificationManager;
+	@Autowired SanctionsManager sanctionsManager;
 
 	@Override
 	public Long add(Competition competition) throws Exception {
@@ -26,10 +29,9 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 
 	@Override
 	public boolean remove(Competition competition) throws Exception {
-		List<Match> queryMatchesByCompetition = matchesDAO.findByCompetition(competition.getId());
-		for (Match match : queryMatchesByCompetition) {
-			matchesDAO.remove(match);
-		}
+		matchesManager.removeByCompetition(competition.getId());
+		classificationManager.removeByCompetition(competition.getId());
+		sanctionsManager.removeByCompetition(competition.getId());
 		return competitionsDAO.remove(competition);
 	}
 
