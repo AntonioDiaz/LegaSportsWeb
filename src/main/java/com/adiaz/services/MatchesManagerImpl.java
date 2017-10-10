@@ -170,6 +170,12 @@ public class MatchesManagerImpl implements MatchesManager {
 	}
 
 	@Override
+	public void removeByCompetition(Long idComeptition) {
+		List<Match> matches = matchesDAO.findByCompetition(idComeptition);
+		matchesDAO.remove(matches);
+	}
+
+	@Override
 	public void generateCalendar(GenerateCalendarForm form) throws Exception {
 		Competition competition = competitionsDAO.findById(form.getIdCompetition());
 		Ref<Competition> competitionRef = Ref.create(competition);

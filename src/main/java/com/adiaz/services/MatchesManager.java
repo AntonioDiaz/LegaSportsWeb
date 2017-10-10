@@ -10,22 +10,23 @@ import com.googlecode.objectify.Ref;
 
 public interface MatchesManager {
 
-	public Long add(Match item) throws Exception;
-	public Long addPublishedAndWorkingcopy(Match match) throws Exception;
-	public boolean remove(Match item) throws Exception;
-	public void removeAll() throws Exception;	
-	public boolean update(MatchForm matchForm) throws Exception;
-	public boolean update(Match match) throws Exception;
-	public void updatePublishedMatches(Long idCompetition) throws Exception;
-	public boolean checkUpdatesToPublish(Long idCompetition) throws Exception;
-	public List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId);
-	public List<Match> queryMatchesByCompetitionPublished(Long competitionId);
-	public List<MatchForm> queryMatchesFormWorkingCopy(Long competitionId);
-	public void addMatchListAndPublish(List<Match> matchesList) throws Exception;
-	public List<Match> queryMatches();
-	public Match queryMatchesById(Long id);
-	public Integer howManyWeek(List<MatchForm> matchFormList);
-	public void generateCalendar(GenerateCalendarForm form) throws Exception;
-	public List<Ref<Team>> teamsAffectedByChanges(Long idCompetition);
-	public boolean hasMatches(Long idCompetition);
+	Long add(Match item) throws Exception;
+	Long addPublishedAndWorkingcopy(Match match) throws Exception;
+	boolean remove(Match item) throws Exception;
+	void removeAll() throws Exception;
+	void removeByCompetition(Long id);
+	boolean update(MatchForm matchForm) throws Exception;
+	boolean update(Match match) throws Exception;
+	void updatePublishedMatches(Long idCompetition) throws Exception;
+	boolean checkUpdatesToPublish(Long idCompetition) throws Exception;
+	List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId);
+	List<Match> queryMatchesByCompetitionPublished(Long competitionId);
+	List<MatchForm> queryMatchesFormWorkingCopy(Long competitionId);
+	void addMatchListAndPublish(List<Match> matchesList) throws Exception;
+	List<Match> queryMatches();
+	Match queryMatchesById(Long id);
+	Integer howManyWeek(List<MatchForm> matchFormList);
+	void generateCalendar(GenerateCalendarForm form) throws Exception;
+	List<Ref<Team>> teamsAffectedByChanges(Long idCompetition);
+	boolean hasMatches(Long idCompetition);
 }
