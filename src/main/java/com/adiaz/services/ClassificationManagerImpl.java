@@ -36,6 +36,12 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	}
 
 	@Override
+	public void removeByCompetition(Long idCompetition) throws Exception {
+		List<ClassificationEntry> classificationEntries = classificationEntriesDAO.findByCompetition(idCompetition);
+		classificationEntriesDAO.remove(classificationEntries);
+	}
+
+	@Override
 	public boolean update(ClassificationEntry item) throws Exception {
 		return classificationEntriesDAO.update(item);
 	}
@@ -154,11 +160,10 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	}
 
 	@Override
-	public void initClassification(Long idCompetition) {
+	public void initClassification(Long idCompetition) throws Exception {
 		Competition competition = competitionsDAO.findById(idCompetition);
 		/* remove previous entries for this competition. */
-		List<ClassificationEntry> classificationEntries = classificationEntriesDAO.findByCompetition(idCompetition);
-		classificationEntriesDAO.remove(classificationEntries);
+		removeByCompetition(idCompetition);
 		/* create new entries. */
 		List<ClassificationEntry> classificationEntryList = new ArrayList<>();
 		Ref<Competition> competitionRef = Ref.create(competition);
