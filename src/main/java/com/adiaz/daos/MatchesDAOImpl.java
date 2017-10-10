@@ -2,6 +2,7 @@ package com.adiaz.daos;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.adiaz.entities.Competition;
@@ -78,5 +79,10 @@ public class MatchesDAOImpl implements MatchesDAO {
 	@Override
 	public Match findById(Long id) {
 		return ofy().load().type(Match.class).id(id).now();
+	}
+
+	@Override
+	public void remove(Iterable<Match> listToDelete) {
+		ofy().delete().entities(listToDelete).now();
 	}
 }

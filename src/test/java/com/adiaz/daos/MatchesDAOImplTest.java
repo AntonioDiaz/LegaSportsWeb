@@ -18,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -137,6 +139,18 @@ public class MatchesDAOImplTest {
 		assertEquals(2, matchesDAO.findByCourt(courtRef.get().getId()).size());
 	}
 
+	@Test
+	public void removeByCompetition() throws Exception {
+		createMatch();
+		createMatch();
+		createMatch();
+		List<Match> matchList = matchesDAO.findByCompetition(competitionRef.get().getId());
+		assertEquals(3, matchList.size());
+		matchesDAO.remove(matchList);
+		matchList = matchesDAO.findByCompetition(competitionRef.get().getId());
+		assertEquals(0, matchList.size());
+	}
+
 	private Key<Match> createMatch() throws Exception {
 		Match match = new Match();
 		match.setTeamLocalRef(atleticoRef);
@@ -145,5 +159,4 @@ public class MatchesDAOImplTest {
 		match.setCourtRef(courtRef);
 		return matchesDAO.create(match);
 	}
-
 }
