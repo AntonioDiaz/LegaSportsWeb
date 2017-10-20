@@ -28,12 +28,9 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	}
 
 	@Override
-	public boolean remove(Category item) throws Exception {
-		if (this.isElegibleForDelete(item.getId())) {
-			return categoriesDAO.remove(item);
-		} else {
-			return false;
-		}
+	public void add(CategoriesForm categoriesForm) throws Exception {
+		Category category = categoriesForm.formToEntity();
+		categoriesDAO.create(category);
 	}
 
 	@Override
@@ -55,7 +52,11 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	@Override
 	public boolean update(CategoriesForm categoriesForm) throws Exception {
 		Category category = queryCategoriesById(categoriesForm.getId());
-		return categoriesDAO.update(categoriesForm.formToEntity(category));
+		if (category!=null) {
+			return categoriesDAO.update(categoriesForm.formToEntity(category));
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -79,29 +80,11 @@ public class CategoriesManagerImpl implements CategoriesManager {
 	}
 
 	@Override
-	public Category queryCategoriesByName(String string) {
-		Category category = null;
-		List<Category> queryCategories = this.queryCategories();
-		for (Category c : queryCategories) {
-			if (c.getName().equals(string)) {
-				category = c;
-			}
-		}
-		return category;
-	}
-
-	@Override
 	public void removeAll() throws Exception {
 		List<Category> categories = categoriesDAO.findAll();
 		for (Category category : categories) {
 			categoriesDAO.remove(category);
 		}		
-	}
-
-	@Override
-	public void add(CategoriesForm categoriesForm) throws Exception {
-		Category category = categoriesForm.formToEntity();
-		categoriesDAO.create(category);
 	}
 
 	@Override
