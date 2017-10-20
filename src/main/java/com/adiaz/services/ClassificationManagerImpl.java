@@ -135,7 +135,7 @@ public class ClassificationManagerImpl implements ClassificationManager {
 		Collections.sort(values, new Comparator<ClassificationEntry>() {
 			@Override
 			public int compare(ClassificationEntry entry1, ClassificationEntry entry2) {
-				if (entry1.getPoints() != entry2.getPoints()) {
+				if (entry1.calculateRealPoints() != entry2.calculateRealPoints()) {
 					return entry1.calculateRealPoints() - entry2.calculateRealPoints();
 				} else {
 					int dif1 = entry1.getGoalsFor() - entry1.getGoalsAgainst();
