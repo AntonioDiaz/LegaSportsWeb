@@ -21,11 +21,13 @@ public class CenterForm  implements GenericForm<Center> {
 	}
 
 	public CenterForm(Center center) {
-		id = center.getId();
-		name = center.getName();
-		address = center.getAddress();
-		if (center.getTownEntity()!=null) {
-			idTown = center.getTownEntity().getId();
+		if (center!=null) {
+			id = center.getId();
+			name = center.getName();
+			address = center.getAddress();
+			if (center.getTownEntity()!=null) {
+				idTown = center.getTownEntity().getId();
+			}
 		}
 	}
 
