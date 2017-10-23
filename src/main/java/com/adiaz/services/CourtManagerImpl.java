@@ -71,9 +71,7 @@ public class CourtManagerImpl implements CourtManager {
 
 	@Override
 	public List<Court> querySportCourts(Long idCenter) {
-		Key<Center> keyCenter = Key.create(Center.class, idCenter);
-		Ref<Center> refCenter = Ref.create(keyCenter);
-		return courtDAO.findBySportCenter(refCenter);
+		return courtDAO.findBySportCenter(idCenter);
 	}
 
 	@Override
@@ -95,7 +93,7 @@ public class CourtManagerImpl implements CourtManager {
 		List<Center> centers = centerDAO.findByTown(idTown);
 		/*second select courts in which it is possible to play the sport. */
 		for (Center center : centers) {
-			List<Court> c = courtDAO.findBySportCenter(Ref.create(center));
+			List<Court> c = courtDAO.findBySportCenter(center.getId());
 			for (Court court : c) {
 				if (court.getSportsDeref().contains(sport)) {
 					courts.add(court);

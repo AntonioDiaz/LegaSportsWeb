@@ -59,8 +59,7 @@ public class CenterManagerImpl implements CenterManager {
 
 	@Override
 	public boolean isElegibleForDelete(Long id) {
-		Ref<Center> centerRef = Ref.create(Key.create(Center.class, id));
-		return courtDAO.findBySportCenter(centerRef).isEmpty();
+		return courtDAO.findBySportCenter(id).isEmpty();
 	}
 
 	@Override
