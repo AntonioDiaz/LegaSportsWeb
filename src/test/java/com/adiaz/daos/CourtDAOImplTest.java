@@ -175,8 +175,8 @@ public class CourtDAOImplTest {
 	@Test
 	public void findSportCourtByCenterRef() throws Exception {
 		createSportCourt();
-		assertEquals(1, courtDAO.findBySportCenter(centerRefLaCantera).size());
-		assertEquals(0, courtDAO.findBySportCenter(centerRefPabellonEuropa).size());
+		assertEquals(1, courtDAO.findBySportCenter(centerRefLaCantera.get().getId()).size());
+		assertEquals(0, courtDAO.findBySportCenter(centerRefPabellonEuropa.get().getId()).size());
 	}
 
 	@Test

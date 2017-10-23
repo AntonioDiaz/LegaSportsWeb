@@ -59,7 +59,8 @@ public class CourtDAOImpl implements CourtDAO {
 		return ofy().load().key(key).now();
 	}
 	@Override
-	public List<Court> findBySportCenter(Ref<Center> centerRef) {
+	public List<Court> findBySportCenter(Long idCenter) {
+		Ref<Center> centerRef = Ref.create(Key.create(Center.class, idCenter));
 		return ofy().load().type(Court.class).filter("centerRef", centerRef).list();
 	}
 

@@ -12,7 +12,6 @@ public interface CourtDAO extends GenericDAO<Court> {
 
 	Court findById(Long idCourt);
 
-	// TODO: 20/09/2017 change method signature: centerRef will be Long, to keep unity with others daos.
-	List<Court> findBySportCenter(Ref<Center> centerRef);
+	List<Court> findBySportCenter(Long idCenter);
 	List<Court> findBySport(Long idSport);
 }
