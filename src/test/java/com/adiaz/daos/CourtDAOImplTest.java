@@ -105,7 +105,7 @@ public class CourtDAOImplTest {
 		assertEquals(0, courtDAO.findAll().size());
 		Key<Court> key = createSportCourt();
 		assertEquals(1, courtDAO.findAll().size());
-		Court court = courtDAO.findBySportCenter(key.getId());
+		Court court = courtDAO.findById(key.getId());
 		assertEquals(centerRefLaCantera, court.getCenterRef());
 		assertEquals(LA_CANTERA, centerRefLaCantera.getValue().getName());
 		assertEquals(2, court.getSports().size());
@@ -127,7 +127,7 @@ public class CourtDAOImplTest {
 		Court court = ref.getValue();
 		court.setName(SPORTCOURT_NAME_2);
 		courtDAO.update(court);
-		Court courtUpdated = courtDAO.findBySportCenter(court.getId());
+		Court courtUpdated = courtDAO.findById(court.getId());
 		assertEquals(SPORTCOURT_NAME_2, courtUpdated.getName());
 
 	}
@@ -153,9 +153,9 @@ public class CourtDAOImplTest {
 	@Test
 	public void remove() throws Exception {
 		Court court = createSportCourtReturnRef().getValue();
-		assertEquals(court, courtDAO.findBySportCenter(court.getId()));
+		assertEquals(court, courtDAO.findById(court.getId()));
 		courtDAO.remove(court);
-		assertEquals(null, courtDAO.findBySportCenter(court.getId()));
+		assertEquals(null, courtDAO.findById(court.getId()));
 	}
 
 	@Test
@@ -168,7 +168,7 @@ public class CourtDAOImplTest {
 	@Test
 	public void findSportCourtById() throws Exception {
 		Key<Court> sportCourtKey = createSportCourt();
-		Court court = courtDAO.findBySportCenter(sportCourtKey.getId());
+		Court court = courtDAO.findById(sportCourtKey.getId());
 		assertEquals(sportCourtKey.getId(), (long) court.getId());
 	}
 
