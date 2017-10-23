@@ -10,8 +10,7 @@ public interface CourtDAO extends GenericDAO<Court> {
 	Ref<Court> createReturnRef(Court item) throws Exception;
 	List<Court> findAll();
 
-	// TODO: 20/09/2017 rename method findBySportCenter to findById
-	Court findBySportCenter(Long idCourt);
+	Court findById(Long idCourt);
 
 	// TODO: 20/09/2017 change method signature: centerRef will be Long, to keep unity with others daos.
 	List<Court> findBySportCenter(Ref<Center> centerRef);

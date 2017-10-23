@@ -54,7 +54,7 @@ public class CourtDAOImpl implements CourtDAO {
 	}
 	
 	@Override
-	public Court findBySportCenter(Long idCourt) {
+	public Court findById(Long idCourt) {
 		Key<Court> key = Key.create(Court.class, idCourt);
 		return ofy().load().key(key).now();
 	}

@@ -41,7 +41,7 @@ public class CourtManagerImpl implements CourtManager {
 
 	@Override
 	public boolean removeSportCourt(Long idCourt) throws Exception {
-		Court court = courtDAO.findBySportCenter(idCourt);
+		Court court = courtDAO.findById(idCourt);
 		return courtDAO.remove(court);
 	}
 
@@ -60,7 +60,7 @@ public class CourtManagerImpl implements CourtManager {
 
 	@Override
 	public Court querySportCourt(Long idCourt) {
-		return courtDAO.findBySportCenter(idCourt);
+		return courtDAO.findById(idCourt);
 	}
 
 	@Override
