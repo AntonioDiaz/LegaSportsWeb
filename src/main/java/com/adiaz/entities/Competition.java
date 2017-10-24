@@ -9,9 +9,11 @@ import com.adiaz.utils.Deref;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
+import lombok.Data;
 
 @Entity
 @Cache
+@Data
 public class Competition implements Serializable {
 
 	@Id
@@ -89,91 +91,4 @@ public class Competition implements Serializable {
 		return Deref.deref(teamsAffectedByPublish);
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Ref<Sport> getSportRef() {
-		return sportRef;
-	}
-
-	public void setSportRef(Ref<Sport> sportRef) {
-		this.sportRef = sportRef;
-	}
-
-	public Ref<Category> getCategoryRef() {
-		return categoryRef;
-	}
-
-	public void setCategoryRef(Ref<Category> categoryRef) {
-		this.categoryRef = categoryRef;
-	}
-
-	public Sport getSportEntity() {
-		return sportEntity;
-	}
-
-	public void setSportEntity(Sport sportEntity) {
-		this.sportEntity = sportEntity;
-	}
-
-	public Category getCategoryEntity() {
-		return categoryEntity;
-	}
-
-	public void setCategoryEntity(Category categoryEntity) {
-		this.categoryEntity = categoryEntity;
-	}
-
-	public Ref<Town> getTownRef() {
-		return townRef;
-	}
-
-	public void setTownRef(Ref<Town> townRef) {
-		this.townRef = townRef;
-	}
-
-	public Town getTownEntity() {
-		return townEntity;
-	}
-
-	public void setTownEntity(Town townEntity) {
-		this.townEntity = townEntity;
-	}
-
-	public List<Ref<Team>> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Ref<Team>> teams) {
-		this.teams = teams;
-	}
-
-	public Date getLastPublished() {
-		return lastPublished;
-	}
-
-	public void setLastPublished(Date lastPublished) {
-		this.lastPublished = lastPublished;
-	}
-
-	public List<Ref<Team>> getTeamsAffectedByPublish() {
-		return teamsAffectedByPublish;
-	}
-
-	public void setTeamsAffectedByPublish(List<Ref<Team>> teamsAffectedByPublish) {
-		this.teamsAffectedByPublish = teamsAffectedByPublish;
-	}
 }

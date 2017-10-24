@@ -28,6 +28,12 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	}
 
 	@Override
+	public Long add(CompetitionsForm competitionsForm) throws Exception {
+		Competition competition = competitionsForm.formToEntity();
+		return add(competition);
+	}
+
+	@Override
 	public boolean remove(Competition competition) throws Exception {
 		matchesManager.removeByCompetition(competition.getId());
 		classificationManager.removeByCompetition(competition.getId());
@@ -67,12 +73,6 @@ public class CompetitionsManagerImpl implements CompetitionsManager {
 	@Override
 	public Competition queryCompetitionsByIdEntity(long id) {
 		return competitionsDAO.findById(id);
-	}
-
-	@Override
-	public Long add(CompetitionsForm competitionsForm) throws Exception {
-		Competition competition = competitionsForm.formToEntity();
-		return add(competition);
 	}
 
 	@Override
