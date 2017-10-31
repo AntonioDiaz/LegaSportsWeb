@@ -35,19 +35,26 @@ public class CourtManagerImpl implements CourtManager {
 	}
 
 	@Override
+	public Ref<Court> addSportCourt(CourtForm courtForm) throws Exception {
+		Court court = courtForm.formToEntity();
+		return courtDAO.createReturnRef(court);
+	}
+
+	@Override
 	public boolean updateSportCourt(Court court) throws Exception {
 		return courtDAO.update(court);
+	}
+
+	@Override
+	public void updateSportCourt(CourtForm courtForm) throws Exception {
+		Court court = courtForm.formToEntity();
+		courtDAO.update(court);
 	}
 
 	@Override
 	public boolean removeSportCourt(Long idCourt) throws Exception {
 		Court court = courtDAO.findById(idCourt);
 		return courtDAO.remove(court);
-	}
-
-	@Override
-	public List<Court> querySportCourt() {
-		return courtDAO.findAll();
 	}
 
 	@Override
@@ -59,14 +66,13 @@ public class CourtManagerImpl implements CourtManager {
 	}
 
 	@Override
-	public Court querySportCourt(Long idCourt) {
-		return courtDAO.findById(idCourt);
+	public List<Court> querySportCourt() {
+		return courtDAO.findAll();
 	}
 
 	@Override
-	public Ref<Court> addSportCourt(CourtForm courtForm) throws Exception {
-		Court court = courtForm.formToEntity();
-		return Ref.create(courtDAO.create(court));
+	public Court querySportCourt(Long idCourt) {
+		return courtDAO.findById(idCourt);
 	}
 
 	@Override
@@ -74,11 +80,6 @@ public class CourtManagerImpl implements CourtManager {
 		return courtDAO.findBySportCenter(idCenter);
 	}
 
-	@Override
-	public void updateSportCourt(CourtForm courtForm) throws Exception {
-		Court court = courtForm.formToEntity();
-		courtDAO.update(court);
-	}
 
 	@Override
 	public boolean isElegibleForDelete(Long idCourt) {

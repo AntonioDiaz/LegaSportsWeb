@@ -23,14 +23,18 @@ public class CourtForm implements GenericForm<Court>{
 	public CourtForm(Court court) {
 		super();
 		this.setIdCourt(court.getId());
-		this.setIdCenter(court.getCenterRef().get().getId());
-		this.setNameCenter(court.getCenterRef().get().getName());
-		this.setName(court.getName());
-		Long [] sportsIds = new Long[court.getSportsDeref().size()];
-		for (int i = 0; i < sportsIds.length; i++) {
-			sportsIds[i] = court.getSportsDeref().get(i).getId();
+		if (court.getCenterRef()!=null) {
+			this.setIdCenter(court.getCenterRef().get().getId());
+			this.setNameCenter(court.getCenterRef().get().getName());
 		}
-		this.setCourtsSports(sportsIds);
+		this.setName(court.getName());
+		if (court.getSportsDeref()!=null) {
+			Long [] sportsIds = new Long[court.getSportsDeref().size()];
+			for (int i = 0; i < sportsIds.length; i++) {
+				sportsIds[i] = court.getSportsDeref().get(i).getId();
+			}
+			this.setCourtsSports(sportsIds);
+		}
 	}
 
 	@Override
@@ -46,8 +50,10 @@ public class CourtForm implements GenericForm<Court>{
 			Key<Sport> newSport = Key.create(Sport.class, idSport);
 			court.getSports().add(Ref.create(newSport));
 		}
-		Key<Center> refCenter = Key.create(Center.class, idCenter);
-		court.setCenterRef(Ref.create(refCenter));
+		if (idCenter!=null) {
+			Key<Center> refCenter = Key.create(Center.class, idCenter);
+			court.setCenterRef(Ref.create(refCenter));
+		}
 		return court;
 
 	}
