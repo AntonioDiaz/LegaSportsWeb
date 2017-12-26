@@ -37,6 +37,8 @@ public class Town implements Serializable {
 	@JsonIgnore
 	private boolean isActive;
 
+	private String iconName;
+
 	@Load
 	@JsonIgnore
 	@Index
@@ -111,4 +113,11 @@ public class Town implements Serializable {
 		return Deref.deref(sports);
 	}
 
+	public String getIconName() {
+		return iconName;
+	}
+
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
+	}
 }
