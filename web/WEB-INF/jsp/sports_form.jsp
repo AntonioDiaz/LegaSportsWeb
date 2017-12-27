@@ -15,3 +15,17 @@
 	</div>
 	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="tag" cssClass="text-danger" /></label>
 </div>
+<div class="form-group">
+	<label class="control-label col-sm-2">Imagen</label>
+	<div class="col-sm-6">
+		<form:input path="image" class="form-control"></form:input>
+	</div>
+	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="image" cssClass="text-danger" /></label>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-2">Orden</label>
+	<div class="col-sm-6">
+		<form:input path="order" class="form-control" ></form:input>
+	</div>
+	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="order" cssClass="text-danger" /></label>
+</div>

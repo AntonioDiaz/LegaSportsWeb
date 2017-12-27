@@ -49,7 +49,7 @@ public class SportsDAOImpl implements SportsDAO {
 	@Override
 	public List<Sport> findAll() {
 		Query<Sport> query = ofy().load().type(Sport.class);
-		return query.order("name").list();	
+		return query.order("order").list();
 	}
 	
 	@Override 

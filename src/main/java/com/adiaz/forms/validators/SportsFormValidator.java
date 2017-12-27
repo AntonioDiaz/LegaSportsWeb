@@ -1,6 +1,9 @@
 package com.adiaz.forms.validators;
 
 import com.adiaz.entities.Sport;
+import com.adiaz.forms.TownForm;
+import com.adiaz.utils.LocalSportsConstants;
+import com.adiaz.utils.LocalSportsUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -21,5 +24,7 @@ public class SportsFormValidator implements Validator {
 	public void validate(Object o, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tag", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "image", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "order", "field_required");
 	}
 }

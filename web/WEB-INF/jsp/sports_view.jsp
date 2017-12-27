@@ -7,7 +7,9 @@
 		});
 		$('#name').prop('disabled', true);
 		$('#tag').prop('disabled', true);
-	});
+        $('#image').prop('disabled', true);
+        $('#order').prop('disabled', true);
+    });
 </script>
 <form:form method="post" action="doUpdate" commandName="my_form" name="my_form" cssClass="form-horizontal">
 	<%@ include file="/WEB-INF/jsp/sports_form.jsp"%>

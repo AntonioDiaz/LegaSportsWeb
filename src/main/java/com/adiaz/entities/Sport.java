@@ -24,6 +24,11 @@ public class Sport implements Serializable {
 	@Index
 	private String tag;
 
+	private String image;
+
+    @Index
+	private Integer order;
+
 	public Sport() {
 		super();
 	}	
@@ -57,4 +62,20 @@ public class Sport implements Serializable {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
 }
