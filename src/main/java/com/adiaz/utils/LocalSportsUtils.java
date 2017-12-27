@@ -86,11 +86,11 @@ public class LocalSportsUtils {
 		if (StringUtils.isEmpty(fieldToCheckValue)) {
 			errors.rejectValue(fieldToCheckName, "field_required");
 		} else {
-			Pattern pattern = Pattern.compile(patternToCheck);
-			Matcher matcher = pattern.matcher(fieldToCheckValue);
-			if (!matcher.matches()){
-				errors.rejectValue(fieldToCheckName, keyErrorMsg);
-			}
+		Pattern pattern = Pattern.compile(patternToCheck);
+		Matcher matcher = pattern.matcher(fieldToCheckValue);
+		if (!matcher.matches()){
+			errors.rejectValue(fieldToCheckName, keyErrorMsg);
+		}
 		}
 	}
 

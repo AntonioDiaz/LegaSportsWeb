@@ -11,6 +11,8 @@
 		$('#email').prop('readonly', true);
 		$('#address').prop('readonly', true);
         $('#iconName').prop('readonly', true);
+        $('#colorPrimary').prop('readonly', true);
+        $('#colorAccent').prop('readonly', true);
 		$('#active1').prop("disabled", true);
 		$('#sports').prop("disabled", true);
 		$('#sports').multiSelect('refresh');

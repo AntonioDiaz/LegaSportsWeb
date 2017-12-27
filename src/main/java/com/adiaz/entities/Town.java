@@ -38,6 +38,8 @@ public class Town implements Serializable {
 	private boolean isActive;
 
 	private String iconName;
+	private String colorPrimary;
+	private String colorAccent;
 
 	@Load
 	@JsonIgnore
@@ -120,4 +122,20 @@ public class Town implements Serializable {
 	public void setIconName(String iconName) {
 		this.iconName = iconName;
 	}
+
+    public String getColorPrimary() {
+        return colorPrimary;
+    }
+
+    public void setColorPrimary(String colorPrimary) {
+        this.colorPrimary = colorPrimary;
+    }
+
+    public String getColorAccent() {
+        return colorAccent;
+    }
+
+    public void setColorAccent(String colorAccent) {
+        this.colorAccent = colorAccent;
+    }
 }

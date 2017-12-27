@@ -58,6 +58,24 @@
 	</div>
 	<label class="control-label col-sm-4" style="text-align: left;">&nbsp;</label>
 </div>
+<div class="form-group">
+	<label class="control-label col-sm-2" >Color Primario</label>
+	<div class="col-sm-6">
+		<form:input path="colorPrimary" class="form-control"></form:input>
+	</div>
+	<label class="control-label col-sm-4" style="text-align: left;">
+		<form:errors path="colorPrimary" cssClass="text-danger" />
+	</label>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-2" >Color Enfasis</label>
+	<div class="col-sm-6">
+		<form:input path="colorAccent" class="form-control"></form:input>
+	</div>
+	<label class="control-label col-sm-4" style="text-align: left;">
+		<form:errors path="colorAccent" cssClass="text-danger" />
+	</label>
+</div>
 <%--townEntity active--%>
 <div class="form-group">
 	<label class="control-label col-sm-2" >Activar municipio</label>
