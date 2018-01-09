@@ -10,6 +10,7 @@ import com.adiaz.services.*;
 import static com.adiaz.utils.LocalSportsUtils.getActiveUser;
 
 import com.adiaz.utils.LocalSportsConstants;
+import com.adiaz.utils.LocalSportsUtils;
 import com.googlecode.objectify.Ref;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,7 +126,8 @@ public class CompetitionsController {
 			@RequestParam(value = "add_done", defaultValue = "false") boolean addDone,
 			@RequestParam(value = "update_done", defaultValue = "false") boolean updateDone,
 			@RequestParam(value = "publish_done", defaultValue = "false") boolean publishDone,
-			@RequestParam(value = "publish_none", defaultValue = "false") boolean publishNone) {
+			@RequestParam(value = "publish_none", defaultValue = "false") boolean publishNone,
+			@RequestParam(value = "notification_error", defaultValue = "false") boolean notificationError) {
 		ModelAndView modelAndView = new ModelAndView("competitions_calendar");
 		List<MatchForm> matchesList = matchesManager.queryMatchesFormWorkingCopy(competition.getId());
 		Integer howManyWeek = matchesManager.howManyWeek(matchesList);
@@ -139,6 +141,7 @@ public class CompetitionsController {
 		modelAndView.addObject("update_done", updateDone);
 		modelAndView.addObject("publish_done", publishDone);
 		modelAndView.addObject("publish_none", publishNone);
+		modelAndView.addObject("notification_error", notificationError);
 		return modelAndView;
 	}
 	
@@ -227,7 +230,11 @@ public class CompetitionsController {
 			competition.setLastPublished(new Date());
 			competition.setTeamsAffectedByPublish(teamsAffectedByChanges);
 			competitionsManager.update(competition);
-			redirectTo = "publish_done=true";
+            redirectTo = "publish_done=true";
+            long code = LocalSportsUtils.sendNotificationToFirebase(competition);
+			if (code==-1) {
+			    redirectTo += "&notification_error=true";
+            }
 		} else {
 			redirectTo = "publish_none=true";
 		}

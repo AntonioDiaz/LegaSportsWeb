@@ -31,4 +31,5 @@
     https://cloud.google.com/appengine/docs/java/config/appconfig#Java_appengine_web_xml_Enabling_sessions
   -->
     <runtime>java8</runtime>
+    <url-stream-handler>urlfetch</url-stream-handler>
 </appengine-web-app>

@@ -12,6 +12,9 @@ public class LocalSportsConstants {
 	public static final String HEXADECIMAL_PATTERN = "^#[0-9A-F]{6}";
 	public static final String NUMBER_PATTERN = "^[0-9]+";
 
+	public static final String FCM_SERVER_KEY = "AAAAFdd4nNY:APA91bERFI1kRp3voPxqcqJTEnIe1pejcieb-23u7id4Q0Ocjvn6fir8yTj0XARSphXLhuNMrOBEHe2WU-a8Y2VKInVOddjlXSdZcW_av8bwGVhUu2sZSZUMtbxfxSkOAq0dcMJCE9_n";
+    public static final String FCM_URL = "https://fcm.googleapis.com/fcm/send";
+
 	public static final String[][] SPORTS_NAMES = new String[][]{
 			{"Futbol 11", "FUTBOL_11"},
 			{"Futbol 7", "FUTBOL_7"},

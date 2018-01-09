@@ -122,8 +122,12 @@
 <script>
 	$(document).ready(function () {
 		<c:if test="${publish_done==true}">
-			showDialogAlert("Se ha publicado el calendario con las ultimas modificaciones.");
-		</c:if>
+			var msgAlert = "Se ha publicado el calendario con las últimas modificaciones.";
+			<c:if test="${notification_error==true}">
+				msgAlert += "(No se pudo enviar la notificación, consulte con el administrador del sistema)";
+			</c:if>
+	        showDialogAlert(msgAlert);
+        </c:if>
 		<c:if test="${publish_none==true}">
 			showDialogAlert("No hay ningún cambio para publicar en el calendario.");
 		</c:if>

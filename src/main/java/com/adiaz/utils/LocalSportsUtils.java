@@ -1,9 +1,9 @@
 package com.adiaz.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,6 +14,12 @@ import java.util.regex.Pattern;
 
 import com.adiaz.entities.*;
 import com.adiaz.forms.MatchForm;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.JsonObject;
+import com.google.appengine.repackaged.com.google.gson.JsonParser;
+import com.google.appengine.repackaged.com.google.gson.JsonSyntaxException;
+import com.google.appengine.repackaged.org.json.JSONException;
+import com.google.appengine.repackaged.org.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -163,4 +169,47 @@ public class LocalSportsUtils {
 		}
 		return date;
 	}
+
+	public static long sendNotificationToFirebase(Competition competition) {
+		try {
+            JSONObject jsonData = new JSONObject();
+            jsonData.put("competition", competition);
+            JSONObject jsonRoot = new JSONObject();
+            jsonRoot.put("to", "/topics/" + competition.getTownEntity().getTopicName());
+            jsonRoot.put("data", jsonData);
+			URL url = new URL(LocalSportsConstants.FCM_URL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json charset=UTF-8");
+            conn.setRequestProperty("Authorization", "key=" + LocalSportsConstants.FCM_SERVER_KEY);
+            conn.getOutputStream().write(jsonRoot.toString().getBytes());
+            logger.debug("FCM json: " + jsonRoot.toString());
+			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+            writer.close();
+            logger.debug("FCM respCode: " + conn.getResponseCode());
+            long respCode = -1;
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                try {
+                    StringBuffer response = new StringBuffer();
+                    String line;
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    logger.debug("FCM response body: " + response);
+                    JsonParser parser = new JsonParser();
+                    JsonObject jsonResponse = parser.parse(response.toString()).getAsJsonObject();
+                    respCode = jsonResponse.get("message_id").getAsLong();
+                } catch (IOException | JsonSyntaxException e) {
+                    logger.error("FCM Error on send notification: " + e.getLocalizedMessage(), e);
+                }
+            }
+            return respCode;
+        } catch (IOException | JSONException e) {
+			logger.error("FCM Error on send notification: " + e.getLocalizedMessage(), e);
+			return -1;
+        }
+    }
+
 }

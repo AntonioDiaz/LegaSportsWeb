@@ -7,8 +7,7 @@
 	<title><tiles:insertAttribute name="title" ignore="true" defaultValue="title" /></title>
 	<script>
 		$(document).ready(function(){
-			//$('input[name=j_username]').val('antonio.diaz');
-			//$('input[name=j_password]').val('admin');
+
 		});
 	</script>
 </head>

@@ -41,6 +41,9 @@ public class Town implements Serializable {
 	private String colorPrimary;
 	private String colorAccent;
 
+	@JsonIgnore
+	private String topicName;
+
 	@Load
 	@JsonIgnore
 	@Index
@@ -138,4 +141,12 @@ public class Town implements Serializable {
     public void setColorAccent(String colorAccent) {
         this.colorAccent = colorAccent;
     }
+
+	public String getTopicName() {
+		return topicName;
+	}
+
+	public void setTopicName(String topicName) {
+		this.topicName = topicName;
+	}
 }

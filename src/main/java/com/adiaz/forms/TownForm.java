@@ -25,6 +25,7 @@ public class TownForm implements GenericForm<Town> {
 	private String iconName;
 	private String colorPrimary;
 	private String colorAccent;
+	private String topicName;
 
 	public TownForm() {
 	}
@@ -40,6 +41,7 @@ public class TownForm implements GenericForm<Town> {
 		iconName = town.getIconName();
 		colorPrimary = town.getColorPrimary();
 		colorAccent = town.getColorAccent();
+		topicName = town.getTopicName();
 		List<Sport> sportsList = town.getSportsDeref();
 		if (sportsList!=null){
 			sports = new Long[sportsList.size()];
@@ -67,6 +69,7 @@ public class TownForm implements GenericForm<Town> {
 		town.setIconName(iconName);
 		town.setColorPrimary(colorPrimary);
 		town.setColorAccent(colorAccent);
+		town.setTopicName(topicName);
 		List<Ref<Sport>> sportsRefList = new ArrayList<>();
 		if (sports!=null) {
 			for (int i = 0; i < sports.length; i++) {
