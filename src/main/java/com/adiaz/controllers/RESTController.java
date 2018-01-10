@@ -4,6 +4,7 @@ import com.adiaz.entities.*;
 import com.adiaz.forms.IssuesForm;
 import com.adiaz.forms.MatchForm;
 import com.adiaz.forms.TeamFilterForm;
+import com.adiaz.forms.TownForm;
 import com.adiaz.services.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -90,6 +91,13 @@ public class RESTController {
 			@RequestParam(value = "onlyPublished", required = false, defaultValue = "true") Boolean onlyPublised) {
 		List<Competition> competitions = competitionsManager.queryCompetitionsByTown(idTown, onlyPublised);
 		return competitions;
+	}
+
+	@RequestMapping(value = "/search_sports", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Sport> searchCompetitions(
+			@RequestParam(value = "idTown") Long idTown) {
+		TownForm townForm = townManager.queryById(idTown);
+		return townForm.formToEntity().getSportsDeref();
 	}
 
 	@RequestMapping(value = "/matches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
