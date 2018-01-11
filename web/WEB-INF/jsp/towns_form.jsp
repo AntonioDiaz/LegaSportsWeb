@@ -50,14 +50,14 @@
 		<form:errors path="address" cssClass="text-danger" />
 	</label>
 </div>
-<%--topicName--%>
+<%--fcmTopic--%>
 <div class="form-group">
 	<label class="control-label col-sm-2" >FCM topic</label>
 	<div class="col-sm-6">
-		<form:input path="topicName" class="form-control"></form:input>
+		<form:input path="fcmTopic" class="form-control"></form:input>
 	</div>
 	<label class="control-label col-sm-4" style="text-align: left;">
-		<form:errors path="topicName" cssClass="text-danger" />
+		<form:errors path="fcmTopic" cssClass="text-danger" />
 	</label>
 </div>
 <%--iconName--%>

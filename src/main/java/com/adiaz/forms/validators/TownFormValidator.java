@@ -30,7 +30,7 @@ public class TownFormValidator implements Validator {
 		LocalSportsUtils.validateNotEmptyAndFormat(errors, townForm.getPhone(), "phone", "phone_format_error", LocalSportsConstants.PHONE_PATTERN);
 		LocalSportsUtils.validateNotEmptyAndFormat(errors, townForm.getEmail(), "email", "email_format_error", LocalSportsConstants.EMAIL_PATTERN);
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "field_required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "topicName", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fcmTopic", "field_required");
 		if (!townForm.getColorPrimary().isEmpty()) {
 			Pattern pattern = Pattern.compile(LocalSportsConstants.HEXADECIMAL_PATTERN);
 			Matcher matcher = pattern.matcher(townForm.getColorPrimary());

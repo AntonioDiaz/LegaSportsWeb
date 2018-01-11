@@ -3,7 +3,6 @@ package com.adiaz.utils;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,7 +13,6 @@ import java.util.regex.Pattern;
 
 import com.adiaz.entities.*;
 import com.adiaz.forms.MatchForm;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.JsonObject;
 import com.google.appengine.repackaged.com.google.gson.JsonParser;
 import com.google.appengine.repackaged.com.google.gson.JsonSyntaxException;
@@ -175,7 +173,7 @@ public class LocalSportsUtils {
             JSONObject jsonData = new JSONObject();
             jsonData.put("competition", competition);
             JSONObject jsonRoot = new JSONObject();
-            jsonRoot.put("to", "/topics/" + competition.getTownEntity().getTopicName());
+            jsonRoot.put("to", "/topics/" + competition.getTownEntity().getFcmTopic());
             jsonRoot.put("data", jsonData);
 			URL url = new URL(LocalSportsConstants.FCM_URL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

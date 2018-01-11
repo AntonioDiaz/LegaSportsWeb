@@ -16,7 +16,7 @@
 		$('#active1').prop("disabled", true);
 		$('#sports').prop("disabled", true);
 		$('#sports').multiSelect('refresh');
-        $('#topicName').prop('readonly', true);
+        $('#fcmTopic').prop('readonly', true);
 	});
 </script>
 <form:form method="post" action="doUpdate" commandName="my_form" name="my_form" cssClass="form-horizontal">

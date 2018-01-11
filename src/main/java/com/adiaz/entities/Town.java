@@ -40,9 +40,7 @@ public class Town implements Serializable {
 	private String iconName;
 	private String colorPrimary;
 	private String colorAccent;
-
-	@JsonIgnore
-	private String topicName;
+	private String fcmTopic;
 
 	@Load
 	@JsonIgnore
@@ -142,11 +140,11 @@ public class Town implements Serializable {
         this.colorAccent = colorAccent;
     }
 
-	public String getTopicName() {
-		return topicName;
+	public String getFcmTopic() {
+		return fcmTopic;
 	}
 
-	public void setTopicName(String topicName) {
-		this.topicName = topicName;
+	public void setFcmTopic(String fcmTopic) {
+		this.fcmTopic = fcmTopic;
 	}
 }
