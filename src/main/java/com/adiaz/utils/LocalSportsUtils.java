@@ -1,5 +1,20 @@
 package com.adiaz.utils;
 
+import com.adiaz.entities.Competition;
+import com.adiaz.entities.Team;
+import com.adiaz.entities.User;
+import com.adiaz.forms.MatchForm;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.repackaged.com.google.gson.JsonObject;
+import com.google.appengine.repackaged.com.google.gson.JsonParser;
+import com.google.appengine.repackaged.com.google.gson.JsonSyntaxException;
+import com.google.appengine.repackaged.org.json.JSONException;
+import com.google.appengine.repackaged.org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -10,18 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.adiaz.entities.*;
-import com.adiaz.forms.MatchForm;
-import com.google.appengine.repackaged.com.google.gson.JsonObject;
-import com.google.appengine.repackaged.com.google.gson.JsonParser;
-import com.google.appengine.repackaged.com.google.gson.JsonSyntaxException;
-import com.google.appengine.repackaged.org.json.JSONException;
-import com.google.appengine.repackaged.org.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.Errors;
 
 public class LocalSportsUtils {
 
@@ -170,8 +173,10 @@ public class LocalSportsUtils {
 
 	public static long sendNotificationToFirebase(Competition competition) {
 		try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonInString = mapper.writeValueAsString(competition);
             JSONObject jsonData = new JSONObject();
-            jsonData.put("competition", competition);
+            jsonData.put("competition", jsonInString);
             JSONObject jsonRoot = new JSONObject();
             jsonRoot.put("to", "/topics/" + competition.getTownEntity().getFcmTopic());
             jsonRoot.put("data", jsonData);

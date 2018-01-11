@@ -37,7 +37,6 @@ public class RESTController {
 	TeamManager teamManager;
 	@Autowired
 	IssuesManager issuesManager;
-
 	@Autowired
 	TownManager townManager;
 
