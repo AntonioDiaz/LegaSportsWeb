@@ -171,7 +171,7 @@ public class LocalSportsUtils {
 		return date;
 	}
 
-	public static long sendNotificationToFirebase(Competition competition) {
+	public static long sendNotificationToFirebase(Competition competition, String fcmKeyServer) {
 		try {
             ObjectMapper mapper = new ObjectMapper();
             String jsonInString = mapper.writeValueAsString(competition);
@@ -185,7 +185,7 @@ public class LocalSportsUtils {
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json charset=UTF-8");
-            conn.setRequestProperty("Authorization", "key=" + LocalSportsConstants.FCM_SERVER_KEY);
+            conn.setRequestProperty("Authorization", "key=" + fcmKeyServer);
             conn.getOutputStream().write(jsonRoot.toString().getBytes());
             logger.debug("FCM json: " + jsonRoot.toString());
 			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());

@@ -45,6 +45,7 @@
 					<li><a href="/towns/add">Nuevo municipio</a></li>
 					<li><a href="/admin/initCompetition">Inicializa competición</a></li>
 					<li><a href="/issues/list">Consulta notificaciones</a></li>
+					<li><a href="/parameters/list">Parametros</a></li>
 				</ul>
 			</li>
 		</sec:authorize>

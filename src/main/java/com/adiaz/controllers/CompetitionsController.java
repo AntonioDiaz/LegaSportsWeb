@@ -40,6 +40,7 @@ public class CompetitionsController {
 	@Autowired TeamManager teamManager;
 	@Autowired SanctionsManager sanctionsManager;
 	@Autowired SanctionFormValidator sanctionFormValidator;
+	@Autowired ParametersManager parametersManager;
 
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(value="remove_done", defaultValue="false") boolean removeDone){
@@ -231,7 +232,8 @@ public class CompetitionsController {
 			competition.setTeamsAffectedByPublish(teamsAffectedByChanges);
 			competitionsManager.update(competition);
             redirectTo = "publish_done=true";
-            long code = LocalSportsUtils.sendNotificationToFirebase(competition);
+            String fcmKeyServer = parametersManager.getParameterFcmKeyServer();
+            long code = LocalSportsUtils.sendNotificationToFirebase(competition, fcmKeyServer);
 			if (code==-1) {
 			    redirectTo += "&notification_error=true";
             }
