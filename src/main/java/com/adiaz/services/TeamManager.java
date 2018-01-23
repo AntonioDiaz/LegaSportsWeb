@@ -3,8 +3,7 @@ package com.adiaz.services;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import com.googlecode.objectify.Key;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public interface TeamManager {
 	Long add(TeamForm teamForm) throws Exception;
-	void add(List<Team> teamList) throws Exception;
+	List<Key<Team>> add(List<Team> teamList) throws Exception;
 	boolean remove(Long id) throws Exception;
 	void removeAll() throws Exception;
 	boolean update(TeamForm teamForm) throws Exception;

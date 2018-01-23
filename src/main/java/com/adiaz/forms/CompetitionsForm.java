@@ -17,6 +17,7 @@ public class CompetitionsForm implements GenericForm<Competition> {
 	private Long idCategory;
 	private Long idTown;
 	private Long[] teams;
+	private boolean visible;
 
 	public CompetitionsForm() {
 	}
@@ -24,6 +25,7 @@ public class CompetitionsForm implements GenericForm<Competition> {
 	public CompetitionsForm(Competition competition) {
 		id = competition.getId();
 		name = competition.getName();
+		visible = competition.isVisible();
 		if (competition.getCategoryEntity()!=null) {
 			idCategory = competition.getCategoryEntity().getId();
 		}
@@ -51,6 +53,7 @@ public class CompetitionsForm implements GenericForm<Competition> {
 	public Competition formToEntity(Competition competition) {
 		competition.setId(id);
 		competition.setName(name);
+		competition.setVisible(visible);
 		if (idCategory!=null) {
 			Ref<Category> categoryRef = Ref.create(Key.create(Category.class, idCategory));
 			competition.setCategoryRef(categoryRef);

@@ -59,6 +59,8 @@ public class Competition implements Serializable {
 	@Index
 	private Date lastPublished;
 
+	@Index
+	private boolean visible;
 
 	@OnLoad
 	public void getRefs() {

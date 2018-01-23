@@ -226,7 +226,10 @@ public class RESTController {
 	public List<Court> courts(
 			@RequestParam(value = "idTown") Long idTown,
 			@RequestParam(value = "idSport") Long idSport) {
-		return courtManager.querySportCourtsByTownAndSport(idTown, idSport);
+		if (idTown!=null && idSport!=null) {
+			return courtManager.querySportCourtsByTownAndSport(idTown, idSport);
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/teams", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

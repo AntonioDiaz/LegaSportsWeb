@@ -1,9 +1,10 @@
 package com.adiaz.daos;
 
 import com.adiaz.entities.Team;
-import com.adiaz.entities.Town;
+import com.googlecode.objectify.Key;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by toni on 25/07/2017.
@@ -17,5 +18,5 @@ public interface TeamDAO extends GenericDAO<Team>{
 	List<Team> findByCategory(Long idCategory);
 	List<Team> findByTown(Long idTown);
 	List<Team> findByClub(Long idClub);
-	void create(List<Team> teamList);
+	Map<Key<Team>, Team> create(List<Team> teamList);
 }

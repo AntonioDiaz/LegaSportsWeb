@@ -2,17 +2,46 @@
 <%@include file="taglibs.jsp"%>
 <script>
 	$(document).ready(function() {
-		<c:if test="${error_courts==true}">
-			showDialogAlert("Antes tiene que crear un centro deportivo y una pista.");
-		</c:if>
 		<c:if test="${competition_created==true}">
-			showDialogAlert("Se ha creado la competición.");
+			showDialogAlert("Se ha creado la competición: <c:out value="${id_competition}"></c:out>");
 		</c:if>
 		$('#btnBack').on('click', function(event) {
 			event.preventDefault();
 			window.location.href = "/";
 		});
+        $('#idTown').on('change', function (event) {
+            fUpdateCourts();
+        });
+        $('#idSport').on('change', function (event) {
+            fUpdateCourts();
+        });
+        fUpdateCourts();
 	});
+
+    function fUpdateCourts(){
+        $('#idCourt').empty();
+        if ($('#idTown').val() && $('#idSport').val()) {
+            var filter = {
+                idTown: $('#idTown').val(),
+                idSport: $('#idSport').val()
+            };
+            $.ajax({
+                url: '/server/courts/',
+                type: 'GET',
+                data: filter,
+                contentType: "application/json",
+                success: function (result) {
+                    for (let i=0; i<result.length; i++) {
+                        $('#idCourt').append($('<option>', {
+                            value: result[i].id,
+                            text: result[i].nameWithCenter
+                        }));
+                    }
+                }
+            });
+        }
+    }
+
 </script>
 <form:form method="post" action="doInitCompetition" commandName="my_form" name="my_form" cssClass="form-horizontal">
 	<div class="form-group">
@@ -51,6 +80,29 @@
 			<form:input path="name" class="form-control" />
 		</div>
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2">Pista</label>
+        <div class="col-sm-6">
+            <form:select path="idCourt" class="form-control"></form:select>
+        </div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCourt" cssClass="text-danger" /></label>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" >Num. Equipos</label>
+		<div class="col-sm-6">
+			<form:input path="teamsCount" class="form-control"/>
+		</div>
+		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="teamsCount" cssClass="text-danger" /></label>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2">Partidos</label>
+        <div class="col-sm-6">
+            <form:textarea path="matchesTxt" class="form-control" rows="6" cssStyle="font-size: 9px;"></form:textarea>
+        </div>
+		<label class="control-label col-sm-4" style="text-align: left;">
+            <form:errors path="matchesTxt" cssClass="text-danger" />
+        </label>
 	</div>
 	<div class="form-group" id="div_botones">
 		<label class="control-label col-sm-4">&nbsp;</label>

@@ -6,10 +6,13 @@ import com.adiaz.entities.Competition;
 import com.adiaz.entities.Team;
 import com.adiaz.forms.TeamFilterForm;
 import com.adiaz.forms.TeamForm;
+import com.googlecode.objectify.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by toni on 25/07/2017.
@@ -29,8 +32,10 @@ public class TeamManagerImpl implements TeamManager {
 	}
 
 	@Override
-	public void add(List<Team> teamList) throws Exception {
-		teamDAO.create(teamList);
+	public List<Key<Team>> add(List<Team> teamList) throws Exception {
+		Map<Key<Team>, Team> keyTeamMap = teamDAO.create(teamList);
+		return new ArrayList<>(keyTeamMap.keySet());
+
 	}
 
 	@Override

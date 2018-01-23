@@ -75,7 +75,8 @@
 			<th class="col-md-2">Categoria</th>
 			<th class="col-md-2">Municipio</th>
 			<th class="col-md-2">Fecha Publicación</th>
-			<th class="col-md-2">&nbsp;</th>
+			<th class="col-md-1">Visible</th>
+			<th class="col-md-1">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -105,9 +106,17 @@
 						<fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${competition.lastPublished}" timeZone="Europe/Madrid"></fmt:formatDate>
 					</c:if>
 				</td>
+				<td style="vertical-align: middle;">
+					<c:if test="${competition.visible}">
+						Visible
+					</c:if>
+                    <c:if test="${!competition.visible}">
+                        -
+                    </c:if>
+				</td>
 				<td align="right">
 					<button type="button" class="btn btn-default" onclick="fViewCalendar('${competition.id}')" title="calendario">
-						Ver detalles &nbsp; &nbsp;<span class="glyphicon glyphicon-eye-open"></span>
+						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
 				</td>
 			</tr>

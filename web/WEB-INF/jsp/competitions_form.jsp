@@ -103,6 +103,16 @@
 	</div>
 	<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="teams" cssClass="text-danger" /></label>
 </div>
+<div class="form-group">
+	<label class="control-label col-sm-2">Visible en la app</label>
+    <div class="col-sm-1">
+        <div style="width: 30px; margin: 0 auto;">
+            <form:checkbox path="visible" class="xlarge form-control" style="height:30px; margin: 0px;" />
+        </div>
+    </div>
+	<div class="col-sm-5">&nbsp;</div>
+	<label class="control-label col-sm-4" style="text-align: left;">&nbsp;</label>
+</div>
 <script src="/js/jquery.multi-select.js"></script>
 <script type="text/javascript">
 	// run pre selected options

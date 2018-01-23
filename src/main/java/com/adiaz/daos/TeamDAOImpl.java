@@ -7,6 +7,7 @@ import com.googlecode.objectify.cmd.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
@@ -99,7 +100,8 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public void create(List<Team> teamList) {
-		ofy().save().entities(teamList).now();
+	public Map<Key<Team>, Team> create(List<Team> teamList) {
+		Map<Key<Team>, Team> teamMap = ofy().save().entities(teamList).now();
+		return  teamMap;
 	}
 }

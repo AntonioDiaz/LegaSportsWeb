@@ -58,7 +58,7 @@ public class CompetitionsDAOImpl implements CompetitionsDAO {
 		Key<Town> key = Key.create(Town.class, idTown);
 		query = query.filter("townRef", key);
 		if (onlyPublished) {
-			query = query.filter("lastPublished !=", null);
+			query = query.filter("visible", Boolean.TRUE);
 		}
 		return query.list();
 	}
