@@ -2,6 +2,7 @@
 <spring:eval var="CONSTANT_PENDING" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_PENDING"></spring:eval>
 <spring:eval var="CONSTANT_PLAYED" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_PLAYED"></spring:eval>
 <spring:eval var="CONSTANT_CANCELED" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_CANCELED"></spring:eval>
+<spring:eval var="CONSTANT_REST" expression="T(com.adiaz.utils.LocalSportsConstants).MATCH_STATE_REST"></spring:eval>
 <!-- Modal -->
 
 <div id="updatePopup" class="modal fade" role="dialog">
@@ -183,7 +184,7 @@
 
 	function fUpdatedState(){
 		let newState = $('#selectState').val();
-		var setScoreReadonly = newState==MATCH_STATE_PENDING || newState==MATCH_STATE_CANCELED;
+		var setScoreReadonly = newState==MATCH_STATE_PENDING || newState==MATCH_STATE_CANCELED || newState==MATCH_STATE_REST;
 		$('#inputScoreVisitor').prop("readonly", setScoreReadonly)
 		$('#inputScoreLocal').prop("readonly", setScoreReadonly)
 	}
@@ -308,6 +309,9 @@
 				if (matchesArray[indexArray].state==MATCH_STATE_CANCELED) {
 					strScore = "(Cancelado)";
 				}
+                if (matchesArray[indexArray].state==MATCH_STATE_REST) {
+                    strScore = "(Descansa)";
+                }
 				$("#score_" + matchSelected.id).html(strScore);
 				$("#date_" + matchSelected.id).html(result.dateStr == null ? " - " : result.dateStr);
 				$("#place_" + matchSelected.id).html(result.courtName==null? " - " : result.courtName);
@@ -498,6 +502,9 @@
 									</c:if>
 									<c:if test="${matchForm.state==CONSTANT_CANCELED}">
 										(Cancelado)
+									</c:if>
+                                    <c:if test="${matchForm.state==CONSTANT_REST}">
+										(Descansa)
 									</c:if>
 							</div>
 						</td>

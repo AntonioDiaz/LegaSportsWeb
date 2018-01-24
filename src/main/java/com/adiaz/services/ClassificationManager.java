@@ -12,6 +12,6 @@ public interface ClassificationManager {
 	boolean update(ClassificationEntry item) throws Exception;
 	List<ClassificationEntry> queryClassificationByCompetition(Long idCompetition);
 	void add(List<ClassificationEntry> classificationList) throws Exception;
-	void updateClassificationByCompetition(Long idCompetition);
+	void updateClassificationByCompetition(Long idCompetition) throws Exception;
 	void initClassification(Long idCompetition) throws Exception;
 }

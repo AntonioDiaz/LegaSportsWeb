@@ -1,6 +1,8 @@
 const MATCH_STATE_PENDING = 0;
 const MATCH_STATE_PLAYED = 1;
 const MATCH_STATE_CANCELED = 2;
+const MATCH_STATE_REST = 3;
+
 const DATE_FORMAT = "DD/MM/YYYY HH:mm";
 
 function download_csv(csv, filename) {

@@ -61,7 +61,7 @@ public class LocalSportsConstants {
 	public static final int MAX_ISSUES_PER_DAY = 100;
 
 	public enum MATCH_STATE {
-		PENDING((short)0, "Pendiente"), PLAYED((short)1, "Jugado"), CANCELED((short)2, "Cancelado");
+		PENDING((short)0, "Pendiente"), PLAYED((short)1, "Jugado"), CANCELED((short)2, "Cancelado"), REST((short)3, "Descansa");
 		private short value;
 		private String stateDesc;
 		MATCH_STATE(short i, String stateDesc) {
@@ -81,6 +81,7 @@ public class LocalSportsConstants {
 	public static final short MATCH_STATE_PENDING = MATCH_STATE.PENDING.getValue();
 	public static final short MATCH_STATE_PLAYED = MATCH_STATE.PLAYED.getValue();
 	public static final short MATCH_STATE_CANCELED = MATCH_STATE.CANCELED.getValue();
+	public static final short MATCH_STATE_REST = MATCH_STATE.REST.getValue();
 
 	public static final int POINTS_WON = 3;
 	public static final int POINTS_DRAWN = 1;

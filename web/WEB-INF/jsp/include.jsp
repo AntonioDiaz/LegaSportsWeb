@@ -20,6 +20,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 <link rel="stylesheet" href="/css/localsports.css">
+<link rel="stylesheet" href="/css/localsports_production.css">
 <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 
 <script src="/js/localsports.js"></script>

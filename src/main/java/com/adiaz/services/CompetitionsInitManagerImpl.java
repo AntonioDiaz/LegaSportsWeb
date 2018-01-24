@@ -37,7 +37,13 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
 
     @Override
     public boolean validaCompetitionInput(CompetitionsInitForm competitionsInitForm) {
-        CompetitionsInitForm.ParsedCalendar parsedCalendar = competitionsInitForm.parseCalendar();
+        CompetitionsInitForm.ParsedCalendar parsedCalendar = null;
+        try {
+            parsedCalendar = competitionsInitForm.parseCalendar();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return false;
+        }
         return parsedCalendar.isValid();
     }
 
@@ -68,7 +74,7 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
             Ref<Team> teamRefLocal = teamsMap.get(matchForm.getTeamLocalName());
             Ref<Team> teamRefVisitor = teamsMap.get(matchForm.getTeamVisitorName());
             Match match = new Match();
-            match.setState(LocalSportsConstants.MATCH_STATE_PENDING);
+            match.setState(matchForm.getState());
             match.setTeamLocalRef(teamRefLocal);
             match.setTeamVisitorRef(teamRefVisitor);
             match.setDate(LocalSportsUtils.parseStringToDate(matchForm.getDateStr()));

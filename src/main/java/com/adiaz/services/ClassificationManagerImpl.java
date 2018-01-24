@@ -59,9 +59,13 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	}
 
 	@Override
-	public void updateClassificationByCompetition(Long idCompetition) {
+	public void updateClassificationByCompetition(Long idCompetition) throws Exception {
 		List<ClassificationEntry> classificationList = classificationEntriesDAO.findByCompetition(idCompetition);
 		Map<Long, ClassificationEntry> teamsMap = new HashMap<>();
+        if (classificationList.size()==0) {
+            initClassification(idCompetition);
+        }
+        classificationList = classificationEntriesDAO.findByCompetition(idCompetition);
 		for (ClassificationEntry classificationEntry : classificationList) {
 			classificationEntry.setPosition(0);
 			classificationEntry.setPoints(0);

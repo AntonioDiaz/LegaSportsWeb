@@ -15,10 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service ("matchesManager")
@@ -44,7 +41,8 @@ public class MatchesManagerImpl implements MatchesManager {
 			match.setState(LocalSportsConstants.MATCH_STATE_PENDING);
 		}
 		if (match.getState()== LocalSportsConstants.MATCH_STATE_CANCELED
-				|| match.getState()== LocalSportsConstants.MATCH_STATE_PENDING) {
+				|| match.getState()== LocalSportsConstants.MATCH_STATE_PENDING
+				|| match.getState()== LocalSportsConstants.MATCH_STATE_REST) {
 			match.setScoreLocal(0);
 			match.setScoreVisitor(0);
 		}
