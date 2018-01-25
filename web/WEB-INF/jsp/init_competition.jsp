@@ -50,6 +50,17 @@
 		</div>
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
 	</div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" >Formato de entrada</label>
+        <div class="col-sm-6">
+            <form:select path="inputFormat" class="form-control">
+                <form:option value=""></form:option>
+                <form:option value="0">formato leganes</form:option>
+                <form:option value="1">formato cronos</form:option>
+            </form:select>
+        </div>
+        <label class="control-label col-sm-4" style="text-align: left;"><form:errors path="inputFormat" cssClass="text-danger" /></label>
+    </div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Num. Equipos</label>
 		<div class="col-sm-6">

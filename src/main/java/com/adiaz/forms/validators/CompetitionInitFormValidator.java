@@ -31,5 +31,6 @@ public class CompetitionInitFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "teamsCount", "field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "matchesTxt", "field_required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "inputFormat", "field_required");
 	}
 }

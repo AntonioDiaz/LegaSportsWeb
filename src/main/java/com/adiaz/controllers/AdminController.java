@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +55,11 @@ public class AdminController {
                         modelAndView.addObject("id_competition", initCompetitionResult.getCompetition().getName());
                         modelAndView.addObject("competition_created", competitionCreated);
                     } else {
-                        bindingResult.rejectValue("matchesTxt", initCompetitionResult.getError().getErrorDescKey());
+                        String inputTxt = competitionsInitForm.getMatchesTxt();
+                        String msgError = initCompetitionResult.getErrorDesc();
+                        FieldError fieldError = new FieldError("my_form", "matchesTxt", inputTxt, false, null, null, msgError);
+                        //bindingResult.addError(new FieldError ("my_form", "matchesTxt", initCompetitionResult.getErrorDesc()));
+                        bindingResult.addError(fieldError);
                         modelAndView.addObject("my_form", competitionsInitForm);
                         modelAndView.setViewName("init_competition");
                     }

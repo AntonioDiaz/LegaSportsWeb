@@ -21,5 +21,6 @@ public class CompetitionsInitForm {
     private Long idCourt;
     private Integer teamsCount;
     private String matchesTxt;
+    private Integer inputFormat;
 
 }
