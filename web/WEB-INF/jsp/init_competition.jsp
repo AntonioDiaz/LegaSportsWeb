@@ -9,38 +9,7 @@
 			event.preventDefault();
 			window.location.href = "/";
 		});
-        $('#idTown').on('change', function (event) {
-            fUpdateCourts();
-        });
-        $('#idSport').on('change', function (event) {
-            fUpdateCourts();
-        });
-        fUpdateCourts();
 	});
-
-    function fUpdateCourts(){
-        $('#idCourt').empty();
-        if ($('#idTown').val() && $('#idSport').val()) {
-            var filter = {
-                idTown: $('#idTown').val(),
-                idSport: $('#idSport').val()
-            };
-            $.ajax({
-                url: '/server/courts/',
-                type: 'GET',
-                data: filter,
-                contentType: "application/json",
-                success: function (result) {
-                    for (let i=0; i<result.length; i++) {
-                        $('#idCourt').append($('<option>', {
-                            value: result[i].id,
-                            text: result[i].nameWithCenter
-                        }));
-                    }
-                }
-            });
-        }
-    }
 
 </script>
 <form:form method="post" action="doInitCompetition" commandName="my_form" name="my_form" cssClass="form-horizontal">
@@ -80,13 +49,6 @@
 			<form:input path="name" class="form-control" />
 		</div>
 		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="name" cssClass="text-danger" /></label>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-2">Pista</label>
-        <div class="col-sm-6">
-            <form:select path="idCourt" class="form-control"></form:select>
-        </div>
-		<label class="control-label col-sm-4" style="text-align: left;"><form:errors path="idCourt" cssClass="text-danger" /></label>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" >Num. Equipos</label>

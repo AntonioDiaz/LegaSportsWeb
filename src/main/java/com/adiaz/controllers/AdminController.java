@@ -3,6 +3,8 @@ package com.adiaz.controllers;
 import com.adiaz.forms.CompetitionsInitForm;
 import com.adiaz.forms.validators.CompetitionInitFormValidator;
 import com.adiaz.services.*;
+import com.adiaz.utils.LocalSportsConstants;
+import com.adiaz.utils.initcompetition.InitCompetitionResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +28,9 @@ public class AdminController {
 
 
     @RequestMapping("/initCompetition")
-	public ModelAndView competition(
-			@RequestParam (required = false, defaultValue = "false") boolean competitionCreated,
-			@RequestParam (required = false) Long idCompetition){
+	public ModelAndView initCompetition() {
 		ModelAndView modelAndView = new ModelAndView("init_competition");
 		modelAndView.addObject("my_form", new CompetitionsInitForm());
-		modelAndView.addObject("id_competition", idCompetition);
-		modelAndView.addObject("competition_created", competitionCreated);
 		return modelAndView;
 	}
 
@@ -46,21 +44,21 @@ public class AdminController {
 		} else {
 			try {
 				boolean competitionCreated = true;
-				Long idCompetition = null;
-                if (!competitionsInitManager.validaCompetitionInput(competitionsInitForm)) {
-                    bindingResult.rejectValue("matchesTxt", "input_format_error");
-                    modelAndView.addObject("my_form", competitionsInitForm);
-                    modelAndView.setViewName("init_competition");
-                } else {
-                    try {
-                        idCompetition = competitionsInitManager.initCompetition(competitionsInitForm);
-                    } catch (Exception e) {
-                        logger.error("Creating competition error: " + e.getMessage(), e);
+                InitCompetitionResult initCompetitionResult;
+                try {
+                    initCompetitionResult = competitionsInitManager.initCompetition(competitionsInitForm);
+                    if (initCompetitionResult.getCompetition()!=null) {
+                        modelAndView = new ModelAndView("init_competition");
+                        modelAndView.addObject("my_form", new CompetitionsInitForm());
+                        modelAndView.addObject("id_competition", initCompetitionResult.getCompetition().getName());
+                        modelAndView.addObject("competition_created", competitionCreated);
+                    } else {
+                        bindingResult.rejectValue("matchesTxt", initCompetitionResult.getError().getErrorDescKey());
+                        modelAndView.addObject("my_form", competitionsInitForm);
+                        modelAndView.setViewName("init_competition");
                     }
-                    String addressTarget = "redirect:/admin/initCompetition";
-                    addressTarget += "?competitionCreated=" + competitionCreated;
-                    addressTarget += "&idCompetition=" + idCompetition;
-                    modelAndView.setViewName(addressTarget);
+                } catch (Exception e) {
+                    logger.error("Creating competition error: " + e.getMessage(), e);
                 }
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
@@ -68,4 +66,5 @@ public class AdminController {
 		}
 		return modelAndView;
 	}
+
 }

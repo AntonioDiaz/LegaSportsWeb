@@ -59,8 +59,32 @@ public class LocalSportsConstants {
 	public static final String TOWN_FUENLABRADA = "Fuenlabrada";
 	public static final int MAX_ISSUES_PER_CLIENT_AND_DAY = 10;
 	public static final int MAX_ISSUES_PER_DAY = 100;
+    public static final String DESCANSA = "DESCANSA";
 
-	public enum MATCH_STATE {
+	public enum INIT_COMPETITION_ERROR {
+		PARSE_ERROR_FORMAT ("parse_error_format"),
+		PARSE_ERROR_TEAMS ("parse_error_teams"),
+		PARSE_ERROR_WEEKS ("parse_error_weeks"),
+		PARSE_ERROR_MATCHES ("parse_error_matches"),
+		PARSE_ERROR_COURTS ("parse_error_courts"),
+		PARSE_ERROR_UNKNOWN ("parse_error_unknown");
+
+		private String errorDescKey;
+
+        INIT_COMPETITION_ERROR(String errorDescKey) {
+            this.errorDescKey = errorDescKey;
+        }
+
+        public String getErrorDescKey() {
+            return errorDescKey;
+        }
+
+        public void setErrorDescKey(String errorDescKey) {
+            this.errorDescKey = errorDescKey;
+        }
+    }
+
+    public enum MATCH_STATE {
 		PENDING((short)0, "Pendiente"), PLAYED((short)1, "Jugado"), CANCELED((short)2, "Cancelado"), REST((short)3, "Descansa");
 		private short value;
 		private String stateDesc;

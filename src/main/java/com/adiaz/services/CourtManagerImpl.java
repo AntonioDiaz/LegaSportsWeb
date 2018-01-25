@@ -1,7 +1,9 @@
 package com.adiaz.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.adiaz.daos.MatchesDAO;
 import com.adiaz.daos.CenterDAO;
@@ -102,5 +104,15 @@ public class CourtManagerImpl implements CourtManager {
 			}
 		}
 		return courts;
+	}
+
+	@Override
+	public Map<String, Court> querySportsCourtsByTownAndSportsMap(Long idTown, Long idSport) {
+	    Map<String, Court> courtsMap = new HashMap<>();
+        List<Court> courts = this.querySportCourtsByTownAndSport(idTown, idSport);
+        for (Court court : courts) {
+            courtsMap.put(court.getNameWithCenter(), court);
+        }
+        return courtsMap;
 	}
 }

@@ -1,6 +1,7 @@
 package com.adiaz.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.adiaz.entities.Court;
 import com.adiaz.forms.CourtForm;
@@ -16,6 +17,7 @@ public interface CourtManager {
 	void removeAll() throws Exception;
 	List<Court> querySportCourts(Long idCenter);
 	List<Court> querySportCourtsByTownAndSport(Long idTown, Long idSport);
+	Map<String, Court> querySportsCourtsByTownAndSportsMap(Long idTown, Long idSport);
 	void updateSportCourt(CourtForm courtForm) throws Exception;
 	boolean isElegibleForDelete(Long idCourt);
 }
