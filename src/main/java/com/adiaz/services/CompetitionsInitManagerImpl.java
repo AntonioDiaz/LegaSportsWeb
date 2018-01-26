@@ -53,10 +53,10 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
             weeks = parseCalendarFormat(form.getInputFormat(), form.getMatchesTxt(), matchesEachWeek);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_FORMAT);
+            return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_FORMAT + " - " + e.toString());
         }
         if (weeks.size()==0) {
-            return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_FORMAT);
+            return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_FORMAT + "- Size=0.");
         }
         if (weeks.size()!=weeksNumber) {
             String msgError = String.format(InitCompetitionResult.PARSE_ERROR_WEEKS, weeksNumber, weeks.size());
@@ -126,7 +126,9 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
                 match.setState(matchInput.getState().getValue());
                 match.setTeamLocalRef(teamRefLocal);
                 match.setTeamVisitorRef(teamRefVisitor);
-                match.setDate(LocalSportsUtils.parseStringToDate(matchInput.getDateStr()));
+                if (StringUtils.isNotBlank(matchInput.getDateStr())) {
+                    match.setDate(LocalSportsUtils.parseStringToDate(matchInput.getDateStr()));
+                }
                 if (StringUtils.isNotBlank(matchInput.getCourtFullNameStr())) {
                     Ref<Court> courtRef = Ref.create(courtsMap.get(matchInput.getCourtFullNameStr()));
                     match.setCourtRef(courtRef);
@@ -202,7 +204,7 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
 
     private List<List<MatchInput>> parseCalendarFormatCronos(String input, int matchesEachWeek) throws IOException {
         List<List<MatchInput>> weeksParsed = new ArrayList<>();
-        input = input.replaceAll("\"", "'");
+        input = formatInput(input);
         Pattern patternInput = Pattern.compile("Jornada.*\\r?\\n(?<matches>(.*\\r?\\n?){"+ matchesEachWeek +"})");
         Pattern patternWeek = Pattern.compile("(?m)^.*$");
         Matcher matcherWeeks = patternInput.matcher(input);
@@ -216,7 +218,7 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
                 String regexCleanName = ", .(.*)?";
                 matchInput.setTeamLocalStr(split[1].replaceFirst(regexCleanName, ""));
                 matchInput.setTeamVisitorStr(split[2].replaceFirst(regexCleanName, ""));
-                if (lineMatch.contains("RETIRADO")) {
+                if (lineMatch.contains("RETIRADO") || lineMatch.contains("DESCALIFICADO")) {
                     matchInput.setState(LocalSportsConstants.MATCH_STATE.CANCELED);
                 } else {
                     matchInput.setState(LocalSportsConstants.MATCH_STATE.PENDING);
@@ -227,8 +229,12 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
                     if (StringUtils.isNotBlank(split[5])) {
                         matchInput.setScoreVisitor(Integer.parseInt(split[5]));
                     }
-                    matchInput.setDateStr(split[8] + " " + split[9]);
-                    matchInput.setCourtFullNameStr(split[10]);
+                    if (split.length>9) {
+                        matchInput.setDateStr(split[8] + " " + split[9]);
+                    }
+                    if (split.length>10) {
+                        matchInput.setCourtFullNameStr(split[10]);
+                    }
                 }
                 matchInputList.add(matchInput);
             }
