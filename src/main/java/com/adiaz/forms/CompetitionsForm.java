@@ -18,6 +18,7 @@ public class CompetitionsForm implements GenericForm<Competition> {
 	private Long idTown;
 	private Long[] teams;
 	private boolean visible;
+	private List<String> weeksNames;
 
 	public CompetitionsForm() {
 	}
@@ -42,6 +43,9 @@ public class CompetitionsForm implements GenericForm<Competition> {
 				teams[i] = teamsList.get(i).getId();
 			}
 		}
+        if (competition.getWeeksNames()!=null) {
+            weeksNames = competition.getWeeksNames();
+        }
 	}
 
 	@Override
@@ -72,6 +76,9 @@ public class CompetitionsForm implements GenericForm<Competition> {
 			teamsRefList.add(teamRef);
 		}
 		competition.setTeams(teamsRefList);
+        if (weeksNames!=null) {
+            competition.setWeeksNames(weeksNames);
+        }
 		return competition;
 	}
 }

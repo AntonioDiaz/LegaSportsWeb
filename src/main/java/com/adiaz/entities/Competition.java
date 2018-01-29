@@ -75,6 +75,8 @@ public class Competition implements Serializable {
 		}
 	}
 
+	private List<String> weeksNames = new ArrayList<>();
+
 	/**
 	 * generate competition name with the format: name (sport - category)
 	 * @return

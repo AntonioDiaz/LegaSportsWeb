@@ -22,6 +22,7 @@ public interface MatchesManager {
 	List<Match> queryMatchesByCompetitionWorkingCopy(Long competitionId);
 	List<Match> queryMatchesByCompetitionPublished(Long competitionId);
 	List<MatchForm> queryMatchesFormWorkingCopy(Long competitionId);
+    List<List<Match>> queryMatchesOnWeeks(Long idCompetition);
 	void addMatchListAndPublish(List<Match> matchesList) throws Exception;
 	List<Match> queryMatches();
 	Match queryMatchesById(Long id);
@@ -29,4 +30,5 @@ public interface MatchesManager {
 	void generateCalendar(GenerateCalendarForm form) throws Exception;
 	List<Ref<Team>> teamsAffectedByChanges(Long idCompetition);
 	boolean hasMatches(Long idCompetition);
+	List<String> initWeeksNames(long idCompetition);
 }

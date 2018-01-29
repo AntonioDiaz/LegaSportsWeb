@@ -98,11 +98,38 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
 
     private Competition createCompetition(List<List<MatchInput>> weeks, CompetitionsInitForm form) throws Exception {
         List<String> teamsNames = filterTeams(weeks);
+        List<String> weeksNames = generateWeeksNames(weeks);
         Long[] teamsIds = createTeams(teamsNames, form.getIdTown(), form.getIdCategory(), form.getIdSport());
-        Long idCompetition = createCompetitionEntity(form.getName(), form.getIdTown(), form.getIdCategory(), form.getIdSport(), teamsIds);
+        Long idCompetition = createCompetitionEntity(
+                form.getName(), form.getIdTown(), form.getIdCategory(), form.getIdSport(), teamsIds, weeksNames);
         Competition competition = competitionsManager.queryCompetitionsByIdEntity(idCompetition);
         createMatchesInCompetition(weeks, competition);
         return competitionsManager.queryCompetitionsByIdEntity(idCompetition);
+    }
+
+    private List<String> generateWeeksNames(List<List<MatchInput>> weeks) {
+        List<String> weeksNames =  new ArrayList<>();
+        for (List<MatchInput> week : weeks) {
+            Map<String, Integer> repetitions = new HashMap<>();
+            for (MatchInput matchInput : week) {
+                if (matchInput.getDateStr()!=null) {
+                    String dayStr = matchInput.getDateStr().split(" ")[0];
+                    if (!repetitions.containsKey(dayStr)) {
+                        repetitions.put(dayStr, 0);
+                    }
+                    repetitions.put(dayStr, repetitions.get(dayStr) + 1);
+                }
+            }
+            int maxRepetitions = Integer.MIN_VALUE;
+            String maxRepetitionsDay = "-";
+            for (String keyDay : repetitions.keySet()) {
+                if (repetitions.get(keyDay)>maxRepetitions) {
+                    maxRepetitionsDay = keyDay;
+                }
+            }
+            weeksNames.add(maxRepetitionsDay);
+        }
+        return weeksNames;
     }
 
     private void createMatchesInCompetition(List<List<MatchInput>> weeks, Competition competition) throws Exception {
@@ -282,13 +309,15 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
         return stb.toString();
     }
 
-    private Long createCompetitionEntity(String name, Long idTown, Long idCategory, Long idSport, Long[] teams) throws Exception {
+    private Long createCompetitionEntity(String name, Long idTown, Long idCategory, Long idSport, Long[] teams,
+                                         List<String> weeksNames) throws Exception {
         CompetitionsForm competitionsForm = new CompetitionsForm();
         competitionsForm.setName(name);
         competitionsForm.setIdSport(idSport);
         competitionsForm.setIdCategory(idCategory);
         competitionsForm.setIdTown(idTown);
         competitionsForm.setTeams(teams);
+        competitionsForm.setWeeksNames(weeksNames);
         Long idCompetition = competitionsManager.add(competitionsForm);
         return idCompetition;
     }

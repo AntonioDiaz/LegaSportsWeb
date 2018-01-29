@@ -53,6 +53,14 @@
 			});
 		}
 	}
+
+	function useSuggestion() {
+	    var inputSize = $('input[name^="weeksNames"]').length;
+	    for (var i=0; i<inputSize; i++) {
+            $('input[name^="weeksNames"]')[i].value = $('input[name^="suggestions"]')[i].value;
+        }
+    }
+
 </script>
 <sec:authorize access="!hasRole('ROLE_ADMIN')">
 	<form:hidden path="idTown"></form:hidden>
@@ -112,6 +120,30 @@
     </div>
 	<div class="col-sm-5">&nbsp;</div>
 	<label class="control-label col-sm-4" style="text-align: left;">&nbsp;</label>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-2">
+        Jornadas
+        <br>
+        <a href="javascript:useSuggestion();">usar sugerencias.</a>
+    </label>
+    <div class="col-sm-6">
+        <c:forEach items="${my_form.weeksNames}" var="weekName" varStatus="loopIndex">
+            <div class="row" style="height: 45px;">
+                <div class="col-sm-1 vcenter">
+                    ${loopIndex.index + 1}
+                </div>
+                <div class="col-sm-5 vcenter">
+                    <input name="weeksNames" value="${weekName}" type="text" class="form-control">
+                </div>
+                <div class="col-sm-5 vcenter">
+                    <input name="suggestions" value="${possible_names[loopIndex.index]}" type="text" disabled class="form-control">
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    <div class="col-sm-5">&nbsp;</div>
+    <label class="control-label col-sm-4" style="text-align: left;">&nbsp;</label>
 </div>
 <script src="/js/jquery.multi-select.js"></script>
 <script type="text/javascript">

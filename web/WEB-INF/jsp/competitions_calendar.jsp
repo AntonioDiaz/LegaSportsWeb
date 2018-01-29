@@ -437,7 +437,11 @@
 <hr>
 <c:forEach begin="1" end="${weeks_count}" varStatus="loopForWeek">
 	<div name="week_id_${loopForWeek.index}">
-		<h4>Jornada ${loopForWeek.index}</h4>
+        <c:set var="week_name" value="( - )"></c:set>
+        <c:if test="${competition_session.weeksNames != null && competition_session.weeksNames.size()>loopForWeek.index - 1}">
+            <c:set var="week_name" value="(${competition_session.weeksNames[loopForWeek.index - 1]})"></c:set>
+        </c:if>
+		<h4>Jornada ${loopForWeek.index} ${week_name}</h4>
 		<table class="table table-hover	table-condensed" width="100%">
 			<c:forEach var="matchForm" items="${matches_list}" varStatus="loopForMatches">
 				<c:if test="${loopForWeek.index==matchForm.week}">

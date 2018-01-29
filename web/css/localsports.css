@@ -112,3 +112,9 @@ input:-webkit-autofill:focus {
 .hide_to_print {
 	display: none;
 }
+
+.vcenter {
+	display: inline-block;
+	vertical-align: middle;
+	float: none;
+}

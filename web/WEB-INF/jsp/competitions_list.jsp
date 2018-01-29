@@ -6,6 +6,9 @@
 		<c:if test="${remove_done==true}">
 			showDialogAlert("La competición ha sido eliminada.");
 		</c:if>
+        <c:if test="${add_done==true}">
+        	showDialogAlert("Ha sido creada la competicion: ${new_competition_name}.");
+        </c:if>
 		<sec:authorize access="!hasRole('ROLE_ADMIN')">
 			$('#idTown').prop('disabled', true)
 		</sec:authorize>
