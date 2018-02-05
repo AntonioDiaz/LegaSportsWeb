@@ -29,7 +29,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/competitions")
-@SessionAttributes({"form_filter", "courts", "competition_session"})
+@SessionAttributes({"form_filter", "courts", "competition_session", "punctuation_types"})
 public class CompetitionsController {
     private static final Logger logger = Logger.getLogger(CompetitionsController.class);
     @Autowired
@@ -86,6 +86,7 @@ public class CompetitionsController {
             competitionsForm.setIdTown(getActiveUser().getTownEntity().getId());
         }
         modelAndView.addObject("my_form", competitionsForm);
+        modelAndView.addObject("punctuation_types", LocalSportsConstants.PUNCTUATION_TYPES.values());
         return modelAndView;
     }
 
@@ -207,6 +208,7 @@ public class CompetitionsController {
     @RequestMapping("/update")
     public ModelAndView update(@ModelAttribute("competition_session") Competition competition) {
         ModelAndView modelAndView = new ModelAndView("competitions_update");
+        modelAndView.addObject("punctuation_types", LocalSportsConstants.PUNCTUATION_TYPES.values());
         CompetitionsForm competitionsForm = competitionsManager.queryCompetitionsById(competition.getId());
         //init names suggestion
         List<List<Match>> weeks = matchesManager.queryMatchesOnWeeks(competition.getId());

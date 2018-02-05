@@ -16,83 +16,86 @@ import lombok.Data;
 @Data
 public class Competition implements Serializable {
 
-	@Id
-	private Long id;
-	
-	@Index
-	private String name;
-	
-	@Load
-	@JsonIgnore
-	@Index
-	private Ref<Sport> sportRef;
-	
-	@Load
-	@JsonIgnore
-	@Index
-	private Ref<Category> categoryRef;
+    @Id
+    private Long id;
 
-	@Load
-	@JsonIgnore
-	@Index
-	private Ref<Town> townRef;
+    @Index
+    private String name;
 
-	/* start: attributes not need to save. */
-	@Ignore
-	private Sport sportEntity;
-	
-	@Ignore
-	private Category categoryEntity;
+    @Load
+    @JsonIgnore
+    @Index
+    private Ref<Sport> sportRef;
 
-	@Ignore
-	private Town townEntity;
+    @Load
+    @JsonIgnore
+    @Index
+    private Ref<Category> categoryRef;
 
-	@Load
-	@JsonIgnore
-	@Index
-	private List<Ref<Team>> teams = new ArrayList<>();
+    @Load
+    @JsonIgnore
+    @Index
+    private Ref<Town> townRef;
 
-	@Load
-	@JsonIgnore
-	private List<Ref<Team>> teamsAffectedByPublish = new ArrayList<>();
+    /* start: attributes not need to save. */
+    @Ignore
+    private Sport sportEntity;
 
-	@Index
-	private Date lastPublished;
+    @Ignore
+    private Category categoryEntity;
 
-	@Index
-	private boolean visible;
+    @Ignore
+    private Town townEntity;
 
-	@OnLoad
-	public void getRefs() {
-		if (sportRef !=null && sportRef.isLoaded()) {
-			sportEntity = sportRef.get();
-		}
-		if (categoryRef !=null && categoryRef.isLoaded()) {
-			categoryEntity = categoryRef.get();
-		}
-		if (townRef!=null && townRef.isLoaded()) {
-			townEntity = townRef.get();
-		}
-	}
+    @Load
+    @JsonIgnore
+    @Index
+    private List<Ref<Team>> teams = new ArrayList<>();
 
-	private List<String> weeksNames = new ArrayList<>();
+    @Load
+    @JsonIgnore
+    private List<Ref<Team>> teamsAffectedByPublish = new ArrayList<>();
 
-	/**
-	 * generate competition name with the format: name (sport - category)
-	 * @return
-	 */
-	public String getFullName(){
-		String sportName = sportEntity!=null?sportEntity.getName():"";
-		String categoryName = categoryEntity!=null?categoryEntity.getName():"";
-		return String.format("%1$s (%2$s - %3$s)", name, sportName, categoryName);
-	}
+    @Index
+    private Date lastPublished;
 
-	public List<Team> getTeamsDeref() {
-		return Deref.deref(teams);
-	}
+    @Index
+    private boolean visible;
 
-	public List<Team> getTeamsAffectedByLastUpdateDeref() {
-		return Deref.deref(teamsAffectedByPublish);
-	}
+    private Integer puntuactionType;
+
+    @OnLoad
+    public void getRefs() {
+        if (sportRef != null && sportRef.isLoaded()) {
+            sportEntity = sportRef.get();
+        }
+        if (categoryRef != null && categoryRef.isLoaded()) {
+            categoryEntity = categoryRef.get();
+        }
+        if (townRef != null && townRef.isLoaded()) {
+            townEntity = townRef.get();
+        }
+    }
+
+    private List<String> weeksNames = new ArrayList<>();
+
+    /**
+     * generate competition name with the format: name (sport - category)
+     *
+     * @return
+     */
+    public String getFullName() {
+        String sportName = sportEntity != null ? sportEntity.getName() : "";
+        String categoryName = categoryEntity != null ? categoryEntity.getName() : "";
+        return String.format("%1$s (%2$s - %3$s)", name, sportName, categoryName);
+    }
+
+    public List<Team> getTeamsDeref() {
+        return Deref.deref(teams);
+    }
+
+    public List<Team> getTeamsAffectedByLastUpdateDeref() {
+        return Deref.deref(teamsAffectedByPublish);
+    }
 
 }

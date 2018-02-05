@@ -46,7 +46,8 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
 
     @Override
     public InitCompetitionResult initCompetition(CompetitionsInitForm form) throws Exception {
-        int matchesEachWeek = calculateMatchesEachWeek(form.getTeamsCount());
+        int matchesEachWeek = calculateMatchesEachWeekWithNoResting(form.getTeamsCount());
+        int matchesEachWeekTotal = calculateMatchesEachWeek(form.getTeamsCount());
         int weeksNumber = calculateWeeksNumber(form.getTeamsCount());
         List<List<MatchInput>> weeks = null;
         try {
@@ -58,6 +59,9 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
         if (weeks.size()==0) {
             return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_FORMAT + "- Size=0.");
         }
+        addRestingTeamMatches(weeks);
+        fillUndefinedWeeks(weeks, weeksNumber, matchesEachWeekTotal);
+
         if (weeks.size()!=weeksNumber) {
             String msgError = String.format(InitCompetitionResult.PARSE_ERROR_WEEKS, weeksNumber, weeks.size());
             return new InitCompetitionResult(msgError);
@@ -67,7 +71,7 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
             String msgError = String.format(InitCompetitionResult.PARSE_ERROR_TEAMS, form.getTeamsCount(), teamsNames.size());
             return new InitCompetitionResult(msgError);
         }
-        if (!validateMatchesEachWeek(weeks, matchesEachWeek)) {
+        if (!validateMatchesEachWeek(weeks, matchesEachWeekTotal)) {
             return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_FORMAT);
         }
         String courtError = validateCourts(weeks, form.getIdTown(), form.getIdSport());
@@ -83,6 +87,42 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
             return new InitCompetitionResult(InitCompetitionResult.PARSE_ERROR_UNKNOWN);
         }
         return new InitCompetitionResult(newCompetition);
+    }
+
+    private void addRestingTeamMatches(List<List<MatchInput>> weeks) {
+        Set<String>teamsNames = new HashSet<>(filterTeams(weeks));
+        for (List<MatchInput> week : weeks) {
+            Set<String>teamsNamesCopy = new HashSet<>(teamsNames);
+            for (MatchInput matchInput : week) {
+                teamsNamesCopy.remove(matchInput.getTeamLocalStr());
+                teamsNamesCopy.remove(matchInput.getTeamVisitorStr());
+            }
+            if (teamsNamesCopy.size()==1) {
+                MatchInput matchInput = new MatchInput();
+                matchInput.setTeamLocalStr(teamsNamesCopy.iterator().next());
+                matchInput.setTeamVisitorStr("");
+                matchInput.setState(LocalSportsConstants.MATCH_STATE.REST);
+                matchInput.setDateStr("");
+                matchInput.setCourtFullNameStr("");
+                week.add(matchInput);
+            }
+        }
+    }
+
+    private void fillUndefinedWeeks(List<List<MatchInput>> weeks, int weeksNumber, int matchesEachWeek) {
+        for (int i = weeks.size(); i < weeksNumber ; i++) {
+            List<MatchInput> weekUndefined = new ArrayList<>();
+            for (int j = 0; j < matchesEachWeek; j++) {
+                MatchInput matchInput = new MatchInput();
+                matchInput.setTeamLocalStr("");
+                matchInput.setTeamVisitorStr("");
+                matchInput.setState(LocalSportsConstants.MATCH_STATE.PENDING);
+                matchInput.setDateStr("");
+                matchInput.setCourtFullNameStr("");
+                weekUndefined.add(matchInput);
+            }
+            weeks.add(weekUndefined);
+        }
     }
 
     private List<List<MatchInput>> parseCalendarFormat(Integer inputFormat, String matchesTxt, int matchesEachWeek) throws Exception {
@@ -142,10 +182,8 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
         Long idSport = competition.getSportRef().get().getId();
         Map<String, Court> courtsMap = courtManager.querySportsCourtsByTownAndSportsMap(idTown, idSport);
         List<Match> matchesList = new ArrayList<>();
-        Set<String>teamsNames = new HashSet<>(filterTeams(weeks));
         for (int i = 0; i < weeks.size(); i++) {
             List<MatchInput> matchInputs = weeks.get(i);
-            Set<String>teamsNamesCopy = new HashSet<>(teamsNames);
             for (MatchInput matchInput : matchInputs) {
                 Ref<Team> teamRefLocal = teamsMap.get(matchInput.getTeamLocalStr());
                 Ref<Team> teamRefVisitor = teamsMap.get(matchInput.getTeamVisitorStr());
@@ -168,18 +206,6 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
                 if (matchInput.getScoreVisitor()!=null) {
                     match.setScoreVisitor(matchInput.getScoreVisitor());
                 }
-                matchesList.add(match);
-                teamsNamesCopy.remove(matchInput.getTeamLocalStr());
-                teamsNamesCopy.remove(matchInput.getTeamVisitorStr());
-            }
-            //now adding team who rest this week.
-            if (teamsNamesCopy.size()>0) {
-                Match match = new Match();
-                match.setState(LocalSportsConstants.MATCH_STATE_REST);
-                Ref<Team> teamRefLocal = teamsMap.get(teamsNamesCopy.iterator().next());
-                match.setTeamLocalRef(teamRefLocal);
-                match.setCompetitionRef(competitionRef);
-                match.setWeek(i+1);
                 matchesList.add(match);
             }
         }
@@ -208,8 +234,12 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
         return true;
     }
 
-    private int calculateMatchesEachWeek(Integer teamsCount) {
+    private int calculateMatchesEachWeekWithNoResting(Integer teamsCount) {
         return (teamsCount - teamsCount%2)/2;
+    }
+
+    private int calculateMatchesEachWeek(Integer teamsCount) {
+        return (teamsCount + teamsCount%2)/2;
     }
 
     private int calculateWeeksNumber(Integer teamsCount) {
@@ -222,8 +252,12 @@ public class CompetitionsInitManagerImpl implements CompetitionsInitManager {
         Set<String> teams = new HashSet<>();
         for (List<MatchInput> week : weeks) {
             for (MatchInput matchInput : week) {
-                teams.add(matchInput.getTeamLocalStr());
-                teams.add(matchInput.getTeamVisitorStr());
+                if (StringUtils.isNotBlank(matchInput.getTeamLocalStr())) {
+                    teams.add(matchInput.getTeamLocalStr());
+                }
+                if (StringUtils.isNotBlank(matchInput.getTeamVisitorStr())) {
+                    teams.add(matchInput.getTeamVisitorStr());
+                }
             }
         }
         return new ArrayList<>(teams);
