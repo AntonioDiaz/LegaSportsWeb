@@ -13,147 +13,147 @@ import java.util.List;
 @Entity
 public class User implements UserDetails {
 
-	@Id
-	private String username;
+    @Id
+    private String username;
 
-	private String password;
-	
-	@Ignore
-	private String password01;
-	
-	@Ignore
-	private String password02;
+    private String password;
 
-	@Ignore
-	private boolean updatePassword;
-	
-	private boolean admin;
+    @Ignore
+    private String password01;
 
-	private boolean enabled;
+    @Ignore
+    private String password02;
 
-	private boolean bannedUser;
+    @Ignore
+    private boolean updatePassword;
 
-	private boolean accountNonExpired;
+    private boolean admin;
 
-	@Load
-	@Index
-	private Ref<Town> townRef;
+    private boolean enabled;
 
-	@Ignore
-	private Town townEntity;
+    private boolean bannedUser;
 
-	@OnLoad
-	public void getRefs(){
-		if (townRef!=null && townRef.isLoaded()) {
-			townEntity = townRef.get();
-		}
-	}
+    private boolean accountNonExpired;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
-		authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
-		if (admin) {
-			authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		}
-		return authorityList;
-	}	
+    @Load
+    @Index
+    private Ref<Town> townRef;
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return !bannedUser;
-	}
+    @Ignore
+    private Town townEntity;
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return accountNonExpired;
-	}
+    @OnLoad
+    public void getRefs() {
+        if (townRef != null && townRef.isLoaded()) {
+            townEntity = townRef.get();
+        }
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
+        authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if (admin) {
+            authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        return authorityList;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return !bannedUser;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return accountNonExpired;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public boolean isAdmin() {
-		return admin;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    public boolean isAdmin() {
+        return admin;
+    }
 
-	public boolean isBannedUser() {
-		return bannedUser;
-	}
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
-	public void setBannedUser(boolean bannedUser) {
-		this.bannedUser = bannedUser;
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public boolean isAccountNonExpired() {
-		return accountNonExpired;
-	}
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public void setAccountNonExpired(boolean accountNonExpired) {
-		this.accountNonExpired = accountNonExpired;
-	}
+    public boolean isBannedUser() {
+        return bannedUser;
+    }
 
-	public String getPassword01() {
-		return password01;
-	}
+    public void setBannedUser(boolean bannedUser) {
+        this.bannedUser = bannedUser;
+    }
 
-	public void setPassword01(String password01) {
-		this.password01 = password01;
-	}
+    public boolean isAccountNonExpired() {
+        return accountNonExpired;
+    }
 
-	public String getPassword02() {
-		return password02;
-	}
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
 
-	public void setPassword02(String password02) {
-		this.password02 = password02;
-	}
+    public String getPassword01() {
+        return password01;
+    }
 
-	public boolean isUpdatePassword() {
-		return updatePassword;
-	}
+    public void setPassword01(String password01) {
+        this.password01 = password01;
+    }
 
-	public void setUpdatePassword(boolean updatePassword) {
-		this.updatePassword = updatePassword;
-	}
+    public String getPassword02() {
+        return password02;
+    }
 
-	public Ref<Town> getTownRef() {
-		return townRef;
-	}
+    public void setPassword02(String password02) {
+        this.password02 = password02;
+    }
 
-	public void setTownRef(Ref<Town> townRef) {
-		this.townRef = townRef;
-	}
+    public boolean isUpdatePassword() {
+        return updatePassword;
+    }
 
-	public Town getTownEntity() {
-		return townEntity;
-	}
+    public void setUpdatePassword(boolean updatePassword) {
+        this.updatePassword = updatePassword;
+    }
 
-	public void setTownEntity(Town townEntity) {
-		this.townEntity = townEntity;
-	}
+    public Ref<Town> getTownRef() {
+        return townRef;
+    }
+
+    public void setTownRef(Ref<Town> townRef) {
+        this.townRef = townRef;
+    }
+
+    public Town getTownEntity() {
+        return townEntity;
+    }
+
+    public void setTownEntity(Town townEntity) {
+        this.townEntity = townEntity;
+    }
 }
